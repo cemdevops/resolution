@@ -1,0 +1,81 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    height: 100%;
+    width: 100%;
+}
+
+#container_menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 250px;
+    height: 171px;
+    background-color: #e6f3ff;
+    opacity: 0.8;
+    border-radius: 6px;
+    border: 1px solid rgba(35,87,146,0.4);
+}
+
+#title_menu {
+    font: bold 14px Arial, Tahoma, Helvetica, sans-serif;
+    color: #333;
+    padding: 6px 0 6px 5px;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid rgba(35,87,146,0.4);
+}
+
+#container_options {
+    font: 12px Arial, Tahoma, Helvetica, sans-serif;
+    height: 90px;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(35,87,146,0.4);
+    color: #000;
+    padding: 6px 0 0 5px;
+}
+
+#container_extras {
+    font: 12px Arial, Tahoma, Helvetica, sans-serif;
+    height: 30px;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(35,87,146,0.4);
+    color: #000;
+    padding: 6px 0 0 5px;
+}
+
+#theme_options, #variables_options {
+    padding: 2px 0 10px 0;
+}
+#opcao_tema, #opcao_variavel_demografia, #opcao_variavel_raca_imigracao,#opcao_variavel_religiao,
+#opcao_variavel_educacao, #opcao_variavel_renda_trabalho, #opcao_variavel_condicoes_domicilio,
+#opcao_variavel_condicoes_entorno {
+    width: 230px;
+}
+
+#container_change_basemap {
+    position: absolute;
+    top: 195px;
+    right: 10px;
+    width: 250px;
+    height: 135px;
+    background-color: #e6f3ff;
+    opacity: 0.8;
+    border-radius: 6px;
+    border: 1px solid rgba(35,87,146,0.4);
+}
+
+
+/*TESTES*/
+
+.cartodb-tooltip {
+    font: 10px Arial, Tahoma, Helvetica, sans-serif;
+    padding: 0 6px 0 6px;
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+    opacity: 0.8;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid rgba(35,87,146,0.4);
+}
