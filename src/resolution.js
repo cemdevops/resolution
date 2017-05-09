@@ -4,7 +4,7 @@
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// CONROLE DOS DDL-VARIAVEIS E DDL_TEMAS
+// CONTROLE DOS DDL-VARIAVEIS E DDL_TEMAS
 // vetor contendo os nomes dos ddls-variaveis
 var nome_ddl_variavel = ["#opcao_variavel_demografia", "#opcao_variavel_raca_imigracao", "#opcao_variavel_religiao",
                          "#opcao_variavel_educacao", "#opcao_variavel_renda_trabalho", "#opcao_variavel_condicoes_domicilio",
@@ -37,9 +37,45 @@ $("#opcao_tema").change(function () {
 // definição do mapa com propriedades suas propriedades
 var map = L.map("map", {
     center: [-23.60, -46.55], // centralizar o map nesta posição
-    zoom: 11 // nível de zoom
+    zoom: 11, // nível de zoom
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Clóvis - 20170413: tratamento de bordas de acordo com Zoom...
+
+// Constante que guarda nível de zoom a partir do qual serão apresentadas
+// bordas do setor censitário
+const ZOOM_APRESENTACAO_BORDAS = 13;
+// Armazena nível de zoom anterior
+var zoomAnterior;
+// Armazena nível de zoom atual
+var zoomAtual = 11;
+// Armazena sublayer atual
+var varSubLayer = null;
+
+map.on ('zoomstart', function (e) {
+    zoomAnterior = map.getZoom();
+});
+
+map.on ('zoomend', function (e) {
+    zoomAtual = map.getZoom();
+    if (varSubLayer != null) {
+      strCarto = varSubLayer.getCartoCSS();
+      if (strCarto.indexOf ("#ap2010") < 0) { // Não aplica para áreas de ponderação
+          if ((zoomAtual >= ZOOM_APRESENTACAO_BORDAS) && (zoomAnterior < ZOOM_APRESENTACAO_BORDAS)) {
+            // Não tinha bordas. Vai apresentar.
+            strCarto = strCarto.replace("line-width: 0", "line-width: 0.5");
+            varSubLayer.setCartoCSS(strCarto);
+          } else if ((zoomAtual < ZOOM_APRESENTACAO_BORDAS) && (zoomAnterior >= ZOOM_APRESENTACAO_BORDAS)) {
+            //Tinha bordas. Vai retirar.
+            strCarto = strCarto.replace("line-width: 0.5", "line-width: 0");
+            varSubLayer.setCartoCSS(strCarto);
+          }
+      }
+    }
+});
+// ... Clóvis - 20170413: tratamento de bordas de acordo com Zoom.
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
@@ -123,11 +159,16 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
+        
         $("#opcao_variavel_demografia").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_demografia").each(function(){
+                // obter o value do ddl selecionado
                 var op = $(this).attr("value");
                 op == "p3_001"  ? layer.createSubLayer(demografia[op]) : // ver dicionário
                 op == "p11_001" ? layer.createSubLayer(demografia[op]) : // ver dicionário
@@ -150,24 +191,74 @@ cartodb.createLayer(map,{
 
                 // captura o texto do ddl-variaveis selecionado
                 var variavel = $( "#opcao_variavel_demografia option:selected" ).text();
-
-                // verifica se a legenda do layer existe
+                
+                // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
                 }
 
+                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
                 if (op != 'selecione') {
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
+                    
+                    // Clóvis 20170413 - armazena sublayer atual
+                    varSubLayer = layer.getSubLayer (0);
+                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                        // Apresenta mapas com bordas
+                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+                    }
+                    // ... Clóvis
+                    
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
 
+                    // Clóvis/André 2017033...
+                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+                    
+                    var vector = demografia_valores_quantiles[op];
+                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+
+                    sublayer.on('featureOver', function(e,latlng,pos,data) {
+                        valor = data[op];
+                        for (i=1; i < 8; i++) {
+                            strElement = "celula"+i;
+                            document.getElementById(strElement).innerHTML = "";
+                        }
+                        document.getElementById("bairro").innerHTML = data["nom_ba"];
+                        if (valor >= 0 && valor <= vector[6]) {
+                            if (valor <= vector[0]) {
+                                document.getElementById("celula1").innerHTML = valor;
+                            } else if (valor <= vector[1]) {
+                                document.getElementById("celula2").innerHTML = valor;
+                            } else if (valor <= vector[2]) {
+                                document.getElementById("celula3").innerHTML = valor;
+                            } else if (valor <= vector[3]) {
+                                document.getElementById("celula4").innerHTML = valor;
+                            } else if (valor <= vector[4]) {
+                                document.getElementById("celula5").innerHTML = valor;
+                            } else if (valor <= vector[5]) {
+                                document.getElementById("celula6").innerHTML = valor;
+                            } else if (valor <= vector[6]) {
+                                document.getElementById("celula7").innerHTML = valor;
+                            }
+                        }
+                      }
+                    ) // sublayer.on
+                    // ... Clóvis/André 20170331
+                    
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'tooltip',
+                        // Clóvis/André 20170331: type alterado de tooltip para infobox
+                        type: 'infobox',
                         layer: sublayer,
-                        template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        // Clovis/Andre 20170331: template alterado para hidden - contorno
+                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        template: "<div style='Visibility:hidden'></div>",
                         width: 200,
                         position: 'bottom|right',
                         fields: [{ nom_ba: 'nom_ba' }]
@@ -198,21 +289,24 @@ cartodb.createLayer(map,{
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
+                    // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
+                    //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
                     var legenda = "\
-                    <div class='cartodb-legend choropleth'> \
+                    <div class='cartodb-legend choropleth' style='width:250px'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile' style='background-color:#FFFFB2'></div> \
-                                    <div class='quartile' style='background-color:#FED976'></div> \
-                                    <div class='quartile' style='background-color:#FEB24C'></div> \
-                                    <div class='quartile' style='background-color:#FD8D3C'></div> \
-                                    <div class='quartile' style='background-color:#FC4E2A'></div> \
-                                    <div class='quartile' style='background-color:#E31A1C'></div> \
-                                    <div class='quartile' style='background-color:#B10026'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -238,11 +332,14 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
         $("#opcao_variavel_raca_imigracao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_raca_imigracao").each(function(){
+                // obter o value do ddl selecionado
                 var op = $(this).attr("value");
                 op == "p3_002"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
                 op == "p3_003"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
@@ -257,23 +354,71 @@ cartodb.createLayer(map,{
                 // captura o texto do ddl-variaveis selecionado
                 var variavel = $( "#opcao_variavel_raca_imigracao option:selected" ).text();
 
-                // verifica se a legenda do layer existe
+                // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
                 }
 
+                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
                 if (op != 'selecione') {
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
+                    
+                    // Clóvis 20170413 - armazena sublayer atual
+                    varSubLayer = layer.getSubLayer (0);
+                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                        // Apresenta mapas com bordas
+                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+                    }
+                    // ... Clóvis
+
                     sublayer.setInteractivity('nom_ba,' + op);
+
+                    // Clóvis/André 2017033...
+                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+                    
+                    var vector = raca_emigracao_valores_quantiles[op];
+                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+
+                    sublayer.on('featureOver', function(e,latlng,pos,data) {
+                        valor = data[op];
+                        for (i=1; i < 8; i++) {
+                            strElement = "celula"+i;
+                            document.getElementById(strElement).innerHTML = "";
+                        }
+                        document.getElementById("bairro").innerHTML = data["nom_ba"];
+                        if (valor >= 0 && valor <= vector[6]) {
+                            if (valor <= vector[0]) {
+                                document.getElementById("celula1").innerHTML = valor;
+                            } else if (valor <= vector[1]) {
+                                document.getElementById("celula2").innerHTML = valor;
+                            } else if (valor <= vector[2]) {
+                                document.getElementById("celula3").innerHTML = valor;
+                            } else if (valor <= vector[3]) {
+                                document.getElementById("celula4").innerHTML = valor;
+                            } else if (valor <= vector[4]) {
+                                document.getElementById("celula5").innerHTML = valor;
+                            } else if (valor <= vector[5]) {
+                                document.getElementById("celula6").innerHTML = valor;
+                            } else if (valor <= vector[6]) {
+                                document.getElementById("celula7").innerHTML = valor;
+                            }
+                        }
+                      }
+                    ) // sublayer.on
+                    // ... Clóvis/André 20170331
 
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'tooltip',
+                        type: 'infobox',
                         layer: sublayer,
-                        template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        //template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        template: "<div style='Visibility:hidden'></div>",
                         width: 200,
                         position: 'bottom|right',
                         fields: [{ nom_ba: 'nom_ba' }]
@@ -296,20 +441,21 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth'> \
+                    <div class='cartodb-legend choropleth' style='width:250px'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile' style='background-color:#FFFFB2'></div> \
-                                    <div class='quartile' style='background-color:#FED976'></div> \
-                                    <div class='quartile' style='background-color:#FEB24C'></div> \
-                                    <div class='quartile' style='background-color:#FD8D3C'></div> \
-                                    <div class='quartile' style='background-color:#FC4E2A'></div> \
-                                    <div class='quartile' style='background-color:#E31A1C'></div> \
-                                    <div class='quartile' style='background-color:#B10026'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -335,11 +481,14 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
         $("#opcao_variavel_educacao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_educacao").each(function(){
+                // obter o value do ddl selecionado
                 var op = $(this).attr("value");
                 op == "p1_001" ? layer.createSubLayer(educacao[op]) : // ver dicionário
                 op == "ins001" ? layer.createSubLayer(educacao[op]) : // ver dicionário
@@ -351,23 +500,70 @@ cartodb.createLayer(map,{
                 // captura o texto do ddl-variaveis selecionado
                 var variavel = $( "#opcao_variavel_educacao option:selected" ).text();
 
-                // verifica se a legenda do layer existe
+                // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
                 }
 
+                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
                 if (op != 'selecione') {
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
+                    
+                    // Clóvis 20170413 - armazena sublayer atual
+                    //if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                        // Apresenta mapas com bordas
+                        // varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+                    //}
+                    varSubLayer = layer.getSubLayer (0);
+                    // ... Clóvis
+
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_mu,' + op);
 
+                   // Clóvis/André 2017033...
+                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+                    
+                    var vector = educacao_valores_quantiles[op];
+                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    sublayer.on('featureOver', function(e,latlng,pos,data) {
+                        valor = data[op];
+                        for (i=1; i < 8; i++) {
+                            strElement = "celula"+i;
+                            document.getElementById(strElement).innerHTML = "";
+                        }
+                        document.getElementById("bairro").innerHTML = data["nom_mu"];
+                        if (valor >= 0 && valor <= vector[6]) {
+                            if (valor <= vector[0]) {
+                                document.getElementById("celula1").innerHTML = valor;
+                            } else if (valor <= vector[1]) {
+                                document.getElementById("celula2").innerHTML = valor;
+                            } else if (valor <= vector[2]) {
+                                document.getElementById("celula3").innerHTML = valor;
+                            } else if (valor <= vector[3]) {
+                                document.getElementById("celula4").innerHTML = valor;
+                            } else if (valor <= vector[4]) {
+                                document.getElementById("celula5").innerHTML = valor;
+                            } else if (valor <= vector[5]) {
+                                document.getElementById("celula6").innerHTML = valor;
+                            } else if (valor <= vector[6]) {
+                                document.getElementById("celula7").innerHTML = valor;
+                            }
+                        }
+                      }
+                    ) // sublayer.on
+                    // ... Clóvis/André 20170331
+
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'tooltip',
+                        type: 'infobox',
                         layer: sublayer,
-                        template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_mu}}</h4><p>{{"+op+"}}</p></div>",
+                        //template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_mu}}</h4><p>{{"+op+"}}</p></div>",
+                        template: "<div style='Visibility:hidden'></div>",
                         width: 200,
                         position: 'bottom|right',
                         fields: [{ nom_mu: 'nom_mu' }]
@@ -387,20 +583,21 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth'> \
+                    <div class='cartodb-legend choropleth' style='width:250px'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile' style='background-color:#FFFFB2'></div> \
-                                    <div class='quartile' style='background-color:#FED976'></div> \
-                                    <div class='quartile' style='background-color:#FEB24C'></div> \
-                                    <div class='quartile' style='background-color:#FD8D3C'></div> \
-                                    <div class='quartile' style='background-color:#FC4E2A'></div> \
-                                    <div class='quartile' style='background-color:#E31A1C'></div> \
-                                    <div class='quartile' style='background-color:#B10026'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -426,33 +623,84 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
         $("#opcao_variavel_renda_trabalho").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_renda_trabalho").each(function(){
 
-                // verifica se a legenda do layer existe
+                // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
                 }
 
+                // obter o value do ddl selecionado
                 var op = $(this).attr("value");
 
+                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
                 if (op != 'selecione') {
 
                     layer.createSubLayer(renda_trabalho[op]); // ver dicionário
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
+                    
+                    // Clóvis 20170413 - armazena sublayer atual
+                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                        // Apresenta mapas com bordas
+                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+                    }
+                    varSubLayer = layer.getSubLayer (0);
+                    // ... Clóvis
+
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
+                    
+                    // Clóvis/André 2017033...
+                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+                    
+                    var vector = renda_trabalho_valores_quantiles[op];
+                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+
+                    sublayer.on('featureOver', function(e,latlng,pos,data) {
+                        valor = data[op];
+                        for (i=1; i < 8; i++) {
+                            strElement = "celula"+i;
+                            document.getElementById(strElement).innerHTML = "";
+                        }
+                        document.getElementById("bairro").innerHTML = data["nom_ba"];
+                        if (valor >= 0 && valor <= vector[6]) {
+                            if (valor <= vector[0]) {
+                                document.getElementById("celula1").innerHTML = valor;
+                            } else if (valor <= vector[1]) {
+                                document.getElementById("celula2").innerHTML = valor;
+                            } else if (valor <= vector[2]) {
+                                document.getElementById("celula3").innerHTML = valor;
+                            } else if (valor <= vector[3]) {
+                                document.getElementById("celula4").innerHTML = valor;
+                            } else if (valor <= vector[4]) {
+                                document.getElementById("celula5").innerHTML = valor;
+                            } else if (valor <= vector[5]) {
+                                document.getElementById("celula6").innerHTML = valor;
+                            } else if (valor <= vector[6]) {
+                                document.getElementById("celula7").innerHTML = valor;
+                            }
+                        }
+                      }
+                    ) // sublayer.on
+                    // ... Clóvis/André 20170331
 
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'tooltip',
+                        type: 'infobox',
                         layer: sublayer,
-                        template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        template: "<div style='Visibility:hidden'></div>",
                         width: 200,
                         position: 'bottom|right',
                         fields: [{ nom_ba: 'nom_ba' }]
@@ -479,20 +727,21 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth'> \
+                    <div class='cartodb-legend choropleth' style='width:250px'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile' style='background-color:#FFFFB2'></div> \
-                                    <div class='quartile' style='background-color:#FED976'></div> \
-                                    <div class='quartile' style='background-color:#FEB24C'></div> \
-                                    <div class='quartile' style='background-color:#FD8D3C'></div> \
-                                    <div class='quartile' style='background-color:#FC4E2A'></div> \
-                                    <div class='quartile' style='background-color:#E31A1C'></div> \
-                                    <div class='quartile' style='background-color:#B10026'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -518,33 +767,84 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
         $("#opcao_variavel_religiao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_religiao").each(function(){
 
-                // verifica se a legenda do layer existe
+                // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
                 }
 
+                // obter o value do ddl selecionado
                 var op = $(this).attr("value");
 
+                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
                 if (op != 'selecione') {
 
                     layer.createSubLayer(religiao[op]); // ver dicionário
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
+                    
+                    // Clóvis 20170413 - armazena sublayer atual
+                    varSubLayer = layer.getSubLayer (0);
+                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                        // Apresenta mapas com bordas
+                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+                    }
+                    // ... Clóvis
+
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
 
+                    // Clóvis/André 2017033...
+                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+                    
+                    var vector = religiao_valores_quantiles[op];
+                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+
+                    sublayer.on('featureOver', function(e,latlng,pos,data) {
+                        valor = data[op];
+                        for (i=1; i < 8; i++) {
+                            strElement = "celula"+i;
+                            document.getElementById(strElement).innerHTML = "";
+                        }
+                        document.getElementById("bairro").innerHTML = data["nom_ba"];
+                        if (valor >= 0 && valor <= vector[6]) {
+                            if (valor <= vector[0]) {
+                                document.getElementById("celula1").innerHTML = valor;
+                            } else if (valor <= vector[1]) {
+                                document.getElementById("celula2").innerHTML = valor;
+                            } else if (valor <= vector[2]) {
+                                document.getElementById("celula3").innerHTML = valor;
+                            } else if (valor <= vector[3]) {
+                                document.getElementById("celula4").innerHTML = valor;
+                            } else if (valor <= vector[4]) {
+                                document.getElementById("celula5").innerHTML = valor;
+                            } else if (valor <= vector[5]) {
+                                document.getElementById("celula6").innerHTML = valor;
+                            } else if (valor <= vector[6]) {
+                                document.getElementById("celula7").innerHTML = valor;
+                            }
+                        }
+                      }
+                    ) // sublayer.on
+                    // ... Clóvis/André 20170331
+
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'tooltip',
+                        type: 'infobox',
                         layer: sublayer,
-                        template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+                        template: "<div style='Visibility:hidden'></div>",
                         width: 200,
                         position: 'bottom|right',
                         fields: [{ nom_ba: 'nom_ba' }]
@@ -567,20 +867,21 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth'> \
+                    <div class='cartodb-legend choropleth' style='width:250px'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile' style='background-color:#FFFFB2'></div> \
-                                    <div class='quartile' style='background-color:#FED976'></div> \
-                                    <div class='quartile' style='background-color:#FEB24C'></div> \
-                                    <div class='quartile' style='background-color:#FD8D3C'></div> \
-                                    <div class='quartile' style='background-color:#FC4E2A'></div> \
-                                    <div class='quartile' style='background-color:#E31A1C'></div> \
-                                    <div class='quartile' style='background-color:#B10026'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -629,6 +930,8 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
         // assim que os checckboxs forem acionados, dispara essa função
         $("input[name='transporte']").change(function(){
             // limpa os layer de transporte ativo
