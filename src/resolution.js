@@ -33,14 +33,20 @@ $("#opcao_tema").change(function () {
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// Constante que define o nível de zoom inicial
+ZOOM_NIVEL_INICIAL = 10;
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // definição do mapa com propriedades suas propriedades
 var map = L.map("map", {
     center: [-23.60, -46.55], // centralizar o map nesta posição
-    zoom: 11, // nível de zoom
+    zoom: ZOOM_NIVEL_INICIAL, // nível de zoom
+    maxZoom: 18 // nível de zoom máximo
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// André - 20170512: inclusão de escala (km) no mapa
+L.control.scale({metric: true, imperial: false, position: 'topleft' }).addTo(map);
 // Clóvis - 20170413: tratamento de bordas de acordo com Zoom...
 
 // Constante que guarda nível de zoom a partir do qual serão apresentadas
@@ -49,7 +55,7 @@ const ZOOM_APRESENTACAO_BORDAS = 13;
 // Armazena nível de zoom anterior
 var zoomAnterior;
 // Armazena nível de zoom atual
-var zoomAtual = 11;
+var zoomAtual = ZOOM_NIVEL_INICIAL;
 // Armazena sublayer atual
 var varSubLayer = null;
 
@@ -76,7 +82,6 @@ map.on ('zoomend', function (e) {
 });
 // ... Clóvis - 20170413: tratamento de bordas de acordo com Zoom.
 
-
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
 // url para o tile server + copyright - OpenStreetMap
@@ -90,13 +95,15 @@ var layerOSM = L.tileLayer(urlOSM, {attribution: copyOSM}).addTo(map);
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // CartoDB
 // url para o tile server - Carto (Positron) + OpenStreetMap
-var urlPositron = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
+// var urlPositron = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
+var urlPositronNoLabels = "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png";
 // url para o tile server - Carto (DarkMatter) + OpenStreetMap
 var urlDarkMatter = "http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png";
 // copyright para as imagens
 var copyCarto = "&copy; <a href='https://carto.com/attributions'>CARTO</a>";
 // definição dos layers (URL xyz + copyright)
-var layerPositron = L.tileLayer(urlPositron, {attribution: copyOSM});
+// var layerPositron = L.tileLayer(urlPositron, {attribution: copyOSM});
+var layerPositron = L.tileLayer(urlPositronNoLabels, {attribution: copyOSM});
 var layerDarkMatter = L.tileLayer(urlDarkMatter, {attribution: copyOSM});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -161,11 +168,12 @@ cartodb.createLayer(map,{
     .done(function(layer){
         // colocando ordem de sobreposição dos layers
         layer.setZIndex(1);
-        
+
         $("#opcao_variavel_demografia").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            
+            varSubLayer = null;
+
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_demografia").each(function(){
                 // obter o value do ddl selecionado
@@ -191,7 +199,7 @@ cartodb.createLayer(map,{
 
                 // captura o texto do ddl-variaveis selecionado
                 var variavel = $( "#opcao_variavel_demografia option:selected" ).text();
-                
+
                 // verifica se a legenda do layer existe. Se houver, remove-a
                 if ($("div.cartodb-legend.choropleth").length) {
                     $('div.cartodb-legend.choropleth').remove();
@@ -202,7 +210,7 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-                    
+
                     // Clóvis 20170413 - armazena sublayer atual
                     varSubLayer = layer.getSubLayer (0);
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
@@ -210,18 +218,18 @@ cartodb.createLayer(map,{
                         varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
                     }
                     // ... Clóvis
-                    
+
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
 
                     // Clóvis/André 2017033...
                     // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-                    
+
                     var vector = demografia_valores_quantiles[op];
                     // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
 
                     sublayer.on('featureOver', function(e,latlng,pos,data) {
                         valor = data[op];
@@ -250,7 +258,7 @@ cartodb.createLayer(map,{
                       }
                     ) // sublayer.on
                     // ... Clóvis/André 20170331
-                    
+
                     // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
                     var toolTip = layer.leafletMap.viz.addOverlay({
                         // Clóvis/André 20170331: type alterado de tooltip para infobox
@@ -337,6 +345,7 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_raca_imigracao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_raca_imigracao").each(function(){
                 // obter o value do ddl selecionado
@@ -365,7 +374,7 @@ cartodb.createLayer(map,{
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
-                    
+
                     // Clóvis 20170413 - armazena sublayer atual
                     varSubLayer = layer.getSubLayer (0);
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
@@ -379,11 +388,11 @@ cartodb.createLayer(map,{
                     // Clóvis/André 2017033...
                     // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-                    
+
                     var vector = raca_emigracao_valores_quantiles[op];
                     // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
 
                     sublayer.on('featureOver', function(e,latlng,pos,data) {
                         valor = data[op];
@@ -434,9 +443,9 @@ cartodb.createLayer(map,{
                     op == "p3_004"  ? dados_legenda = {titulo: "Cor/Raça - Amarela", minimo: "0", maximo: "480"} :
                     op == "p3_005"  ? dados_legenda = {titulo: "Cor/Raça - Parda", minimo: "0", maximo: "2131"} :
                     op == "p3_006"  ? dados_legenda = {titulo: "Cor/Raça - Indígena", minimo: "0", maximo: "599"} :
-                    op == "de020"   ? dados_legenda = {titulo: "Residentes a menos de 3 anos (%)", minimo: "3.39", maximo: "21.93"} :
-                    op == "de023"   ? dados_legenda = {titulo: "Nascidas em outro Estado (%)", minimo: "5.65", maximo: "51.05"} :
-                    op == "de024"   ? dados_legenda = {titulo: "Nascidas no Nordeste e residentes < 10 anos (%)", minimo: "0", maximo: "18.85"} :
+                    op == "de020"   ? dados_legenda = {titulo: "Residentes a menos de 3 anos (%)", minimo: "3.39%", maximo: "21.93%"} :
+                    op == "de023"   ? dados_legenda = {titulo: "Nascidas em outro Estado (%)", minimo: "5.65%", maximo: "51.05%"} :
+                    op == "de024"   ? dados_legenda = {titulo: "Nascidas no Nordeste e residentes < 10 anos (%)", minimo: "0%", maximo: "18.85%"} :
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
@@ -486,6 +495,7 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_educacao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_educacao").each(function(){
                 // obter o value do ddl selecionado
@@ -510,7 +520,7 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-                    
+
                     // Clóvis 20170413 - armazena sublayer atual
                     //if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
                         // Apresenta mapas com bordas
@@ -525,11 +535,11 @@ cartodb.createLayer(map,{
                    // Clóvis/André 2017033...
                     // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-                    
+
                     var vector = educacao_valores_quantiles[op];
                     // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
                     sublayer.on('featureOver', function(e,latlng,pos,data) {
                         valor = data[op];
                         for (i=1; i < 8; i++) {
@@ -577,8 +587,8 @@ cartodb.createLayer(map,{
                     op == "p1_001" ? dados_legenda = {titulo: "Alfabetizadas com 5 ou mais anos de idade", minimo: "6794", maximo: "137423"} :
                     op == "ins001" ? dados_legenda = {titulo: "Anos médios de estudo do chefe de domicílio", minimo: "4.7", maximo: "14.5"} :
                     op == "ins002" ? dados_legenda = {titulo: "Anos médios de estudo de mulheres chefes", minimo: "4.6", maximo: "14.1"} :
-                    op == "ins032" ? dados_legenda = {titulo: "Pessoas de 7 a 14 anos de idade fora da escola (%)", minimo: "0", maximo: "18.6"} :
-                    op == "ins037" ? dados_legenda = {titulo: "Pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche (%)", minimo: "0", maximo: "38.7"} :
+                    op == "ins032" ? dados_legenda = {titulo: "Pessoas de 7 a 14 anos de idade fora da escola (%)", minimo: "0%", maximo: "18.6%"} :
+                    op == "ins037" ? dados_legenda = {titulo: "Pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche (%)", minimo: "0%", maximo: "38.7%"} :
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
@@ -628,6 +638,7 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_renda_trabalho").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_renda_trabalho").each(function(){
 
@@ -646,7 +657,7 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-                    
+
                     // Clóvis 20170413 - armazena sublayer atual
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
                         // Apresenta mapas com bordas
@@ -657,15 +668,15 @@ cartodb.createLayer(map,{
 
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
-                    
+
                     // Clóvis/André 2017033...
                     // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-                    
+
                     var vector = renda_trabalho_valores_quantiles[op];
                     // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
 
                     sublayer.on('featureOver', function(e,latlng,pos,data) {
                         valor = data[op];
@@ -714,15 +725,15 @@ cartodb.createLayer(map,{
                     op == "ren002" ? dados_legenda = {titulo: "Renda domiciliar total média", minimo: "1072", maximo: "19293"} :
                     op == "ren003" ? dados_legenda = {titulo: "Renda domiciliar per capita em salários mínimos", minimo: "0.65", maximo: "15.86"} :
                     op == "ren004" ? dados_legenda = {titulo: "Renda domiciliar total média em salários mínimos", minimo: "2.1", maximo: "37.83"} :
-                    op == "ren016" ? dados_legenda = {titulo: "Pessoas com renda per capita até meio salário mínimo (%)", minimo: "0", maximo: "49.63"} :
-                    op == "ren101" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)", minimo: "0", maximo: "42.57"} :
-                    op == "ren102" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)", minimo: "8.78", maximo: "57.29"} :
-                    op == "ren103" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)", minimo: "0", maximo: "23.88"} :
-                    op == "ren104" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)", minimo: "0", maximo: "32.64"} :
-                    op == "ren105" ? dados_legenda = {titulo: "Pessoas com renda per capita acima de 10 salários mínimos (%)", minimo: "0", maximo: "42.66"} :
-                    op == "mt006"  ? dados_legenda = {titulo: "Taxa de desocupação", minimo: "0", maximo: "19.99"} :
-                    op == "mt008"  ? dados_legenda = {titulo: "Taxa de ocupação", minimo: "80.01", maximo: "98.21"} :
-                    op == "mt007"  ? dados_legenda = {titulo: "Taxa de participação", minimo: "49.51", maximo: "74.47"} :
+                    op == "ren016" ? dados_legenda = {titulo: "Pessoas com renda per capita até meio salário mínimo (%)", minimo: "0%", maximo: "49.63%"} :
+                    op == "ren101" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)", minimo: "0%", maximo: "42.57%"} :
+                    op == "ren102" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)", minimo: "8.78%", maximo: "57.29%"} :
+                    op == "ren103" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)", minimo: "0%", maximo: "23.88%"} :
+                    op == "ren104" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)", minimo: "0%", maximo: "32.64%"} :
+                    op == "ren105" ? dados_legenda = {titulo: "Pessoas com renda per capita acima de 10 salários mínimos (%)", minimo: "0%", maximo: "42.66%"} :
+                    op == "mt006"  ? dados_legenda = {titulo: "Taxa de desocupação", minimo: "0%", maximo: "19.99%"} :
+                    op == "mt008"  ? dados_legenda = {titulo: "Taxa de ocupação", minimo: "80.01%", maximo: "98.21%"} :
+                    op == "mt007"  ? dados_legenda = {titulo: "Taxa de participação", minimo: "49.51%", maximo: "74.47%"} :
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
@@ -772,6 +783,7 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_religiao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_religiao").each(function(){
 
@@ -790,7 +802,7 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-                    
+
                     // Clóvis 20170413 - armazena sublayer atual
                     varSubLayer = layer.getSubLayer (0);
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
@@ -805,11 +817,11 @@ cartodb.createLayer(map,{
                     // Clóvis/André 2017033...
                     // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-                    
+
                     var vector = religiao_valores_quantiles[op];
                     // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r"; 
+                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
 
                     sublayer.on('featureOver', function(e,latlng,pos,data) {
                         valor = data[op];
@@ -855,14 +867,14 @@ cartodb.createLayer(map,{
                     var dados_legenda;
 
                     // verifica o layer ativo para definir os valores da legenda
-                    op == "re027" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam (apenas) sem religião", minimo: "0", maximo: "19.1"} :
-                    op == "re028" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam agnósticos", minimo: "0", maximo: "3.16"} :
-                    op == "re029" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam ateus", minimo: "0", maximo: "4.3"} :
-                    op == "re030" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam católicos", minimo: "38.34", maximo: "82.7"} :
-                    op == "re031" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos", minimo: "3.99", maximo: "44.26"} :
-                    op == "re038" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos pentecostais", minimo: "2.22", maximo: "41.79"} :
-                    op == "re047" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam com religião afro-brasileira", minimo: "0", maximo: "2.33"} :
-                    op == "re050" ? dados_legenda = {titulo: "Percentual de pessoas pertencentes a outros segmentos religiosos", minimo: "0", maximo: "31.05"} :
+                    op == "re027" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam (apenas) sem religião", minimo: "0%", maximo: "19.1%"} :
+                    op == "re028" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam agnósticos", minimo: "0%", maximo: "3.16%"} :
+                    op == "re029" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam ateus", minimo: "0%", maximo: "4.3%"} :
+                    op == "re030" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam católicos", minimo: "38.34%", maximo: "82.7%"} :
+                    op == "re031" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos", minimo: "3.99%", maximo: "44.26%"} :
+                    op == "re038" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos pentecostais", minimo: "2.22%", maximo: "41.79%"} :
+                    op == "re047" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam com religião afro-brasileira", minimo: "0%", maximo: "2.33%"} :
+                    op == "re050" ? dados_legenda = {titulo: "Percentual de pessoas pertencentes a outros segmentos religiosos", minimo: "0%", maximo: "31.05%"} :
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
@@ -942,4 +954,47 @@ cartodb.createLayer(map,{
             });
         });
     });
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// PLACES
+var places = {
+    "rmsp": {
+        sql: "SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'",
+        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'DejaVu Sans Book'; text-size: 14; " +
+                                                "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #4d94ff; " +
+                                                "text-halo-radius: 0.5; text-dy: 0; text-allow-overlap: true; " +
+                                                "text-placement: point; text-placement-type: dummy;}"
+    }
+};
+
+cartodb.createLayer(map,{
+        user_name: "viniciusmaeda",
+        type: "cartodb",
+        sublayers: []
+    })
+    .addTo(map)
+    .done(function(layer){
+        var sublayer = null;
+        var zoomControleLabel = ZOOM_NIVEL_INICIAL;
+        map.on ('zoomend', function (e) {
+            zoomControleLabel = map.getZoom();
+            if (zoomControleLabel < 10) {
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=2")
+            } else if (zoomControleLabel < 14) {
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'")
+            } else if (zoomControleLabel < 15) {
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town' OR type='suburb' OR type='hamlet'")
+            } else {
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp")
+            }
+        });
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
+        // adiciona o layer ao mapa
+        layer.createSubLayer(places["rmsp"]);
+        // utilizado para controlar visualização (ou não) dos labels
+        sublayer = layer.getSubLayer(0);
+    });
+// PLACES
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
