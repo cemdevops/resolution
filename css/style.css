@@ -118,3 +118,18 @@ html, body, #map {
     white-space: nowrap;
     overflow: hidden ! important;
 }
+
+/*Mariela*/
+.input-opcao-mapa{
+    width: 75px;
+    height: 75px; 
+    font-size: 9px;
+}
+
+.mapa-base{
+    background: url("../img/mapa-base.png");
+}
+
+.mapa-tematico{
+    background: url("../img/mapa-tematico.png");
+}
