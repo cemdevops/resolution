@@ -33,6 +33,27 @@ $("#opcao_tema").change(function () {
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+//Mariela - evento disparado ao clickar no botão mapa base/temático
+$("#opcao_mapa_base").click(function () {
+    //$("#buOpcaoMapaBase").text('Mapa tematico');
+    if ($("#opcao_mapa_base").val() == 'Mapa base'){
+        //mostrar o mapa base e o temático
+        adicionarMapaBase(radios.value);
+            
+        //mudar a imagem do fundo e texto do control
+        $("#opcao_mapa_base").attr('value', 'Mapa temático');  
+        $("#opcao_mapa_base").removeClass("mapa-base"); 
+        $("#opcao_mapa_base").addClass("mapa-tematico"); 
+    } else{
+        //mostrar só o mapa temático
+        removerMapaBase(layerMapaBaseSel);
+
+        //mudar a imagem do fundo e texto do control
+        $("#opcao_mapa_base").attr('value', 'Mapa base');
+        $("#opcao_mapa_base").removeClass("mapa-tematico"); 
+        $("#opcao_mapa_base").addClass("mapa-base");
+    }
+});
 // Constante que define o nível de zoom inicial
 ZOOM_NIVEL_INICIAL = 10;
 
@@ -89,7 +110,7 @@ var urlOSM = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 // copyright para as imagens
 var copyOSM = "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>";
 // definição dos layers (URL xyz + copyright)
-var layerOSM = L.tileLayer(urlOSM, {attribution: copyOSM}).addTo(map);
+var layerOSM = L.tileLayer(urlOSM, {attribution: copyOSM});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -117,42 +138,61 @@ var copyGoogle = "&copy; <a href='http://maps.google.com'>Google Maps</a>";
 var layerGoogle = L.tileLayer(urlGoogle, {attribution: copyGoogle});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+//---Mariela: inicalizamos o portal usando o mapa base de OSM
+layerOSM.addTo(map);
+
+//--mariela
+//definição da variável para armazenar o mapa base usado
+var layerMapaBaseSel = 'osm';
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//---Mariela-----
 // CONTROLE DOS BASEMAPS
 var radios = document.forms["select_basemap"].elements["radio_change_basemap"];
 for(var i = 0, max = radios.length; i < max; i++) {
-	radios[i].onclick = function() {
-		if (radios.value=="osm") {
-			if (map.hasLayer(layerGoogle) || map.hasLayer(layerPositron) || map.hasLayer(layerDarkMatter)) {
-				map.removeLayer(layerGoogle);
-				map.removeLayer(layerPositron);
-				map.removeLayer(layerDarkMatter);
-				map.addLayer(layerOSM);
-			}
-		} else if (radios.value=="google_maps") {
-			if (map.hasLayer(layerOSM) || map.hasLayer(layerPositron) || map.hasLayer(layerDarkMatter)) {
-				map.removeLayer(layerOSM);
-				map.removeLayer(layerPositron);
-				map.removeLayer(layerDarkMatter);
-				map.addLayer(layerGoogle);
-			}
-		} else if (radios.value=="carto_positron") {
-			if (map.hasLayer(layerOSM) || map.hasLayer(layerGoogle) || map.hasLayer(layerDarkMatter)) {
-				map.removeLayer(layerOSM);
-				map.removeLayer(layerGoogle);
-				map.removeLayer(layerDarkMatter);
-				map.addLayer(layerPositron);
-			}
-		} else if (radios.value=="carto_darkmatter") {
-			if (map.hasLayer(layerOSM) || map.hasLayer(layerGoogle) || map.hasLayer(layerPositron)) {
-				map.removeLayer(layerOSM);
-				map.removeLayer(layerGoogle);
-				map.removeLayer(layerPositron);
-				map.addLayer(layerDarkMatter);
-			}
-		}
-	}
+    radios[i].onclick = function() {
+        removerMapaBase(layerMapaBaseSel);
+        adicionarMapaBase(radios.value);
+    }
 }
+
+function adicionarMapaBase(tipoMapaBaseSelecionado) {
+
+    if (tipoMapaBaseSelecionado=="osm") {            
+            map.addLayer(layerOSM);
+            layerMapaBaseSel = 'osm';
+        } else if (tipoMapaBaseSelecionado=="google_maps") {                           
+            map.addLayer(layerGoogle);
+            layerMapaBaseSel = 'google_maps';
+            
+        } else if (tipoMapaBaseSelecionado=="carto_positron") {
+            map.addLayer(layerPositron);
+            layerMapaBaseSel = 'carto_positron';
+            
+        } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
+            map.addLayer(layerDarkMatter);
+            layerMapaBaseSel = 'carto_darkmatter';
+            
+        }
+}
+
+function removerMapaBase(tipoMapaBaseSelecionado) {
+
+    if (tipoMapaBaseSelecionado=="osm") {            
+            map.removeLayer(layerOSM);            
+        } else if (tipoMapaBaseSelecionado=="google_maps") {                           
+            map.removeLayer(layerGoogle);
+            
+        } else if (tipoMapaBaseSelecionado=="carto_positron") {
+            map.removeLayer(layerPositron);
+            
+        } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
+            map.removeLayer(layerDarkMatter);
+            
+        }
+}
+
+//--------Mariela-----
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
