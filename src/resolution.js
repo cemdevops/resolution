@@ -348,13 +348,13 @@ cartodb.createLayer(map,{
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
-                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
-                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
-                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
-                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -498,13 +498,13 @@ cartodb.createLayer(map,{
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
-                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
-                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
-                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
-                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -641,13 +641,13 @@ cartodb.createLayer(map,{
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
-                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
-                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
-                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
-                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -786,13 +786,13 @@ cartodb.createLayer(map,{
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
-                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
-                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
-                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
-                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div> \
                                 </div> \
                             </li> \
                         </ul> \
@@ -927,13 +927,13 @@ cartodb.createLayer(map,{
                             <li class='max'>"+dados_legenda.maximo+"</li> \
                             <li class='graph count_441'> \
                                 <div class='colors'> \
-                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black'></div> \
-                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black'></div> \
-                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black'></div> \
-                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black'></div> \
-                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white'></div> \
-                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white'></div> \
+                                    <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div> \
+                                    <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div> \
                                 </div> \
                             </li> \
                         </ul> \
