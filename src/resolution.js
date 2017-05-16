@@ -39,18 +39,18 @@ $("#opcao_mapa_base").click(function () {
     if ($("#opcao_mapa_base").val() == 'Mapa base'){
         //mostrar o mapa base e o temático
         adicionarMapaBase(radios.value);
-            
+
         //mudar a imagem do fundo e texto do control
-        $("#opcao_mapa_base").attr('value', 'Mapa temático');  
-        $("#opcao_mapa_base").removeClass("mapa-base"); 
-        $("#opcao_mapa_base").addClass("mapa-tematico"); 
+        $("#opcao_mapa_base").attr('value', 'Mapa temático');
+        $("#opcao_mapa_base").removeClass("mapa-base");
+        $("#opcao_mapa_base").addClass("mapa-tematico");
     } else{
         //mostrar só o mapa temático
         removerMapaBase(layerMapaBaseSel);
 
         //mudar a imagem do fundo e texto do control
         $("#opcao_mapa_base").attr('value', 'Mapa base');
-        $("#opcao_mapa_base").removeClass("mapa-tematico"); 
+        $("#opcao_mapa_base").removeClass("mapa-tematico");
         $("#opcao_mapa_base").addClass("mapa-base");
     }
 });
@@ -158,37 +158,37 @@ for(var i = 0, max = radios.length; i < max; i++) {
 
 function adicionarMapaBase(tipoMapaBaseSelecionado) {
 
-    if (tipoMapaBaseSelecionado=="osm") {            
+    if (tipoMapaBaseSelecionado=="osm") {
             map.addLayer(layerOSM);
             layerMapaBaseSel = 'osm';
-        } else if (tipoMapaBaseSelecionado=="google_maps") {                           
+        } else if (tipoMapaBaseSelecionado=="google_maps") {
             map.addLayer(layerGoogle);
             layerMapaBaseSel = 'google_maps';
-            
+
         } else if (tipoMapaBaseSelecionado=="carto_positron") {
             map.addLayer(layerPositron);
             layerMapaBaseSel = 'carto_positron';
-            
+
         } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
             map.addLayer(layerDarkMatter);
             layerMapaBaseSel = 'carto_darkmatter';
-            
+
         }
 }
 
 function removerMapaBase(tipoMapaBaseSelecionado) {
 
-    if (tipoMapaBaseSelecionado=="osm") {            
-            map.removeLayer(layerOSM);            
-        } else if (tipoMapaBaseSelecionado=="google_maps") {                           
+    if (tipoMapaBaseSelecionado=="osm") {
+            map.removeLayer(layerOSM);
+        } else if (tipoMapaBaseSelecionado=="google_maps") {
             map.removeLayer(layerGoogle);
-            
+
         } else if (tipoMapaBaseSelecionado=="carto_positron") {
             map.removeLayer(layerPositron);
-            
+
         } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
             map.removeLayer(layerDarkMatter);
-            
+
         }
 }
 
@@ -1001,7 +1001,7 @@ cartodb.createLayer(map,{
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'",
-        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'DejaVu Sans Book'; text-size: 14; " +
+        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'DejaVu Sans Book'; text-size: 12; " +
                                                 "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #4d94ff; " +
                                                 "text-halo-radius: 0.5; text-dy: 0; text-allow-overlap: true; " +
                                                 "text-placement: point; text-placement-type: dummy;}"
@@ -1020,7 +1020,7 @@ cartodb.createLayer(map,{
         map.on ('zoomend', function (e) {
             zoomControleLabel = map.getZoom();
             if (zoomControleLabel < 10) {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=2")
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=0")
             } else if (zoomControleLabel < 14) {
                 sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'")
             } else if (zoomControleLabel < 15) {
@@ -1037,4 +1037,25 @@ cartodb.createLayer(map,{
         sublayer = layer.getSubLayer(0);
     });
 // PLACES
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ÁGUAS
+cartodb.createLayer(map,{
+        user_name: "viniciusmaeda",
+        type: "cartodb",
+        sublayers: []
+    })
+    .addTo(map)
+    .done(function(layer){
+        // colocando ordem de sobreposição dos layers
+        layer.setZIndex(1);
+        // adiciona o layer ao mapa
+        layer.createSubLayer({
+            sql: "SELECT * FROM resolution_cem_aguas",
+            cartocss: "#resolution_cem_aguas{polygon-fill: #5CA2D1; polygon-opacity: 0.7; line-color: #476b6b; line-width: 0.5; line-opacity: 1;}"
+        });
+    });
+// ÁGUAS
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
