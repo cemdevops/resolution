@@ -1001,8 +1001,8 @@ cartodb.createLayer(map,{
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'",
-        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'DejaVu Sans Book'; text-size: 12; " +
-                                                "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #4d94ff; " +
+        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 14; " +
+                                                "text-label-position-tolerance: 0; text-fill: #535353; text-halo-fill: #fff; " +
                                                 "text-halo-radius: 0.5; text-dy: 0; text-allow-overlap: true; " +
                                                 "text-placement: point; text-placement-type: dummy;}"
     }
@@ -1053,8 +1053,8 @@ cartodb.createLayer(map,{
         layer.setZIndex(1);
         // adiciona o layer ao mapa
         layer.createSubLayer({
-            sql: "SELECT * FROM resolution_cem_aguas",
-            cartocss: "#resolution_cem_aguas{polygon-fill: #5CA2D1; polygon-opacity: 0.7; line-color: #476b6b; line-width: 0.5; line-opacity: 1;}"
+            sql: "SELECT * FROM resolution_cem_aguas_2",
+            cartocss: "#resolution_cem_aguas_2{polygon-fill: #526475; line-color: #526475}"
         });
     });
 // ÁGUAS
