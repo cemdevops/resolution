@@ -1054,7 +1054,7 @@ cartodb.createLayer(map,{
         // adiciona o layer ao mapa
         layer.createSubLayer({
             sql: "SELECT * FROM resolution_cem_aguas_2",
-            cartocss: "#resolution_cem_aguas_2{polygon-fill: #526475; line-color: #526475}"
+            cartocss: "#resolution_cem_aguas_2{polygon-fill:#526475; line-color:#526475}"
         });
     });
 // ÁGUAS
