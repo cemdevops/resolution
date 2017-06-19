@@ -33,6 +33,12 @@ $("#opcao_tema").change(function () {
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// Usar o tooltip do boostrap
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+
+
 //Mariela - evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
     //$("#buOpcaoMapaBase").text('Mapa tematico');
@@ -42,6 +48,7 @@ $("#opcao_mapa_base").click(function () {
 
         //mudar a imagem do fundo e texto do control
         $("#opcao_mapa_base").attr('value', 'Mapa temático');
+        $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa temático!');
         $("#opcao_mapa_base").removeClass("mapa-base");
         $("#opcao_mapa_base").addClass("mapa-tematico");
     } else{
@@ -50,6 +57,7 @@ $("#opcao_mapa_base").click(function () {
 
         //mudar a imagem do fundo e texto do control
         $("#opcao_mapa_base").attr('value', 'Mapa base');
+        $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa base!');
         $("#opcao_mapa_base").removeClass("mapa-tematico");
         $("#opcao_mapa_base").addClass("mapa-base");
     }

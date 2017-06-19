@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    
+  
 </head>
 <body>
 	<!-- div onde será atribuído o mapa -->
@@ -18,7 +23,10 @@
 	<div class="leaflet-control-container">
 		<div class="leaflet-bottom leaflet-left" style="padding-bottom: 30px">
 			<div class=" leaflet-control">
-				<input id='opcao_mapa_base' type="button"  value="Mapa Temático" class="input-opcao-mapa mapa-tematico">
+				<input id='opcao_mapa_base' type="button"  value="Mapa Temático" 
+				title="Click aqui para mudar o mapa temático!" 
+				data-placement="auto" data-toggle="tooltip" 
+				class="input-opcao-mapa mapa-tematico">
 			</div>
 		</div>
 	</div>
