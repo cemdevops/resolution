@@ -44,7 +44,7 @@ $("#opcao_mapa_base").click(function () {
     //$("#buOpcaoMapaBase").text('Mapa tematico');
     if ($("#opcao_mapa_base").val() == 'Mapa base'){
         //mostrar o mapa base e o temático
-        adicionarMapaBase(radios.value);
+        adicionarMapaBase('osm');
 
         //mudar a imagem do fundo e texto do control
         $("#opcao_mapa_base").attr('value', 'Mapa temático');
@@ -154,15 +154,10 @@ layerOSM.addTo(map);
 var layerMapaBaseSel = 'osm';
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//---Mariela-----
+//---Mariela:
 // CONTROLE DOS BASEMAPS
-var radios = document.forms["select_basemap"].elements["radio_change_basemap"];
-for(var i = 0, max = radios.length; i < max; i++) {
-    radios[i].onclick = function() {
-        removerMapaBase(layerMapaBaseSel);
-        adicionarMapaBase(radios.value);
-    }
-}
+removerMapaBase(layerMapaBaseSel);
+adicionarMapaBase('osm');
 
 function adicionarMapaBase(tipoMapaBaseSelecionado) {
 
