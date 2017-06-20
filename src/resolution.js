@@ -33,13 +33,13 @@ $("#opcao_tema").change(function () {
 });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// Usar o tooltip do boostrap
+// Mariela: Usar o tooltip do boostrap
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
 
 
-//Mariela - evento disparado ao clickar no botão mapa base/temático
+// Mariela: evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
     //$("#buOpcaoMapaBase").text('Mapa tematico');
     if ($("#opcao_mapa_base").val() == 'Mapa base'){
@@ -62,6 +62,7 @@ $("#opcao_mapa_base").click(function () {
         $("#opcao_mapa_base").addClass("mapa-base");
     }
 });
+
 // Constante que define o nível de zoom inicial
 ZOOM_NIVEL_INICIAL = 10;
 
@@ -133,8 +134,8 @@ var copyCarto = "&copy; <a href='https://carto.com/attributions'>CARTO</a>";
 // definição dos layers (URL xyz + copyright)
 // var layerPositron = L.tileLayer(urlPositron, {attribution: copyOSM});
 var layerPositron = L.tileLayer(urlPositronNoLabels, {attribution: copyOSM});
-var layerDarkMatter = L.tileLayer(urlDarkMatter, {attribution: copyOSM});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+var layerDarkMatter = L.tileLayer(urlDarkMatter, {attribution: copyOSM});
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Google Maps
@@ -146,19 +147,17 @@ var copyGoogle = "&copy; <a href='http://maps.google.com'>Google Maps</a>";
 var layerGoogle = L.tileLayer(urlGoogle, {attribution: copyGoogle});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//---Mariela: inicalizamos o portal usando o mapa base de OSM
+// Mariela: inicalizamos o portal usando o mapa base de OSM
 layerOSM.addTo(map);
 
-//--mariela
-//definição da variável para armazenar o mapa base usado
+// Mariela: definição da variável para armazenar o mapa base usado
 var layerMapaBaseSel = 'osm';
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//---Mariela:
-// CONTROLE DOS BASEMAPS
+// Mariela: CONTROLE DOS BASEMAPS
 removerMapaBase(layerMapaBaseSel);
 adicionarMapaBase('osm');
 
+// Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
 function adicionarMapaBase(tipoMapaBaseSelecionado) {
 
     if (tipoMapaBaseSelecionado=="osm") {
@@ -175,10 +174,10 @@ function adicionarMapaBase(tipoMapaBaseSelecionado) {
         } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
             map.addLayer(layerDarkMatter);
             layerMapaBaseSel = 'carto_darkmatter';
-
         }
 }
 
+// Mariela: Remover o Mapa base existente 
 function removerMapaBase(tipoMapaBaseSelecionado) {
 
     if (tipoMapaBaseSelecionado=="osm") {
@@ -194,10 +193,6 @@ function removerMapaBase(tipoMapaBaseSelecionado) {
 
         }
 }
-
-//--------Mariela-----
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // DEMOGRAFIA
