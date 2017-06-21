@@ -340,7 +340,7 @@ cartodb.createLayer(map,{
                     // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
                     //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
                     var legenda = "\
-                    <div class='cartodb-legend choropleth' style='width:250px'> \
+                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
@@ -490,7 +490,7 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth' style='width:250px'> \
+                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
@@ -633,7 +633,7 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth' style='width:250px'> \
+                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
@@ -778,7 +778,7 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth' style='width:250px'> \
+                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
@@ -920,7 +920,7 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth' style='width:250px'> \
+                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
