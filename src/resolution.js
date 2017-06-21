@@ -920,7 +920,7 @@ cartodb.createLayer(map,{
 
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
-                    <div class='cartodb-legend choropleth cartodb-legend-extra'> \
+                    <div class='cartodb-legend choropleth' > \
                         <div class='legend-title'>"+dados_legenda.titulo+"</div> \
                         <div id ='bairro' class='legend-title' style='height:20px'> </div> \
                         <ul> \
