@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    
+  
 </head>
 <body>
 	<!-- div onde será atribuído o mapa -->
@@ -18,15 +23,18 @@
 	<div class="leaflet-control-container">
 		<div class="leaflet-bottom leaflet-left" style="padding-bottom: 30px">
 			<div class=" leaflet-control">
-				<input id='opcao_mapa_base' type="button"  value="Mapa Temático" class="input-opcao-mapa mapa-tematico">
+				<input id='opcao_mapa_base' type="button"  value="Mapa Temático" 
+				title="Click aqui para mudar o mapa temático!" 
+				data-placement="auto" data-toggle="tooltip" 
+				class="input-opcao-mapa mapa-tematico">
 			</div>
 		</div>
 	</div>
 	<!--end control-->
-    <div id="container_menu">
-        <div id="title_menu">Selecionar Layers</div>
+    <div id="container_menu" >
+        <div id="title_menu">SELECIONAR LAYERS</div>
 		<div id="container_options">
-			<div id="title_options">Primeira Opção</div>
+			<div id="title_options">Primeira Opção:</div>			
 			<div id="theme_options">
 	            <select id="opcao_tema">
 					<option value="demografia">Demografia</option>
@@ -38,27 +46,28 @@
 					<option value="condicoes_entorno">Condições do entorno</option> -->
 	            </select>
 	        </div>
-			<div id="title_options">Variável</div>
+	        <div class="separator"></div>
+			<div id="title_options">Variável:</div>
 			<div id="variables_options">
-				<select id="opcao_variavel_demografia">
+				<select id="opcao_variavel_demografia"  >
 					<option value="selecione">Selecione</option>
-					<option value="p3_001">População</option>
-					<option value="p11_001">Homens residentes</option>
-					<option value="p12_001">Mulheres residentes</option>
-					<option value="p13_022">Faixa etárias - menor que 1 ano</option>
-					<option value="p13_036">Faixa etárias - 2 anos</option>
-					<option value="p13_037">Faixa etárias - 3 anos</option>
-					<option value="p13_038">Faixa etárias - 4 anos</option>
-					<option value="p13_039">Faixa etárias - 5 anos</option>
-					<option value="p13_201">Faixa etárias - 6 a 10 anos</option>
-					<option value="p13_202">Faixa etárias - 11 a 14 anos</option>
-					<option value="p13_203">Faixa etárias - 15 a 17 anos</option>
-					<option value="p13_204">Faixa etárias - 18 a 29 anos</option>
-					<option value="p13_205">Faixa etárias - 30 a 49 anos</option>
-					<option value="p13_206">Faixa etárias - 50 a 64 anos</option>
-					<option value="p13_207">Faixa etárias - 65 a 79 anos</option>
-					<option value="p13_208">Faixa etárias - acima 80 anos</option>
-					<option value="t_env">Taxa de envelhecimento</option>
+					<option value="p3_001" title="Breve descrição sobre a variável População. Por exemplo .......">População</option>
+					<option value="p11_001" title="Breve descrição sobre a variável Homens redidentes. Por exemplo .......">Homens residentes</option>
+					<option value="p12_001" title="Breve descrição sobre a variável Mulheres residentes. Por exemplo .......">Mulheres residentes</option>
+					<option value="p13_022" title="Breve descrição sobre a variável Faixa etárias - menor que 1 ano. Por exemplo .......">Faixa etárias - menor que 1 ano</option>
+					<option value="p13_036" title="Breve descrição sobre a variável Faixa etárias - 2 anos. Por exemplo .......">Faixa etárias - 2 anos</option>
+					<option value="p13_037" title="Breve descrição sobre a variável Faixa etárias - 3 anos. Por exemplo .......">Faixa etárias - 3 anos</option>
+					<option value="p13_038" title="Breve descrição sobre a variável Faixa etárias - 4 anos. Por exemplo .......">Faixa etárias - 4 anos</option>
+					<option value="p13_039" title="Breve descrição sobre a variável Faixa etárias - 5 anos. Por exemplo .......">Faixa etárias - 5 anos</option>
+					<option value="p13_201" title="Breve descrição sobre a variável Faixa etárias - 6 a 10 anos. Por exemplo .......">Faixa etárias - 6 a 10 anos</option>
+					<option value="p13_202" title="Breve descrição sobre a variável Faixa etárias - 11 a 14 anos. Por exemplo .......">Faixa etárias - 11 a 14 anos</option>
+					<option value="p13_203" title="Breve descrição sobre a variável Faixa etárias - 15 a 17 anos. Por exemplo .......">Faixa etárias - 15 a 17 anos</option>
+					<option value="p13_204" title="Breve descrição sobre a variável Faixa etárias - 18 a 29 anos. Por exemplo .......">Faixa etárias - 18 a 29 anos</option>
+					<option value="p13_205" title="Breve descrição sobre a variável Faixa etárias - 30 a 49 anos. Por exemplo .......">Faixa etárias - 30 a 49 anos</option>
+					<option value="p13_206" title="Breve descrição sobre a variável Faixa etárias - 50 a 64 anos. Por exemplo .......">Faixa etárias - 50 a 64 anos</option>
+					<option value="p13_207" title="Breve descrição sobre a variável Faixa etárias - 65 a 79 anos. Por exemplo .......">Faixa etárias - 65 a 79 anos</option>
+					<option value="p13_208" title="Breve descrição sobre a variável Faixa etárias - acima 80 anos. Por exemplo .......">Faixa etárias - acima 80 anos</option>
+					<option value="t_env" title="Breve descrição sobre a variável Taxa de envelhecimento. Por exemplo .......">Taxa de envelhecimento</option>
 	            </select>
 				<select id="opcao_variavel_raca_imigracao">
 					<option value="selecione">Selecione</option>
@@ -115,6 +124,7 @@
 	            </select> -->
 	        </div>
 		</div>
+
 		<div id="container_extras">
 			<form action="select_extras">
 				<label><input type="checkbox" name="transporte" id="metro_linha">Metro</label>
@@ -122,28 +132,6 @@
 			</form>
 		</div>
     </div>
-
-	<div id="container_change_basemap">
-		<div id="title_menu">Selecionar Basemap</div>
-		<div id="container_options_basemap">
-			<form id="select_basemap">
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="osm" checked="true">OpenStreetMap</label>
-				</div>
-				<!--
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="google_maps">Google Maps</label>
-				</div>
-				-->
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="carto_positron">CartoDB - Positron</label>
-				</div>
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="carto_darkmatter">CartoDB - DarkMatter</label>
-				</div>
-			</form>
-		</div>
-	</div>
 
 	<!-- importar o arquivo js -->
 	<script type="text/javascript" src="gisdata/querys.js"></script>
