@@ -3,7 +3,7 @@
 var demografia = {
     "p3_001": { // População
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_001 <= 3489 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_001 <= 1671 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_001 <= 1350 ] { polygon-fill: #FC4E2A; } \
@@ -24,7 +24,7 @@ var demografia = {
     },
     "p11_001": { // Homens residentes
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p11_001 <= 3320 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p11_001 <= 931  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p11_001 <= 750  ] { polygon-fill: #FC4E2A; } \
@@ -35,7 +35,7 @@ var demografia = {
     },
     "p12_001": { // Mulheres residentes
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p12_001 <= 1946 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p12_001 <= 957  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p12_001 <= 764  ] { polygon-fill: #FC4E2A; } \
@@ -46,7 +46,7 @@ var demografia = {
     },
     "p13_022": { // Faixa etárias - menor que 1 ano
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_022 <= 115 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_022 <= 57  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_022 <= 47  ] { polygon-fill: #FC4E2A; } \
@@ -57,7 +57,7 @@ var demografia = {
     },
     "p13_036": { // Faixa etárias - 2 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_036 <= 89 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_036 <= 55  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_036 <= 45  ] { polygon-fill: #FC4E2A; } \
@@ -68,7 +68,7 @@ var demografia = {
     },
     "p13_037": { // Faixa etárias - 3 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_037 <= 135 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_037 <= 61  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_037 <= 47  ] { polygon-fill: #FC4E2A; } \
@@ -79,7 +79,7 @@ var demografia = {
     },
     "p13_038": { // Faixa etárias - 4 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_038 <= 114 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_038 <= 57  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_038 <= 47  ] { polygon-fill: #FC4E2A; } \
@@ -90,7 +90,7 @@ var demografia = {
     },
     "p13_039": { // Faixa etárias - 5 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_039 <= 96 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_039 <= 61 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_039 <= 50 ] { polygon-fill: #FC4E2A; } \
@@ -101,7 +101,7 @@ var demografia = {
     },
     "p13_201": { // Faixa etárias - 6 a 10 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_201 <= 475 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_201 <= 245 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_201 <= 202 ] { polygon-fill: #FC4E2A; } \
@@ -112,7 +112,7 @@ var demografia = {
     },
     "p13_202": { // Faixa etárias - 11 a 14 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_202 <= 442 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_202 <= 209 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_202 <= 172 ] { polygon-fill: #FC4E2A; } \
@@ -123,7 +123,7 @@ var demografia = {
     },
     "p13_203": { // Faixa etárias - 15 a 17 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_203 <= 228 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_203 <= 149 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_203 <= 124 ] { polygon-fill: #FC4E2A; } \
@@ -134,7 +134,7 @@ var demografia = {
     },
     "p13_204": { // Faixa etárias - 18 a 29 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_204 <= 2068 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_204 <= 488  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_204 <= 395  ] { polygon-fill: #FC4E2A; } \
@@ -145,7 +145,7 @@ var demografia = {
     },
     "p13_205": { // Faixa etárias - 30 a 49 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_205 <= 1239 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_205 <= 640  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_205 <= 519  ] { polygon-fill: #FC4E2A; } \
@@ -156,7 +156,7 @@ var demografia = {
     },
     "p13_206": { // Faixa etárias - 50 a 64 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_206 <= 445 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_206 <= 265 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_206 <= 220 ] { polygon-fill: #FC4E2A; } \
@@ -167,7 +167,7 @@ var demografia = {
     },
     "p13_207": { // Faixa etárias - 65 a 79 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_207 <= 190 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_207 <= 139 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_207 <= 116 ] { polygon-fill: #FC4E2A; } \
@@ -178,7 +178,7 @@ var demografia = {
     },
     "p13_208": { // Faixa etárias - acima 80 anos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p13_208 <= 167 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_208 <= 80  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p13_208 <= 64  ] { polygon-fill: #FC4E2A; } \
@@ -189,7 +189,7 @@ var demografia = {
     },
     "t_env": { // Taxa de envelhecimento
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ t_env <= 167 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ t_env <= 80  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ t_env <= 64  ] { polygon-fill: #FC4E2A; } \
@@ -230,7 +230,7 @@ var demografia_valores_quantiles = {
 var raca_imigracao = {
     "p3_002": { // Cor/Raça - Branca
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_002 <= 1834 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_002 <= 998  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_002 <= 818  ] { polygon-fill: #FC4E2A; } \
@@ -241,7 +241,7 @@ var raca_imigracao = {
     },
     "p3_003": { // Cor/Raça - Preta
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_003 <= 465 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_003 <= 265 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_003 <= 206 ] { polygon-fill: #FC4E2A; } \
@@ -252,7 +252,7 @@ var raca_imigracao = {
     },
     "p3_004": { // Cor/Raça - Amarela
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_004 <= 480 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_004 <= 216 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_004 <= 161 ] { polygon-fill: #FC4E2A; } \
@@ -263,7 +263,7 @@ var raca_imigracao = {
     },
     "p3_005": { // Cor/Raça - Parda
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_005 <= 2131 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_005 <= 883  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_005 <= 717  ] { polygon-fill: #FC4E2A; } \
@@ -274,7 +274,7 @@ var raca_imigracao = {
     },
     "p3_006": { // Cor/Raça - Indígena
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ p3_006 <= 599 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_006 <= 74  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ p3_006 <= 42  ] { polygon-fill: #FC4E2A; } \
@@ -285,7 +285,7 @@ var raca_imigracao = {
     },
     "de020": { // Pessoas residentes a menos de 3 anos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ de020 <= 21.9 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ de020 <= 12.8 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ de020 <= 10.9 ] { polygon-fill: #FC4E2A; } \
@@ -296,7 +296,7 @@ var raca_imigracao = {
     },
     "de023": { // Pessoas nascidas em outro Estado (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ de023 <= 51.0 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ de023 <= 32.4 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ de023 <= 29.2 ] { polygon-fill: #FC4E2A; } \
@@ -307,7 +307,7 @@ var raca_imigracao = {
     },
     "de024": { // Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ de024 <= 18.8 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ de024 <= 6.2  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ de024 <= 5.2  ] { polygon-fill: #FC4E2A; } \
@@ -336,7 +336,7 @@ var raca_emigracao_valores_quantiles = {
 var religiao = {
     "re027": { // Percentual de pessoas que se declararam (apenas) sem religião
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re027 <= 19.10 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ re027 <= 13.09 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ re027 <= 11.24 ] { polygon-fill: #FC4E2A; } \
@@ -347,7 +347,7 @@ var religiao = {
     },
     "re028": { // Percentual de pessoas que se declararam agnósticos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re028 <= 3.16 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ re028 <= 3.16 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ re028 <= 2.13 ] { polygon-fill: #FC4E2A; } \
@@ -358,7 +358,7 @@ var religiao = {
     },
     "re029": { // Percentual de pessoas que se declararam ateus
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re029 <= 4.30 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ re029 <= 2.75 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ re029 <= 2.05 ] { polygon-fill: #FC4E2A; } \
@@ -369,7 +369,7 @@ var religiao = {
     },
     "re030": { // Percentual de pessoas que se declararam católicos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re030 <= 82.70 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ re030 <= 64.41 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ re030 <= 61.26 ] { polygon-fill: #FC4E2A; } \
@@ -380,7 +380,7 @@ var religiao = {
     },
     "re031": { // Percentual de pessoas que se declararam evangélicos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re031 <= 44.26 ] { polygon-fill: #B10026; } \
             #resolution_sc2010_cem_rmsp_erase [ re031 <= 32.93] { polygon-fill: #E31A1C; } \
             #resolution_sc2010_cem_rmsp_erase [ re031 <= 30.18 ] { polygon-fill: #FC4E2A; } \
@@ -391,7 +391,7 @@ var religiao = {
     },
     "re038": { // Percentual de pessoas que se declararam evangélicos pentecostais
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re038 <= 41.79 ] { polygon-fill: #B10026; } \
             #resolution_sc2010_cem_rmsp_erase [ re038 <= 30.38] { polygon-fill: #E31A1C; } \
             #resolution_sc2010_cem_rmsp_erase [ re038 <= 27.95 ] { polygon-fill: #FC4E2A; } \
@@ -402,7 +402,7 @@ var religiao = {
     },
     "re047": { // Percentual de pessoas que se declararam com religião afro-brasileira
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re047 <= 2.33 ] { polygon-fill: #B10026; } \
             #resolution_sc2010_cem_rmsp_erase [ re047 <= 2.10 ] { polygon-fill: #E31A1C; } \
             #resolution_sc2010_cem_rmsp_erase [ re047 <= 1.81 ] { polygon-fill: #FC4E2A; } \
@@ -413,7 +413,7 @@ var religiao = {
     },
     "re050": { // Percentual de pessoas pertencentes a outros segmentos religiosos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ re050 <= 31.05 ] { polygon-fill: #B10026; } \
             #resolution_sc2010_cem_rmsp_erase [ re050 <= 6.26 ] { polygon-fill: #E31A1C; } \
             #resolution_sc2010_cem_rmsp_erase [ re050 <= 5.32 ] { polygon-fill: #FC4E2A; } \
@@ -444,7 +444,7 @@ var religiao_valores_quantiles = {
 var educacao = {
     "p1_001": { // Alfabetizadas com 5 ou mais anos de idade
         sql: "SELECT * FROM ap2010_rmsp_cem_r",
-        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
+        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
             #ap2010_rmsp_cem_r [ p1_001 <= 137423 ] { polygon-fill: #B10026; } \
 			#ap2010_rmsp_cem_r [ p1_001 <= 40000  ] { polygon-fill: #E31A1C; } \
 			#ap2010_rmsp_cem_r [ p1_001 <= 33739  ] { polygon-fill: #FC4E2A; } \
@@ -455,7 +455,7 @@ var educacao = {
     },
     "ins001": { // Anos médios de estudo do chefe de domicílio
         sql: "SELECT * FROM ap2010_rmsp_cem_r",
-        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
+        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
             #ap2010_rmsp_cem_r [ ins001 <= 15 ] { polygon-fill: #B10026; } \
 			#ap2010_rmsp_cem_r [ ins001 <= 12  ] { polygon-fill: #E31A1C; } \
 			#ap2010_rmsp_cem_r [ ins001 <= 10  ] { polygon-fill: #FC4E2A; } \
@@ -466,7 +466,7 @@ var educacao = {
     },
     "ins002": { // Anos médios de estudo de mulheres chefes
         sql: "SELECT * FROM ap2010_rmsp_cem_r",
-        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
+        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
             #ap2010_rmsp_cem_r [ ins002 <= 14.1 ] { polygon-fill: #B10026; } \
 			#ap2010_rmsp_cem_r [ ins002 <= 10.9 ] { polygon-fill: #E31A1C; } \
 			#ap2010_rmsp_cem_r [ ins002 <= 9.1  ] { polygon-fill: #FC4E2A; } \
@@ -477,7 +477,7 @@ var educacao = {
     },
     "ins032": { // Percentual de pessoas de 7 a 14 anos de idade fora da escola
         sql: "SELECT ins032 FROM ap2010_rmsp_cem_r",
-        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
+        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
             #ap2010_rmsp_cem_r [ ins032 <= 18.6 ] { polygon-fill: #B10026; } \
 			#ap2010_rmsp_cem_r [ ins032 <= 11.1 ] { polygon-fill: #E31A1C; } \
 			#ap2010_rmsp_cem_r [ ins032 <= 8.4  ] { polygon-fill: #FC4E2A; } \
@@ -488,7 +488,7 @@ var educacao = {
     },
     "ins037": { // Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche
         sql: "SELECT * FROM ap2010_rmsp_cem_r",
-        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
+        cartocss: "#ap2010_rmsp_cem_r{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0.5;line-opacity: 1;} \
             #ap2010_rmsp_cem_r [ ins037 <= 38.3 ] { polygon-fill: #B10026; } \
 			#ap2010_rmsp_cem_r [ ins037 <= 30.5 ] { polygon-fill: #E31A1C; } \
 			#ap2010_rmsp_cem_r [ ins037 <= 27.7 ] { polygon-fill: #FC4E2A; } \
@@ -515,7 +515,7 @@ var educacao_valores_quantiles = {
 var renda_trabalho = {
     "ren002": { // Renda domiciliar total média
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren002 <= 19292.16 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren002 <= 5449.51  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren002 <= 3459.20  ] { polygon-fill: #FC4E2A; } \
@@ -526,7 +526,7 @@ var renda_trabalho = {
     },
     "ren003": { // Renda domiciliar per capita em salários mínimos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren003 <= 15.86 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren003 <= 6.32  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren003 <= 3.78  ] { polygon-fill: #FC4E2A; } \
@@ -537,7 +537,7 @@ var renda_trabalho = {
     },
     "ren004": { // Renda domiciliar total média em salários mínimos
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren004 <= 37.83 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren004 <= 13.9  ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren004 <= 8.27  ] { polygon-fill: #FC4E2A; } \
@@ -548,7 +548,7 @@ var renda_trabalho = {
     },
     "ren016": { // Pessoas com renda per capita até meio salário mínimo (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren016 <= 49.63 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren016 <= 32.47 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren016 <= 27.72 ] { polygon-fill: #FC4E2A; } \
@@ -559,7 +559,7 @@ var renda_trabalho = {
     },
     "ren101": { // Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren101 <= 42.57 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren101 <= 35.12 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren101 <= 32.29 ] { polygon-fill: #FC4E2A; } \
@@ -570,7 +570,7 @@ var renda_trabalho = {
     },
     "ren102": { // Pessoas com renda per capita entre 1 e 3 salários mínimos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren102 <= 57.29 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren102 <= 45.63 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren102 <= 41.78 ] { polygon-fill: #FC4E2A; } \
@@ -581,7 +581,7 @@ var renda_trabalho = {
     },
     "ren103": { // Pessoas com renda per capita entre 3 e 5 salários mínimos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren103 <= 23.88 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren103 <= 16.16 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren103 <= 12.62 ] { polygon-fill: #FC4E2A; } \
@@ -592,7 +592,7 @@ var renda_trabalho = {
     },
     "ren104": { // Pessoas com renda per capita entre 5 e 10 salários mínimos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren104 <= 32.64 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren104 <= 22.15 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren104 <= 13.53 ] { polygon-fill: #FC4E2A; } \
@@ -603,7 +603,7 @@ var renda_trabalho = {
     },
     "ren105": { // Pessoas com renda per capita acima de 10 salários mínimos (%)
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ ren105 <= 42.66 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren105 <= 25.15 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ ren105 <= 13.10 ] { polygon-fill: #FC4E2A; } \
@@ -614,7 +614,7 @@ var renda_trabalho = {
     },
     "mt006": { // Taxa de desocupação
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ mt006 <= 19.99 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt006 <= 11.85 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt006 <= 10.27 ] { polygon-fill: #FC4E2A; } \
@@ -625,7 +625,7 @@ var renda_trabalho = {
     },
     "mt008": { // Taxa de ocupação
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ mt008 <= 98.21 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt008 <= 94.82 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt008 <= 93.44 ] { polygon-fill: #FC4E2A; } \
@@ -636,7 +636,7 @@ var renda_trabalho = {
     },
     "mt007": { // Taxa de participação
         sql: "SELECT * FROM resolution_sc2010_cem_rmsp_erase",
-        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 0.5;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
+        cartocss: "#resolution_sc2010_cem_rmsp_erase{polygon-fill: #FC4E2A;polygon-opacity: 1;line-color: #476b6b;line-width: 0;line-opacity: 1;} \
             #resolution_sc2010_cem_rmsp_erase [ mt007 <= 74.47 ] { polygon-fill: #B10026; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt007 <= 65.12 ] { polygon-fill: #E31A1C; } \
 			#resolution_sc2010_cem_rmsp_erase [ mt007 <= 63.27 ] { polygon-fill: #FC4E2A; } \
