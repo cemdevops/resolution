@@ -15,11 +15,12 @@ for (var i = 1; i < nome_ddl_variavel.length; i++) { // inicia a partir do 2º d
 }
 // nome do objeto (ddls-variaveis) inicial
 var opcao_variavel_anterior = nome_ddl_variavel[0];
+var obj_atual = nome_ddl_variavel[0];
 
 // evento disparado ao modificar opção do ddl-tema
 $("#opcao_tema").change(function () {
     // controi nome do objeto (ddl-tema) selecionado anteriormente
-    var obj_atual = "#opcao_variavel_" + $(this).attr("value");
+    obj_atual = "#opcao_variavel_" + $(this).attr("value");
     // oculta ddls-variaveis selecionada anteriormente
     $(opcao_variavel_anterior).css("display", "none");
     // seleciona a 1º opção da ddl-variaveis selecionada anteriormente
@@ -28,16 +29,17 @@ $("#opcao_tema").change(function () {
     $(opcao_variavel_anterior).trigger("change");
     // mostra a ddl-variaveis selecionada atual
     $(obj_atual).css("display", "block");
-    // controi nome do objeto (ddl-variaveis) selecionado atual
-    opcao_variavel_anterior = "#opcao_variavel_" + $(this).attr("value");
+    // constroi nome do objeto (ddl-variaveis) selecionado atual
+    opcao_variavel_anterior = "#opcao_variavel_" + $(this).attr("value");    
 });
+
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Mariela: Usar o tooltip do boostrap
-$(document).ready(function(){
+/*$(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
-});
-
+});*/
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
@@ -244,8 +246,8 @@ cartodb.createLayer(map,{
                 }
 
                 // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                if (op != 'selecione') {
-
+                
+                if(op != 'selecione') {
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
 
@@ -834,7 +836,8 @@ cartodb.createLayer(map,{
                 var op = $(this).attr("value");
 
                 // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                if (op != 'selecione') {
+                
+                if(op != 'selecione') {
 
                     layer.createSubLayer(religiao[op]); // ver dicionário
 
@@ -998,26 +1001,35 @@ cartodb.createLayer(map,{
 // PLACES
 var places = {
     "rmsp": {
-        sql: "SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'",
-        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 14; " +
+        sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
+        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 14;" +
                                                 "text-label-position-tolerance: 0; text-fill: #535353; text-halo-fill: #fff; " +
                                                 "text-halo-radius: 0.5; text-dy: 0; text-allow-overlap: true; " +
                                                 "text-placement: point; text-placement-type: dummy;}"
+        
     }
 };
 
+
+// PLACES
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
 cartodb.createLayer(map,{
         user_name: "viniciusmaeda",
         type: "cartodb",
         sublayers: []
     })
-    .addTo(map)
-    .done(function(layer){
-        var sublayer = null;
-        var zoomControleLabel = ZOOM_NIVEL_INICIAL;
-        map.on ('zoomend', function (e) {
+// add the layer to our map which already contains 0 sublayers
+.addTo(map)
+.done(function(layer){
+    var sublayer = null;
+    var zoomControleLabel = ZOOM_NIVEL_INICIAL;
+    map.on ('zoomend', function (e) {
+        if (layer.getSubLayerCount()>0) {
             zoomControleLabel = map.getZoom();
             if (zoomControleLabel < 10) {
+                // 1=0 means the query returns no result
                 sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=0")
             } else if (zoomControleLabel < 14) {
                 sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'")
@@ -1026,16 +1038,27 @@ cartodb.createLayer(map,{
             } else {
                 sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp")
             }
-        });
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
-        // adiciona o layer ao mapa
-        layer.createSubLayer(places["rmsp"]);
-        // utilizado para controlar visualização (ou não) dos labels
-        sublayer = layer.getSubLayer(0);
+        }
     });
-// PLACES
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // colocando ordem de sobreposição dos layers (sobrepor a todos os layers)
+    layer.setZIndex(1);
+    for (var i = 0; i < nome_ddl_variavel.length; i++) { // inicia a partir do 2º ddls-variaveis
+        $(nome_ddl_variavel[i]).change(function(){
+            // limpa os layers de places ativo
+            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            // verifica qual opção foi selecionada para criar o layer            
+            // obter o value do ddl selecionado
+            var op = $(this).attr("value");
+            if (op != 'selecione'){                
+                // create and add a new sublayer to map
+                layer.createSubLayer(places["rmsp"]);
+                // utilizado para controlar visualização (ou não) dos labels segundo o zoom
+                sublayer = layer.getSubLayer(0);
+            }
+            
+        });
+    }
+});
 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
