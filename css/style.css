@@ -20,7 +20,7 @@ html, body, #map {
     background-color: #e6f3ff;
     opacity: 0.8;
     border-radius: 6px;
-    border: 1px solid rgba(35,87,146,0.4);
+    border: 3px solid rgba(35,87,146,0.4);
     z-index: 1;
 }
 
@@ -29,7 +29,7 @@ html, body, #map {
     text-transform: uppercase;
     color: #333;
     padding: 15px 15px 10px 15px;
-    border-bottom: 1px solid rgba(35,87,146,0.4);
+    border-bottom: 2px solid rgba(35,87,146,0.4);
 }
 
 #container_options {
