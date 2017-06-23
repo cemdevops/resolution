@@ -341,8 +341,8 @@ cartodb.createLayer(map,{
                     //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
                     var legenda = "\
                     <div class='cartodb-legend choropleth cartodb-legend-container'> \
-                        <div class='legend-title'>"+dados_legenda.titulo+"</div> \
-                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
+                        <div class='legend-title' title='Variável escolhida'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
@@ -491,8 +491,8 @@ cartodb.createLayer(map,{
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
                     <div class='cartodb-legend choropleth cartodb-legend-container'> \
-                        <div class='legend-title'>"+dados_legenda.titulo+"</div> \
-                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
+                        <div class='legend-title' title='Variável escolhida'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
@@ -634,8 +634,8 @@ cartodb.createLayer(map,{
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
                     <div class='cartodb-legend choropleth cartodb-legend-container'> \
-                        <div class='legend-title'>"+dados_legenda.titulo+"</div> \
-                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
+                        <div class='legend-title' title='Variável escolhida'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
@@ -779,8 +779,8 @@ cartodb.createLayer(map,{
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
                     <div class='cartodb-legend choropleth cartodb-legend-container'> \
-                        <div class='legend-title'>"+dados_legenda.titulo+"</div> \
-                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
+                        <div class='legend-title' title='Variável escolhida'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
@@ -921,8 +921,8 @@ cartodb.createLayer(map,{
                     // constroi os elementos que compoe a legenda e seus valores
                     var legenda = "\
                     <div class='cartodb-legend choropleth cartodb-legend-container' > \
-                        <div class='legend-title'>"+dados_legenda.titulo+"</div> \
-                        <div id ='bairro' class='legend-title' style='height:20px'> </div> \
+                        <div class='legend-title' title='Variável escolhida'>"+dados_legenda.titulo+"</div> \
+                        <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div> \
                         <ul> \
                             <li class='min'>"+dados_legenda.minimo+"</li> \
                             <li class='max'>"+dados_legenda.maximo+"</li> \
@@ -1004,7 +1004,7 @@ var places = {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
         cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 14;" +
                                                 "text-label-position-tolerance: 0; text-fill: #535353; text-halo-fill: #fff; " +
-                                                "text-halo-radius: 0.5; text-dy: 0; text-allow-overlap: true; " +
+                                                "text-halo-radius: 0.9; text-dy: 0; text-allow-overlap: true; " +
                                                 "text-placement: point; text-placement-type: dummy;}"
         
     }
