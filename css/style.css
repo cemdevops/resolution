@@ -80,20 +80,7 @@ html, body, #map {
     border: 1px solid rgba(35,87,146,0.4);
 }
 
-
-/*TESTES*/
-
 .cartodb-tooltip {
-    /*
-    font: 10px Arial, Tahoma, Helvetica, sans-serif;
-    padding: 0 6px 0 6px;
-    margin-top: 20px !important;
-    margin-left: 20px !important;
-    opacity: 0.8;
-    border-radius: 6px;
-    background-color: #fff;
-    border: 1px solid rgba(35,87,146,0.4);
-    /* Clóvis - 20170331... */
     visibility: hidden;
     min-width: 0px;
     max-width: 0px;
