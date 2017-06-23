@@ -116,22 +116,22 @@ map.on ('zoomend', function (e) {
 
 // Clóvis - 20170623: tratamento de bordas de acordo com Zoom...
 function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue) {
-  return ("<div class='cartodb-legend choropleth cartodb-legend-extra'> " +
-          "  <div class='legend-title'>" + strTitle + "</div>" +
+  return ("<div class='cartodb-legend choropleth cartodb-legend-container'> " +
+          "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
-          "  <div id ='bairro' class='legend-title' style='height:20px'> </div>" +
+          "  <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
           "  <ul>" +
           "      <li class='min'>" + strMinValue + "</li>" +
           "      <li class='max'>" + strMaxValue + "</li>" +
           "      <li class='graph count_441'>" +
           "        <div class='colors'>" +
-          "          <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;opacity:0.5;'></div>" +
-          "          <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;opacity:0.5;'></div>" +
+          "          <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;'></div>" +
+          "          <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;'></div>" +
           "        </div>" +
           "      </li>" +
           "  </ul>" +
