@@ -46,11 +46,12 @@
 					<option value="condicoes_entorno">Condições do entorno</option> -->
 	            </select>
 	        </div>
-	        <div class="separator"></div>
+	        <div id="variable_description" class="description-item"> Descrição do tema escolhido... </div>
+			<div class="separator"></div>
 			<div id="title_options">Variável:</div>
 			<div id="variables_options">
 				<select id="opcao_variavel_demografia"  >
-					<option value="selecione">Selecione</option>
+					<option value="selecione">Selecione</option>					
 					<option value="p3_001" title="Breve descrição sobre a variável População. Por exemplo .......">População</option>
 					<option value="p11_001" title="Breve descrição sobre a variável Homens redidentes. Por exemplo .......">Homens residentes</option>
 					<option value="p12_001" title="Breve descrição sobre a variável Mulheres residentes. Por exemplo .......">Mulheres residentes</option>
@@ -82,7 +83,7 @@
 	            </select>
 				<select id="opcao_variavel_religiao">
 					<option value="selecione">Selecione</option>
-					<option value="re027">Percentual de pessoas que se declararam (apenas) sem religião</option>
+					<option value="re027" title="Percentual de pessoas que se declararam (apenas) sem religião">Percentual de pessoas que se declararam (apenas) sem religião</option>
 					<option value="re028">Percentual de pessoas que se declararam agnósticos</option>
 					<option value="re029">Percentual de pessoas que se declararam ateus</option>
 					<option value="re030">Percentual de pessoas que se declararam católicos</option>
@@ -123,11 +124,13 @@
 					<option value="opcao_variavel_condicoes_entorno_condicoes_entorno">Condições do entorno</option>
 	            </select> -->
 	        </div>
-		</div>
+	        <div id="variable_description" class="description-item"> Descrição da variável escolida...</div>
+		</div>		
+		
 
 		<div id="container_extras">
-			<form action="select_extras">
-				<label><input type="checkbox" name="transporte" id="metro_linha">Metro</label>
+			<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
+				<label><input type="checkbox" name="transporte" id="metro_linha">Metrô</label>
 				<label><input type="checkbox" name="transporte" id="metro_estacoes">Trem</label>
 			</form>
 		</div>
