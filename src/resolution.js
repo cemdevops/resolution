@@ -225,7 +225,7 @@ function removerMapaBase(tipoMapaBaseSelecionado) {
 // DEMOGRAFIA
 // gerencia os layers para o ddl-tema Demografia
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -381,7 +381,7 @@ cartodb.createLayer(map,{
 // RAÇA E IMIGRAÇÃO
 // gerencia os layers para o ddl-tema Demografia
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -512,7 +512,7 @@ cartodb.createLayer(map,{
 // EDUCAÇÃO (NESTE CASO UTILIZA-SE ÁREAS DE PONDERAÇÃO AO INVÉS DOS SETORES CENSITÁRIOS)
 // gerencia os layers para o ddl-tema Educação
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -636,7 +636,7 @@ cartodb.createLayer(map,{
 // RENDA E TRABALHO
 // gerencia os layers para o ddl-tema Renda e Trabalho
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -762,7 +762,7 @@ cartodb.createLayer(map,{
 // RELIGIÃO
 // gerencia os layers para o ddl-tema Religião
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -887,28 +887,50 @@ cartodb.createLayer(map,{
 var transportes = {
     "metro_linha": {
         sql: "SELECT * FROM resolution_metro_linhas",
-        cartocss: "#resolution_metro_linhas{line-color: #fff; line-width: 1; line-opacity: 0.7;} " +
+        cartocss: "#resolution_metro_linhas{line-color: #fff; line-opacity: 0.5;} " +
             "#resolution_metro_linhas [ linha = 'Azul'     ] { line-color: #0153A0; } " + // linha 1-Azul
             "#resolution_metro_linhas [ linha = 'Verde'    ] { line-color: #008061; } " + // linha 2-Verde
             "#resolution_metro_linhas [ linha = 'Vermelha' ] { line-color: #EE3E34; } " + // linha 3-Vermelha
             "#resolution_metro_linhas [ linha = 'Amarela'  ] { line-color: #FED304; } " + // linha 4-Amarela
-            "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } "   // linha 5-Lilás
+            "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } " + // linha 5-Lilás
+            "[zoom=9] {line-width: 0.0;} " +
+            "[zoom=10] {line-width: 2.6;} " +
+            "[zoom=11] {line-width: 2.4;} " +
+            "[zoom=12] {line-width: 2.2;} " +
+            "[zoom=13] {line-width: 2.0;} " +
+            "[zoom=14] {line-width: 1.8;} " +
+            "[zoom=15] {line-width: 1.6;} " +
+            "[zoom=16] {line-width: 1.4;} " +
+            "[zoom=17] {line-width: 1.2;} " +
+            "[zoom=18] {line-width: 1.0;} " +
+            "[zoom=19] {line-width: 0.0;} " 
     },
-    "metro_estacoes": {
+    "trem_linha": {
         sql: "SELECT * FROM resolution_trem_linhas",
-        cartocss: "#resolution_trem_linhas{line-color: #fff;line-width: 1;line-opacity: 0.7;}" +
+        cartocss: "#resolution_trem_linhas{line-color: #fff; line-opacity: 0.5;}" +
             "#resolution_trem_linhas [ id = 2 ] { line-color: #9E1766; }" + // Linha 7 - Rubi
             "#resolution_trem_linhas [ id = 3 ] { line-color: #9E9E93; }" + // Linha 8 - Diamante
             "#resolution_trem_linhas [ id = 4 ] { line-color: #00A78E; }" + // Linha 9 - Esmeralda
             "#resolution_trem_linhas [ id = 5 ] { line-color: #007C8F; }" + // Linha 10 - Turquesa
             "#resolution_trem_linhas [ id = 6 ] { line-color: #F04D22; }" + // Linha 11 - Coral
-            "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }"   // Linha 12 - Safira
+            "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }" + // Linha 12 - Safira
+            "[zoom=9] {line-width: 0.0;} " +
+            "[zoom=10] {line-width: 2.6;} " +
+            "[zoom=11] {line-width: 2.4;} " +
+            "[zoom=12] {line-width: 2.2;} " +
+            "[zoom=13] {line-width: 2.0;} " +
+            "[zoom=14] {line-width: 1.8;} " +
+            "[zoom=15] {line-width: 1.6;} " +
+            "[zoom=16] {line-width: 1.4;} " +
+            "[zoom=17] {line-width: 1.2;} " +
+            "[zoom=18] {line-width: 1.0;} " +
+            "[zoom=19] {line-width: 0.0;} "
     }
 };
 
 // controle dos checckboxs que mostrar as linhas de metro/trem
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -947,7 +969,7 @@ var places = {
 
 // Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -995,7 +1017,7 @@ cartodb.createLayer(map,{
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ÁGUAS
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
