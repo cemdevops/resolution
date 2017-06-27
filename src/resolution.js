@@ -83,13 +83,17 @@ L.control.scale({metric: true, imperial: false, position: 'topleft' }).addTo(map
 // Clóvis - 20170413: tratamento de bordas de acordo com Zoom...
 // Constante que guarda nível de zoom a partir do qual serão apresentadas
 // bordas do setor censitário
-const ZOOM_APRESENTACAO_BORDAS = 13;
+// Clóvis - 20160627: migrado para querys.js, para utilização tbém naquele arquivo...
+// const ZOOM_APRESENTACAO_BORDAS = 13;
+// ... Clóvis - 20160627: migrado para querys.js, para utilização tbém naquele arquivo.
 // Armazena nível de zoom anterior
 var zoomAnterior;
 // Armazena nível de zoom atual
 var zoomAtual = ZOOM_NIVEL_INICIAL;
 // Armazena sublayer atual
-var varSubLayer = null;
+// Clóvis - 20170627: sem necessidade. Utilizado zoom em cartoCSS...
+// var varSubLayer = null;
+// ... Clóvis - 20170627: sem necessidade. Utilizado zoom em cartoCSS
 
 map.on ('zoomstart', function (e) {
     zoomAnterior = map.getZoom();
@@ -97,6 +101,7 @@ map.on ('zoomstart', function (e) {
 
 map.on ('zoomend', function (e) {
     zoomAtual = map.getZoom();
+    /* Clóvis - 20170627: sem necessidade. Utilizado zoom em cartoCSS...
     if (varSubLayer != null) {
       strCarto = varSubLayer.getCartoCSS();
       if (strCarto.indexOf ("#ap2010") < 0) { // Não aplica para áreas de ponderação
@@ -111,6 +116,7 @@ map.on ('zoomend', function (e) {
           }
       }
     }
+    ... Clóvis - 20170627: sem necessidade. Utilizado zoom em cartoCSS */
 });
 // ... Clóvis - 20170413: tratamento de bordas de acordo com Zoom.
 
@@ -162,16 +168,6 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
 // Clóvis - 20170626: function to change among Quantile and Jenks Natural Breaks...
 function changeDataMethod(strMethod, dataField, strDatabase, localSubLayer, vector, layer) {
     //    console.log ('Mudou para ' + strMethod);
-    var strLineWidth = "0";
-    if (strDatabase.indexOf ("ap2010") < 0) { // Não aplica para áreas de ponderação
-        if (zoomAtual >= ZOOM_APRESENTACAO_BORDAS) {
-            strLineWidth = "0.5";
-        }
-    } else {
-        // Área de ponderação. Bordas sempre visíveis
-        strLineWidth = "0.5";
-    }
-
     if (localSubLayer != null) {
         var sql = new cartodb.SQL({ user: 'cemdevops'});
         var strMethodSQL;
@@ -192,8 +188,17 @@ function changeDataMethod(strMethod, dataField, strDatabase, localSubLayer, vect
             }
             var strCarto = "#" + strDatabase + " {" +
                     "polygon-fill: ramp([" + dataField + "], (#FFFFB2, #FED976, #FEB24C, #FD8D3C, #FC4E2A, #E31A1C, #B10026)," + strMethod + ");" +
-                    "polygon-opacity: 1;" +
-                    "line-width: " + strLineWidth + ";" +
+                    "polygon-opacity: 1;";
+            // Verifica se são áreas de ponderação
+            if (strDatabase.indexOf ("ap2010") < 0) {
+               // Setores censitários. Bordas de acordo com zoom.
+               strCarto = strCarto +
+                 "[zoom<" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0;} [zoom>=" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0.5;}";
+            } else {
+               // Área de ponderação. Bordas sempre visíveis
+               strCarto = strCarto + "line-width: 0.5";
+            }
+            strCarto = strCarto +
                     "line-color: #476b6b;" +
                     "line-opacity: 1;" +
                     "}" +
@@ -211,7 +216,7 @@ function changeDataMethod(strMethod, dataField, strDatabase, localSubLayer, vect
                 $('#map').css('cursor', '');
             })
         }).error (function() {
-            console.log ('Erro na execução SQL!')
+            alert ('Tempo máximo de execução atingido! Tente novamente.')
             $("html,body").css("cursor", "default");
             $('#map').css('cursor', '');
         });
@@ -317,7 +322,8 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_demografia").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            varSubLayer = null;
+            // Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS
+            //varSubLayer = null;
 
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_demografia").each(function(){
@@ -357,11 +363,13 @@ cartodb.createLayer(map,{
                     var sublayer = layer.getSubLayer(0);
 
                     // Clóvis 20170413 - armazena sublayer atual
+                    /* Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS ...
                     varSubLayer = layer.getSubLayer (0);
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
                         // Apresenta mapas com bordas
                         varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
                     }
+                    ... Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS */
                     // ... Clóvis
 
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
@@ -479,7 +487,6 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_raca_imigracao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_raca_imigracao").each(function(){
                 // obter o value do ddl selecionado
@@ -508,14 +515,6 @@ cartodb.createLayer(map,{
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
-
-                    // Clóvis 20170413 - armazena sublayer atual
-                    varSubLayer = layer.getSubLayer (0);
-                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                        // Apresenta mapas com bordas
-                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-                    }
-                    // ... Clóvis
 
                     sublayer.setInteractivity('nom_ba,' + op);
 
@@ -617,7 +616,6 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_educacao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_educacao").each(function(){
                 // obter o value do ddl selecionado
@@ -642,14 +640,6 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-
-                    // Clóvis 20170413 - armazena sublayer atual
-                    //if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                        // Apresenta mapas com bordas
-                        // varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-                    //}
-                    varSubLayer = layer.getSubLayer (0);
-                    // ... Clóvis
 
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_mu,' + op);
@@ -748,7 +738,6 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_renda_trabalho").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_renda_trabalho").each(function(){
 
@@ -767,15 +756,6 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-
-                    // Clóvis 20170413 - armazena sublayer atual
-                    varSubLayer = layer.getSubLayer (0);
-                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                        // Apresenta mapas com bordas
-                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-                    }
-                    varSubLayer = layer.getSubLayer (0);
-                    // ... Clóvis
 
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
@@ -880,7 +860,6 @@ cartodb.createLayer(map,{
         $("#opcao_variavel_religiao").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            varSubLayer = null;
             // verifica qual opção foi selecionada para criar o layer
             $("#opcao_variavel_religiao").each(function(){
 
@@ -900,14 +879,6 @@ cartodb.createLayer(map,{
 
                     // obtem os dados do layer construído na tela
                     var sublayer = layer.getSubLayer(0);
-
-                    // Clóvis 20170413 - armazena sublayer atual
-                    varSubLayer = layer.getSubLayer (0);
-                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                        // Apresenta mapas com bordas
-                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-                    }
-                    // ... Clóvis
 
                     // define as colunas que serão utilizadas para mostrar as informações abaixo
                     sublayer.setInteractivity('nom_ba,' + op);
