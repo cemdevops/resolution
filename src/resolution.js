@@ -592,7 +592,7 @@ cartodb.createLayer(map,{
                     // Clóvis - 20170626: change event in selection among quantile and natural break (jenks)
                     $("input[type=radio][name=radioDataMethod]").change (function () {
                         var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector);
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
                     });
 
                 } // ... if (op != 'selecione')
@@ -724,7 +724,7 @@ cartodb.createLayer(map,{
                     // TODO: Área de ponderação - verificar criação de CSS, com borda sempre visível
                     $("input[type=radio][name=radioDataMethod]").change (function () {
                         var strDatabase = "ap2010_rmsp_cem_r";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector);
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
                     });
                 }
 
@@ -856,7 +856,7 @@ cartodb.createLayer(map,{
 
                     $("input[type=radio][name=radioDataMethod]").change (function () {
                         var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector);
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
                     });
                 }
 
@@ -984,7 +984,7 @@ cartodb.createLayer(map,{
 
                     $("input[type=radio][name=radioDataMethod]").change (function () {
                         var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector);
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
                     });
                 }
 
