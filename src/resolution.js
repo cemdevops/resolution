@@ -114,9 +114,9 @@ map.on ('zoomend', function (e) {
 });
 // ... Clóvis - 20170413: tratamento de bordas de acordo com Zoom.
 
-// Clóvis - 20170623: tratamento de bordas de acordo com Zoom...
-function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue) {
-  return ("<div class='cartodb-legend choropleth cartodb-legend-container'> " +
+// Clóvis - 20170623: function to create legend string...
+function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod) {
+    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
           "  <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
@@ -134,10 +134,90 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue) {
           "          <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;'></div>" +
           "        </div>" +
           "      </li>" +
-          "  </ul>" +
-          "</div>");
+          "  </ul>";
+
+    // Clóvis - 20170623: Selection between Natural Breaks and Quantils...
+    if (bolEnableMethod) {
+        strLegend = strLegend + " <br> <div id='containerOptionsDataMethod'>" +
+		  "    <form id='selectDataMethod'>" +
+          "       <fieldset>" +
+          "         <legend><b>Método de classificação de dados:</b></legend>" +
+          "         <div class='radio'>" +
+		  "           <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles' checked='true'>Quantile</label>" +
+		  "         </div>" +
+		  "         <div class='radio'>" +
+		  "           <label><input type='radio' name='radioDataMethod' value='jenks'>Jenks Natural Breaks</label>" +
+		  "         </div>" +
+          "       </fieldset>" +
+		  "    </form>" +
+          "  </div>";
+     }
+    // ... Clóvis - 20170623: Selection between Natural Breaks and Quantils
+
+     strLegend = strLegend + "</div>";
+     return (strLegend);
 }
-// ... Clóvis - 20170623: tratamento de bordas de acordo com Zoom.
+// ... Clóvis - 20170623: function to create legend string
+
+// Clóvis - 20170626: function to change among Quantile and Jenks Natural Breaks...
+function changeDataMethod(strMethod, dataField, strDatabase, localSubLayer, vector, layer) {
+    //    console.log ('Mudou para ' + strMethod);
+    var strLineWidth = "0";
+    if (strDatabase.indexOf ("ap2010") < 0) { // Não aplica para áreas de ponderação
+        if (zoomAtual >= ZOOM_APRESENTACAO_BORDAS) {
+            strLineWidth = "0.5";
+        }
+    } else {
+        // Área de ponderação. Bordas sempre visíveis
+        strLineWidth = "0.5";
+    }
+
+    if (localSubLayer != null) {
+        var sql = new cartodb.SQL({ user: 'cemdevops'});
+        var strMethodSQL;
+
+        if (strMethod == "quantiles") {
+            strMethodSQL = "CDB_QuantileBins";
+        } else {
+            strMethodSQL = "CDB_JenksBins";
+        }
+
+        var strSQL = "SELECT unnest ( " + strMethodSQL + " (array_agg(" + dataField + "::numeric), 7)) FROM " + strDatabase;
+        $("html,body").css("cursor", "progress");
+        $("#map").css("cursor", "progress");
+        sql.execute (strSQL)
+        .done (function (data) {
+            for (i = 0; i < data.total_rows; i++) {
+                vector [i] = data.rows[i].unnest;
+            }
+            var strCarto = "#" + strDatabase + " {" +
+                    "polygon-fill: ramp([" + dataField + "], (#FFFFB2, #FED976, #FEB24C, #FD8D3C, #FC4E2A, #E31A1C, #B10026)," + strMethod + ");" +
+                    "polygon-opacity: 1;" +
+                    "line-width: " + strLineWidth + ";" +
+                    "line-color: #476b6b;" +
+                    "line-opacity: 1;" +
+                    "}" +
+                    // Put vector values here because it's showing different values when constructing maps automaticaly
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[6] + "] { polygon-fill: #B10026;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[5] + "] { polygon-fill: #E31A1C;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[4] + "] { polygon-fill: #FC4E2A;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[3] + "] { polygon-fill: #FD8D3C;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[2] + "] { polygon-fill: #FEB24C;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[1] + "] { polygon-fill: #FED976;}" + 
+                    "#" + strDatabase + "[" + dataField + "<=" + vector[0] + "] { polygon-fill: #FFFFB2;}";
+            localSubLayer.setCartoCSS(strCarto);
+            layer.on ("load", function() {
+                $("html,body").css("cursor", "default");
+                $('#map').css('cursor', '');
+            })
+        }).error (function() {
+            console.log ('Erro na execução SQL!')
+            $("html,body").css("cursor", "default");
+            $('#map').css('cursor', '');
+        });
+    }
+};
+// ...Clóvis - 20170626: function to change among Quantile and Jenks Natural Breaks
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
@@ -225,7 +305,7 @@ function removerMapaBase(tipoMapaBaseSelecionado) {
 // DEMOGRAFIA
 // gerencia os layers para o ddl-tema Demografia
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -292,7 +372,8 @@ cartodb.createLayer(map,{
                     // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
 
                     var vector = demografia_valores_quantiles[op];
-                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
+
+                    // itens abaixo a serem usados para obtenção dinâmica de valores de quantiles.
                     // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
                     // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
 
@@ -365,11 +446,17 @@ cartodb.createLayer(map,{
                     // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
                     //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
                     // Clóvis (20170623): legend str composition in separated function. Units included.
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo);
+                    var bolEnableDataMethod = true;
+                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
                     // adiciona a legenda no mapa
                     $('body').append(legenda);
 
+                    // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
+                    $("input[type=radio][name=radioDataMethod]").change (function () {
+                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
+                    });
                 }
 
             });
@@ -381,7 +468,7 @@ cartodb.createLayer(map,{
 // RAÇA E IMIGRAÇÃO
 // gerencia os layers para o ddl-tema Demografia
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -496,23 +583,30 @@ cartodb.createLayer(map,{
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo);
+                    var bolEnableDataMethod = true;
+                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
                     // adiciona a legenda no mapa
                     $('body').append(legenda);
 
-                }
+                    // Clóvis - 20170626: change event in selection among quantile and natural break (jenks)
+                    $("input[type=radio][name=radioDataMethod]").change (function () {
+                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
+                    });
 
-            });
-        });
-    });
+                } // ... if (op != 'selecione')
+
+            }); // ...$("#opcao_variavel_raca_imigracao").each(function()
+        }); // ...$("#opcao_variavel_raca_imigracao").change(function()
+    }); // ... createLayer .done(function(layer)
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // EDUCAÇÃO (NESTE CASO UTILIZA-SE ÁREAS DE PONDERAÇÃO AO INVÉS DOS SETORES CENSITÁRIOS)
 // gerencia os layers para o ddl-tema Educação
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -620,11 +714,18 @@ cartodb.createLayer(map,{
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
-                    var legenda = newStrLegend (dados_legenda.titulo, "Áreas de Ponderação", dados_legenda.minimo, dados_legenda.maximo);
+                    var bolEnableDataMethod = true;
+                    var legenda = newStrLegend (dados_legenda.titulo, "Áreas de Ponderação", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
                     // adiciona a legenda no mapa
                     $('body').append(legenda);
 
+                    // Clóvis - 20170626: change event in selection among quantile and natural break (jenks)
+                    // TODO: Área de ponderação - verificar criação de CSS, com borda sempre visível
+                    $("input[type=radio][name=radioDataMethod]").change (function () {
+                        var strDatabase = "ap2010_rmsp_cem_r";
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
+                    });
                 }
 
             });
@@ -636,7 +737,7 @@ cartodb.createLayer(map,{
 // RENDA E TRABALHO
 // gerencia os layers para o ddl-tema Renda e Trabalho
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -668,6 +769,7 @@ cartodb.createLayer(map,{
                     var sublayer = layer.getSubLayer(0);
 
                     // Clóvis 20170413 - armazena sublayer atual
+                    varSubLayer = layer.getSubLayer (0);
                     if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
                         // Apresenta mapas com bordas
                         varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
@@ -746,11 +848,16 @@ cartodb.createLayer(map,{
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo);
+                    var bolEnableDataMethod = true;
+                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
                     // adiciona a legenda no mapa
                     $('body').append(legenda);
 
+                    $("input[type=radio][name=radioDataMethod]").change (function () {
+                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
+                    });
                 }
 
             });
@@ -762,7 +869,7 @@ cartodb.createLayer(map,{
 // RELIGIÃO
 // gerencia os layers para o ddl-tema Religião
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -869,11 +976,16 @@ cartodb.createLayer(map,{
                                       null;
 
                     // constroi os elementos que compoe a legenda e seus valores
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo);
+                    var bolEnableDataMethod = true;
+                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
                     // adiciona a legenda no mapa
                     $('body').append(legenda);
 
+                    $("input[type=radio][name=radioDataMethod]").change (function () {
+                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
+                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
+                    });
                 }
 
             });
@@ -887,28 +999,50 @@ cartodb.createLayer(map,{
 var transportes = {
     "metro_linha": {
         sql: "SELECT * FROM resolution_metro_linhas",
-        cartocss: "#resolution_metro_linhas{line-color: #fff; line-width: 1; line-opacity: 0.7;} " +
+        cartocss: "#resolution_metro_linhas{line-color: #fff; line-opacity: 0.5;} " +
             "#resolution_metro_linhas [ linha = 'Azul'     ] { line-color: #0153A0; } " + // linha 1-Azul
             "#resolution_metro_linhas [ linha = 'Verde'    ] { line-color: #008061; } " + // linha 2-Verde
             "#resolution_metro_linhas [ linha = 'Vermelha' ] { line-color: #EE3E34; } " + // linha 3-Vermelha
             "#resolution_metro_linhas [ linha = 'Amarela'  ] { line-color: #FED304; } " + // linha 4-Amarela
-            "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } "   // linha 5-Lilás
+            "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } " + // linha 5-Lilás
+            "[zoom=9] {line-width: 0.0;} " +
+            "[zoom=10] {line-width: 2.6;} " +
+            "[zoom=11] {line-width: 2.4;} " +
+            "[zoom=12] {line-width: 2.2;} " +
+            "[zoom=13] {line-width: 2.0;} " +
+            "[zoom=14] {line-width: 1.8;} " +
+            "[zoom=15] {line-width: 1.6;} " +
+            "[zoom=16] {line-width: 1.4;} " +
+            "[zoom=17] {line-width: 1.2;} " +
+            "[zoom=18] {line-width: 1.0;} " +
+            "[zoom=19] {line-width: 0.0;} " 
     },
-    "metro_estacoes": {
+    "trem_linha": {
         sql: "SELECT * FROM resolution_trem_linhas",
-        cartocss: "#resolution_trem_linhas{line-color: #fff;line-width: 1;line-opacity: 0.7;}" +
+        cartocss: "#resolution_trem_linhas{line-color: #fff; line-opacity: 0.5;}" +
             "#resolution_trem_linhas [ id = 2 ] { line-color: #9E1766; }" + // Linha 7 - Rubi
             "#resolution_trem_linhas [ id = 3 ] { line-color: #9E9E93; }" + // Linha 8 - Diamante
             "#resolution_trem_linhas [ id = 4 ] { line-color: #00A78E; }" + // Linha 9 - Esmeralda
             "#resolution_trem_linhas [ id = 5 ] { line-color: #007C8F; }" + // Linha 10 - Turquesa
             "#resolution_trem_linhas [ id = 6 ] { line-color: #F04D22; }" + // Linha 11 - Coral
-            "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }"   // Linha 12 - Safira
+            "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }" + // Linha 12 - Safira
+            "[zoom=9] {line-width: 0.0;} " +
+            "[zoom=10] {line-width: 2.6;} " +
+            "[zoom=11] {line-width: 2.4;} " +
+            "[zoom=12] {line-width: 2.2;} " +
+            "[zoom=13] {line-width: 2.0;} " +
+            "[zoom=14] {line-width: 1.8;} " +
+            "[zoom=15] {line-width: 1.6;} " +
+            "[zoom=16] {line-width: 1.4;} " +
+            "[zoom=17] {line-width: 1.2;} " +
+            "[zoom=18] {line-width: 1.0;} " +
+            "[zoom=19] {line-width: 0.0;} "
     }
 };
 
 // controle dos checckboxs que mostrar as linhas de metro/trem
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -947,7 +1081,7 @@ var places = {
 
 // Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
@@ -995,7 +1129,7 @@ cartodb.createLayer(map,{
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ÁGUAS
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda",
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
