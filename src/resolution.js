@@ -22,6 +22,7 @@ $("#opcao_mapa_base").click(function () {
         $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa temático!');
         $("#opcao_mapa_base").removeClass("mapa-base");
         $("#opcao_mapa_base").addClass("mapa-tematico");
+
     } else{
         //mostrar só o mapa temático
         removerMapaBase(layerMapaBaseSel);
@@ -30,7 +31,7 @@ $("#opcao_mapa_base").click(function () {
         $("#opcao_mapa_base").attr('value', 'Mapa base');
         $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa base!');
         $("#opcao_mapa_base").removeClass("mapa-tematico");
-        $("#opcao_mapa_base").addClass("mapa-base");
+        $("#opcao_mapa_base").addClass("mapa-base");        
     }
 });
 
@@ -299,7 +300,7 @@ cartodb.createLayer(map,{
             var e = document.getElementById("option-theme");
             var theme = e.options[e.selectedIndex].value;
             console.log(theme +'-'+ op);
-            createSubLayer(layer, theme, op);//layer.createSubLayer(demografia[op]); // ver dicionário
+            
          
             // verifica se a legenda do layer existe. Se houver, remove-a
             if ($("div.cartodb-legend.choropleth").length) {
@@ -308,6 +309,7 @@ cartodb.createLayer(map,{
 
             // se a opçao for diferente, então será construído a caixa de informação (tooltip)                
             if(op != 'selecione') {
+              createSubLayer(layer, theme, op);//layer.createSubLayer(demografia[op]); // ver dicionário
               // obtem os dados do layer construído na tela
               var sublayer = layer.getSubLayer(0);
 
@@ -592,10 +594,9 @@ var places = {
 };
 
 
-// PLACES
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 // Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
+
+
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -621,23 +622,67 @@ cartodb.createLayer(map,{
             }
         }
     });
+
     // colocando ordem de sobreposição dos layers (sobrepor a todos os layers)
     layer.setZIndex(1);    
-    $("#option-variables").change(function(){
+
+    $("#opcao_mapa_base").click(function () {
+      showPlacesLayer(layer,sublayer);
+        /*// get button value
+        var e = document.getElementById("opcao_mapa_base");
+        var buttonVal = e.value;
+
         // limpa os layers de places ativo
         layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
         // verifica qual opção foi selecionada para criar o layer            
         // obter o value do ddl selecionado
         var op = $(this).attr("value");
-        if (op != 'selecione'){                
+        if (op != 'selecione' && buttonVal == 'Mapa base'){                
             // create and add a new sublayer to map
             layer.createSubLayer(places["rmsp"]);
             // utilizado para controlar visualização (ou não) dos labels segundo o zoom
             sublayer = layer.getSubLayer(0);
-        }          
+        }  */
+    });
+
+    $("#option-variables").change(function(){
+      showPlacesLayer(layer,sublayer);
+        // get button value
+        /*var e = document.getElementById("opcao_mapa_base");
+        var buttonVal = e.value;
+
+        // limpa os layers de places ativo
+        layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+        // verifica qual opção foi selecionada para criar o layer            
+        // obter o value do ddl selecionado
+        var op = $(this).attr("value");
+        if (op != 'selecione' && buttonVal == 'Mapa base'){                
+            // create and add a new sublayer to map
+            layer.createSubLayer(places["rmsp"]);
+            // utilizado para controlar visualização (ou não) dos labels segundo o zoom
+            sublayer = layer.getSubLayer(0);
+        }  */        
     });
 });
 
+function showPlacesLayer(layer,sublayer){
+  // get button value
+  var buttonVal = document.getElementById("opcao_mapa_base").value;
+  var op = document.getElementById("option-variables").value;
+  console.log(buttonVal +'-'+ op);
+
+  // limpa os layers de places ativo
+  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+  // verifica qual opção foi selecionada para criar o layer            
+  // obter o value do ddl selecionado
+  //var op = $(this).attr("value");
+  if (op != 'selecione' && buttonVal == 'Mapa base'){                
+    // create and add a new sublayer to map
+    layer.createSubLayer(places["rmsp"]);
+    // utilizado para controlar visualização (ou não) dos labels segundo o zoom
+    sublayer = layer.getSubLayer(0);
+  } 
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ÁGUAS
