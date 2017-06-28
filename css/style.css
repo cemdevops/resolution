@@ -62,9 +62,7 @@ html, body, #map {
     background: rgba(255,255,255,0.8);    
 }
 
-#opcao_tema, #opcao_variavel_demografia, #opcao_variavel_raca_imigracao,#opcao_variavel_religiao,
-#opcao_variavel_educacao, #opcao_variavel_renda_trabalho, #opcao_variavel_condicoes_domicilio,
-#opcao_variavel_condicoes_entorno {
+#option-theme, #option-variables {
     width: 100%;opacity: 1 ! important;
 }
 
@@ -86,7 +84,6 @@ html, body, #map {
     max-width: 0px;
     min-height: 0px;
     max-height: 0px;
-    /* ...Clóvis - 20170331 */
 }
 
 .cartodb-infobox{

@@ -1,0 +1,302 @@
+{ "Variables": [
+    {
+        "codVariable": "p3_001",
+        "variable": "População",
+        "description": "População",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p11_001",
+        "variable": "Homens residentes",
+        "description": "Homens residentes",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p12_001",
+        "variable": "Mulheres residentes",
+        "description": "Mulheres residentes",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_022",
+        "variable": "Faixa etárias - menor que 1 ano",
+        "description": "Faixa etárias - 1 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_036",
+        "variable": "Faixa etárias - 2 anos",
+        "description": "Faixa etárias - 2 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_037",
+        "variable": "Faixa etárias - 3 anos",
+        "description": "Faixa etárias - 3 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_038",
+        "variable": "Faixa etárias - 4 anos",
+        "description": "Faixa etárias - 4 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_039",
+        "variable": "Faixa etárias - 5 anos",
+        "description": "Faixa etárias - 5 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_201",
+        "variable": "Faixa etárias - 6 a 10 anos",
+        "description": "Faixa etárias - 6 a 10 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_202",
+        "variable": "Faixa etárias - 11 a 14 anos",
+        "description": "Faixa etárias - 11 a 14 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_203",
+        "variable": "Faixa etárias - 15 a 17 anos",
+        "description": "Faixa etárias - 15 a 17 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_204",
+        "variable": "Faixa etárias - 18 a 29 anos",
+        "description": "Faixa etárias - 18 a 29 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_205",
+        "variable": "Faixa etárias - 30 a 49 anos",
+        "description": "Faixa etárias - 30 a 49 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_206",
+        "variable": "Faixa etárias - 50 a 64 anos",
+        "description": "Faixa etárias - 50 a 64 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_207",
+        "variable": "Faixa etárias - 65 a 79 anos",
+        "description": "Faixa etárias - 65 a 79 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p13_208",
+        "variable": "Faixa etárias - acima 80 anos",
+        "description": "Faixa etárias - acima 80 anos",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "t_env",
+        "variable": "Taxa de envelhecimento",
+        "description": "Taxa de envelhecimento",
+        "idTheme": 1
+    },
+    {
+        "codVariable": "p3_002",
+        "variable": "Cor/Raça - Branca",
+        "description": "Cor/Raça - Branca",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "p3_003",
+        "variable": "Cor/Raça - Preta",
+        "description": "Cor/Raça - Preta",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "p3_004",
+        "variable": "Cor/Raça - Amarela",
+        "description": "Cor/Raça - Amarela",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "p3_005",
+        "variable": "Cor/Raça - Parda",
+        "description": "Cor/Raça - Parda",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "p3_006",
+        "variable": "Cor/Raça - Indígena",
+        "description": "Cor/Raça - Indígena",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "de020",
+        "variable": "Pessoas residentes a menos de 3 anos (%)",
+        "description": "Pessoas residentes a menos de 3 anos (%)",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "de023",
+        "variable": "Pessoas nascidas em outro Estado (%)",
+        "description": "Pessoas nascidas em outro Estado (%)",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "de024",
+        "variable": "Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)",
+        "description": "Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)",
+        "idTheme": 2
+    },
+    {
+        "codVariable": "re027",
+        "variable": "Percentual de pessoas que se declararam (apenas) sem religião",
+        "description": "Percentual de pessoas que se declararam (apenas) sem religião",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re028",
+        "variable": "Percentual de pessoas que se declararam agnósticos",
+        "description": "Percentual de pessoas que se declararam agnósticos",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re029",
+        "variable": "Percentual de pessoas que se declararam ateus",
+        "description": "Percentual de pessoas que se declararam ateus",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re030",
+        "variable": "Percentual de pessoas que se declararam católicos",
+        "description": "Percentual de pessoas que se declararam católicos",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re031",
+        "variable": "Percentual de pessoas que se declararam evangélicos",
+        "description": "Percentual de pessoas que se declararam evangélicos",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re038",
+        "variable": "Percentual de pessoas que se declararam evangélicos pentecostais",
+        "description": "Percentual de pessoas que se declararam evangélicos pentecostais",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re047",
+        "variable": "Percentual de pessoas que se declararam com religião afro-brasileira",
+        "description": "Percentual de pessoas que se declararam com religião afro-brasileira",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "re050",
+        "variable": "Percentual de pessoas pertencentes a outros segmentos religiosos",
+        "description": "Percentual de pessoas pertencentes a outros segmentos religiosos",
+        "idTheme": 3
+    },
+    {
+        "codVariable": "p1_001",
+        "variable": "Alfabetizadas com 5 ou mais anos de idade",
+        "description": "Alfabetizadas com 5 ou mais anos de idade",
+        "idTheme": 4
+    },
+    {
+        "codVariable": "ins001",
+        "variable": "Anos médios de estudo do chefe de domicílio",
+        "description": "Anos médios de estudo do chefe de domicílio",
+        "idTheme": 4
+    },
+    {
+        "codVariable": "ins002",
+        "variable": "Anos médios de estudo de mulheres chefes",
+        "description": "Anos médios de estudo de mulheres chefes",
+        "idTheme": 4
+    },
+    {
+        "codVariable": "ins032",
+        "variable": "Percentual de pessoas de 7 a 14 anos de idade fora da escola",
+        "description": "Percentual de pessoas de 7 a 14 anos de idade fora da escola",
+        "idTheme": 4
+    },
+    {
+        "codVariable": "ins037",
+        "variable": "Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche",
+        "description": "Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche",
+        "idTheme": 4
+    },
+    {
+        "codVariable": "ren002",
+        "variable": "Renda domiciliar total média",
+        "description": "Renda domiciliar total média",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren003",
+        "variable": "Renda domiciliar per capita em salários mínimos",
+        "description": "Renda domiciliar per capita em salários mínimos",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren004",
+        "variable": "Renda domiciliar total média em salários mínimos",
+        "description": "Renda domiciliar total média em salários mínimos",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren016",
+        "variable": "Pessoas com renda per capita até meio salário mínimo (%)",
+        "description": "Pessoas com renda per capita até meio salário mínimo (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren101",
+        "variable": "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)",
+        "description": "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren102",
+        "variable": "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)",
+        "description": "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren103",
+        "variable": "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)",
+        "description": "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren104",
+        "variable": "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)",
+        "description": "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "ren105",
+        "variable": "Pessoas com renda per capita acima de 10 salários mínimos (%)",
+        "description": "Pessoas com renda per capita acima de 10 salários mínimos (%)",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "mt006",
+        "variable": "Taxa de desocupação",
+        "description": "Taxa de desocupação",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "mt008",
+        "variable": "Taxa de ocupação",
+        "description": "Taxa de ocupação",
+        "idTheme": 5
+    },
+    {
+        "codVariable": "mt007",
+        "variable": "Taxa de participação",
+        "description": "Taxa de participação",
+        "idTheme": 5
+    }
+]}
