@@ -2,44 +2,13 @@
 // http://bl.ocks.org/javisantana
 // http://bl.ocks.org/michellechandra/90d59f022ad7e9fd0e5d legenda
 
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// CONTROLE DOS DDL-VARIAVEIS E DDL_TEMAS
-// vetor contendo os nomes dos ddls-variaveis
-var nome_ddl_variavel = ["#opcao_variavel_demografia", "#opcao_variavel_raca_imigracao", "#opcao_variavel_religiao",
-                         "#opcao_variavel_educacao", "#opcao_variavel_renda_trabalho", "#opcao_variavel_condicoes_domicilio",
-                         "#opcao_variavel_condicoes_entorno"];
-// loop para ocultar os ddls-variaveis
-for (var i = 1; i < nome_ddl_variavel.length; i++) { // inicia a partir do 2º ddls-variaveis
-    $(nome_ddl_variavel[i]).css("display", "none");
-}
-// nome do objeto (ddls-variaveis) inicial
-var opcao_variavel_anterior = nome_ddl_variavel[0];
-var obj_atual = nome_ddl_variavel[0];
-
-// evento disparado ao modificar opção do ddl-tema
-$("#opcao_tema").change(function () {
-    // controi nome do objeto (ddl-tema) selecionado anteriormente
-    obj_atual = "#opcao_variavel_" + $(this).attr("value");
-    // oculta ddls-variaveis selecionada anteriormente
-    $(opcao_variavel_anterior).css("display", "none");
-    // seleciona a 1º opção da ddl-variaveis selecionada anteriormente
-    $(opcao_variavel_anterior).val("selecione");
-    // provoca change na ddl-variaveis selecionada anteriormente
-    $(opcao_variavel_anterior).trigger("change");
-    // mostra a ddl-variaveis selecionada atual
-    $(obj_atual).css("display", "block");
-    // constroi nome do objeto (ddl-variaveis) selecionado atual
-    opcao_variavel_anterior = "#opcao_variavel_" + $(this).attr("value");    
-});
-
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// Mariela: Usar o tooltip do boostrap
-/*$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-});*/
+// theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
+// Column names for each theme
+var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];
+// Tables names for each theme
+var tablesNamesArray = ['resolution_sc2010_cem_rmsp_erase','resolution_sc2010_cem_rmsp_erase','resolution_sc2010_cem_rmsp_erase','ap2010_rmsp_cem_r','resolution_sc2010_cem_rmsp_erase'];
+// types of polygons
+var typesOfPolygons = ['Áreas de Ponderação','Setores Censitários'];
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
@@ -307,8 +276,7 @@ function removerMapaBase(tipoMapaBaseSelecionado) {
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// DEMOGRAFIA
-// gerencia os layers para o ddl-tema Demografia
+// gerencia os layers para o ddl-tema
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -319,650 +287,228 @@ cartodb.createLayer(map,{
         // colocando ordem de sobreposição dos layers
         layer.setZIndex(1);
 
-        $("#opcao_variavel_demografia").change(function(){
+        $("#option-variables").change(function(){
             // limpa os layer de transporte ativo
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
             // Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS
             //varSubLayer = null;
 
-            // verifica qual opção foi selecionada para criar o layer
-            $("#opcao_variavel_demografia").each(function(){
-                // obter o value do ddl selecionado
-                var op = $(this).attr("value");
-                op == "p3_001"  ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p11_001" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p12_001" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_022" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_036" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_037" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_038" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_039" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_201" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_202" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_203" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_204" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_205" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_206" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_207" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "p13_208" ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                op == "t_env"   ? layer.createSubLayer(demografia[op]) : // ver dicionário
-                                  null;
+            // get Variable code. For example, p3_001, p11_001 . codVariable == op
+            var op = $(this).val(); //$(this).attr("value");
+            // get theme selected
+            var e = document.getElementById("option-theme");
+            var theme = e.options[e.selectedIndex].value;
+            console.log(theme +'-'+ op);
+            createSubLayer(layer, theme, op);//layer.createSubLayer(demografia[op]); // ver dicionário
+         
+            // verifica se a legenda do layer existe. Se houver, remove-a
+            if ($("div.cartodb-legend.choropleth").length) {
+                $('div.cartodb-legend.choropleth').remove();
+            }
 
-                // captura o texto do ddl-variaveis selecionado
-                var variavel = $( "#opcao_variavel_demografia option:selected" ).text();
+            // se a opçao for diferente, então será construído a caixa de informação (tooltip)                
+            if(op != 'selecione') {
+              // obtem os dados do layer construído na tela
+              var sublayer = layer.getSubLayer(0);
 
-                // verifica se a legenda do layer existe. Se houver, remove-a
-                if ($("div.cartodb-legend.choropleth").length) {
-                    $('div.cartodb-legend.choropleth').remove();
+              // Clóvis 20170413 - armazena sublayer atual
+              /* Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS ...
+              varSubLayer = layer.getSubLayer (0);
+              if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+                // Apresenta mapas com bordas
+                varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+              }
+              ... Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS */
+              // ... Clóvis
+
+              // define as colunas que serão utilizadas para mostrar as informações abaixo
+              var colName = colsNameArray[theme-1];
+              sublayer.setInteractivity(colName + ',' + op);
+
+              // Clóvis/André 2017033...
+              // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+              // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+
+              var vector =  getQuantilesValues(theme, op);//demografia_valores_quantiles[op];
+
+              // itens abaixo a serem usados para obtenção dinâmica de valores de quantiles.
+              // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+              // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
+
+              sublayer.on('featureOver', function(e,latlng,pos,data) {
+                valor = data[op];
+                for (i=1; i < 8; i++) {
+                  strElement = "celula"+i;
+                  document.getElementById(strElement).innerHTML = "";
                 }
+   
+                document.getElementById("bairro").innerHTML = data[colName];
+                if (valor >= 0 && valor <= vector[6]) {
+                  if (valor <= vector[0]) {
+                    document.getElementById("celula1").innerHTML = valor;
+                  } else if (valor <= vector[1]) {
+                    document.getElementById("celula2").innerHTML = valor;
+                  } else if (valor <= vector[2]) {
+                    document.getElementById("celula3").innerHTML = valor;
+                  } else if (valor <= vector[3]) {
+                    document.getElementById("celula4").innerHTML = valor;
+                  } else if (valor <= vector[4]) {
+                    document.getElementById("celula5").innerHTML = valor;
+                  } else if (valor <= vector[5]) {
+                    document.getElementById("celula6").innerHTML = valor;
+                  } else if (valor <= vector[6]) {
+                    document.getElementById("celula7").innerHTML = valor;
+                  }
+                  }
+              }); // sublayer.on
+              // ... Clóvis/André 20170331
 
-                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                
-                if(op != 'selecione') {
-                    // obtem os dados do layer construído na tela
-                    var sublayer = layer.getSubLayer(0);
+              // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
+              var toolTip = createInfoboxTooltip(layer,sublayer,colName);
+              $('body').append(toolTip.render().el);
 
-                    // Clóvis 20170413 - armazena sublayer atual
-                    /* Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS ...
-                    varSubLayer = layer.getSubLayer (0);
-                    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                        // Apresenta mapas com bordas
-                        varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-                    }
-                    ... Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS */
-                    // ... Clóvis
+              // variável para eleborar os dados da legenda
+              var dados_legenda;
 
-                    // define as colunas que serão utilizadas para mostrar as informações abaixo
-                    sublayer.setInteractivity('nom_ba,' + op);
+              // verifica o layer ativo para definir os valores da legenda
+              dados_legenda = getLegendData(theme,op);
 
-                    // Clóvis/André 2017033...
-                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+              // constroi os elementos que compoe a legenda e seus valores
+              // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
+              //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
+              // Clóvis (20170623): legend str composition in separated function. Units included.
+              var bolEnableDataMethod = true;
+              var legenda = newStrLegend (dados_legenda.titulo, theme == 4 ? typesOfPolygons[0]: typesOfPolygons[1], dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
 
-                    var vector = demografia_valores_quantiles[op];
+              // adiciona a legenda no mapa
+              $('body').append(legenda);
 
-                    // itens abaixo a serem usados para obtenção dinâmica de valores de quantiles.
-                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-
-                    sublayer.on('featureOver', function(e,latlng,pos,data) {
-                        valor = data[op];
-                        for (i=1; i < 8; i++) {
-                            strElement = "celula"+i;
-                            document.getElementById(strElement).innerHTML = "";
-                        }
-                        document.getElementById("bairro").innerHTML = data["nom_ba"];
-                        if (valor >= 0 && valor <= vector[6]) {
-                            if (valor <= vector[0]) {
-                                document.getElementById("celula1").innerHTML = valor;
-                            } else if (valor <= vector[1]) {
-                                document.getElementById("celula2").innerHTML = valor;
-                            } else if (valor <= vector[2]) {
-                                document.getElementById("celula3").innerHTML = valor;
-                            } else if (valor <= vector[3]) {
-                                document.getElementById("celula4").innerHTML = valor;
-                            } else if (valor <= vector[4]) {
-                                document.getElementById("celula5").innerHTML = valor;
-                            } else if (valor <= vector[5]) {
-                                document.getElementById("celula6").innerHTML = valor;
-                            } else if (valor <= vector[6]) {
-                                document.getElementById("celula7").innerHTML = valor;
-                            }
-                        }
-                      }
-                    ) // sublayer.on
-                    // ... Clóvis/André 20170331
-
-                    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-                    var toolTip = layer.leafletMap.viz.addOverlay({
-                        // Clóvis/André 20170331: type alterado de tooltip para infobox
-                        type: 'infobox',
-                        layer: sublayer,
-                        // Clovis/Andre 20170331: template alterado para hidden - contorno
-                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
-                        template: "<div style='Visibility:hidden'></div>",
-                        width: 200,
-                        position: 'bottom|right',
-                        fields: [{ nom_ba: 'nom_ba' }]
-                    });
-                    $('body').append(toolTip.render().el);
-
-                    // variável para eleborar os dados da legenda
-                    var dados_legenda;
-
-                    // verifica o layer ativo para definir os valores da legenda
-                    op == "p3_001"  ? dados_legenda = {titulo: "População", minimo: "0", maximo: "3489"} :
-                    op == "p11_001" ? dados_legenda = {titulo: "Homens residentes", minimo: "0", maximo: "3320"} :
-                    op == "p12_001" ? dados_legenda = {titulo: "Mulheres residentes", minimo: "0", maximo: "1946"} :
-                    op == "p13_022" ? dados_legenda = {titulo: "Faixa etárias - menor que 1 ano", minimo: "0", maximo: "115"} :
-                    op == "p13_036" ? dados_legenda = {titulo: "Faixa etárias - 2 anos", minimo: "0", maximo: "89"} :
-                    op == "p13_037" ? dados_legenda = {titulo: "Faixa etárias - 3 anos", minimo: "0", maximo: "135"} :
-                    op == "p13_038" ? dados_legenda = {titulo: "Faixa etárias - 4 anos", minimo: "0", maximo: "114"} :
-                    op == "p13_039" ? dados_legenda = {titulo: "Faixa etárias - 5 anos", minimo: "0", maximo: "96"} :
-                    op == "p13_201" ? dados_legenda = {titulo: "Faixa etárias - 6 a 10 anos", minimo: "0", maximo: "475"} :
-                    op == "p13_202" ? dados_legenda = {titulo: "Faixa etárias - 11 a 14 anos", minimo: "0", maximo: "442"} :
-                    op == "p13_203" ? dados_legenda = {titulo: "Faixa etárias - 15 a 17 anos", minimo: "0", maximo: "228"} :
-                    op == "p13_204" ? dados_legenda = {titulo: "Faixa etárias - 18 a 29 anos", minimo: "0", maximo: "2068"} :
-                    op == "p13_205" ? dados_legenda = {titulo: "Faixa etárias - 30 a 49 anos", minimo: "0", maximo: "1239"} :
-                    op == "p13_206" ? dados_legenda = {titulo: "Faixa etárias - 50 a 64 anos", minimo: "0", maximo: "445"} :
-                    op == "p13_207" ? dados_legenda = {titulo: "Faixa etárias - 65 a 79 anos", minimo: "0", maximo: "190"} :
-                    op == "p13_208" ? dados_legenda = {titulo: "Faixa etárias - acima 80 anos", minimo: "0", maximo: "167"} :
-                    op == "t_env"   ? dados_legenda = {titulo: "Taxa de envelhecimento", minimo: "0", maximo: "96.97"} :
-                                      null;
-
-                    // constroi os elementos que compoe a legenda e seus valores
-                    // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
-                    //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
-                    // Clóvis (20170623): legend str composition in separated function. Units included.
-                    var bolEnableDataMethod = true;
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-                    // adiciona a legenda no mapa
-                    $('body').append(legenda);
-
-                    // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
-                    $("input[type=radio][name=radioDataMethod]").change (function () {
-                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
-                    });
-                }
-
-            });
+              // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
+              $("input[type=radio][name=radioDataMethod]").change (function () {
+                var strDatabase = tablesNamesArray[theme];
+                  changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
+              });
+            }
         });
     });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/* 
+ * Function to create a infobox tooltip
+ * Show the polygon informations as Infobox or Tooltip (mouse hover)
+ */
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// RAÇA E IMIGRAÇÃO
-// gerencia os layers para o ddl-tema Demografia
-cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
-    .addTo(map)
-    .done(function(layer){
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
-        $("#opcao_variavel_raca_imigracao").change(function(){
-            // limpa os layer de transporte ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // verifica qual opção foi selecionada para criar o layer
-            $("#opcao_variavel_raca_imigracao").each(function(){
-                // obter o value do ddl selecionado
-                var op = $(this).attr("value");
-                op == "p3_002"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "p3_003"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "p3_004"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "p3_005"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "p3_006"  ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "de020"   ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "de023"   ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                op == "de024"   ? layer.createSubLayer(raca_imigracao[op]) : // ver dicionário
-                                  null;
-
-                // captura o texto do ddl-variaveis selecionado
-                var variavel = $( "#opcao_variavel_raca_imigracao option:selected" ).text();
-
-                // verifica se a legenda do layer existe. Se houver, remove-a
-                if ($("div.cartodb-legend.choropleth").length) {
-                    $('div.cartodb-legend.choropleth').remove();
-                }
-
-                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                if (op != 'selecione') {
-
-                    // obtem os dados do layer construído na tela
-                    var sublayer = layer.getSubLayer(0);
-                    // define as colunas que serão utilizadas para mostrar as informações abaixo
-
-                    sublayer.setInteractivity('nom_ba,' + op);
-
-                    // Clóvis/André 2017033...
-                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-
-                    var vector = raca_emigracao_valores_quantiles[op];
-                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
-                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-
-                    sublayer.on('featureOver', function(e,latlng,pos,data) {
-                        valor = data[op];
-                        for (i=1; i < 8; i++) {
-                            strElement = "celula"+i;
-                            document.getElementById(strElement).innerHTML = "";
-                        }
-                        document.getElementById("bairro").innerHTML = data["nom_ba"];
-                        if (valor >= 0 && valor <= vector[6]) {
-                            if (valor <= vector[0]) {
-                                document.getElementById("celula1").innerHTML = valor;
-                            } else if (valor <= vector[1]) {
-                                document.getElementById("celula2").innerHTML = valor;
-                            } else if (valor <= vector[2]) {
-                                document.getElementById("celula3").innerHTML = valor;
-                            } else if (valor <= vector[3]) {
-                                document.getElementById("celula4").innerHTML = valor;
-                            } else if (valor <= vector[4]) {
-                                document.getElementById("celula5").innerHTML = valor;
-                            } else if (valor <= vector[5]) {
-                                document.getElementById("celula6").innerHTML = valor;
-                            } else if (valor <= vector[6]) {
-                                document.getElementById("celula7").innerHTML = valor;
-                            }
-                        }
-                      }
-                    ) // sublayer.on
-                    // ... Clóvis/André 20170331
-
-                    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-                    var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'infobox',
-                        layer: sublayer,
-                        //template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
-                        template: "<div style='Visibility:hidden'></div>",
-                        width: 200,
-                        position: 'bottom|right',
-                        fields: [{ nom_ba: 'nom_ba' }]
-                    });
-                    $('body').append(toolTip.render().el);
-
-                    // variável para eleborar os dados da legenda
-                    var dados_legenda;
-
-                    // verifica o layer ativo para definir os valores da legenda
-                    op == "p3_002"  ? dados_legenda = {titulo: "Cor/Raça - Branca", minimo: "0", maximo: "1834"} :
-                    op == "p3_003"  ? dados_legenda = {titulo: "Cor/Raça - Preta", minimo: "0", maximo: "465"} :
-                    op == "p3_004"  ? dados_legenda = {titulo: "Cor/Raça - Amarela", minimo: "0", maximo: "480"} :
-                    op == "p3_005"  ? dados_legenda = {titulo: "Cor/Raça - Parda", minimo: "0", maximo: "2131"} :
-                    op == "p3_006"  ? dados_legenda = {titulo: "Cor/Raça - Indígena", minimo: "0", maximo: "599"} :
-                    op == "de020"   ? dados_legenda = {titulo: "Residentes a menos de 3 anos (%)", minimo: "3.39%", maximo: "21.93%"} :
-                    op == "de023"   ? dados_legenda = {titulo: "Nascidas em outro Estado (%)", minimo: "5.65%", maximo: "51.05%"} :
-                    op == "de024"   ? dados_legenda = {titulo: "Nascidas no Nordeste e residentes < 10 anos (%)", minimo: "0%", maximo: "18.85%"} :
-                                      null;
-
-                    // constroi os elementos que compoe a legenda e seus valores
-                    var bolEnableDataMethod = true;
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-                    // adiciona a legenda no mapa
-                    $('body').append(legenda);
-
-                    // Clóvis - 20170626: change event in selection among quantile and natural break (jenks)
-                    $("input[type=radio][name=radioDataMethod]").change (function () {
-                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
-                    });
-
-                } // ... if (op != 'selecione')
-
-            }); // ...$("#opcao_variavel_raca_imigracao").each(function()
-        }); // ...$("#opcao_variavel_raca_imigracao").change(function()
-    }); // ... createLayer .done(function(layer)
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// EDUCAÇÃO (NESTE CASO UTILIZA-SE ÁREAS DE PONDERAÇÃO AO INVÉS DOS SETORES CENSITÁRIOS)
-// gerencia os layers para o ddl-tema Educação
-cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
-    .addTo(map)
-    .done(function(layer){
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
-        $("#opcao_variavel_educacao").change(function(){
-            // limpa os layer de transporte ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // verifica qual opção foi selecionada para criar o layer
-            $("#opcao_variavel_educacao").each(function(){
-                // obter o value do ddl selecionado
-                var op = $(this).attr("value");
-                op == "p1_001" ? layer.createSubLayer(educacao[op]) : // ver dicionário
-                op == "ins001" ? layer.createSubLayer(educacao[op]) : // ver dicionário
-                op == "ins002" ? layer.createSubLayer(educacao[op]) : // ver dicionário
-                op == "ins032" ? layer.createSubLayer(educacao[op]) : // ver dicionário
-                op == "ins037" ? layer.createSubLayer(educacao[op]) : // ver dicionário
-                                  null;
-
-                // captura o texto do ddl-variaveis selecionado
-                var variavel = $( "#opcao_variavel_educacao option:selected" ).text();
-
-                // verifica se a legenda do layer existe. Se houver, remove-a
-                if ($("div.cartodb-legend.choropleth").length) {
-                    $('div.cartodb-legend.choropleth').remove();
-                }
-
-                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                if (op != 'selecione') {
-
-                    // obtem os dados do layer construído na tela
-                    var sublayer = layer.getSubLayer(0);
-
-                    // define as colunas que serão utilizadas para mostrar as informações abaixo
-                    sublayer.setInteractivity('nom_mu,' + op);
-
-                   // Clóvis/André 2017033...
-                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-
-                    var vector = educacao_valores_quantiles[op];
-                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
-                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-                    sublayer.on('featureOver', function(e,latlng,pos,data) {
-                        valor = data[op];
-                        for (i=1; i < 8; i++) {
-                            strElement = "celula"+i;
-                            document.getElementById(strElement).innerHTML = "";
-                        }
-                        document.getElementById("bairro").innerHTML = data["nom_mu"];
-                        if (valor >= 0 && valor <= vector[6]) {
-                            if (valor <= vector[0]) {
-                                document.getElementById("celula1").innerHTML = valor;
-                            } else if (valor <= vector[1]) {
-                                document.getElementById("celula2").innerHTML = valor;
-                            } else if (valor <= vector[2]) {
-                                document.getElementById("celula3").innerHTML = valor;
-                            } else if (valor <= vector[3]) {
-                                document.getElementById("celula4").innerHTML = valor;
-                            } else if (valor <= vector[4]) {
-                                document.getElementById("celula5").innerHTML = valor;
-                            } else if (valor <= vector[5]) {
-                                document.getElementById("celula6").innerHTML = valor;
-                            } else if (valor <= vector[6]) {
-                                document.getElementById("celula7").innerHTML = valor;
-                            }
-                        }
-                      }
-                    ) // sublayer.on
-                    // ... Clóvis/André 20170331
-
-                    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-                    var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'infobox',
-                        layer: sublayer,
-                        //template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_mu}}</h4><p>{{"+op+"}}</p></div>",
-                        template: "<div style='Visibility:hidden'></div>",
-                        width: 200,
-                        position: 'bottom|right',
-                        fields: [{ nom_mu: 'nom_mu' }]
-                    });
-                    $('body').append(toolTip.render().el);
-
-                    // variável para eleborar os dados da legenda
-                    var dados_legenda;
-
-                    // verifica o layer ativo para definir os valores da legenda
-                    op == "p1_001" ? dados_legenda = {titulo: "Alfabetizadas com 5 ou mais anos de idade", minimo: "6794", maximo: "137423"} :
-                    op == "ins001" ? dados_legenda = {titulo: "Anos médios de estudo do chefe de domicílio", minimo: "4.7", maximo: "14.5"} :
-                    op == "ins002" ? dados_legenda = {titulo: "Anos médios de estudo de mulheres chefes", minimo: "4.6", maximo: "14.1"} :
-                    op == "ins032" ? dados_legenda = {titulo: "Pessoas de 7 a 14 anos de idade fora da escola (%)", minimo: "0%", maximo: "18.6%"} :
-                    op == "ins037" ? dados_legenda = {titulo: "Pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche (%)", minimo: "0%", maximo: "38.7%"} :
-                                      null;
-
-                    // constroi os elementos que compoe a legenda e seus valores
-                    var bolEnableDataMethod = true;
-                    var legenda = newStrLegend (dados_legenda.titulo, "Áreas de Ponderação", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-                    // adiciona a legenda no mapa
-                    $('body').append(legenda);
-
-                    // Clóvis - 20170626: change event in selection among quantile and natural break (jenks)
-                    // TODO: Área de ponderação - verificar criação de CSS, com borda sempre visível
-                    $("input[type=radio][name=radioDataMethod]").change (function () {
-                        var strDatabase = "ap2010_rmsp_cem_r";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
-                    });
-                }
-
-            });
-        });
+function createInfoboxTooltip(layer, sublayer, colName){    
+    return layer.leafletMap.viz.addOverlay({
+        // Clóvis/André 20170331: type alterado de tooltip para infobox
+        type: 'infobox',
+        layer: sublayer,
+        // Clovis/Andre 20170331: template alterado para hidden - contorno
+        //template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
+        template: "<div style='Visibility:hidden'></div>",
+        width: 200,
+        position: 'bottom|right',
+        fields: [{ colName: colName}]
     });
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// RENDA E TRABALHO
-// gerencia os layers para o ddl-tema Renda e Trabalho
-cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
-    .addTo(map)
-    .done(function(layer){
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
-        $("#opcao_variavel_renda_trabalho").change(function(){
-            // limpa os layer de transporte ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // verifica qual opção foi selecionada para criar o layer
-            $("#opcao_variavel_renda_trabalho").each(function(){
+/* 
+ * Function to create a sublayer according the theme and variable chosen 
+ */
+function createSubLayer(layer, theme, op){
+    theme == 1 ? layer.createSubLayer(demografia[op]):
+    theme == 2 ? layer.createSubLayer(raca_imigracao[op]):
+    theme == 3 ? layer.createSubLayer(religiao[op]):
+    theme == 4 ? layer.createSubLayer(educacao[op]):
+    theme == 5 ? layer.createSubLayer(renda_trabalho[op]):
+                 null;
+}
 
-                // verifica se a legenda do layer existe. Se houver, remove-a
-                if ($("div.cartodb-legend.choropleth").length) {
-                    $('div.cartodb-legend.choropleth').remove();
-                }
+/* 
+ * Function to get quantiles values according the theme and variabe chosen 
+ */
+function getQuantilesValues(theme, op){
+    theme == 1 ? vetor = demografia_valores_quantiles[op]:
+    theme == 2 ? vetor = raca_emigracao_valores_quantiles[op]:
+    theme == 3 ? vetor = religiao_valores_quantiles[op]:
+    theme == 4 ? vetor = educacao_valores_quantiles[op]:
+    theme == 5 ? vetor = renda_trabalho_valores_quantiles[op]:
+                vetor = null;
 
-                // obter o value do ddl selecionado
-                var op = $(this).attr("value");
+    return vetor;
+}
 
-                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                if (op != 'selecione') {
+/*
+ * Function to get Legenda data
+ */
+function getLegendData(theme, op){
+    var dados_legenda;
+    // DEMOGRAFIA
+    op == "p3_001"  ? dados_legenda = {titulo: "População", minimo: "0", maximo: "3489"} :
+    op == "p11_001" ? dados_legenda = {titulo: "Homens residentes", minimo: "0", maximo: "3320"} :
+    op == "p12_001" ? dados_legenda = {titulo: "Mulheres residentes", minimo: "0", maximo: "1946"} :
+    op == "p13_022" ? dados_legenda = {titulo: "Faixa etárias - menor que 1 ano", minimo: "0", maximo: "115"} :
+    op == "p13_036" ? dados_legenda = {titulo: "Faixa etárias - 2 anos", minimo: "0", maximo: "89"} :
+    op == "p13_037" ? dados_legenda = {titulo: "Faixa etárias - 3 anos", minimo: "0", maximo: "135"} :
+    op == "p13_038" ? dados_legenda = {titulo: "Faixa etárias - 4 anos", minimo: "0", maximo: "114"} :
+    op == "p13_039" ? dados_legenda = {titulo: "Faixa etárias - 5 anos", minimo: "0", maximo: "96"} :
+    op == "p13_201" ? dados_legenda = {titulo: "Faixa etárias - 6 a 10 anos", minimo: "0", maximo: "475"} :
+    op == "p13_202" ? dados_legenda = {titulo: "Faixa etárias - 11 a 14 anos", minimo: "0", maximo: "442"} :
+    op == "p13_203" ? dados_legenda = {titulo: "Faixa etárias - 15 a 17 anos", minimo: "0", maximo: "228"} :
+    op == "p13_204" ? dados_legenda = {titulo: "Faixa etárias - 18 a 29 anos", minimo: "0", maximo: "2068"} :
+    op == "p13_205" ? dados_legenda = {titulo: "Faixa etárias - 30 a 49 anos", minimo: "0", maximo: "1239"} :
+    op == "p13_206" ? dados_legenda = {titulo: "Faixa etárias - 50 a 64 anos", minimo: "0", maximo: "445"} :
+    op == "p13_207" ? dados_legenda = {titulo: "Faixa etárias - 65 a 79 anos", minimo: "0", maximo: "190"} :
+    op == "p13_208" ? dados_legenda = {titulo: "Faixa etárias - acima 80 anos", minimo: "0", maximo: "167"} :
+    op == "t_env"   ? dados_legenda = {titulo: "Taxa de envelhecimento", minimo: "0", maximo: "96.97"} :
+                                      
+    // RAÇA E IMIGRAÇÃO
+    // verifica o layer ativo para definir os valores da legenda
+    op == "p3_002"  ? dados_legenda = {titulo: "Cor/Raça - Branca", minimo: "0", maximo: "1834"} :
+    op == "p3_003"  ? dados_legenda = {titulo: "Cor/Raça - Preta", minimo: "0", maximo: "465"} :
+    op == "p3_004"  ? dados_legenda = {titulo: "Cor/Raça - Amarela", minimo: "0", maximo: "480"} :
+    op == "p3_005"  ? dados_legenda = {titulo: "Cor/Raça - Parda", minimo: "0", maximo: "2131"} :
+    op == "p3_006"  ? dados_legenda = {titulo: "Cor/Raça - Indígena", minimo: "0", maximo: "599"} :
+    op == "de020"   ? dados_legenda = {titulo: "Residentes a menos de 3 anos (%)", minimo: "3.39%", maximo: "21.93%"} :
+    op == "de023"   ? dados_legenda = {titulo: "Nascidas em outro Estado (%)", minimo: "5.65%", maximo: "51.05%"} :
+    op == "de024"   ? dados_legenda = {titulo: "Nascidas no Nordeste e residentes < 10 anos (%)", minimo: "0%", maximo: "18.85%"} :
+                                     
+    // EDUCAÇÃO (NESTE CASO UTILIZA-SE ÁREAS DE PONDERAÇÃO AO INVÉS DOS SETORES CENSITÁRIOS)
+    // verifica o layer ativo para definir os valores da legenda
+    op == "p1_001" ? dados_legenda = {titulo: "Alfabetizadas com 5 ou mais anos de idade", minimo: "6794", maximo: "137423"} :
+    op == "ins001" ? dados_legenda = {titulo: "Anos médios de estudo do chefe de domicílio", minimo: "4.7", maximo: "14.5"} :
+    op == "ins002" ? dados_legenda = {titulo: "Anos médios de estudo de mulheres chefes", minimo: "4.6", maximo: "14.1"} :
+    op == "ins032" ? dados_legenda = {titulo: "Pessoas de 7 a 14 anos de idade fora da escola (%)", minimo: "0%", maximo: "18.6%"} :
+    op == "ins037" ? dados_legenda = {titulo: "Pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche (%)", minimo: "0%", maximo: "38.7%"} :
 
-                    layer.createSubLayer(renda_trabalho[op]); // ver dicionário
+    // RELIGIÃO
+    // verifica o layer ativo para definir os valores da legenda
+    op == "re027" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam (apenas) sem religião", minimo: "0%", maximo: "19.1%"} :
+    op == "re028" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam agnósticos", minimo: "0%", maximo: "3.16%"} :
+    op == "re029" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam ateus", minimo: "0%", maximo: "4.3%"} :
+    op == "re030" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam católicos", minimo: "38.34%", maximo: "82.7%"} :
+    op == "re031" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos", minimo: "3.99%", maximo: "44.26%"} :
+    op == "re038" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos pentecostais", minimo: "2.22%", maximo: "41.79%"} :
+    op == "re047" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam com religião afro-brasileira", minimo: "0%", maximo: "2.33%"} :
+    op == "re050" ? dados_legenda = {titulo: "Percentual de pessoas pertencentes a outros segmentos religiosos", minimo: "0%", maximo: "31.05%"} :
 
-                    // obtem os dados do layer construído na tela
-                    var sublayer = layer.getSubLayer(0);
+     // RENDA E TRABALHO
+    // verifica o layer ativo para definir os valores da legenda
+    op == "ren002" ? dados_legenda = {titulo: "Renda domiciliar total média", minimo: "1072", maximo: "19293"} :
+    op == "ren003" ? dados_legenda = {titulo: "Renda domiciliar per capita em salários mínimos", minimo: "0.65", maximo: "15.86"} :
+    op == "ren004" ? dados_legenda = {titulo: "Renda domiciliar total média em salários mínimos", minimo: "2.1", maximo: "37.83"} :
+    op == "ren016" ? dados_legenda = {titulo: "Pessoas com renda per capita até meio salário mínimo (%)", minimo: "0%", maximo: "49.63%"} :
+    op == "ren101" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)", minimo: "0%", maximo: "42.57%"} :
+    op == "ren102" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)", minimo: "8.78%", maximo: "57.29%"} :
+    op == "ren103" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)", minimo: "0%", maximo: "23.88%"} :
+    op == "ren104" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)", minimo: "0%", maximo: "32.64%"} :
+    op == "ren105" ? dados_legenda = {titulo: "Pessoas com renda per capita acima de 10 salários mínimos (%)", minimo: "0%", maximo: "42.66%"} :
+    op == "mt006"  ? dados_legenda = {titulo: "Taxa de desocupação", minimo: "0%", maximo: "19.99%"} :
+    op == "mt008"  ? dados_legenda = {titulo: "Taxa de ocupação", minimo: "80.01%", maximo: "98.21%"} :
+    op == "mt007"  ? dados_legenda = {titulo: "Taxa de participação", minimo: "49.51%", maximo: "74.47%"} :
+                     dados_legenda = null;
 
-                    // define as colunas que serão utilizadas para mostrar as informações abaixo
-                    sublayer.setInteractivity('nom_ba,' + op);
-
-                    // Clóvis/André 2017033...
-                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-
-                    var vector = renda_trabalho_valores_quantiles[op];
-                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
-                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-
-                    sublayer.on('featureOver', function(e,latlng,pos,data) {
-                        valor = data[op];
-                        for (i=1; i < 8; i++) {
-                            strElement = "celula"+i;
-                            document.getElementById(strElement).innerHTML = "";
-                        }
-                        document.getElementById("bairro").innerHTML = data["nom_ba"];
-                        if (valor >= 0 && valor <= vector[6]) {
-                            if (valor <= vector[0]) {
-                                document.getElementById("celula1").innerHTML = valor;
-                            } else if (valor <= vector[1]) {
-                                document.getElementById("celula2").innerHTML = valor;
-                            } else if (valor <= vector[2]) {
-                                document.getElementById("celula3").innerHTML = valor;
-                            } else if (valor <= vector[3]) {
-                                document.getElementById("celula4").innerHTML = valor;
-                            } else if (valor <= vector[4]) {
-                                document.getElementById("celula5").innerHTML = valor;
-                            } else if (valor <= vector[5]) {
-                                document.getElementById("celula6").innerHTML = valor;
-                            } else if (valor <= vector[6]) {
-                                document.getElementById("celula7").innerHTML = valor;
-                            }
-                        }
-                      }
-                    ) // sublayer.on
-                    // ... Clóvis/André 20170331
-
-                    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-                    var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'infobox',
-                        layer: sublayer,
-                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
-                        template: "<div style='Visibility:hidden'></div>",
-                        width: 200,
-                        position: 'bottom|right',
-                        fields: [{ nom_ba: 'nom_ba' }]
-                    });
-                    $('body').append(toolTip.render().el);
-
-                    // variável para eleborar os dados da legenda
-                    var dados_legenda;
-
-                    // verifica o layer ativo para definir os valores da legenda
-                    op == "ren002" ? dados_legenda = {titulo: "Renda domiciliar total média", minimo: "1072", maximo: "19293"} :
-                    op == "ren003" ? dados_legenda = {titulo: "Renda domiciliar per capita em salários mínimos", minimo: "0.65", maximo: "15.86"} :
-                    op == "ren004" ? dados_legenda = {titulo: "Renda domiciliar total média em salários mínimos", minimo: "2.1", maximo: "37.83"} :
-                    op == "ren016" ? dados_legenda = {titulo: "Pessoas com renda per capita até meio salário mínimo (%)", minimo: "0%", maximo: "49.63%"} :
-                    op == "ren101" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)", minimo: "0%", maximo: "42.57%"} :
-                    op == "ren102" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)", minimo: "8.78%", maximo: "57.29%"} :
-                    op == "ren103" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)", minimo: "0%", maximo: "23.88%"} :
-                    op == "ren104" ? dados_legenda = {titulo: "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)", minimo: "0%", maximo: "32.64%"} :
-                    op == "ren105" ? dados_legenda = {titulo: "Pessoas com renda per capita acima de 10 salários mínimos (%)", minimo: "0%", maximo: "42.66%"} :
-                    op == "mt006"  ? dados_legenda = {titulo: "Taxa de desocupação", minimo: "0%", maximo: "19.99%"} :
-                    op == "mt008"  ? dados_legenda = {titulo: "Taxa de ocupação", minimo: "80.01%", maximo: "98.21%"} :
-                    op == "mt007"  ? dados_legenda = {titulo: "Taxa de participação", minimo: "49.51%", maximo: "74.47%"} :
-                                      null;
-
-                    // constroi os elementos que compoe a legenda e seus valores
-                    var bolEnableDataMethod = true;
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-                    // adiciona a legenda no mapa
-                    $('body').append(legenda);
-
-                    $("input[type=radio][name=radioDataMethod]").change (function () {
-                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
-                    });
-                }
-
-            });
-        });
-    });
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// RELIGIÃO
-// gerencia os layers para o ddl-tema Religião
-cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
-    .addTo(map)
-    .done(function(layer){
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
-        $("#opcao_variavel_religiao").change(function(){
-            // limpa os layer de transporte ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // verifica qual opção foi selecionada para criar o layer
-            $("#opcao_variavel_religiao").each(function(){
-
-                // verifica se a legenda do layer existe. Se houver, remove-a
-                if ($("div.cartodb-legend.choropleth").length) {
-                    $('div.cartodb-legend.choropleth').remove();
-                }
-
-                // obter o value do ddl selecionado
-                var op = $(this).attr("value");
-
-                // se a opçao for diferente, então será construído a caixa de informação (tooltip)
-                
-                if(op != 'selecione') {
-
-                    layer.createSubLayer(religiao[op]); // ver dicionário
-
-                    // obtem os dados do layer construído na tela
-                    var sublayer = layer.getSubLayer(0);
-
-                    // define as colunas que serão utilizadas para mostrar as informações abaixo
-                    sublayer.setInteractivity('nom_ba,' + op);
-
-                    // Clóvis/André 2017033...
-                    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-                    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-
-                    var vector = religiao_valores_quantiles[op];
-                    // itens abaixo a sere, usados para obtenção dinâmica de valores de quantiles.
-                    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-                    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-
-                    sublayer.on('featureOver', function(e,latlng,pos,data) {
-                        valor = data[op];
-                        for (i=1; i < 8; i++) {
-                            strElement = "celula"+i;
-                            document.getElementById(strElement).innerHTML = "";
-                        }
-                        document.getElementById("bairro").innerHTML = data["nom_ba"];
-                        if (valor >= 0 && valor <= vector[6]) {
-                            if (valor <= vector[0]) {
-                                document.getElementById("celula1").innerHTML = valor;
-                            } else if (valor <= vector[1]) {
-                                document.getElementById("celula2").innerHTML = valor;
-                            } else if (valor <= vector[2]) {
-                                document.getElementById("celula3").innerHTML = valor;
-                            } else if (valor <= vector[3]) {
-                                document.getElementById("celula4").innerHTML = valor;
-                            } else if (valor <= vector[4]) {
-                                document.getElementById("celula5").innerHTML = valor;
-                            } else if (valor <= vector[5]) {
-                                document.getElementById("celula6").innerHTML = valor;
-                            } else if (valor <= vector[6]) {
-                                document.getElementById("celula7").innerHTML = valor;
-                            }
-                        }
-                      }
-                    ) // sublayer.on
-                    // ... Clóvis/André 20170331
-
-                    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-                    var toolTip = layer.leafletMap.viz.addOverlay({
-                        type: 'infobox',
-                        layer: sublayer,
-                        // template: "<div class='cartodb-tooltip-content-wrapper'><h4>{{nom_ba}}</h4><p>{{"+op+"}}</p></div>",
-                        template: "<div style='Visibility:hidden'></div>",
-                        width: 200,
-                        position: 'bottom|right',
-                        fields: [{ nom_ba: 'nom_ba' }]
-                    });
-                    $('body').append(toolTip.render().el);
-
-                    // variável para eleborar os dados da legenda
-                    var dados_legenda;
-
-                    // verifica o layer ativo para definir os valores da legenda
-                    op == "re027" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam (apenas) sem religião", minimo: "0%", maximo: "19.1%"} :
-                    op == "re028" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam agnósticos", minimo: "0%", maximo: "3.16%"} :
-                    op == "re029" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam ateus", minimo: "0%", maximo: "4.3%"} :
-                    op == "re030" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam católicos", minimo: "38.34%", maximo: "82.7%"} :
-                    op == "re031" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos", minimo: "3.99%", maximo: "44.26%"} :
-                    op == "re038" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam evangélicos pentecostais", minimo: "2.22%", maximo: "41.79%"} :
-                    op == "re047" ? dados_legenda = {titulo: "Percentual de pessoas que se declararam com religião afro-brasileira", minimo: "0%", maximo: "2.33%"} :
-                    op == "re050" ? dados_legenda = {titulo: "Percentual de pessoas pertencentes a outros segmentos religiosos", minimo: "0%", maximo: "31.05%"} :
-                                      null;
-
-                    // constroi os elementos que compoe a legenda e seus valores
-                    var bolEnableDataMethod = true;
-                    var legenda = newStrLegend (dados_legenda.titulo, "Setores Censitários", dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-                    // adiciona a legenda no mapa
-                    $('body').append(legenda);
-
-                    $("input[type=radio][name=radioDataMethod]").change (function () {
-                        var strDatabase = "resolution_sc2010_cem_rmsp_erase";
-                        changeDataMethod (this.value, op, strDatabase, sublayer, vector, layer);
-                    });
-                }
-
-            });
-        });
-    });
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    return dados_legenda;
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // CONTROLE DOS LAYERS DE TRANSPORTES (METRO E TREM)
@@ -1031,7 +577,6 @@ cartodb.createLayer(map,{
             });
         });
     });
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // PLACES
@@ -1077,23 +622,20 @@ cartodb.createLayer(map,{
         }
     });
     // colocando ordem de sobreposição dos layers (sobrepor a todos os layers)
-    layer.setZIndex(1);
-    for (var i = 0; i < nome_ddl_variavel.length; i++) { // inicia a partir do 2º ddls-variaveis
-        $(nome_ddl_variavel[i]).change(function(){
-            // limpa os layers de places ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // verifica qual opção foi selecionada para criar o layer            
-            // obter o value do ddl selecionado
-            var op = $(this).attr("value");
-            if (op != 'selecione'){                
-                // create and add a new sublayer to map
-                layer.createSubLayer(places["rmsp"]);
-                // utilizado para controlar visualização (ou não) dos labels segundo o zoom
-                sublayer = layer.getSubLayer(0);
-            }
-            
-        });
-    }
+    layer.setZIndex(1);    
+    $("#option-variables").change(function(){
+        // limpa os layers de places ativo
+        layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+        // verifica qual opção foi selecionada para criar o layer            
+        // obter o value do ddl selecionado
+        var op = $(this).attr("value");
+        if (op != 'selecione'){                
+            // create and add a new sublayer to map
+            layer.createSubLayer(places["rmsp"]);
+            // utilizado para controlar visualização (ou não) dos labels segundo o zoom
+            sublayer = layer.getSubLayer(0);
+        }          
+    });
 });
 
 
