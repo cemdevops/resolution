@@ -593,10 +593,9 @@ var places = {
     }
 };
 
-
-// Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
-
-
+/*
+ * Function to add the places layer
+ */
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -623,63 +622,35 @@ cartodb.createLayer(map,{
         }
     });
 
-    // colocando ordem de sobreposição dos layers (sobrepor a todos os layers)
+    // Put the places layer on anothers layers
     layer.setZIndex(1);    
 
     $("#opcao_mapa_base").click(function () {
       showPlacesLayer(layer,sublayer);
-        /*// get button value
-        var e = document.getElementById("opcao_mapa_base");
-        var buttonVal = e.value;
-
-        // limpa os layers de places ativo
-        layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-        // verifica qual opção foi selecionada para criar o layer            
-        // obter o value do ddl selecionado
-        var op = $(this).attr("value");
-        if (op != 'selecione' && buttonVal == 'Mapa base'){                
-            // create and add a new sublayer to map
-            layer.createSubLayer(places["rmsp"]);
-            // utilizado para controlar visualização (ou não) dos labels segundo o zoom
-            sublayer = layer.getSubLayer(0);
-        }  */
     });
 
     $("#option-variables").change(function(){
       showPlacesLayer(layer,sublayer);
-        // get button value
-        /*var e = document.getElementById("opcao_mapa_base");
-        var buttonVal = e.value;
-
-        // limpa os layers de places ativo
-        layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-        // verifica qual opção foi selecionada para criar o layer            
-        // obter o value do ddl selecionado
-        var op = $(this).attr("value");
-        if (op != 'selecione' && buttonVal == 'Mapa base'){                
-            // create and add a new sublayer to map
-            layer.createSubLayer(places["rmsp"]);
-            // utilizado para controlar visualização (ou não) dos labels segundo o zoom
-            sublayer = layer.getSubLayer(0);
-        }  */        
     });
 });
 
+/*
+ * Function to show the places layer
+ */
 function showPlacesLayer(layer,sublayer){
   // get button value
   var buttonVal = document.getElementById("opcao_mapa_base").value;
-  var op = document.getElementById("option-variables").value;
-  console.log(buttonVal +'-'+ op);
+  // get variable value chosen
+  var variableSel = document.getElementById("option-variables").value;
+  console.log(buttonVal +'-'+ variableSel);
 
-  // limpa os layers de places ativo
-  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-  // verifica qual opção foi selecionada para criar o layer            
-  // obter o value do ddl selecionado
-  //var op = $(this).attr("value");
-  if (op != 'selecione' && buttonVal == 'Mapa base'){                
+  // Clena the places layer
+  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});            
+  
+  if (variableSel != 'selecione' && buttonVal == 'Mapa base'){                
     // create and add a new sublayer to map
     layer.createSubLayer(places["rmsp"]);
-    // utilizado para controlar visualização (ou não) dos labels segundo o zoom
+    // this line is used to show places layer while the zoom is working
     sublayer = layer.getSubLayer(0);
   } 
 }
