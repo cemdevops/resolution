@@ -10,7 +10,9 @@ var tablesNamesArray = ['resolution_sc2010_cem_rmsp_erase','resolution_sc2010_ce
 // types of polygons
 var typesOfPolygons = ['Áreas de Ponderação','Setores Censitários'];
 // Opacity of polygons: value range from 0 to 1
-var opacityDefault = 1; 
+var polygonOpacityWithoutBaseMap = 1;
+var polygonOpacityWithBaseMap = 0.4;
+//var mapTypes = ["Mapa temático","Mapa base"];
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
@@ -93,7 +95,7 @@ map.on ('zoomend', function (e) {
 // ... Clóvis - 20170413: tratamento de bordas de acordo com Zoom.
 
 // Clóvis - 20170623: function to create legend string...
-function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod) {
+function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity) {
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
@@ -102,14 +104,14 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "      <li class='min'>" + strMinValue + "</li>" +
           "      <li class='max'>" + strMaxValue + "</li>" +
           "      <li class='graph count_441'>" +
-          "        <div class='colors'>" +
-          "          <div class='quartile-cem' id='celula1' style='background-color:#FFFFB2;color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula2' style='background-color:#FED976;color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula3' style='background-color:#FEB24C;color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula4' style='background-color:#FD8D3C;color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula5' style='background-color:#FC4E2A;color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula6' style='background-color:#E31A1C;color:white;'></div>" +
-          "          <div class='quartile-cem' id='celula7' style='background-color:#B10026;color:white;'></div>" +
+          "        <div class='colors' style='opacity:" + opacity + ";'>" +
+          "          <div class='quartile-cem' id='celula1' style='background-color:" + quantiles_colors[0] +";color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula2' style='background-color:" + quantiles_colors[1] +";color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula3' style='background-color:" + quantiles_colors[2] +";color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula4' style='background-color:" + quantiles_colors[3] +";color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula5' style='background-color:" + quantiles_colors[4] +";color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula6' style='background-color:" + quantiles_colors[5] +";color:white;'></div>" +
+          "          <div class='quartile-cem' id='celula7' style='background-color:" + quantiles_colors[6] +";color:white;'></div>" +
           "        </div>" +
           "      </li>" +
           "  </ul>";
@@ -290,112 +292,131 @@ cartodb.createLayer(map,{
         // colocando ordem de sobreposição dos layers
         layer.setZIndex(1);
 
+        $("#opcao_mapa_base").click(function () {
+          showThematicLayer(layer);
+        });
+
         $("#option-variables").change(function(){
-            // limpa os layer de transporte ativo
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS
-            //varSubLayer = null;
+          showThematicLayer(layer);
 
-            // get Variable code. For example, p3_001, p11_001 . codVariable == op
-            opacity = "0.5";
-            var op = $(this).val(); //$(this).attr("value");
-            // get theme selected
-            var e = document.getElementById("option-theme");
-            var theme = e.options[e.selectedIndex].value;
-            console.log(theme +'-'+ op);            
-         
-            // verifica se a legenda do layer existe. Se houver, remove-a
-            if ($("div.cartodb-legend.choropleth").length) {
-                $('div.cartodb-legend.choropleth').remove();
-            }
-
-            // se a opçao for diferente, então será construído a caixa de informação (tooltip)                
-            if(op != 'selecione') {
-              createSubLayer(layer, theme, op);
-              // obtem os dados do layer construído na tela
-              var sublayer = layer.getSubLayer(0);
-
-              // Clóvis 20170413 - armazena sublayer atual
-              /* Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS ...
-              varSubLayer = layer.getSubLayer (0);
-              if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
-                // Apresenta mapas com bordas
-                varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
-              }
-              ... Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS */
-              // ... Clóvis
-
-              // define as colunas que serão utilizadas para mostrar as informações abaixo
-              var colName = colsNameArray[theme-1];
-              sublayer.setInteractivity(colName + ',' + op);
-
-              // Clóvis/André 2017033...
-              // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
-              // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
-
-              var vector =  getQuantilesValues(theme, op);//demografia_valores_quantiles[op];
-
-              // itens abaixo a serem usados para obtenção dinâmica de valores de quantiles.
-              // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
-              // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
-
-              sublayer.on('featureOver', function(e,latlng,pos,data) {
-                valor = data[op];
-                for (i=1; i < 8; i++) {
-                  strElement = "celula"+i;
-                  document.getElementById(strElement).innerHTML = "";
-                }
-   
-                document.getElementById("bairro").innerHTML = data[colName];
-                if (valor >= 0 && valor <= vector[6]) {
-                  if (valor <= vector[0]) {
-                    document.getElementById("celula1").innerHTML = valor;
-                  } else if (valor <= vector[1]) {
-                    document.getElementById("celula2").innerHTML = valor;
-                  } else if (valor <= vector[2]) {
-                    document.getElementById("celula3").innerHTML = valor;
-                  } else if (valor <= vector[3]) {
-                    document.getElementById("celula4").innerHTML = valor;
-                  } else if (valor <= vector[4]) {
-                    document.getElementById("celula5").innerHTML = valor;
-                  } else if (valor <= vector[5]) {
-                    document.getElementById("celula6").innerHTML = valor;
-                  } else if (valor <= vector[6]) {
-                    document.getElementById("celula7").innerHTML = valor;
-                  }
-                  }
-              }); // sublayer.on
-              // ... Clóvis/André 20170331
-
-              // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
-              var toolTip = createInfoboxTooltip(layer,sublayer,colName);
-              $('body').append(toolTip.render().el);
-
-              // variável para eleborar os dados da legenda
-              var dados_legenda;
-
-              // verifica o layer ativo para definir os valores da legenda
-              dados_legenda = getLegendData(theme,op);
-
-              // constroi os elementos que compoe a legenda e seus valores
-              // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
-              //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
-              // Clóvis (20170623): legend str composition in separated function. Units included.
-              var bolEnableDataMethod = true;
-              var legenda = newStrLegend (dados_legenda.titulo, theme == 4 ? typesOfPolygons[0]: typesOfPolygons[1], dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod);
-
-              // adiciona a legenda no mapa
-              $('body').append(legenda);
-
-              // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
-              $("input[type=radio][name=radioDataMethod]").change (function () {
-                var strDatabase = tablesNamesArray[theme];
-                  changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
-              });
-            }
+            
         });
     });
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Function to show thematic layer
+ */
+function showThematicLayer(layer,op){
+  // limpa os layer de transporte ativo
+  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+  // Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS
+  //varSubLayer = null;
+
+  // get Variable code. For example, p3_001, p11_001 . codVariable == op  
+  //var op = $(this).val(); //$(this).attr("value");
+  var el = document.getElementById("option-variables");
+  var op = el.options[el.selectedIndex].value;
+
+  // get theme selected
+  var e = document.getElementById("option-theme");
+  var theme = e.options[e.selectedIndex].value;
+  console.log(theme +'-'+ op);            
+         
+  // verifica se a legenda do layer existe. Se houver, remove-a
+  if ($("div.cartodb-legend.choropleth").length) {
+    $('div.cartodb-legend.choropleth').remove();
+  }
+
+  // se a opçao for diferente, então será construído a caixa de informação (tooltip)                
+  if(op != 'selecione') {
+    // get button value
+    var buttonVal = document.getElementById("opcao_mapa_base").value;
+    // If button value is 'Mapa base' is because the basemap isn't visible
+    var opacity = buttonVal == 'Mapa base' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+    createSubLayer(layer, theme, op, opacity);
+    // obtem os dados do layer construído na tela
+    var sublayer = layer.getSubLayer(0);
+
+    // Clóvis 20170413 - armazena sublayer atual
+    /* Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS ...
+    varSubLayer = layer.getSubLayer (0);
+    if (map.getZoom() >= ZOOM_APRESENTACAO_BORDAS) {
+      // Apresenta mapas com bordas
+      varSubLayer.setCartoCSS(varSubLayer.getCartoCSS().replace("line-width: 0", "line-width: 0.5"));
+    }
+    ... Clóvis - 20170627: sem necessidade. Utilizado zoom no cartoCSS */
+    // ... Clóvis
+
+    // define as colunas que serão utilizadas para mostrar as informações abaixo
+    var colName = colsNameArray[theme-1];
+    sublayer.setInteractivity(colName + ',' + op);
+
+    // Clóvis/André 2017033...
+    // Inclusão de função no evento 'featureOver', para preenchimento de valor na legenda.
+    // Futuramente poderá ser criado uma função, em caso de obtenção de quantiles automaticamente.
+
+    var vector =  getQuantilesValues(theme, op);//demografia_valores_quantiles[op];
+
+    // itens abaixo a serem usados para obtenção dinâmica de valores de quantiles.
+    // var sql = new cartodb.SQL({ user: 'ckhanashiro'});
+    // var strSQL = "SELECT unnest (CDB_QuantileBins (array_agg(" + op + "::numeric), 7)) FROM sc2010_rmsp_cem_r";
+
+    sublayer.on('featureOver', function(e,latlng,pos,data) {
+      valor = data[op];
+      for (i=1; i < 8; i++) {
+        strElement = "celula"+i;
+        document.getElementById(strElement).innerHTML = "";
+      }
+   
+      document.getElementById("bairro").innerHTML = data[colName];
+      if (valor >= 0 && valor <= vector[6]) {
+        if (valor <= vector[0]) {
+            document.getElementById("celula1").innerHTML = valor;
+        } else if (valor <= vector[1]) {
+          document.getElementById("celula2").innerHTML = valor;
+        } else if (valor <= vector[2]) {
+          document.getElementById("celula3").innerHTML = valor;
+        } else if (valor <= vector[3]) {
+          document.getElementById("celula4").innerHTML = valor;
+        } else if (valor <= vector[4]) {
+          document.getElementById("celula5").innerHTML = valor;
+        } else if (valor <= vector[5]) {
+          document.getElementById("celula6").innerHTML = valor;
+        } else if (valor <= vector[6]) {
+          document.getElementById("celula7").innerHTML = valor;
+        }
+      }
+    }); // sublayer.on
+    // ... Clóvis/André 20170331
+
+    // mostra as informaçõs do polígono no estilo Tooltip (mouse hover)
+    var toolTip = createInfoboxTooltip(layer,sublayer,colName);
+    $('body').append(toolTip.render().el);
+
+    // variável para eleborar os dados da legenda
+    var dados_legenda;
+    // verifica o layer ativo para definir os valores da legenda
+    dados_legenda = getLegendData(theme,op);
+
+    // constroi os elementos que compoe a legenda e seus valores
+    // Clóvis/André - Alteração de legenda (class = quartile-cem, inclusão de id - celula<seq>).
+    //                Inclusão de bairro. Inclusão de largura fixa para cartodb-legend
+    // Clóvis (20170623): legend str composition in separated function. Units included.
+    var bolEnableDataMethod = true;
+    var typeOfPolygon = theme == 4 ? typesOfPolygons[0]: typesOfPolygons[1];
+    var legenda = newStrLegend (dados_legenda.titulo, typeOfPolygon, dados_legenda.minimo, dados_legenda.maximo, bolEnableDataMethod, opacity);
+
+    // adiciona a legenda no mapa
+    $('body').append(legenda);
+
+    // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
+    $("input[type=radio][name=radioDataMethod]").change (function () {
+      var strDatabase = tablesNamesArray[theme];
+      changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
+    });
+  }
+}
+
 /* 
  * Function to create a infobox tooltip
  * Show the polygon informations as Infobox or Tooltip (mouse hover)
@@ -418,14 +439,14 @@ function createInfoboxTooltip(layer, sublayer, colName){
 /* 
  * Function to create a sublayer according the theme and variable chosen 
  */
-function createSubLayer(layer, theme, op){      
-    console.log(opacityDefault);
+function createSubLayer(layer, theme, op, opacity){      
+    console.log(opacity);
     //console.log(getQueryAndCSS(opacity)[op].cartocss);
-    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacityDefault)):
-    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacityDefault)):
-    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacityDefault)):
-    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacityDefault)):
-    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacityDefault)):
+    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacity)):
+    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacity)):
+    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacity)):
+    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacity)):
+    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacity)):
                  null;
 }
 
@@ -647,7 +668,7 @@ function showPlacesLayer(layer,sublayer){
   var variableSel = document.getElementById("option-variables").value;
   console.log(buttonVal +'-'+ variableSel);
 
-  // Clena the places layer
+  // Clean the places layer
   layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});            
   
   if (variableSel != 'selecione' && buttonVal == 'Mapa base'){                
