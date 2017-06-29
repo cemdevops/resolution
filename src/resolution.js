@@ -96,6 +96,7 @@ map.on ('zoomend', function (e) {
 
 // Clóvis - 20170623: function to create legend string...
 function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity) {
+    var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
@@ -104,14 +105,14 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "      <li class='min'>" + strMinValue + "</li>" +
           "      <li class='max'>" + strMaxValue + "</li>" +
           "      <li class='graph count_441'>" +
-          "        <div class='colors' style='opacity:" + opacity + ";'>" +
-          "          <div class='quartile-cem' id='celula1' style='background-color:" + quantiles_colors[0] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula2' style='background-color:" + quantiles_colors[1] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula3' style='background-color:" + quantiles_colors[2] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula4' style='background-color:" + quantiles_colors[3] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula5' style='background-color:" + quantiles_colors[4] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula6' style='background-color:" + quantiles_colors[5] +";color:white;'></div>" +
-          "          <div class='quartile-cem' id='celula7' style='background-color:" + quantiles_colors[6] +";color:white;'></div>" +
+          "        <div class='colors' >" +
+          "          <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula2' style='background:rgba(254, 217, 118," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula3' style='background:rgba(254, 178, 76," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula4' style='background:rgba(253, 141, 60," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula5' style='background:rgba(252, 78, 42," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula6' style='background:rgba(227, 26, 28," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
+          "          <div class='quartile-cem' id='celula7' style='background:rgba(177, 0, 38," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
           "        </div>" +
           "      </li>" +
           "  </ul>";
@@ -442,11 +443,11 @@ function createInfoboxTooltip(layer, sublayer, colName){
 function createSubLayer(layer, theme, op, opacity){      
     console.log(opacity);
     //console.log(getQueryAndCSS(opacity)[op].cartocss);
-    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacity)):
-    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacity)):
-    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacity)):
-    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacity)):
-    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacity)):
+    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors_hex, opacity)):
+    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors_hex, opacity)):
+    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors_hex, opacity)):
+    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors_hex, opacity)):
+    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors_hex, opacity)):
                  null;
 }
 

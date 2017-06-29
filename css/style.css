@@ -104,6 +104,7 @@ html, body, #map {
     max-width: 36px;
     white-space: nowrap;
     overflow: hidden ! important;
+    background: rgba(255,255,255, 1)
 }
 
 .quartile-cem{

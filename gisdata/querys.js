@@ -75,7 +75,9 @@ var quantiles_employment = {
     "mt007" : [56.71,58.78,60.20,61.59,63.27,65.12,74.47]
 };
 
-var quantiles_colors = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
+var quantiles_colors_hex = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
+var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253, 141, 60","252, 78, 42","227, 26, 28","177, 0, 38"];
+  
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
@@ -87,7 +89,7 @@ function getQueryAndCssToCreateLayer(op, tableName, quantilesValues, quantilesCo
   var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;} \
               [zoom<" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0;} [zoom>=" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0.5;} ";  
 
-  for (var i = quantiles_colors.length - 1; i >= 0; i--) {
+  for (var i = quantilesColors.length - 1; i >= 0; i--) {
     cartocssString = cartocssString + "#" + tableName + "[ " + op + " <= " + quantilesValues[op][i] + " ] { polygon-fill:" + quantilesColors[i] + " ; } ";  
   }
 
