@@ -115,17 +115,17 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
     // Clóvis - 20170623: Selection between Natural Breaks and Quantils...
     if (bolEnableMethod) {
         strLegend = strLegend + " <br> <div id='containerOptionsDataMethod'>" +
-		  "    <form id='selectDataMethod'>" +
+      "    <form id='selectDataMethod'>" +
           "       <fieldset>" +
           "         <legend><b>Método de classificação de dados:</b></legend>" +
           "         <div class='radio'>" +
-		  "           <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles' checked='true'>Quantile</label>" +
-		  "         </div>" +
-		  "         <div class='radio'>" +
-		  "           <label><input type='radio' name='radioDataMethod' value='jenks'>Jenks Natural Breaks</label>" +
-		  "         </div>" +
+      "           <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles' checked='true'>Quantile</label>" +
+      "         </div>" +
+      "         <div class='radio'>" +
+      "           <label><input type='radio' name='radioDataMethod' value='jenks'>Jenks Natural Breaks</label>" +
+      "         </div>" +
           "       </fieldset>" +
-		  "    </form>" +
+      "    </form>" +
           "  </div>";
      }
     // ... Clóvis - 20170623: Selection between Natural Breaks and Quantils
@@ -295,12 +295,12 @@ cartodb.createLayer(map,{
             //varSubLayer = null;
 
             // get Variable code. For example, p3_001, p11_001 . codVariable == op
+            opacity = "0.5";
             var op = $(this).val(); //$(this).attr("value");
             // get theme selected
             var e = document.getElementById("option-theme");
             var theme = e.options[e.selectedIndex].value;
-            console.log(theme +'-'+ op);
-            
+            console.log(theme +'-'+ op);            
          
             // verifica se a legenda do layer existe. Se houver, remove-a
             if ($("div.cartodb-legend.choropleth").length) {
@@ -309,7 +309,7 @@ cartodb.createLayer(map,{
 
             // se a opçao for diferente, então será construído a caixa de informação (tooltip)                
             if(op != 'selecione') {
-              createSubLayer(layer, theme, op);//layer.createSubLayer(demografia[op]); // ver dicionário
+              createSubLayer(layer, theme, op);
               // obtem os dados do layer construído na tela
               var sublayer = layer.getSubLayer(0);
 
@@ -417,11 +417,14 @@ function createInfoboxTooltip(layer, sublayer, colName){
  * Function to create a sublayer according the theme and variable chosen 
  */
 function createSubLayer(layer, theme, op){
-    theme == 1 ? layer.createSubLayer(demografia[op]):
-    theme == 2 ? layer.createSubLayer(raca_imigracao[op]):
-    theme == 3 ? layer.createSubLayer(religiao[op]):
-    theme == 4 ? layer.createSubLayer(educacao[op]):
-    theme == 5 ? layer.createSubLayer(renda_trabalho[op]):
+    var opacity = 1;    
+    console.log(opacity);
+    //console.log(getQueryAndCSS(opacity)[op].cartocss);
+    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacity)):
+    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacity)):
+    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacity)):
+    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacity)):
+    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacity)):
                  null;
 }
 
@@ -429,11 +432,11 @@ function createSubLayer(layer, theme, op){
  * Function to get quantiles values according the theme and variabe chosen 
  */
 function getQuantilesValues(theme, op){
-    theme == 1 ? vetor = demografia_valores_quantiles[op]:
-    theme == 2 ? vetor = raca_emigracao_valores_quantiles[op]:
-    theme == 3 ? vetor = religiao_valores_quantiles[op]:
-    theme == 4 ? vetor = educacao_valores_quantiles[op]:
-    theme == 5 ? vetor = renda_trabalho_valores_quantiles[op]:
+    theme == 1 ? vetor = quantiles_demography[op]:
+    theme == 2 ? vetor = quantiles_race_emigration[op]:
+    theme == 3 ? vetor = quantiles_religion[op]:
+    theme == 4 ? vetor = quantiles_education[op]:
+    theme == 5 ? vetor = quantiles_employment[op]:
                 vetor = null;
 
     return vetor;
@@ -580,8 +583,7 @@ cartodb.createLayer(map,{
         });
     });
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// PLACES
+// ++++++++++++++++++++++++++++++++++++++PLACES+++++++++++++++++++++++++++++++++++++++++++++++
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
@@ -654,9 +656,10 @@ function showPlacesLayer(layer,sublayer){
     sublayer = layer.getSubLayer(0);
   } 
 }
+// PLACES
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ÁGUAS
+// +++++++++++++++++++++++++++++++++++++ÁGUAS++++++++++++++++++++++++++++++++++++++++++++++++
+// 
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
