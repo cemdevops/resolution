@@ -9,6 +9,8 @@ var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];
 var tablesNamesArray = ['resolution_sc2010_cem_rmsp_erase','resolution_sc2010_cem_rmsp_erase','resolution_sc2010_cem_rmsp_erase','ap2010_rmsp_cem_r','resolution_sc2010_cem_rmsp_erase'];
 // types of polygons
 var typesOfPolygons = ['Áreas de Ponderação','Setores Censitários'];
+// Opacity of polygons: value range from 0 to 1
+var opacityDefault = 1; 
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
 $("#opcao_mapa_base").click(function () {
@@ -416,15 +418,14 @@ function createInfoboxTooltip(layer, sublayer, colName){
 /* 
  * Function to create a sublayer according the theme and variable chosen 
  */
-function createSubLayer(layer, theme, op){
-    var opacity = 1;    
-    console.log(opacity);
+function createSubLayer(layer, theme, op){      
+    console.log(opacityDefault);
     //console.log(getQueryAndCSS(opacity)[op].cartocss);
-    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacity)):
-    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacity)):
-    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacity)):
-    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacity)):
-    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacity)):
+    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacityDefault)):
+    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacityDefault)):
+    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacityDefault)):
+    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacityDefault)):
+    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacityDefault)):
                  null;
 }
 
