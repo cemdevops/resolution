@@ -104,7 +104,6 @@ html, body, #map {
     max-width: 36px;
     white-space: nowrap;
     overflow: hidden ! important;
-    /*opacity:  1;*/
 }
 
 .quartile-cem{
