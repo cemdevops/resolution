@@ -60,8 +60,9 @@ var quantiles_education = {
 };
 
 // INCOME (RENDA) AND EMPLOYMENT
-var quantiles_employment = {
-    "ren002": [19292.16,5449.51,3459.20,2607.73,2202.87,1939.82,1696.20],
+var quantiles_employment = {    
+    //"ren002": [19292.16,5449.51,3459.20,2607.73,2202.87,1939.82,1696.20],
+    "ren002": [1696.20,1939.82,2202.87,2607.73,3459.20,5449.51,19292.16],
     "ren003": [1.11,1.52,2.05,2.59,3.78,6.32,15.86],
     "ren004": [3.40,4.13,5.00,6.51,8.27,13.9,37.83],
     "ren016": [9.15,14.05,19.00,23.18,27.72,32.47,49.63],
@@ -94,7 +95,7 @@ function getQueryAndCssToCreateLayer(op, tableName, quantilesValues, quantilesCo
   }
 
   var objectTemp = {sql: sqlString, cartocss:cartocssString};
-  //console.log(objectTemp.sql);
-  //console.log(objectTemp.cartocss);
+  console.log(objectTemp.sql);
+  console.log(objectTemp.cartocss);
   return objectTemp;
 }    
