@@ -60,8 +60,9 @@ var quantiles_education = {
 };
 
 // INCOME (RENDA) AND EMPLOYMENT
-var quantiles_employment = {
-    "ren002": [19292.16,5449.51,3459.20,2607.73,2202.87,1939.82,1696.20],
+var quantiles_employment = {    
+    //"ren002": [19292.16,5449.51,3459.20,2607.73,2202.87,1939.82,1696.20],
+    "ren002": [1696.20,1939.82,2202.87,2607.73,3459.20,5449.51,19292.16],
     "ren003": [1.11,1.52,2.05,2.59,3.78,6.32,15.86],
     "ren004": [3.40,4.13,5.00,6.51,8.27,13.9,37.83],
     "ren016": [9.15,14.05,19.00,23.18,27.72,32.47,49.63],
@@ -75,7 +76,9 @@ var quantiles_employment = {
     "mt007" : [56.71,58.78,60.20,61.59,63.27,65.12,74.47]
 };
 
-var quantiles_colors = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
+var quantiles_colors_hex = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
+var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253, 141, 60","252, 78, 42","227, 26, 28","177, 0, 38"];
+  
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
@@ -87,12 +90,12 @@ function getQueryAndCssToCreateLayer(op, tableName, quantilesValues, quantilesCo
   var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;} \
               [zoom<" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0;} [zoom>=" + ZOOM_APRESENTACAO_BORDAS + "] {line-width: 0.5;} ";  
 
-  for (var i = quantiles_colors.length - 1; i >= 0; i--) {
+  for (var i = quantilesColors.length - 1; i >= 0; i--) {
     cartocssString = cartocssString + "#" + tableName + "[ " + op + " <= " + quantilesValues[op][i] + " ] { polygon-fill:" + quantilesColors[i] + " ; } ";  
   }
 
   var objectTemp = {sql: sqlString, cartocss:cartocssString};
-  //console.log(objectTemp.sql);
-  //console.log(objectTemp.cartocss);
+  console.log(objectTemp.sql);
+  console.log(objectTemp.cartocss);
   return objectTemp;
 }    

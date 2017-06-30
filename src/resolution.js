@@ -96,6 +96,7 @@ map.on ('zoomend', function (e) {
 
 // Clóvis - 20170623: function to create legend string...
 function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity) {
+    var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
@@ -104,14 +105,14 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "      <li class='min'>" + strMinValue + "</li>" +
           "      <li class='max'>" + strMaxValue + "</li>" +
           "      <li class='graph count_441'>" +
-          "        <div class='colors' style='opacity:" + opacity + ";'>" +
-          "          <div class='quartile-cem' id='celula1' style='background-color:" + quantiles_colors[0] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula2' style='background-color:" + quantiles_colors[1] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula3' style='background-color:" + quantiles_colors[2] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula4' style='background-color:" + quantiles_colors[3] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula5' style='background-color:" + quantiles_colors[4] +";color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula6' style='background-color:" + quantiles_colors[5] +";color:white;'></div>" +
-          "          <div class='quartile-cem' id='celula7' style='background-color:" + quantiles_colors[6] +";color:white;'></div>" +
+          "        <div class='colors' >" +
+          "          <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula2' style='background:rgba(254, 217, 118," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula3' style='background:rgba(254, 178, 76," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula4' style='background:rgba(253, 141, 60," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula5' style='background:rgba(252, 78, 42," + opacity + ");color:black;'></div>" +
+          "          <div class='quartile-cem' id='celula6' style='background:rgba(227, 26, 28," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
+          "          <div class='quartile-cem' id='celula7' style='background:rgba(177, 0, 38," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
           "        </div>" +
           "      </li>" +
           "  </ul>";
@@ -141,7 +142,7 @@ function newStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
 
 // Clóvis - 20170626: function to change among Quantile and Jenks Natural Breaks...
 function changeDataMethod(strMethod, dataField, strDatabase, localSubLayer, vector, layer) {
-    //    console.log ('Mudou para ' + strMethod);
+    // console.log ('Mudou para ' + strMethod);
     if (localSubLayer != null) {
         var sql = new cartodb.SQL({ user: 'cemdevops'});
         var strMethodSQL;
@@ -297,6 +298,7 @@ cartodb.createLayer(map,{
         });
 
         $("#option-variables").change(function(){
+          
           showThematicLayer(layer);
 
             
@@ -411,7 +413,7 @@ function showThematicLayer(layer,op){
 
     // Clóvis - 20170626: event of change in selection among quantile and natural break (jenks)
     $("input[type=radio][name=radioDataMethod]").change (function () {
-      var strDatabase = tablesNamesArray[theme];
+      var strDatabase = tablesNamesArray[theme-1];
       changeDataMethod (this.value, op, strDatabase, sublayer, vector,layer);
     });
   }
@@ -442,11 +444,11 @@ function createInfoboxTooltip(layer, sublayer, colName){
 function createSubLayer(layer, theme, op, opacity){      
     console.log(opacity);
     //console.log(getQueryAndCSS(opacity)[op].cartocss);
-    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_demography, quantiles_colors, opacity)):
-    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_race_emigration, quantiles_colors, opacity)):
-    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_religion, quantiles_colors, opacity)):
-    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_education, quantiles_colors, opacity)):
-    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme], quantiles_employment, quantiles_colors, opacity)):
+    theme == 1 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme-1], quantiles_demography, quantiles_colors_hex, opacity)):
+    theme == 2 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme-1], quantiles_race_emigration, quantiles_colors_hex, opacity)):
+    theme == 3 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme-1], quantiles_religion, quantiles_colors_hex, opacity)):
+    theme == 4 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme-1], quantiles_education, quantiles_colors_hex, opacity)):
+    theme == 5 ? layer.createSubLayer(getQueryAndCssToCreateLayer(op, tablesNamesArray[theme-1], quantiles_employment, quantiles_colors_hex, opacity)):
                  null;
 }
 
@@ -627,11 +629,11 @@ cartodb.createLayer(map,{
     })
 // add the layer to our map which already contains 0 sublayers
 .addTo(map)
-.done(function(layer){
+.done(function(placesLayer){
     var sublayer = null;
     var zoomControleLabel = ZOOM_NIVEL_INICIAL;
     map.on ('zoomend', function (e) {
-        if (layer.getSubLayerCount()>0) {
+        if (placesLayer.getSubLayerCount()>0) {
             zoomControleLabel = map.getZoom();
             if (zoomControleLabel < 10) {
                 // 1=0 means the query returns no result
@@ -647,21 +649,21 @@ cartodb.createLayer(map,{
     });
 
     // Put the places layer on anothers layers
-    layer.setZIndex(1);    
+    placesLayer.setZIndex(1);    
 
     $("#opcao_mapa_base").click(function () {
-      showPlacesLayer(layer,sublayer);
+      sublayer = showPlacesLayer(placesLayer,sublayer);
     });
 
     $("#option-variables").change(function(){
-      showPlacesLayer(layer,sublayer);
+      sublayer = showPlacesLayer(placesLayer,sublayer);
     });
 });
 
 /*
  * Function to show the places layer
  */
-function showPlacesLayer(layer,sublayer){
+function showPlacesLayer(placesLayer,placesSublayer){
   // get button value
   var buttonVal = document.getElementById("opcao_mapa_base").value;
   // get variable value chosen
@@ -669,14 +671,16 @@ function showPlacesLayer(layer,sublayer){
   console.log(buttonVal +'-'+ variableSel);
 
   // Clean the places layer
-  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});            
+  placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});            
   
   if (variableSel != 'selecione' && buttonVal == 'Mapa base'){                
     // create and add a new sublayer to map
-    layer.createSubLayer(places["rmsp"]);
+    placesLayer.createSubLayer(places["rmsp"]);
     // this line is used to show places layer while the zoom is working
-    sublayer = layer.getSubLayer(0);
+    placesSublayer = placesLayer.getSubLayer(0);
   } 
+
+  return placesSublayer;
 }
 // PLACES
 
