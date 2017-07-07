@@ -72,7 +72,6 @@ $("#option-theme").change(function(){
 	populateVariables(idTheme);
 });
 
-
 /* Change the variable description */
 $("#option-variables").change(function(){
 	// change the theme description
