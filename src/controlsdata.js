@@ -4,7 +4,7 @@ window.onload = function() {
 };
 
 function populateThemes(){
-	var selectControl = document.getElementById("option-theme");	
+	var selectControl = document.getElementById("option_theme");	
     var option = null;
     
     $.getJSON(
@@ -19,7 +19,7 @@ function populateThemes(){
 		        selectControl.appendChild(option);
             });
             // Change the theme description
-            document.getElementById("theme_description").innerHTML = $("#option-theme").find('option:selected').attr('title');
+            document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
         }
     );	
 }
@@ -63,7 +63,7 @@ function populateVariables(idTheme){
 }
 
 /* Change variable DropDownList*/
-$("#option-theme").change(function(){
+$("#option_theme").change(function(){
 	var idTheme = $(this).val();
 	// change the theme description
 	document.getElementById("theme_description").innerHTML = $(this).find('option:selected').attr('title');
