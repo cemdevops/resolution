@@ -9,27 +9,27 @@ Constants and global parameters read from config.json can be found in querys.js 
 */
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
-$("#opcao_mapa_base").click(function () {
+$("#option_basemap_thematic").click(function () {
     //$("#buOpcaoMapaBase").text('Mapa tematico');
-    if ($("#opcao_mapa_base").val() == 'Mapa base'){
+    if ($("#option_basemap_thematic").val() == 'Mapa base'){
         //mostrar o mapa base e o temático
         adicionarMapaBase('osm');
 
         //mudar a imagem do fundo e texto do control
-        $("#opcao_mapa_base").attr('value', 'Mapa temático');
-        $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa temático!');
-        $("#opcao_mapa_base").removeClass("mapa-base");
-        $("#opcao_mapa_base").addClass("mapa-tematico");
+        $("#option_basemap_thematic").attr('value', 'Mapa temático');
+        $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
+        $("#option_basemap_thematic").removeClass("mapa-base");
+        $("#option_basemap_thematic").addClass("mapa-tematico");
 
     } else{
         //mostrar só o mapa temático
         removerMapaBase(layerMapaBaseSel);
 
         //mudar a imagem do fundo e texto do control
-        $("#opcao_mapa_base").attr('value', 'Mapa base');
-        $("#opcao_mapa_base").attr('title','Click aqui para mudar para o mapa base!');
-        $("#opcao_mapa_base").removeClass("mapa-tematico");
-        $("#opcao_mapa_base").addClass("mapa-base");        
+        $("#option_basemap_thematic").attr('value', 'Mapa base');
+        $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
+        $("#option_basemap_thematic").removeClass("mapa-tematico");
+        $("#option_basemap_thematic").addClass("mapa-base");        
     }
 });
 
@@ -140,13 +140,20 @@ cartodb.createLayer(map,{
         // colocando ordem de sobreposição dos layers
         layer.setZIndex(1);
 
-        $("#opcao_mapa_base").click(function () {
+        $("#option_basemap_thematic").click(function () {
           showThematicLayer(layer);
+          console.log("changing... base map thematic");
         });
 
         $("#option-variables").change(function(){
           showThematicLayer(layer);
+          console.log("changing variables");
         });
+
+        $("#option_theme").change(function(){
+          showThematicLayer(layer);
+          console.log("changing theme");
+        })
     });
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -163,7 +170,7 @@ function showThematicLayer(layer){
   var op = el.options[el.selectedIndex].value;
 
   // get selected Theme
-  var e = document.getElementById("option-theme");
+  var e = document.getElementById("option_theme");
   var theme = e.options[e.selectedIndex].value;
   console.log(theme +'-'+ op);            
          
@@ -175,7 +182,7 @@ function showThematicLayer(layer){
   // if option is valid, tooltip and legend will be build
   if(op != 'selecione') {
     // get button value
-    var buttonVal = document.getElementById("opcao_mapa_base").value;
+    var buttonVal = document.getElementById("option_basemap_thematic").value;
     // If button value is 'Mapa base' is because the basemap isn't visible
     var opacity = buttonVal == 'Mapa base' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
 
@@ -447,7 +454,7 @@ cartodb.createLayer(map,{
     // Put the places layer on anothers layers
     placesLayer.setZIndex(1);    
 
-    $("#opcao_mapa_base").click(function () {
+    $("#option_basemap_thematic").click(function () {
       sublayer = showPlacesLayer(placesLayer,sublayer);
     });
 
@@ -461,7 +468,7 @@ cartodb.createLayer(map,{
  */
 function showPlacesLayer(placesLayer,placesSublayer){
   // get button value
-  var buttonVal = document.getElementById("opcao_mapa_base").value;
+  var buttonVal = document.getElementById("option_basemap_thematic").value;
   // get variable value chosen
   var variableSel = document.getElementById("option-variables").value;
   console.log(buttonVal +'-'+ variableSel);
