@@ -115,17 +115,17 @@ html, body, #map {
 }
 
 /* button thematic/base map option */
-.input-opcao-mapa{
+.input-map-option{
     width: 75px;
     height: 75px; 
     font-size: 9px;
 }
 
-.mapa-base{
-    background: url("../img/mapa-base.png");
+.base-map{
+    background: url("../img/base-map.png");
 }
 
-.mapa-tematico{
-    background: url("../img/mapa-tematico.png");
+.thematic-map{
+    background: url("../img/thematic-map.png");
 }
 

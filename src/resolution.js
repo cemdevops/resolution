@@ -5,7 +5,7 @@
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 
 /*
-Constants and global parameters read from config.json can be found in querys.js file
+Constants and global parameters read from config.json can be found in queries.js file
 */
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
@@ -18,8 +18,8 @@ $("#option_basemap_thematic").click(function () {
         //mudar a imagem do fundo e texto do control
         $("#option_basemap_thematic").attr('value', 'Mapa temático');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
-        $("#option_basemap_thematic").removeClass("mapa-base");
-        $("#option_basemap_thematic").addClass("mapa-tematico");
+        $("#option_basemap_thematic").removeClass("base-map");
+        $("#option_basemap_thematic").addClass("thematic-map");
 
     } else{
         //mostrar só o mapa temático
@@ -28,8 +28,8 @@ $("#option_basemap_thematic").click(function () {
         //mudar a imagem do fundo e texto do control
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
-        $("#option_basemap_thematic").removeClass("mapa-tematico");
-        $("#option_basemap_thematic").addClass("mapa-base");        
+        $("#option_basemap_thematic").removeClass("thematic-map");
+        $("#option_basemap_thematic").addClass("base-map");        
     }
 });
 
