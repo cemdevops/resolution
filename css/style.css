@@ -62,7 +62,7 @@ html, body, #map {
     background: rgba(255,255,255,0.8);    
 }
 
-#option_theme, #option-variables {
+#option_theme, #option_variables {
     width: 100%;opacity: 1 ! important;
 }
 
