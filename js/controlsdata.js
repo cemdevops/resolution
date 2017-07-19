@@ -8,7 +8,7 @@ function populateThemes(){
     var option = null;
     
     $.getJSON(
-        "src/themes.json", 
+        "json/themes.json", 
         function(result) {        	
             //find the array and do something
             $.each(result.Themes, function(key,val) {
@@ -25,7 +25,7 @@ function populateThemes(){
 }
 
 function populateVariables(idTheme){
-	var selectControl = document.getElementById("option-variables");	
+	var selectControl = document.getElementById("option_variables");	
     var option = null;	
     var jsonFiltered = null;
     // Remove elements of "variables" select control 
@@ -35,7 +35,7 @@ function populateVariables(idTheme){
     }
 
     $.getJSON(
-        "src/variables.json", 
+        "json/variables.json", 
         function(result) {           	
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme;
@@ -73,7 +73,7 @@ $("#option_theme").change(function(){
 });
 
 /* Change the variable description */
-$("#option-variables").change(function(){
+$("#option_variables").change(function(){
 	// change the theme description
 	document.getElementById("variable_description").innerHTML = $(this).find('option:selected').attr('title');
 });

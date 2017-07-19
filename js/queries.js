@@ -27,7 +27,7 @@ var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253,
 
 // Clóvis - 20170630: Function to get parameters from config.json file
 $.getJSON(
-    "src/config.json", 
+    "json/config.json", 
     function(result) {           	
        if (result.zoomInitialLevel) {
            ZOOM_INITIAL_LEVEL = result.zoomInitialLevel;
@@ -104,7 +104,7 @@ function getCurrentLayerData (idTheme, variable){
 
     // get values from themes JSON file
     $.getJSON(
-        "src/themes.json", 
+        "json/themes.json", 
         function(result) {        	
         	jsonFiltered = result.Themes.filter(function(n){
         		return n.idTheme==idTheme;
@@ -122,7 +122,7 @@ function getCurrentLayerData (idTheme, variable){
 
     // get values from variables JSON file
     $.getJSON(
-        "src/variables.json", 
+        "json/variables.json", 
         function(result) {
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme && n.codVariable==variable;

@@ -5,7 +5,7 @@
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 
 /*
-Constants and global parameters read from config.json can be found in querys.js file
+Constants and global parameters read from config.json can be found in queries.js file
 */
 
 // Mariela: evento disparado ao clickar no botão mapa base/temático
@@ -18,8 +18,8 @@ $("#option_basemap_thematic").click(function () {
         //mudar a imagem do fundo e texto do control
         $("#option_basemap_thematic").attr('value', 'Mapa temático');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
-        $("#option_basemap_thematic").removeClass("mapa-base");
-        $("#option_basemap_thematic").addClass("mapa-tematico");
+        $("#option_basemap_thematic").removeClass("base-map");
+        $("#option_basemap_thematic").addClass("thematic-map");
 
     } else{
         //mostrar só o mapa temático
@@ -28,8 +28,8 @@ $("#option_basemap_thematic").click(function () {
         //mudar a imagem do fundo e texto do control
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
-        $("#option_basemap_thematic").removeClass("mapa-tematico");
-        $("#option_basemap_thematic").addClass("mapa-base");        
+        $("#option_basemap_thematic").removeClass("thematic-map");
+        $("#option_basemap_thematic").addClass("base-map");        
     }
 });
 
@@ -145,7 +145,7 @@ cartodb.createLayer(map,{
           console.log("changing... base map thematic");
         });
 
-        $("#option-variables").change(function(){
+        $("#option_variables").change(function(){
           showThematicLayer(layer);
           console.log("changing variables");
         });
@@ -166,7 +166,7 @@ function showThematicLayer(layer){
 
   // get Variable code. For example, p3_001, p11_001 . codVariable == op  
   //var op = $(this).val(); //$(this).attr("value");
-  var el = document.getElementById("option-variables");
+  var el = document.getElementById("option_variables");
   var op = el.options[el.selectedIndex].value;
 
   // get selected Theme
@@ -458,7 +458,7 @@ cartodb.createLayer(map,{
       sublayer = showPlacesLayer(placesLayer,sublayer);
     });
 
-    $("#option-variables").change(function(){
+    $("#option_variables").change(function(){
       sublayer = showPlacesLayer(placesLayer,sublayer);
     });
 });
@@ -470,7 +470,7 @@ function showPlacesLayer(placesLayer,placesSublayer){
   // get button value
   var buttonVal = document.getElementById("option_basemap_thematic").value;
   // get variable value chosen
-  var variableSel = document.getElementById("option-variables").value;
+  var variableSel = document.getElementById("option_variables").value;
   console.log(buttonVal +'-'+ variableSel);
 
   // Clean the places layer
