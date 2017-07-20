@@ -8,24 +8,23 @@
 Constants and global parameters read from config.json can be found in queries.js file
 */
 
-// Mariela: evento disparado ao clickar no botão mapa base/temático
+// Mariela: Event triggered by clicking in base/thematic map button
 $("#option_basemap_thematic").click(function () {
-    //$("#buOpcaoMapaBase").text('Mapa tematico');
     if ($("#option_basemap_thematic").val() == 'Mapa base'){
-        //mostrar o mapa base e o temático
-        adicionarMapaBase('osm');
+        // Show the base map and/or thematic map
+        addBaseMap('osm');
 
-        //mudar a imagem do fundo e texto do control
+        // Change the background image and button description
         $("#option_basemap_thematic").attr('value', 'Mapa temático');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
 
     } else{
-        //mostrar só o mapa temático
-        removerMapaBase(layerMapaBaseSel);
+        // Show only the thematic map
+        removeBaseMap(layerMapaBaseSel);
 
-        //mudar a imagem do fundo e texto do control
+        // Change the background image and the button text
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
         $("#option_basemap_thematic").removeClass("thematic-map");
@@ -88,48 +87,50 @@ layerOSM.addTo(map);
 var layerMapaBaseSel = 'osm';
 
 // Mariela: CONTROLE DOS BASEMAPS
-removerMapaBase(layerMapaBaseSel);
-adicionarMapaBase('osm');
+removeBaseMap(layerMapaBaseSel);
+addBaseMap('osm');
 
-// Mariela: Adicionar Mapa base segundo o tipo de mapa escolhido
-function adicionarMapaBase(tipoMapaBaseSelecionado) {
+// Mariela: Add base map according the type of map chosen
+function addBaseMap(typeOfBaseMapChosen) {
 
-    if (tipoMapaBaseSelecionado=="osm") {
+    if (typeOfBaseMapChosen=="osm") {
             map.addLayer(layerOSM);
             layerMapaBaseSel = 'osm';
-        } else if (tipoMapaBaseSelecionado=="google_maps") {
+
+        } else if (typeOfBaseMapChosen=="google_maps") {
             map.addLayer(layerGoogle);
             layerMapaBaseSel = 'google_maps';
 
-        } else if (tipoMapaBaseSelecionado=="carto_positron") {
+        } else if (typeOfBaseMapChosen=="carto_positron") {
             map.addLayer(layerPositron);
             layerMapaBaseSel = 'carto_positron';
 
-        } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
+        } else if (typeOfBaseMapChosen=="carto_darkmatter") {
             map.addLayer(layerDarkMatter);
             layerMapaBaseSel = 'carto_darkmatter';
         }
 }
 
-// Mariela: Remover o Mapa base existente 
-function removerMapaBase(tipoMapaBaseSelecionado) {
+// Mariela: Remove the existing base map
+function removeBaseMap(typeOfBaseMapChosen) {
 
-    if (tipoMapaBaseSelecionado=="osm") {
+    if (typeOfBaseMapChosen=="osm") {
             map.removeLayer(layerOSM);
-        } else if (tipoMapaBaseSelecionado=="google_maps") {
+
+        } else if (typeOfBaseMapChosen=="google_maps") {
             map.removeLayer(layerGoogle);
 
-        } else if (tipoMapaBaseSelecionado=="carto_positron") {
+        } else if (typeOfBaseMapChosen=="carto_positron") {
             map.removeLayer(layerPositron);
 
-        } else if (tipoMapaBaseSelecionado=="carto_darkmatter") {
+        } else if (typeOfBaseMapChosen=="carto_darkmatter") {
             map.removeLayer(layerDarkMatter);
-
         }
 }
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// gerencia os layers para o ddl-tema
+// +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
+
+// Manages the layers for each theme dropdownlist
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -411,7 +412,7 @@ cartodb.createLayer(map,{
         });
     });
 
-// ++++++++++++++++++++++++++++++++++++++PLACES+++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++PLACES LAYER+++++++++++++++++++++++++++++++++++++++++++++++
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
@@ -487,7 +488,7 @@ function showPlacesLayer(placesLayer,placesSublayer){
 }
 // PLACES
 
-// +++++++++++++++++++++++++++++++++++++ÁGUAS++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++WATER LAYER++++++++++++++++++++++++++++++++++++++++++++++++
 // 
 cartodb.createLayer(map,{
         user_name: "cemdevops",
@@ -504,5 +505,5 @@ cartodb.createLayer(map,{
             cartocss: "#resolution_cem_aguas_2{polygon-fill:#526475; line-color:#526475}"
         });
     });
-// ÁGUAS
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
