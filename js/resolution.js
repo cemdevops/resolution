@@ -151,9 +151,10 @@ cartodb.createLayer(map,{
           console.log("changing variables");
         });
 
-        $("#option_theme").change(function(){
-          showThematicLayer(layer);
+        $("#option_theme").change(function(){          
           console.log("changing theme");
+          // Clear all transport active layers
+          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
         })
     });
 
