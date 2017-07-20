@@ -16,6 +16,7 @@ var polygonOpacityWithBaseMap = 0.4;
 
 var quantiles_colors_hex = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
 var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253, 141, 60","252, 78, 42","227, 26, 28","177, 0, 38"];
+var noValueClassColor = "#A9A9A9";
 
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
@@ -50,6 +51,9 @@ $.getJSON(
        if (result.quantilColorRgb) {
            quantiles_colors_rgb = result.classColorRgb;
        }
+       if (result.classColorNoValue) {
+           noValueClassColor = result.classColorNoValue;
+       }
        if (result.initialDataClassificationMethod) {
            currentDataClassificationMethod = result.initialDataClassificationMethod;
        }
@@ -67,7 +71,7 @@ $.getJSON(
 /*
  * Function to get a query and CSS to create a layer in Carto
  */
-function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, dataClassColors, opacity, showEdge){
+function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   var sqlString = "SELECT * FROM " + tableName;
   var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;}";
@@ -81,6 +85,8 @@ function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, dataC
   for (var i = dataClassColors.length - 1; i >= 0; i--) {
     cartocssString += "#" + tableName + "[ " + op + " <= " + dataClassBreaksValues[i] + " ] { polygon-fill:" + dataClassColors[i] + " ; } ";
   }
+  // Use noValue after other to avoid this color overwriting
+  cartocssString += "#" + tableName + "[ " + op + " < 0" + " ] { polygon-fill:" + withoutValueClassColor + " ; } ";
 
   var objectTemp = {sql: sqlString, cartocss:cartocssString};
   //console.log(objectTemp.sql);

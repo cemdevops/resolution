@@ -194,7 +194,7 @@ function showThematicLayer(layer){
     var arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
 
     // Create sublayer - thematic
-    layer.createSubLayer(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, quantiles_colors_hex, opacity,currentLayerData.showEdge));
+    layer.createSubLayer(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
 
     // Get data of current layer on screen
     var sublayer = layer.getSubLayer(0);
@@ -241,7 +241,7 @@ function showThematicLayer(layer){
       // get array of data classification method breaks
       arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
       // get carto query and CSS
-      var layerConf = getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, quantiles_colors_hex, opacity, currentLayerData.showEdge);
+      var layerConf = getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
       // set carto CSS of current layer
       sublayer.setCartoCSS(layerConf.cartocss);
     });
