@@ -9,136 +9,58 @@
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    
+  
 </head>
 <body>
 	<!-- div onde será atribuído o mapa -->
 	<div id="map"></div>
 
-
-    <div id="container_menu">
-        <div id="title_menu">Selecionar Layers</div>
-		<div id="container_options">
-			<div id="title_options">Primeira Opção</div>
-			<div id="theme_options">
-	            <select id="opcao_tema">
-					<option value="demografia">Demografia</option>
-					<option value="raca_imigracao">Raça e imigração</option>
-					<option value="religiao">Religião</option>
-					<option value="educacao">Educação</option>
-					<option value="renda_trabalho">Renda e Trabalho</option>
-					<!-- <option value="condicoes_domicilio">Condições de domicílio</option>
-					<option value="condicoes_entorno">Condições do entorno</option> -->
-	            </select>
-	        </div>
-			<div id="title_options">Variável</div>
-			<div id="variables_options">
-				<select id="opcao_variavel_demografia">
-					<option value="selecione">Selecione</option>
-					<option value="p3_001">População</option>
-					<option value="p11_001">Homens residentes</option>
-					<option value="p12_001">Mulheres residentes</option>
-					<option value="p13_022">Faixa etárias - menor que 1 ano</option>
-					<option value="p13_036">Faixa etárias - 2 anos</option>
-					<option value="p13_037">Faixa etárias - 3 anos</option>
-					<option value="p13_038">Faixa etárias - 4 anos</option>
-					<option value="p13_039">Faixa etárias - 5 anos</option>
-					<option value="p13_201">Faixa etárias - 6 a 10 anos</option>
-					<option value="p13_202">Faixa etárias - 11 a 14 anos</option>
-					<option value="p13_203">Faixa etárias - 15 a 17 anos</option>
-					<option value="p13_204">Faixa etárias - 18 a 29 anos</option>
-					<option value="p13_205">Faixa etárias - 30 a 49 anos</option>
-					<option value="p13_206">Faixa etárias - 50 a 64 anos</option>
-					<option value="p13_207">Faixa etárias - 65 a 79 anos</option>
-					<option value="p13_208">Faixa etárias - acima 80 anos</option>
-					<option value="t_env">Taxa de envelhecimento</option>
-	            </select>
-				<select id="opcao_variavel_raca_imigracao">
-					<option value="selecione">Selecione</option>
-					<option value="p3_002">Cor/Raça - Branca</option>
-					<option value="p3_003">Cor/Raça - Preta</option>
-					<option value="p3_004">Cor/Raça - Amarela</option>
-					<option value="p3_005">Cor/Raça - Parda</option>
-					<option value="p3_006">Cor/Raça - Indígena</option>
-					<option value="de020">Pessoas residentes a menos de 3 anos (%)</option>
-					<option value="de023">Pessoas nascidas em outro Estado (%)</option>
-					<option value="de024">Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)</option>
-	            </select>
-				<select id="opcao_variavel_religiao">
-					<option value="selecione">Selecione</option>
-					<option value="re027">Percentual de pessoas que se declararam (apenas) sem religião</option>
-					<option value="re028">Percentual de pessoas que se declararam agnósticos</option>
-					<option value="re029">Percentual de pessoas que se declararam ateus</option>
-					<option value="re030">Percentual de pessoas que se declararam católicos</option>
-					<option value="re031">Percentual de pessoas que se declararam evangélicos</option>
-					<option value="re038">Percentual de pessoas que se declararam evangélicos pentecostais</option>
-					<option value="re047">Percentual de pessoas que se declararam com religião afro-brasileira</option>
-					<option value="re050">Percentual de pessoas pertencentes a outros segmentos religiosos</option>
-	            </select>
-				<select id="opcao_variavel_educacao">
-					<option value="selecione">Selecione</option>
-					<option value="p1_001">Alfabetizadas com 5 ou mais anos de idade</option>
-					<option value="ins001">Anos médios de estudo do chefe de domicílio</option>
-					<option value="ins002">Anos médios de estudo de mulheres chefes</option>
-					<option value="ins032">Percentual de pessoas de 7 a 14 anos de idade fora da escola</option>
-					<option value="ins037">Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche</option>
-	            </select>
-				<select id="opcao_variavel_renda_trabalho">
-					<option value="selecione">Selecione</option>
-					<option value="ren002">Renda domiciliar total média</option>
-					<option value="ren003">Renda domiciliar per capita em salários mínimos</option>
-					<option value="ren004">Renda domiciliar total média em salários mínimos</option>
-					<option value="ren016">Pessoas com renda per capita até meio salário mínimo (%)</option>
-					<option value="ren101">Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)</option>
-					<option value="ren102">Pessoas com renda per capita entre 1 e 3 salários mínimos (%)</option>
-					<option value="ren103">Pessoas com renda per capita entre 3 e 5 salários mínimos (%)</option>
-					<option value="ren104">Pessoas com renda per capita entre 5 e 10 salários mínimos (%)</option>
-					<option value="ren105">Pessoas com renda per capita acima de 10 salários mínimos (%)</option>
-					<option value="mt006">Taxa de desocupação</option>
-					<option value="mt008">Taxa de ocupação</option>
-					<option value="mt007">Taxa de participação</option>
-	            </select>
-				<!-- <select id="opcao_variavel_condicoes_domicilio">
-					<option value="selecione">Selecione</option>
-					<option value="opcao_variavel_condicoes_domicilio_condicoes_domicilio">Condições de domicílio</option>
-	            </select>
-				<select id="opcao_variavel_condicoes_entorno">
-					<option value="selecione">Selecione</option>
-					<option value="opcao_variavel_condicoes_entorno_condicoes_entorno">Condições do entorno</option>
-	            </select> -->
-	        </div>
+	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
+	<div class="leaflet-control-container">
+		<div class="leaflet-bottom leaflet-left" style="padding-bottom: 30px">
+			<div class=" leaflet-control">
+				<input id='option_basemap_thematic' type="button"  value="Mapa Temático" 
+				title="Click aqui para mudar o mapa temático!" 
+				data-placement="auto" data-toggle="tooltip" 
+				class="input-map-option thematic-map">
+			</div>
 		</div>
+	</div>
+	<!--end control-->
+    <div id="container_menu" >
+        <div id="title_menu">SELECIONAR TEMAS E VARIÁVEIS</div>
+		<div id="container_options">
+			<div id="title_options">Tema:</div>
+			<div id="theme_options">
+	            <select id="option_theme">
+	            </select>
+	        </div>
+	        <div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
+			<div class="separator"></div>
+			<div id="title_options">Variável:</div>
+			<div id="variables_options">
+				<select id="option_variables">
+				</select>
+			</div>			
+	        <div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
+		</div>		
+		
+
 		<div id="container_extras">
-			<form action="select_extras">
-				<label><input type="checkbox" name="transporte" id="metro_linha">Metro</label>
-				<label><input type="checkbox" name="transporte" id="metro_estacoes">Trem</label>
+			<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
+				<label><input type="checkbox" name="transporte" id="metro_linha">Metrô</label>
+				<label><input type="checkbox" name="transporte" id="trem_linha">Trem</label>
 			</form>
 		</div>
     </div>
 
-	<div id="container_change_basemap">
-		<div id="title_menu">Selecionar Basemap</div>
-		<div id="container_options_basemap">
-			<form id="select_basemap">
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="osm" checked="true">OpenStreetMap</label>
-				</div>
-				<!--
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="google_maps">Google Maps</label>
-				</div>
-				-->
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="carto_positron">CartoDB - Positron</label>
-				</div>
-				<div class="radio">
-					<label><input type="radio" name="radio_change_basemap" value="carto_darkmatter">CartoDB - DarkMatter</label>
-				</div>
-			</form>
-		</div>
-	</div>
-
 	<!-- importar o arquivo js -->
-	<script type="text/javascript" src="gisdata/querys.js"></script>
-	<script type="text/javascript" src="src/resolution.js"></script>
+	<script type="text/javascript" src="js/queries.js"></script>
+	<script type="text/javascript" src="js/resolution.js"></script>
+	<script type="text/javascript" src="js/controlsdata.js"></script>
 </body>
 </html>

@@ -8,37 +8,35 @@ html, body, #map {
 }
 
 #container_menu {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 250px;
-    height: 171px;
-    background-color: #e6f3ff;
-    opacity: 0.8;
+    position: absolute;    
+    font: 400 13px Helvetica,Arial;
+    color: #000;
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
+    background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
+    top: 20px;
+    right: 20px;
+    width: 300px;
     border-radius: 6px;
-    border: 1px solid rgba(35,87,146,0.4);
+    border: 3px solid rgba(35,87,146,0.4);
     z-index: 1;
 }
 
 #title_menu {
-    font: bold 14px Arial, Tahoma, Helvetica, sans-serif;
+    font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
+    text-transform: uppercase;
     color: #333;
-    padding: 6px 0 6px 5px;
-    border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid rgba(35,87,146,0.4);
+    padding: 15px 15px 10px 15px;
+    border-bottom: 2px solid rgba(35,87,146,0.4);    
 }
 
 #container_options {
-    font: 12px Arial, Tahoma, Helvetica, sans-serif;
-    height: 90px;
-    background-color: #fff;
+    background: rgba(255,255,255,0.8);
     border-bottom: 1px solid rgba(35,87,146,0.4);
     color: #000;
-    padding: 6px 0 0 5px;
+    padding: 10px 15px 10px 15px;
 }
 
 #container_options_basemap {
-    font: 12px Arial, Tahoma, Helvetica, sans-serif;
     height: 70px;
     background-color: #fff;
     border-bottom: 1px solid rgba(35,87,146,0.4);
@@ -47,21 +45,25 @@ html, body, #map {
 }
 
 #container_extras {
-    font: 12px Arial, Tahoma, Helvetica, sans-serif;
-    height: 30px;
-    background-color: #fff;
-    border-bottom: 1px solid rgba(35,87,146,0.4);
     color: #000;
-    padding: 6px 0 0 5px;
+    padding: 10px 15px 10px 15px;        
+    border-radius: 6px;    
+    background: rgba(255,255,255,0.8);
 }
 
-#theme_options, #variables_options {
-    padding: 2px 0 10px 0;
+.description-item{
+    padding-top: 5px;
+    background: rgba(255,255,255,0.8);
+    font-size: 10px;
 }
-#opcao_tema, #opcao_variavel_demografia, #opcao_variavel_raca_imigracao,#opcao_variavel_religiao,
-#opcao_variavel_educacao, #opcao_variavel_renda_trabalho, #opcao_variavel_condicoes_domicilio,
-#opcao_variavel_condicoes_entorno {
-    width: 230px;
+
+.separator{
+    height: 8px;
+    background: rgba(255,255,255,0.8);    
+}
+
+#option_theme, #option_variables {
+    width: 100%;opacity: 1 ! important;
 }
 
 #container_change_basemap {
@@ -76,37 +78,22 @@ html, body, #map {
     border: 1px solid rgba(35,87,146,0.4);
 }
 
-
-/*TESTES*/
-
 .cartodb-tooltip {
-    /*
-    font: 10px Arial, Tahoma, Helvetica, sans-serif;
-    padding: 0 6px 0 6px;
-    margin-top: 20px !important;
-    margin-left: 20px !important;
-    opacity: 0.8;
-    border-radius: 6px;
-    background-color: #fff;
-    border: 1px solid rgba(35,87,146,0.4);
-    /* Clóvis - 20170331... */
     visibility: hidden;
     min-width: 0px;
     max-width: 0px;
     min-height: 0px;
     max-height: 0px;
-    /* ...Clóvis - 20170331 */
 }
 
 .cartodb-infobox{
     visibility: hidden;
 }
 
-.quartile-cem{
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    max-width: 5px;
+/* Legend */
+.cartodb-legend-container{    
+    width: 270px;
+    background: rgba(255,255,255, 0.8) ! important;
 }
 
 .colors{
@@ -117,4 +104,28 @@ html, body, #map {
     max-width: 36px;
     white-space: nowrap;
     overflow: hidden ! important;
+    background: rgba(255,255,255, 1)
 }
+
+.quartile-cem{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    max-width: 5px;
+}
+
+/* button thematic/base map option */
+.input-map-option{
+    width: 75px;
+    height: 75px; 
+    font-size: 9px;
+}
+
+.base-map{
+    background: url("../img/base-map.png");
+}
+
+.thematic-map{
+    background: url("../img/thematic-map.png");
+}
+
