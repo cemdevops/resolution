@@ -154,9 +154,21 @@ cartodb.createLayer(map,{
         $("#option_theme").change(function(){          
           console.log("changing theme");
           // Clear all transport active layers
-          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});  
+          // Check if layer's legend. Remove if exists        
+          takeOutLegend();
         })
     });
+
+/*
+ * Function to take out the legend of screen
+ */    
+function takeOutLegend(){
+  // Check if layer's legend. Remove if exists
+  if ($("div.cartodb-legend.choropleth").length) {
+    $('div.cartodb-legend.choropleth').remove();
+  }
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
@@ -177,9 +189,7 @@ function showThematicLayer(layer){
   console.log(theme +'-'+ op);            
          
   // Check if layer's legend. Remove if exists
-  if ($("div.cartodb-legend.choropleth").length) {
-    $('div.cartodb-legend.choropleth').remove();
-  }
+  takeOutLegend();
 
   // if option is valid, tooltip and legend will be build
   if(op != 'selecione') {
