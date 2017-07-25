@@ -2,7 +2,7 @@
     {
         "codVariable": "p3_001",
         "variable": "População",
-        "description": "População",
+        "description": "Pessoas Residentes",
         "idTheme": 1,
         "quantiles":[269,539,809,1079,1350,1671,3489],
         "jenks":[150,337,356,589,741,1232,3489],
@@ -32,7 +32,7 @@
     {
         "codVariable": "p13_022",
         "variable": "Faixa etárias - menor que 1 ano",
-        "description": "Faixa etárias - 1 anos",
+        "description": "Pessoas com menos de 1 ano de idade",
         "idTheme": 1,
         "quantiles":[9,18,28,37,47,57,115],
         "jenks":[5,6,10,14,16,24,115],
@@ -42,7 +42,7 @@
     {
         "codVariable": "p13_036",
         "variable": "Faixa etárias - 2 anos",
-        "description": "Faixa etárias - 2 anos",
+        "description": "Pessoas com 2 anos de idade",
         "idTheme": 1,
         "quantiles":[9,18,27,36,45,55,89],
         "jenks":[5,5,10,14,16,24,89],
@@ -52,7 +52,7 @@
     {
         "codVariable": "p13_037",
         "variable": "Faixa etárias - 3 anos",
-        "description": "Faixa etárias - 3 anos",
+        "description": "Pessoas com 3 anos de idade",
         "idTheme": 1,
         "quantiles":[9,19,28,38,47,61,135],
         "jenks":[6,6,10,14,17,24,135],
@@ -62,7 +62,7 @@
     {
         "codVariable": "p13_038",
         "variable": "Faixa etárias - 4 anos",
-        "description": "Faixa etárias - 4 anos",
+        "description": "Pessoas com 4 anos de idade",
         "idTheme": 1,
         "quantiles":[9,19,28,38,47,57,114],
         "jenks":[6,6,10,14,17,25,114],
@@ -72,7 +72,7 @@
     {
         "codVariable": "p13_039",
         "variable": "Faixa etárias - 5 anos",
-        "description": "Faixa etárias - 5 anos",
+        "description": "Pessoas com 5 anos de idade",
         "idTheme": 1,
         "quantiles":[10,20,30,40,50,61,96],
         "jenks":[6,6,10,15,17,26,96],
@@ -82,7 +82,7 @@
     {
         "codVariable": "p13_201",
         "variable": "Faixa etárias - 6 a 10 anos",
-        "description": "Faixa etárias - 6 a 10 anos",
+        "description": "Pessoas de 6 a 10 anos de idade",
         "idTheme": 1,
         "quantiles":[40,81,121,162,202,245,475],
         "jenks":[32,32,53,75,88,130,475],
@@ -92,7 +92,7 @@
     {
         "codVariable": "p13_202",
         "variable": "Faixa etárias - 11 a 14 anos",
-        "description": "Faixa etárias - 11 a 14 anos",
+        "description": "Pessoas de 11 a 14 anos de idade",
         "idTheme": 1,
         "quantiles":[34,69,103,138,172,209,442],
         "jenks":[28,29,47,66,78,115,442],
@@ -102,7 +102,7 @@
     {
         "codVariable": "p13_203",
         "variable": "Faixa etárias - 15 a 17 anos",
-        "description": "Faixa etárias - 15 a 17 anos",
+        "description": "Pessoas de 15 a 17 anos de idade",
         "idTheme": 1,
         "quantiles":[24,49,74,99,124,149,228],
         "jenks":[21,21,35,49,57,82,228],
@@ -112,7 +112,7 @@
     {
         "codVariable": "p13_204",
         "variable": "Faixa etárias - 18 a 29 anos",
-        "description": "Faixa etárias - 18 a 29 anos",
+        "description": "Pessoas de 18 a 29 anos de idade",
         "idTheme": 1,
         "quantiles":[79,158,237,316,395,488,2068],
         "jenks":[108,108,158,206,233,314,2068],
@@ -122,7 +122,7 @@
     {
         "codVariable": "p13_205",
         "variable": "Faixa etárias - 30 a 49 anos",
-        "description": "Faixa etárias - 30 a 49 anos",
+        "description": "Pessoas de 30 a 49 anos de idade",
         "idTheme": 1,
         "quantiles":[103,207,311,415,519,640,1239],
         "jenks":[44,102,108,179,225,382,1239],
@@ -132,7 +132,7 @@
     {
         "codVariable": "p13_206",
         "variable": "Faixa etárias - 50 a 64 anos",
-        "description": "Faixa etárias - 50 a 64 anos",
+        "description": "Pessoas de 50 a 64 anos de idade",
         "idTheme": 1,
         "quantiles":[44,88,132,176,220,265,445],
         "jenks":[39,64,82,98,116,143,445],
@@ -142,7 +142,7 @@
     {
         "codVariable": "p13_207",
         "variable": "Faixa etárias - 65 a 79 anos",
-        "description": "Faixa etárias - 65 a 79 anos",
+        "description": "Pessoas de 65 a 79 anos de idade",
         "idTheme": 1,
         "quantiles":[23,46,69,93,116,139,207],
         "jenks":[25,25,43,60,69,93,190],
@@ -152,7 +152,7 @@
     {
         "codVariable": "p13_208",
         "variable": "Faixa etárias - acima 80 anos",
-        "description": "Faixa etárias - acima 80 anos",
+        "description": "Pessoas com 80 anos ou mais de idade",
         "idTheme": 1,
         "quantiles":[12,25,38,51,64,80,167],
         "jenks":[4,4,10,17,22,35,167],
@@ -172,7 +172,7 @@
     {
         "codVariable": "p3_002",
         "variable": "Cor/Raça - Branca",
-        "description": "Cor/Raça - Branca",
+        "description": "Pessoas Residentes e cor ou raça - Branca",
         "idTheme": 2,
         "quantiles":[163,327,491,654,818,998,1834],
         "jenks":[178,272,340,405,482,591,1834],
@@ -182,7 +182,7 @@
     {
         "codVariable": "p3_003",
         "variable": "Cor/Raça - Preta",
-        "description": "Cor/Raça - Preta",
+        "description": "Pessoas Residentes e cor ou raça - Preta",
         "idTheme": 2,
         "quantiles":[41,82,123,165,206,265,465],
         "jenks":[21,22,47,73,88,131,465],
@@ -192,7 +192,7 @@
     {
         "codVariable": "p3_004",
         "variable": "Cor/Raça - Amarela",
-        "description": "Cor/Raça - Amarela",
+        "description": "Pessoas Residentes e cor ou raça - Amarela",
         "idTheme": 2,
         "quantiles":[30,60,91,122,161,216,480],
         "jenks":[3,3,10,19,26,55,480],
@@ -202,7 +202,7 @@
     {
         "codVariable": "p3_005",
         "variable": "Cor/Raça - Parda",
-        "description": "Cor/Raça - Parda",
+        "description": "Pessoas Residentes e cor ou raça - Parda",
         "idTheme": 2,
         "quantiles":[143,287,430,574,717,883,2131],
         "jenks":[112,113,241,368,436,641,2131],
@@ -212,7 +212,7 @@
     {
         "codVariable": "p3_006",
         "variable": "Cor/Raça - Indígena",
-        "description": "Cor/Raça - Indígena",
+        "description": "Pessoas Residentes e cor ou raça - Indígena",
         "idTheme": 2,
         "quantiles":[6,12,28,26,42,74,599],
         "jenks":[0,0,0,1,2,5,599],
@@ -222,7 +222,7 @@
     {
         "codVariable": "de020",
         "variable": "Pessoas residentes a menos de 3 anos (%)",
-        "description": "Pessoas residentes a menos de 3 anos (%)",
+        "description": "Percentual de pessoas com menos de 3 anos de residência no município na área de ponderação",
         "idTheme": 2,
         "quantiles":[5.9,7.2,8.3,9.5,10.9,12.8,21.9],
         "jenks":[7.12,7.19,9.11,10.72,11.64,14.92,21.93],
@@ -232,7 +232,7 @@
     {
         "codVariable": "de023",
         "variable": "Pessoas nascidas em outro Estado (%)",
-        "description": "Pessoas nascidas em outro Estado (%)",
+        "description": "Percentual de pessoas que nasceram em outro Estado na área de ponderação",
         "idTheme": 2,
         "quantiles":[16.5,19.8,22.9,26.1,29.2,32.4,51.0],
         "jenks":[16.43,19.11,21.91,24.89,27.96,31.37,51.05],
@@ -242,7 +242,7 @@
     {
         "codVariable": "de024",
         "variable": "Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)",
-        "description": "Pessoas nascidas no Nordeste residentes a menos de 10 anos (%)",
+        "description": "Percentual de pessoas que nasceram no Nordeste e que residem a menos de 10 anos no Estado",
         "idTheme": 2,
         "quantiles":[2.1,2.8,3.5,4.3,5.2,6.2,18.8],
         "jenks":[1.26,2.11,2.7,3.51,4.49,5.62,18.85],
@@ -362,7 +362,7 @@
     {
         "codVariable": "ins032",
         "variable": "Percentual de pessoas de 7 a 14 anos de idade fora da escola",
-        "description": "Percentual de pessoas de 7 a 14 anos de idade fora da escola",
+        "description": "Percentual de pessoas de 7 a 14 anos de idade fora da escola, no total de pessoas desse grupo etário",
         "idTheme": 4,
         "quantiles":[4.8,5.5,5.8,5.9,8.4,11.1,18.6],
         "jenks":[-999.99,-999.99,-999.99,-999.99,8.35,11.09,18.57],
@@ -372,7 +372,7 @@
     {
         "codVariable": "ins037",
         "variable": "Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche",
-        "description": "Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche",
+        "description": "Percentual de pessoas de 3 a 6 anos de idade que nunca frequentaram escola ou creche, no total de pessoas desse grupo etário",
         "idTheme": 4,
         "quantiles":[17.1,19.4,21.6,24.0,27.7,30.5,38.3],
         "jenks":[-999.99,-999.99,-999.99,-999.99,20.75,28.35,38.26],
@@ -412,7 +412,7 @@
     {
         "codVariable": "ren016",
         "variable": "Pessoas com renda per capita até meio salário mínimo (%)",
-        "description": "Pessoas com renda per capita até meio salário mínimo (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita até meio salário mínimo",
         "idTheme": 5,
         "quantiles":[9.15,14.05,19.00,23.18,27.72,32.47,49.63],
         "jenks":[5.32,9.1,9.46,18.23,24.14,37.16,49.63],
@@ -422,7 +422,7 @@
     {
         "codVariable": "ren101",
         "variable": "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)",
-        "description": "Pessoas com renda per capita entre 0,5 e 1 salário mínimo (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita entre mais de 0,5 e 1 salário mínimo",
         "idTheme": 5,
         "quantiles":[12.97,20.38,26.06,29.64,32.29,35.12,42.57],
         "jenks":[4.78,10.45,15.98,29.58,30.83,32.32,42.57],
@@ -432,7 +432,7 @@
     {
         "codVariable": "ren102",
         "variable": "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)",
-        "description": "Pessoas com renda per capita entre 1 e 3 salários mínimos (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita entre mais de 1 e 3 salários mínimos",
         "idTheme": 5,
         "quantiles":[26.43,30.91,34.90,38.36,41.78,45.63,57.29],
         "jenks":[19.68,27.22,27.58,35.56,40.2,48.74,57.29],
@@ -442,7 +442,7 @@
     {
         "codVariable": "ren103",
         "variable": "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)",
-        "description": "Pessoas com renda per capita entre 3 e 5 salários mínimos (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita entre mais de 3 e 5 salários mínimos",
         "idTheme": 5,
         "quantiles":[2.79,4.18,6.24,9.36,12.62,16.16,23.88],
         "jenks":[-999.99,-999.99,1.54,3.5,5.62,20.88,23.88],
@@ -452,7 +452,7 @@
     {
         "codVariable": "ren104",
         "variable": "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)",
-        "description": "Pessoas com renda per capita entre 5 e 10 salários mínimos (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita entre mais de 5 e 10 salários mínimos",
         "idTheme": 5,
         "quantiles":[2.00,3.58,5.95,8.31,13.53,22.15,32.64],
         "jenks":[-999.99,-999.99,1.78,3.97,7.93,17.87,32.64],
@@ -462,7 +462,7 @@
     {
         "codVariable": "ren105",
         "variable": "Pessoas com renda per capita acima de 10 salários mínimos (%)",
-        "description": "Pessoas com renda per capita acima de 10 salários mínimos (%)",
+        "description": "Porcentagem de pessoas em domicílios com renda per capita superior a 10 salários mínimos",
         "idTheme": 5,
         "quantiles":[1.94,2.84,4.63,7.60,13.10,25.15,42.66],
         "jenks":[-999.99,-999.99,-999.99,-999.99,2.21,8.38,42.66],
