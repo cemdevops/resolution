@@ -27,6 +27,7 @@ $("#option_basemap_thematic").click(function () {
         // Change the background image and the button text
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
+        // $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
         $("#option_basemap_thematic").removeClass("thematic-map");
         $("#option_basemap_thematic").addClass("base-map");
     }
@@ -427,12 +428,13 @@ cartodb.createLayer(map,{
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
-        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 14;" +
-                                                "text-label-position-tolerance: 0; text-fill: #535353; text-halo-fill: #fff; " +
-                                                "text-halo-radius: 0.9; text-dy: 0; text-allow-overlap: true; " +
+        cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 12;" +
+                                                "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #fff; " +
+                                                "text-halo-radius: 1.5; text-dy: 0; text-allow-overlap: false; " +
                                                 "text-placement: point; text-placement-type: dummy;}"
     }
 };
+
 
 /*
  * Function to add the places layer
@@ -444,34 +446,34 @@ cartodb.createLayer(map,{
     })
 .addTo(map) // add the layer to our map which already contains 0 sublayers
 .done(function(placesLayer){
-    var sublayer = null;
+    var placesSublayer = null;
     var zoomControleLabel = ZOOM_INITIAL_LEVEL;
-    map.on ('zoomend', function (e) {
+    // control places names (show/hide)
+    map.on('zoomend', function (e) {
         if (placesLayer.getSubLayerCount()>0) {
+            // get zoom level
             zoomControleLabel = map.getZoom();
-            if (zoomControleLabel < 10) {
-                // 1=0 means the query returns no result
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=0");
-            } else if (zoomControleLabel < 14) {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
-                sublayer.setCartoCSS()
-            } else if (zoomControleLabel < 15) {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town' OR type='suburb' OR type='hamlet'");
-            } else {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
+            if (zoomControleLabel < 13) {
+                placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
+            } else  {
+                placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
             }
         }
     });
 
     // Put the places layer on anothers layers
     placesLayer.setZIndex(1);
-
+    // used to show/hide places names
     $("#option_basemap_thematic").click(function () {
-      sublayer = showPlacesLayer(placesLayer,sublayer);
+        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
     });
-
+    // used to show/hide places names
+    $("#option_theme").change(function(){
+        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
+    });
+    // used to show/hide places names
     $("#option_variables").change(function(){
-      sublayer = showPlacesLayer(placesLayer,sublayer);
+        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
     });
 });
 
@@ -483,12 +485,11 @@ function showPlacesLayer(placesLayer,placesSublayer){
     var buttonVal = document.getElementById("option_basemap_thematic").value;
     // get variable value chosen
     var variableSel = document.getElementById("option_variables").value;
-    console.log(buttonVal +'-'+ variableSel);
 
     // Clean the places layer
     placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});
 
-    if (variableSel != 'selecione' && buttonVal == 'Mapa base'){
+    if (variableSel != 'selecione' && variableSel != '' && buttonVal == 'Mapa base'){
         // create and add a new sublayer to map
         placesLayer.createSubLayer(places["rmsp"]);
         // this line is used to show places layer while the zoom is working
