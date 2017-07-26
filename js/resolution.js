@@ -17,9 +17,8 @@ $("#option_basemap_thematic").click(function () {
         // Change the background image and button description
         $("#option_basemap_thematic").attr('value', 'Mapa temático');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
-        $("#option_basemap_thematic").toggleClass("thematic-map base-map"); // add 'thematic-map', remove 'base-map'
-        // $("#option_basemap_thematic").removeClass("base-map");
-        // $("#option_basemap_thematic").addClass("thematic-map");
+        $("#option_basemap_thematic").removeClass("base-map");
+        $("#option_basemap_thematic").addClass("thematic-map");
 
     } else{
         // Show only the thematic map
@@ -28,9 +27,8 @@ $("#option_basemap_thematic").click(function () {
         // Change the background image and the button text
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
-        $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
-        // $("#option_basemap_thematic").removeClass("thematic-map");
-        // $("#option_basemap_thematic").addClass("base-map");
+        $("#option_basemap_thematic").removeClass("thematic-map");
+        $("#option_basemap_thematic").addClass("base-map");
     }
 });
 
@@ -453,13 +451,14 @@ cartodb.createLayer(map,{
             zoomControleLabel = map.getZoom();
             if (zoomControleLabel < 10) {
                 // 1=0 means the query returns no result
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=0")
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE 1=0");
             } else if (zoomControleLabel < 14) {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'")
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
+                sublayer.setCartoCSS()
             } else if (zoomControleLabel < 15) {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town' OR type='suburb' OR type='hamlet'")
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town' OR type='suburb' OR type='hamlet'");
             } else {
-                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp")
+                sublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
             }
         }
     });
