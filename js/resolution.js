@@ -17,8 +17,9 @@ $("#option_basemap_thematic").click(function () {
         // Change the background image and button description
         $("#option_basemap_thematic").attr('value', 'Mapa temático');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
-        $("#option_basemap_thematic").removeClass("base-map");
-        $("#option_basemap_thematic").addClass("thematic-map");
+        $("#option_basemap_thematic").toggleClass("thematic-map base-map"); // add 'thematic-map', remove 'base-map'
+        // $("#option_basemap_thematic").removeClass("base-map");
+        // $("#option_basemap_thematic").addClass("thematic-map");
 
     } else{
         // Show only the thematic map
@@ -27,8 +28,9 @@ $("#option_basemap_thematic").click(function () {
         // Change the background image and the button text
         $("#option_basemap_thematic").attr('value', 'Mapa base');
         $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
-        $("#option_basemap_thematic").removeClass("thematic-map");
-        $("#option_basemap_thematic").addClass("base-map");        
+        $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
+        // $("#option_basemap_thematic").removeClass("thematic-map");
+        // $("#option_basemap_thematic").addClass("base-map");
     }
 });
 
@@ -151,18 +153,18 @@ cartodb.createLayer(map,{
           console.log("changing variables");
         });
 
-        $("#option_theme").change(function(){          
+        $("#option_theme").change(function(){
           console.log("changing theme");
           // Clear all transport active layers
-          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});  
-          // Check if layer's legend. Remove if exists        
+          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+          // Check if layer's legend. Remove if exists
           takeOutLegend();
         })
     });
 
 /*
  * Function to take out the legend of screen
- */    
+ */
 function takeOutLegend(){
   // Check if layer's legend. Remove if exists
   if ($("div.cartodb-legend.choropleth").length) {
@@ -178,7 +180,7 @@ function showThematicLayer(layer){
   // Clear all transport active layers
   layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
 
-  // get Variable code. For example, p3_001, p11_001 . codVariable == op  
+  // get Variable code. For example, p3_001, p11_001 . codVariable == op
   //var op = $(this).val(); //$(this).attr("value");
   var el = document.getElementById("option_variables");
   var op = el.options[el.selectedIndex].value;
@@ -186,8 +188,8 @@ function showThematicLayer(layer){
   // get selected Theme
   var e = document.getElementById("option_theme");
   var theme = e.options[e.selectedIndex].value;
-  console.log(theme +'-'+ op);            
-         
+  console.log(theme +'-'+ op);
+
   // Check if layer's legend. Remove if exists
   takeOutLegend();
 
@@ -259,7 +261,7 @@ function showThematicLayer(layer){
   }
 }
 
-/* 
+/*
  * Function to define the legend cell where the value from carto dataset will be presented
  */
 function getClassBreaksCel (valor, arrayDataClassBreaks) {
@@ -281,11 +283,11 @@ function getClassBreaksCel (valor, arrayDataClassBreaks) {
     }
 }
 
-/* 
+/*
  * Function to create a infobox tooltip
  * Show the polygon informations as Infobox or Tooltip (mouse hover)
  */
-function createInfoboxTooltip(layer, sublayer, colName){    
+function createInfoboxTooltip(layer, sublayer, colName){
     return layer.leafletMap.viz.addOverlay({
         // Clóvis/André 20170331: type modified from tooltip to infobox
         type: 'infobox',
@@ -355,9 +357,8 @@ function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
      return (strLegend);
 }
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// CONTROLE DOS LAYERS DE TRANSPORTES (METRO E TREM)
-// array contendo os dados para os layers de transportes
+// ++++++++++++++++++++++++++ TRANSPORTS (RAILS AND METRO) LAYER ++++++++++++++++++++++++++
+// array (carto configuration) used to show/hide rails and metro line
 var transportes = {
     "metro_linha": {
         sql: "SELECT * FROM resolution_metro_linhas",
@@ -377,7 +378,7 @@ var transportes = {
             "[zoom=16] {line-width: 1.4;} " +
             "[zoom=17] {line-width: 1.2;} " +
             "[zoom=18] {line-width: 1.0;} " +
-            "[zoom=19] {line-width: 0.0;} " 
+            "[zoom=19] {line-width: 0.0;} "
     },
     "trem_linha": {
         sql: "SELECT * FROM resolution_trem_linhas",
@@ -402,7 +403,7 @@ var transportes = {
     }
 };
 
-// controle dos checckboxs que mostrar as linhas de metro/trem
+// checckboxs controls to show/hide rails and metro line
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -410,20 +411,21 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
-        // colocando ordem de sobreposição dos layers
+        // set layer in order of overlap
         layer.setZIndex(1);
-        // assim que os checckboxs forem acionados, dispara essa função
+        // throw this function after checckboxs click
         $("input[name='transporte']").change(function(){
-            // limpa os layer de transporte ativo
+            // first, we must remove all active transport layer
             layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // para cada layer de transporte ativado, adiciona-se o sublayer
+            // add sublayer to the map
             $.each($("input[name='transporte']:checked"), function(){
                 layer.createSubLayer(transportes[$(this).attr("id")]);
             });
         });
     });
 
-// ++++++++++++++++++++++++++++++++++++++PLACES LAYER+++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++ PLACES LAYER ++++++++++++++++++++++++++++++++++++++
+// array (carto configuration) used to show/hide places names
 var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
@@ -442,8 +444,7 @@ cartodb.createLayer(map,{
         type: "cartodb",
         sublayers: []
     })
-// add the layer to our map which already contains 0 sublayers
-.addTo(map)
+.addTo(map) // add the layer to our map which already contains 0 sublayers
 .done(function(placesLayer){
     var sublayer = null;
     var zoomControleLabel = ZOOM_INITIAL_LEVEL;
@@ -464,7 +465,7 @@ cartodb.createLayer(map,{
     });
 
     // Put the places layer on anothers layers
-    placesLayer.setZIndex(1);    
+    placesLayer.setZIndex(1);
 
     $("#option_basemap_thematic").click(function () {
       sublayer = showPlacesLayer(placesLayer,sublayer);
@@ -479,28 +480,27 @@ cartodb.createLayer(map,{
  * Function to show the places layer
  */
 function showPlacesLayer(placesLayer,placesSublayer){
-  // get button value
-  var buttonVal = document.getElementById("option_basemap_thematic").value;
-  // get variable value chosen
-  var variableSel = document.getElementById("option_variables").value;
-  console.log(buttonVal +'-'+ variableSel);
+    // get button value
+    var buttonVal = document.getElementById("option_basemap_thematic").value;
+    // get variable value chosen
+    var variableSel = document.getElementById("option_variables").value;
+    console.log(buttonVal +'-'+ variableSel);
 
-  // Clean the places layer
-  placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});            
-  
-  if (variableSel != 'selecione' && buttonVal == 'Mapa base'){                
-    // create and add a new sublayer to map
-    placesLayer.createSubLayer(places["rmsp"]);
-    // this line is used to show places layer while the zoom is working
-    placesSublayer = placesLayer.getSubLayer(0);
-  } 
+    // Clean the places layer
+    placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});
 
-  return placesSublayer;
+    if (variableSel != 'selecione' && buttonVal == 'Mapa base'){
+        // create and add a new sublayer to map
+        placesLayer.createSubLayer(places["rmsp"]);
+        // this line is used to show places layer while the zoom is working
+        placesSublayer = placesLayer.getSubLayer(0);
+    }
+
+    return placesSublayer;
 }
-// PLACES
+// PLACES LAYER
 
-// +++++++++++++++++++++++++++++++++++++WATER LAYER++++++++++++++++++++++++++++++++++++++++++++++++
-// 
+// +++++++++++++++++++++++++++++++++++++ WATER LAYER +++++++++++++++++++++++++++++++++++++
 cartodb.createLayer(map,{
         user_name: "cemdevops",
         type: "cartodb",
@@ -508,13 +508,12 @@ cartodb.createLayer(map,{
     })
     .addTo(map)
     .done(function(layer){
-        // colocando ordem de sobreposição dos layers
+        // set layer in order of overlap
         layer.setZIndex(1);
-        // adiciona o layer ao mapa
+        // add layer to the map
         layer.createSubLayer({
             sql: "SELECT * FROM resolution_cem_aguas_2",
             cartocss: "#resolution_cem_aguas_2{polygon-fill:#526475; line-color:#526475}"
         });
     });
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// WATER LAYER
