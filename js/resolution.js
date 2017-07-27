@@ -509,7 +509,7 @@ cartodb.createLayer(map,{
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
-        layer.setZIndex(1);
+        layer.setZIndex(-1);
         // add layer to the map
         layer.createSubLayer({
             sql: "SELECT * FROM resolution_cem_aguas_2",
@@ -517,3 +517,25 @@ cartodb.createLayer(map,{
         });
     });
 // WATER LAYER
+
+
+// +++++++++++++++++++++++++++++++++++++ RMSP +++++++++++++++++++++++++++++++++++++
+// metropolitan region of São Paulo
+// testing layer
+cartodb.createLayer(map,{
+        user_name: "viniciusmaeda", // alter to CEM account
+        type: "cartodb",
+        sublayers: []
+    })
+    .addTo(map)
+    .done(function(layer){
+        // set layer in order of overlap
+        layer.setZIndex(-2);
+        // add layer to the map
+        layer.createSubLayer({
+            sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",
+            cartocss: "#sc2010_rmsp_cem_r_merge{polygon-fill:#93887e; line-color:#93887e}"
+        });
+    });
+
+    
