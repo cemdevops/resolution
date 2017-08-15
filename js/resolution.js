@@ -44,7 +44,9 @@ var map = L.map("map", {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // André - 20170512: inclusão de escala (km) no mapa
-L.control.scale({metric: true, imperial: false, position: 'topleft' }).addTo(map);
+L.control.scale({metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
+// Mariela: Specify the zoom control
+map.zoomControl.setPosition('bottomleft');
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
