@@ -5,8 +5,18 @@ var Scripts = {
     },
 
     _click: function() {
+        //about Resolution
+        $('#about-resolution').click(function(){
+            var x = document.getElementById('main-container-about');
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                x.style.display = 'none';
+            }
+            /*return false;*/
+        });
         //facebook
-        $('.facebook').click(function(){
+        $('#facebook').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
@@ -16,7 +26,7 @@ var Scripts = {
         });
         
         //twitter
-        $('.twitter').click(function(){
+        $('#twitter').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
@@ -27,7 +37,7 @@ var Scripts = {
         });
 
         //email
-        $('.email').click(function(){
+        $('#email').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
@@ -38,7 +48,7 @@ var Scripts = {
         });
 
          //linkedIn
-        $('.linkedin').click(function(){
+        $('#linkedin').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
@@ -72,3 +82,12 @@ var Scripts = {
 $(function () {
     Scripts._init();
 });
+
+/*function myFunction() {
+    var x = document.getElementById('main-container-about');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}*/
