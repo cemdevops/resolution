@@ -13,7 +13,7 @@ var Scripts = {
             } else {
                 x.style.display = 'none';
             }
-            /*return false;*/
+            return false;
         });
         //facebook
         $('#facebook').click(function(){
@@ -82,12 +82,3 @@ var Scripts = {
 $(function () {
     Scripts._init();
 });
-
-/*function myFunction() {
-    var x = document.getElementById('main-container-about');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-}*/

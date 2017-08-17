@@ -142,7 +142,6 @@ html, body, #map {
     border-radius: 4px; /*mozilla*/
     border: 1px solid rgba(51, 51, 51,0.4);
     z-index: 1;
-    display: none;
 }
 
 #title-about {
