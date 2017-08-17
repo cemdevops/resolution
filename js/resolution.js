@@ -41,12 +41,31 @@ var map = L.map("map", {
     maxZoom: ZOOM_MAX_LEVEL, // maximum zoom level
     minZoom: ZOOM_MIN_LEVEL // minimum zoom level
 });
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// André - 20170512: inclusão de escala (km) no mapa
-L.control.scale({metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
+// Create additional Control placeholders
+function addControlPlaceholders(map) {
+	var corners = map._controlCorners,
+        l = 'leaflet-',
+        container = map._controlContainer;
+
+    function createCorner(vSide, hSide) {
+        var className = l + vSide + ' ' + l + hSide;
+
+        corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+    }
+
+    createCorner('verticalcenter', 'left');
+    createCorner('verticalcenter', 'right');
+    createCorner('verticalcustom', 'left');
+    createCorner('verticalcustom', 'right');
+}
+addControlPlaceholders(map);
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Mariela: Specify the zoom control
-map.zoomControl.setPosition('bottomleft');
+map.zoomControl.setPosition('verticalcustomleft');
+// André - 20170512: inclusão de escala (km) no mapa
+L.control.scale({metric: true, imperial: false, position: 'verticalcustomleft' }).addTo(map);
+
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
