@@ -257,3 +257,25 @@ a {
 .active {
     background-color: #4CAF50 !important;
 }
+
+/* map positions */
+.leaflet-verticalcenter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-top: 10px;
+}
+
+.leaflet-verticalcenter .leaflet-control {
+    margin-bottom: 10px;
+}
+
+.leaflet-verticalcustom {
+    position: absolute;
+    bottom: 110px;
+    padding-top: 10px;
+}
+
+.leaflet-verticalcustom .leaflet-control {
+    margin-bottom: 10px;
+}
