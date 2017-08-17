@@ -220,35 +220,6 @@ a {
     background-color: transparent;
 }
 
-.facebook, .twitter, .email, .linkedin {
-    margin-left: 5px;
-    display: inline;
-}
-
-.twitter {
-    padding: 30px 30px 30px 0;
-    background: url(../img/twitter.png) left center no-repeat;
-    background-size: 30px;
-}
-
-.facebook {
-    background: url(../img/facebook.png) left center no-repeat;
-    padding: 30px 30px 30px 0;
-    background-size: 30px;
-}
-
-.email {
-    background: url(../img/email.png) left center no-repeat;
-    padding: 30px 30px 30px 0;
-    background-size: 30px;
-}
-
-.linkedin {
-    background: url(../img/linkedin.png) left center no-repeat;
-    padding: 30px 30px 30px 0;
-    background-size: 30px;
-}
-
 /* Vertical icon bar*/
 #container-icons {
     position: absolute; 
