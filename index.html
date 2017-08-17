@@ -15,72 +15,55 @@
     <!-- include cartodb css  -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <!-- include cartodb.js library -->
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>  
+	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
 </head>
 <body>
 	<!-- div onde será atribuído o mapa -->
 	<div id="map"></div>
 
-	<!-- div to about button -->
-	<!--<div class="leaflet-control-container">
-		<div class="leaflet-top leaflet-left" style="padding-bottom: 30px;">
-			<div class=" leaflet-control">
-				<input id='about_button' type="button"  value="" 
-				title="Click aqui para conhecer mais sobre o projeto" 
-				data-placement="auto" data-toggle="tooltip" 
-				class="about">
-			</div>
-		</div>
-	</div>-->
-	<div id="main-container-about">		
-			<div id="title_about">RESOLUTION</div>
-				<div id="container-text-about">					
-					<div id="title_options">O RESOLUTION é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.  </div>
-					
-					<div class="aboutbodyWrap">	
-						<div class="about-body"> 									
-							<div class="cem"> 
-								<a href="http://www.fflch.usp.br/centrodametropole/" > 
-									<i class="cem-icon sprite"></i> 
-								</a> 
-							</div>
-							<div class="fapesp"> 
-								<a href="http://www.fapesp.br/" > 
-									<i class="fapesp-icon sprite"></i> 
-								</a> 
-							</div> 
-						</div>
-					</div>
-				</div>
-			<div class="footerWrap"> 
-				<div class="about-footer"> 
-					<div class="tutorial ng-scope"> 
-						<a href="#aboutModal" title="Acerca do projeto" data-toggle="modal">Sobre o projeto</a> 
-					</div>
-					<a class="twitter" href="#"> </a> 
-					<a class="facebook" href="#"> </a> 
-					<a class="email" href="#"> </a>
-					<a class="linkedin" href="#"> </a>
-					<!--<div class="twitter"> 
-						<a href="#" >
-							<i class="twitter-icon"></i>
-						</a> 
-					</div> 
-					<div class="facebook"> 
-						<a href="#" > 
-							<i class="facebook-icon"></i> 
-						</a> 
-					</div>-->					
-				</div>
+	<!-- div to about button -->	
+	<div id="container-icons" class="icon-bar">
+		<a id="about-resolution" href="#" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a> 
+		<a id="facebook" href="#" title="Compartilhar o site no facebook"><i class="fa fa-facebook"></i></a> 
+		<a id="twitter" href="#" title="Compartilhar o site no twiter"><i class="fa fa-twitter"></i></a> 
+		<a id="linkedin" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
+		<a id="email" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
+		<a id="graphs" href="#" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
+	</div>	
+
+	
+	<div id="main-container-about" style="display:none;">		
+		<div id="title-about">ReSolution</DIV>
+		<div  id="subtitle-about">RE​silient S​ystems fO​r Land Use TransportatION</div>				
+		
+		<div id="container-text-about">					
+			<div id="title_options">O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo. 
+				<a href="#"><i class="fa fa-external-link"></i></a>
 			</div>		
+		</div>					
+		<div class="footerWrap-about">
+			<div class="about-footer"> 													
+				<div class="cem"> 
+					<a href="http://www.fflch.usp.br/centrodametropole/" > 
+						<i class="cem-icon sprite"></i> 
+					</a> 
+				</div>
+				<div class="fapesp"> 
+					<a href="http://www.fapesp.br/" > 
+						<i class="fapesp-icon sprite"></i> 
+					</a> 
+				</div> 									
+			</div>
+		</div>		
     </div>
 
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
 		<div class="leaflet-bottom leaflet-left" style="padding-bottom: 80px">
 			<div class=" leaflet-control">
-				<input id='option_basemap_thematic' type="button"  value="Mapa Temático" 
-				title="Click aqui para mudar o mapa temático!" 
+				<input id='option_basemap_thematic' type="button"  value="COM MAPA BASE" 
+				title="Click aqui para visualizar o mapa temático sem o mapa base!" 
 				data-placement="auto" data-toggle="tooltip" 
 				class="input-map-option thematic-map">
 			</div>
@@ -116,7 +99,7 @@
 
 	<!-- importar o arquivo js -->
 	<script type="text/javascript" src="js/queries.js"></script>
-	<script type="text/javascript" src="js/socialnetworks.js"></script>
+	<script type="text/javascript" src="js/menuoptions.js"></script>
 	<script type="text/javascript" src="js/resolution.js"></script>
 	<script type="text/javascript" src="js/controlsdata.js"></script>
 </body>
