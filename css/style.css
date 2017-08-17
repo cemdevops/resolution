@@ -29,6 +29,18 @@ html, body, #map {
     border-bottom: 2px solid rgba(35,87,146,0.4);    
 }
 
+#title_legend {
+    font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
+    background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
+    text-transform: uppercase;
+    color: #333;
+    padding: 15px 15px 10px 15px;
+    border-bottom: 2px solid rgba(35,87,146,0.4);
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -13px;
+}
+
 #container_options {
     background: rgba(255,255,255,0.8);
     border-bottom: 1px solid rgba(35,87,146,0.4);

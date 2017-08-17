@@ -309,6 +309,7 @@ function createInfoboxTooltip(layer, sublayer, colName){
 function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
+          "  <div id=\"title_legend\">LEGENDA</div><br>" +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
           "  <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
