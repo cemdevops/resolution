@@ -119,6 +119,8 @@ html, body, #map {
     width: 75px;
     height: 75px; 
     font-size: 9px;
+    text-align: center;
+    white-space: normal;
 }
 
 .base-map{

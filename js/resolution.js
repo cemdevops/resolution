@@ -10,13 +10,13 @@ Constants and global parameters read from config.json can be found in queries.js
 
 // Mariela: Event triggered by clicking in base/thematic map button
 $("#option_basemap_thematic").click(function () {
-    if ($("#option_basemap_thematic").val() == 'Mapa base'){
+    if ($("#option_basemap_thematic").val() == 'COM MAPA BASE'){
         // Show the base map and/or thematic map
         addBaseMap('osm');
 
         // Change the background image and button description
-        $("#option_basemap_thematic").attr('value', 'Mapa temático');
-        $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa temático!');
+        $("#option_basemap_thematic").attr('value', 'SEM MAPA BASE');
+        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático sem o mapa base!');
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
 
@@ -25,8 +25,8 @@ $("#option_basemap_thematic").click(function () {
         removeBaseMap(layerMapaBaseSel);
 
         // Change the background image and the button text
-        $("#option_basemap_thematic").attr('value', 'Mapa base');
-        $("#option_basemap_thematic").attr('title','Click aqui para mudar para o mapa base!');
+        $("#option_basemap_thematic").attr('value', 'COM MAPA BASE');
+        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático com o mapa base!');
         // $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
         $("#option_basemap_thematic").removeClass("thematic-map");
         $("#option_basemap_thematic").addClass("base-map");
