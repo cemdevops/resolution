@@ -29,6 +29,18 @@ html, body, #map {
     border-bottom: 2px solid rgba(35,87,146,0.4);    
 }
 
+#title_legend {
+    font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
+    background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
+    text-transform: uppercase;
+    color: #333;
+    padding: 15px 15px 10px 15px;
+    border-bottom: 2px solid rgba(35,87,146,0.4);
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -13px;
+}
+
 #container_options {
     background: rgba(255,255,255,0.8);
     border-bottom: 1px solid rgba(35,87,146,0.4);
@@ -94,6 +106,7 @@ html, body, #map {
 .cartodb-legend-container{    
     width: 270px;
     background: rgba(255,255,255, 0.8) ! important;
+    border-radius: 6px;
 }
 
 .colors{
@@ -112,6 +125,22 @@ html, body, #map {
     text-align: center;
     vertical-align: middle;
     max-width: 5px;
+}
+
+.cell-cem-no-value {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 36px;
+    border: 1px solid black;
+    height: 18px;
+}
+
+.cell-cem-no-value-text {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    height: 18px;
 }
 
 /* button thematic/base map option */
