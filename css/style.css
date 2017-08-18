@@ -150,6 +150,7 @@ html, body, #map {
     font-size: 9px;
     text-align: center;
     white-space: normal;
+    cursor: pointer;
 }
 
 .base-map{
@@ -238,6 +239,22 @@ html, body, #map {
     padding: 15px 110px 15px 0;  
 }
 
+.cem-logo{
+    background: url("../img/logo-cem.png") no-repeat;
+    display: inline-block;
+    background-size: 34px;
+    width: 32px;
+    height: 15px;
+}
+
+.fapesp-logo{
+    background: url("../img/logo-fapesp.png") no-repeat;
+    display: inline-block;
+    background-size: 34px;
+    width: 32px;
+    height: 25px;
+}
+
 a {
     cursor: pointer;
 }
@@ -276,7 +293,7 @@ a {
     padding: 5px;
     transition: all 0.3s ease;
     color: white;
-    font-size: 30px;
+    font-size: 29px;
 }
 
 .icon-bar a:hover {
@@ -285,6 +302,11 @@ a {
 
 .active {
     background-color: #4CAF50 !important;
+}
+
+.separator-icons {
+    color: #ffffff; 
+    margin:3px;
 }
 
 /* map positions */
