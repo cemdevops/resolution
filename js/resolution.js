@@ -456,7 +456,6 @@ var places = {
     }
 };
 
-
 /*
  * Function to add the places layer
  */
