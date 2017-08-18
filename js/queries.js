@@ -17,6 +17,7 @@ var polygonOpacityWithBaseMap = 0.4;
 var quantiles_colors_hex = ["#FFFFB2","#FED976","#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#B10026"];
 var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253, 141, 60","252, 78, 42","227, 26, 28","177, 0, 38"];
 var noValueClassColor = "#A9A9A9";
+var noDataMessage = "Sem dados válidos";
 
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
@@ -53,6 +54,9 @@ $.getJSON(
        }
        if (result.classColorNoValue) {
            noValueClassColor = result.classColorNoValue;
+       }
+       if (result.noDataMessage) {
+           noDataMessage = result.noDataMessage;
        }
        if (result.initialDataClassificationMethod) {
            currentDataClassificationMethod = result.initialDataClassificationMethod;

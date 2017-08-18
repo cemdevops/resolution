@@ -7,7 +7,7 @@
         "tableName": "resolution_sc2010_cem_rmsp_erase",
         "polygonArea": "Setores Censitários",
         "showEdge": 2,
-        "colTableToLegend": "nom_ba"
+        "colTableToLegend": "nom_di"
     },
     {
         "idTheme": 2,
@@ -17,7 +17,7 @@
         "tableName": "resolution_sc2010_cem_rmsp_erase",
         "polygonArea": "Setores Censitários",
         "showEdge": 2,
-        "colTableToLegend": "nom_ba"
+        "colTableToLegend": "nom_di"
     },
     {
         "idTheme": 3,
@@ -27,7 +27,7 @@
         "tableName": "resolution_sc2010_cem_rmsp_erase",
         "polygonArea": "Setores Censitários",
         "showEdge": 2,
-        "colTableToLegend": "nom_ba"
+        "colTableToLegend": "nom_di"
     },
     {
         "idTheme": 4,
@@ -47,6 +47,6 @@
         "tableName": "resolution_sc2010_cem_rmsp_erase",
         "polygonArea": "Setores Censitários",
         "showEdge": 2,
-        "colTableToLegend": "nom_ba"
+        "colTableToLegend": "nom_di"
     }
 ]}

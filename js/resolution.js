@@ -218,7 +218,7 @@ function showThematicLayer(layer){
     // get button value
     var buttonVal = document.getElementById("option_basemap_thematic").value;
     // If button value is 'Mapa base' is because the basemap isn't visible
-    var opacity = buttonVal == 'Mapa base' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+    var opacity = buttonVal == 'COM MAPA BASE' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
 
     // get all data configuration of current layer, based on theme and variable (op)
     var currentLayerData = getCurrentLayerData (theme, op);
@@ -243,14 +243,26 @@ function showThematicLayer(layer){
         for (i=1; i < 8; i++) {
             document.getElementById("celula"+i).innerHTML = "";
         }
+        document.getElementById("nodata").innerHTML = "";
+
         // Fill district value in legend
         document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
         // Fill legend cell with data set value
         if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
             document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
+        } else {
+            document.getElementById("nodata").innerHTML = noDataMessage;
         }
     }); // sublayer.on
     // ... Clóvis/André 20170331
+
+    sublayer.on('featureOut', function(e,latlng,pos,data) {
+        // Clear legend content
+        for (i=1; i < 8; i++) {
+            document.getElementById("celula"+i).innerHTML = "";
+        }
+        document.getElementById("nodata").innerHTML = "";
+    }); // sublayer.on
 
     // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
     var toolTip = createInfoboxTooltip(layer,sublayer,currentLayerData.colTableToLegend);
@@ -286,7 +298,7 @@ function showThematicLayer(layer){
  */
 function getClassBreaksCel (valor, arrayDataClassBreaks) {
     if (valor <= arrayDataClassBreaks[0]) {
-//        document.getElementById("celula1").innerHTML = valor;
+        // document.getElementById("celula1").innerHTML = valor;
         return (1)
     } else if (valor <= arrayDataClassBreaks[1]) {
         return (2)
@@ -327,7 +339,7 @@ function createInfoboxTooltip(layer, sublayer, colName){
  */
 function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
-    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'> " +
+    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px;'> " +
           "  <div id=\"title_legend\">LEGENDA</div><br>" +
           "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
           "  <div> (" + strUnit + ")</div> <br>" +
@@ -336,7 +348,7 @@ function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "      <li class='min'>" + strMinValue + "</li>" +
           "      <li class='max'>" + strMaxValue + "</li>" +
           "      <li class='graph count_441'>" +
-          "        <div class='colors' >" +
+          "        <div class='colors'>" +
           "          <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
           "          <div class='quartile-cem' id='celula2' style='background:rgba(254, 217, 118," + opacity + ");color:black;'></div>" +
           "          <div class='quartile-cem' id='celula3' style='background:rgba(254, 178, 76," + opacity + ");color:black;'></div>" +
@@ -346,7 +358,13 @@ function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "          <div class='quartile-cem' id='celula7' style='background:rgba(177, 0, 38," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
           "        </div>" +
           "      </li>" +
-          "  </ul>";
+          "  </ul>" +
+          "  <div style='padding: 7px 0px 0px 0px;'>" +
+          "     <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
+          "     <div class='cell-cem-no-value-text' id='nodata' style='width:43%; padding: 0px 0px 0px 5px;color:black;text-align:left'></div>" +
+          "     <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
+          "     <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Região Metropolitana</div>" +
+          "  </div>";
 
     // Clóvis - 20170623: Optional selection between Natural Breaks and Quantils...
     if (bolEnableMethod) {
@@ -511,7 +529,7 @@ function showPlacesLayer(placesLayer,placesSublayer){
     // Clean the places layer
     placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});
 
-    if (variableSel != 'selecione' && variableSel != '' && buttonVal == 'Mapa base'){
+    if (variableSel != 'selecione' && variableSel != '' && buttonVal == 'COM MAPA BASE'){
         // create and add a new sublayer to map
         placesLayer.createSubLayer(places["rmsp"]);
         // this line is used to show places layer while the zoom is working

@@ -106,6 +106,7 @@ html, body, #map {
 .cartodb-legend-container{    
     width: 270px;
     background: rgba(255,255,255, 0.8) ! important;
+    border-radius: 6px;
 }
 
 .colors{
@@ -124,6 +125,22 @@ html, body, #map {
     text-align: center;
     vertical-align: middle;
     max-width: 5px;
+}
+
+.cell-cem-no-value {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 36px;
+    border: 1px solid black;
+    height: 18px;
+}
+
+.cell-cem-no-value-text {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    height: 18px;
 }
 
 /* button thematic/base map option */
