@@ -361,9 +361,9 @@ function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMet
           "  </ul>" +
           "  <div style='padding: 7px 0px 0px 0px;'>" +
           "     <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
-          "     <div class='cell-cem-no-value-text' id='nodata' style='width:43%; padding: 0px 0px 0px 5px;color:black;text-align:left'></div>" +
+          "     <div class='cell-cem-no-value-text' id='nodata' style='width:38%; padding: 0px 0px 0px 5px;color:black;text-align:left'></div>" +
           "     <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
-          "     <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Região Metropolitana</div>" +
+          "     <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Área metropolitana não urbana</div>" +
           "  </div>";
 
     // Clóvis - 20170623: Optional selection between Natural Breaks and Quantils...
@@ -577,4 +577,4 @@ cartodb.createLayer(map,{
         });
     });
 
-    
+
