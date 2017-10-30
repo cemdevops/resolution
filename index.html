@@ -12,11 +12,13 @@
 	<meta charset="utf-8">
     <!-- configuração de estilos (css) -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- Configuração de estilos for modals -->
+	<link rel="stylesheet" type="text/css" href="css/modals.css">
     <!-- include cartodb css  -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <!-- include cartodb.js library -->
 	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 	<!-- div onde será atribuído o mapa -->
@@ -26,6 +28,9 @@
 	<div id="container-icons" class="icon-bar">
 		<a id="about-resolution" href="#" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a> 
 		<a id="graphs" href="#" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
+		<a id="download-layers"  href="#"
+		   title="Baixar arquivos dos layers usados no projeto"><i class="fa fa-download"></i></a>
+		<a id="download-map-image"  href="#" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
 		<hr class="separator-icons">
 		<a id="facebook" href="#" title="Compartilhar o site no facebook"><i class="fa fa-facebook"></i></a> 
 		<a id="twitter" href="#" title="Compartilhar o site no twiter"><i class="fa fa-twitter"></i></a> 
@@ -36,7 +41,7 @@
 		<a id="fapesp" href="http://www.fapesp.br/" title="Fundação de Amparo à PEsquisa do Estado de São Paulo"><i class="fa fapesp-logo"></i></a>
 	</div>	
 
-	
+	<!-- ABout the project -->
 	<div id="main-container-about" style="display:none;">		
 		<div id="title-about">ReSolution</DIV>
 		<div  id="subtitle-about">RE​silient S​ystems fO​r Land Use TransportatION</div>				
@@ -61,6 +66,43 @@
 			</div>
 		</div>		
     </div>
+	<!-- End - about the project -->
+
+	<!-- MODAL to download the Layers -->
+	<div id="modal-download-layers" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<div>
+				<div>Layer:</div>
+				<div>
+					<select id="layers-list" style="width:100%;">
+						<option>Layer 1</option>
+						<option>Layer 2</option>
+						<option>Layer 3</option>
+						<option>Layer 4</option>
+						<option>Layer 5</option>
+						<option>Layer 6</option>
+					</select>
+				</div>
+				<div class="separator"></div>
+
+				<button type="button">Baixar</button>
+			</div>
+		</div>
+	</div>
+	<!-- End - Screen to download the Layers -->
+
+	<!-- MODAL to download the Map Image -->
+	<div id="modal-download-map-image" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close-download-image">&times;</span>
+			<p>Some text in the Modal..</p>
+		</div>
+
+	</div>
+	<!-- End - Screen to download the Map image -->
 
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
