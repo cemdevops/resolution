@@ -67,6 +67,7 @@ map.zoomControl.setPosition('verticalcustomleft');
 L.control.scale({metric: true, imperial: false, position: 'verticalcustomleft' }).addTo(map);
 
 
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // OpenStreetMap
 // url para o tile server + copyright - OpenStreetMap
@@ -104,6 +105,10 @@ var layerGoogle = L.tileLayer(urlGoogle, {attribution: copyGoogle});
 
 // Mariela: inicalizamos o portal usando o mapa base de OSM
 layerOSM.addTo(map);
+/*L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+}).addTo(map);*/
 
 // Mariela: definição da variável para armazenar o mapa base usado
 var layerMapaBaseSel = 'osm';
@@ -578,3 +583,164 @@ cartodb.createLayer(map,{
     });
 
 
+//-------------------------------------------------
+L.easyPrint({
+    tileLayer: layerOSM,
+    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+    position: 'topleft',
+    filename: 'myMap',
+    exportOnly: true,
+    hideControlContainer: true
+}).addTo(map);
+
+
+
+
+function downloadPdf(err, canvas) {
+    var imgData = canvas.toDataURL("image/svg+xml", 1.0);
+    var dimensions = map.getSize();
+
+    var pdf = new jsPDF('l', 'pt', 'a3');
+    pdf.addImage(imgData, 'PNG', 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
+
+    cover.className = '';
+    pdf.save("download.pdf");
+}
+
+function downloadImage(err, canvas) {
+    var link = document.createElement("a");
+    link.download = "mapa.png";
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    cover.className = '';
+}
+
+function exportMap() {
+    var optImagem = document.getElementById('optImagem');
+    cover.className = 'active';
+    if (optImagem.checked) {
+        // exportar como imagem
+        leafletImage(map, downloadImage);
+    } else {
+        // exportar como pdf
+        leafletImage(map, downloadPdf);
+    }
+}
+
+
+
+function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+}
+
+function ConvertToImage(btnExport) {
+    html2canvas($("#dvTable")[0]).then(function (canvas) {
+        var base64 = canvas.toDataURL();
+        $("[id*=hfImageData]").val(base64);
+        __doPostBack(btnExport.name, "");
+    });
+    return false;
+}
+
+function exportDiv(divName) {
+    alert(cartodb.VERSION);
+
+    html2canvas($("#map"), {
+        useCORS: false,
+        onrendered: function(canvas) {
+            var img = canvas.toDataURL("image/png");
+            window.open(img);
+
+            /*var dataUrl = canvas.toDataURL();
+            downloadURI(dataUrl, "MaSimulation.png");*/
+
+            /*canvas.setAttribute('crossOrigin', 'anonymous');
+            dataUrl= canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            downloadURI(dataUrl, "MaSimulation.png");*/
+        }
+    });
+}
+
+function downloadURI(uri, name) {
+    var link = document.createElement("a");
+
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    //after creating link you should delete dynamic link
+    //clearDynamicLink(link);
+}
+
+function convert(target) {
+    html2canvas($("#map"), {
+        proxy: "../html2canvasproxy.php",
+        logging: true, //Enable log (use Web Console for get Errors and Warnings)
+        onrendered: function(canvas) {
+            var img = new Image();
+            img.onload = function () {
+                img.onload = null;
+                document.getElementById("output").appendChild(img);
+            };
+            img.src = canvas.toDataURL("image/png");
+        }
+    });
+}
+
+function convert3(target) {
+    html2canvas($("#map"), {
+        useCORS: true,
+        onrendered: function (canvas) {
+            var img = canvas.toDataURL("image/png");
+            img = img.replace('data:image/png;base64,','');
+            // binary_img = atob(img); // ** Convert image to binary.
+            var MapUrl = 'demo.png';
+            var map_data = '';
+            /*$.ajax({
+                url: MapUrl,
+                method: "POST",
+                binaryStringRequestBody: true,
+                body: binary_img,
+                //data: map_data,
+                headers: {
+                    "accept": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-length": binary_img.byteLength
+                },
+                success: function (res) {
+                    console.log(res)
+                }
+            });*/
+            downloadURI(img, "MaSimulation.png");
+        }
+    });
+}
+
+function convert4(target) {
+    var node = document.getElementById('map');
+
+    /*domtoimage.toPng(node)
+        .then(function (dataUrl) {
+            var img = new Image();
+            img.src = dataUrl;
+            document.body.appendChild(img);
+        })
+        .catch(function (error) {
+            console.error('oops, something went wrong!', error);
+        });*/
+
+    domtoimage.toJpeg(document.getElementById('map'), { quality: 0.95 })
+        .then(function (dataUrl) {
+            var link = document.createElement('a');
+            link.download = 'my-image-name.jpeg';
+            link.href = dataUrl;
+            link.click();
+        });
+}
