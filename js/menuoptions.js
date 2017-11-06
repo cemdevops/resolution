@@ -1,5 +1,5 @@
 var Scripts = {   
-    /* Responsavel pela inicializacao das funcoes */
+    /* Responsavel pela inicializacão das funcoes */
     _init: function() {       
         this._click();                  // Functions click
     },
