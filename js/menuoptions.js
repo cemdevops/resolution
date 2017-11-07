@@ -54,7 +54,8 @@ var Scripts = {
         });
 
         //about Resolution
-        $('#about-resolution').click(function(){
+        $('#about-resolution').click(function() {
+            /*
             var x = document.getElementById('main-container-about');
             if (x.style.display === 'none') {
                 x.style.display = 'block';
@@ -62,7 +63,30 @@ var Scripts = {
                 x.style.display = 'none';
             }
             return false;
+            */
+            
+            // Get the modal
+            var modal = document.getElementById('modal-about');
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close-about")[0];
+
+            // When the user clicks the button, open the modal
+            modal.style.display = "block";
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         });
+
         //facebook
         $('#facebook').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),

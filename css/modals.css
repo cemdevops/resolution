@@ -2,7 +2,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 3; /* Sit on top */
+    z-index: 500; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -24,16 +24,44 @@
     font-family: inherit;
 }
 
+/* The Modal (background) */
+.modal-about {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 500; /* Sit on top */
+    padding-top: 2%; /* Location of the box */
+    vertical-align: middle;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    font-family: inherit;
+}
+
+/* Modal Content */
+.modal-content-about {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 600px;
+    font-family: inherit;
+    border-radius:5px
+}
+
 /* The Close Button */
-.close, .close-download-image {
+.close, .close-download-image, .close-about {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover, .close-download-image:hover,
-.close:focus, .close-download-image:focus {
+.close:hover, .close-download-image:hover, .close-about:hover
+.close:focus, .close-download-image:focus, .close-about:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
