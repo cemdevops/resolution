@@ -202,11 +202,14 @@ html, body, #map {
     background: rgba(255, 255, 255,0.5);/*#e6f3ff*/
     border-radius: 4px; /*mozilla*/ 
     border: 4px;
-    text-align: center;   
+    font: 400 13px Helvetica,Arial;
+    font-size:10pt;
+    /* text-align: center; */
 }
 
 .about-footer {
     margin-top: 18px;
+    margin-left: 10px;
     height: 29px;
 }
 
