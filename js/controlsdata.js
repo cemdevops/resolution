@@ -1,6 +1,7 @@
 window.onload = function() {
 	populateThemes();
-    populateVariables(1);
+	populateVariables(1);
+	// $('#about-resolution').trigger('click')
 };
 
 function populateThemes(){

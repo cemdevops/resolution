@@ -28,6 +28,30 @@
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>-->
 	<script type="text/javascript" src="js/dom-to-image.min.js"></script>
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
+	
+	<script>
+		function DownloadsLayers() {
+			var e = document.getElementById("layers-list");
+	    	var itemSelecionado = e.options[e.selectedIndex].value;
+		    var file_path = './downloads/';
+			var alink = document.createElement('a');
+			if (itemSelecionado == "Áreas de Ponderação 2010") 
+				file_path += 'ap2010_rmsp_cem_r.zip';
+			else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
+				 	file_path +='resolution_places_osm_rmsp.zip';
+     		 else if (itemSelecionado == "Linhas de Metrô")
+			     	file_path += 'resolution_metro_linhas.zip';
+			else if (itemSelecionado == "Linhas de Trem")
+					file_path += 'resolution_trem_linhas.zip';
+             else if (itemSelecionado == 'Águas')
+					file_path += 'resolution_cem_aguas_2.zip';
+     		alink.href = file_path;
+			alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+			document.body.appendChild(alink);
+			alink.click();
+			document.body.removeChild(alink);
+	}
+	</script>
 
 </head>
 <body>
@@ -42,22 +66,28 @@
 
 	<!-- div to about button -->	
 	<div id="container-icons" class="icon-bar">
-		<a id="about-resolution" href="#" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a> 
-		<a id="graphs" href="#" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
-		<a id="download-layers"  href="#"
+		<a id="about-resolution" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a> 
+		<a id="graphs" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
+		<a id="download-layers"
 		   title="Baixar arquivos dos layers usados no projeto"><i class="fa fa-download"></i></a>
-		<a id="download-map-image"  href="#" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
+		<a id="download-map-image" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
 		<hr class="separator-icons">
 		<a id="facebook" href="#" title="Compartilhar o site no facebook"><i class="fa fa-facebook"></i></a> 
 		<a id="twitter" href="#" title="Compartilhar o site no twiter"><i class="fa fa-twitter"></i></a> 
 		<a id="linkedin" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
 		<a id="email" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
 		<hr class="separator-icons">
+
 		<a id="cem" href="http://web.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>
+
+		<!--
+
 		<a id="fapesp" href="http://www.fapesp.br/" title="Fundação de Amparo à PEsquisa do Estado de São Paulo"><i class="fa fapesp-logo"></i></a>
+		-->
 	</div>	
 
 	<!-- ABout the project -->
+	<!--
 	<div id="main-container-about" style="display:none;">		
 		<div id="title-about">ReSolution</DIV>
 		<div  id="subtitle-about">RE​silient S​ystems fO​r Land Use TransportatION</div>				
@@ -81,29 +111,97 @@
 				</div> 									
 			</div>
 		</div>		
-    </div>
+	</div>
+	-->
 	<!-- End - about the project -->
 
+	<!-- MODAL to About the Project Window... -->
+	<div id="modal-about" class="modal-about">
+		<!-- Modal content -->
+		<div class="modal-content-about">
+			<div id="container-text-about">
+				<div style="font-size:24pt"><b>ReSolution</b></div>
+				<h2>RE​silient S​ystems fO​r Land Use TransportatION</h2>
+				<div id="title_options">O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.
+					<!-- <a href="#"><i class="fa fa-external-link"></i></a> -->
+				</div>		
+				<br>
+			</div>					
+			<div id="container-text-about">
+				<div style="font-size:18pt"><b>Parcerias</b></div>
+				<br>
+
+				<div>
+					<a target="_blank" href="http://www.centrodametropole.org.br/"> 
+						<!-- <i class="cem-icon sprite"></i>  -->
+						<img src="img/logo-cem2.png" title="CEM - Centro de Estudos da Metrópole" style="margin-left:30px;margin-top:10px;width:100px;float:left">
+					</a>
+				</div>
+				<div>
+						<img src="img/logo-poli.png" title="Laboratório de Geoprocessamento - POLI - USP" style="margin-left:30px;margin-top:10px;width:100px;float:left;">
+				</div>
+				<div>
+						<img src="img/logo-ufabc.png" title="Universidade Federal do ABC" style="margin-left:30px;margin-top:10px;width:100px;float:left;">
+				</div>
+				<div>
+						<img src="img/logo-inpe3.png" title="INPE - Instituto Nacional de Pesquisas Espaciais" style="margin-left:30px;margin-top:10px;width:110px;float:left;">
+				</div>
+				<div>
+						<img src="img/logo-casa.png" title="CASA - Centre for Advanced Spatial Analysis" style="margin-left:40px;margin-top:10px;width:60px;float:left;">
+				</div>
+				<div>
+						<img src="img/logo-kingscollege.png" title="Kings College Longdon" style="margin-left:60px;margin-top:10px;width:100px;float:left;">
+				</div>
+				<div>
+						<img src="img/logo-birkbeck.png" title="Birkbeck University of London" style="margin-left:30px;margin-top:10px;width:100px;">
+				</div>
+				<br><br>
+			</div>					
+			<div id="container-text-about">
+				<br>
+				<div style="font-size:18pt;float:left"><b>Apoio:</b></div>
+				<br>
+				<div class="fapesp" style="margin:0px;margin-left:20px"> 
+					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo"> 
+						<i class="fapesp-icon sprite"></i> 
+					</a> 
+				</div> 									
+			</div>					
+			<div class="footerWrap-about">
+				<div class="about-footer">
+					Este site é melhor visualizado em Mozilla Firefox e Google Chrome
+					<span class="close-about" style="margin-top:-9px"><button style="font-size:14px;width:90px;height:35px;border-radius:4px;size:10px;color:#ffffff;box-shadow: rgba(14, 105, 180, 0.2) 0 0 0px 0px;background: rgba(23, 119, 230, 0.7);">Fechar</button></span>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!-- ... End - Screen to About the Project Window -->
+	
 	<!-- MODAL to download the Layers -->
 	<div id="modal-download-layers" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-			<span class="close">&times;</span>
-			<div>
+			<!--<span class="close">&times;</span>-->
+			<div class="modal-header">
+				<h2>Download Mapas</h2>
+				<span class="close-download-image close">&times;</span>
+			</div>
+			<div  class="modal-body">
 				<div>Layer:</div>
 				<div>
 					<select id="layers-list" style="width:100%;">
-						<option>Layer 1</option>
-						<option>Layer 2</option>
-						<option>Layer 3</option>
-						<option>Layer 4</option>
-						<option>Layer 5</option>
-						<option>Layer 6</option>
+						<option>Áreas de Ponderação 2010</option>
+						<option>Setores Censitários da Região Metropolitana 2010</option>
+						<option>Linhas de Metrô</option>
+						<option>Linhas de Trem</option>
+						<option>Águas</option>
 					</select>
 				</div>
+			</div>
+			<div class="modal-footer">
 				<div class="separator"></div>
-
-				<button type="button">Baixar</button>
+				<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
 			</div>
 		</div>
 	</div>
@@ -115,7 +213,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h2>Exportar Mapa</h2>
-				<span class="close-download-image">&times;</span>
+				<span class="close-download-image close">&times;</span>
 			</div>
 			<div class="modal-body">
 				<input type="radio" id="optImagem" checked
