@@ -23,7 +23,7 @@ html, body, #map {
 
 #title_menu {
     font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     color: #333;
     padding: 15px 15px 10px 15px;
     border-bottom: 2px solid rgba(35,87,146,0.4);    
@@ -32,7 +32,7 @@ html, body, #map {
 #title_legend {
     font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
     background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     color: #333;
     padding: 15px 15px 10px 15px;
     border-bottom: 2px solid rgba(35,87,146,0.4);
@@ -243,7 +243,7 @@ html, body, #map {
 }
 
 .cem-logo{
-    background: url("../img/logo-cem.png") no-repeat;
+    background: url("../img/logo-cem-3.png") no-repeat;
     display: inline-block;
     background-size: 34px;
     width: 32px;

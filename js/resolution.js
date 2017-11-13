@@ -248,7 +248,7 @@ function showThematicLayer(layer){
         for (i=1; i < 8; i++) {
             document.getElementById("celula"+i).innerHTML = "";
         }
-        document.getElementById("nodata").innerHTML = "";
+        // document.getElementById("nodata").innerHTML = noDataMessage;
 
         // Fill district value in legend
         document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
@@ -256,7 +256,7 @@ function showThematicLayer(layer){
         if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
             document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
         } else {
-            document.getElementById("nodata").innerHTML = noDataMessage;
+            // document.getElementById("nodata").innerHTML = noDataMessage;
         }
     }); // sublayer.on
     // ... Clóvis/André 20170331
@@ -266,7 +266,7 @@ function showThematicLayer(layer){
         for (i=1; i < 8; i++) {
             document.getElementById("celula"+i).innerHTML = "";
         }
-        document.getElementById("nodata").innerHTML = "";
+        //document.getElementById("nodata").innerHTML = "";
     }); // sublayer.on
 
     // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
@@ -276,7 +276,7 @@ function showThematicLayer(layer){
     // var to define if data classification method choice (quantile or jenks) will be enabled in legend
     var bolEnableDataMethod = true;
     // Build legend. 20170331: creation of class=quartile-cem. 20170623: legend str composition in separated function. Units included.
-    var legenda = getStrLegend (currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
+    var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
 
     // add legend to map
     $('body').append(legenda);
@@ -342,60 +342,134 @@ function createInfoboxTooltip(layer, sublayer, colName){
  * Function to create legend string.
  * Return the HTML used to put legend on screen
  */
-function getStrLegend (strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
+function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
-    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px;'> " +
-          "  <div id=\"title_legend\">LEGENDA</div><br>" +
-          "  <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
-          "  <div> (" + strUnit + ")</div> <br>" +
-          "  <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
-          "  <ul>" +
-          "      <li class='min'>" + strMinValue + "</li>" +
-          "      <li class='max'>" + strMaxValue + "</li>" +
-          "      <li class='graph count_441'>" +
-          "        <div class='colors'>" +
-          "          <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula2' style='background:rgba(254, 217, 118," + opacity + ");color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula3' style='background:rgba(254, 178, 76," + opacity + ");color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula4' style='background:rgba(253, 141, 60," + opacity + ");color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula5' style='background:rgba(252, 78, 42," + opacity + ");color:black;'></div>" +
-          "          <div class='quartile-cem' id='celula6' style='background:rgba(227, 26, 28," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
-          "          <div class='quartile-cem' id='celula7' style='background:rgba(177, 0, 38," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
-          "        </div>" +
-          "      </li>" +
-          "  </ul>" +
-          "  <div style='padding: 7px 0px 0px 0px;'>" +
-          "     <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
-          "     <div class='cell-cem-no-value-text' id='nodata' style='width:38%; padding: 0px 0px 0px 5px;color:black;text-align:left'></div>" +
-          "     <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
-          "     <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Área metropolitana não urbana</div>" +
-          "  </div>";
+    var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
-    // Clóvis - 20170623: Optional selection between Natural Breaks and Quantils...
-    if (bolEnableMethod) {
-        strLegend = strLegend + " <br> <div id='containerOptionsDataMethod'>" +
-          "    <form id='selectDataMethod'>" +
-          "       <fieldset>" +
-          "         <legend><b>Método de classificação de dados:</b></legend>" +
-          "         <div class='radio'>" +
-          "           <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles' ";
-        if (strClassMethod == "quantiles") {
-            strLegend = strLegend + " checked";
-        }
-        strLegend = strLegend + ">Quantile</label>" +
-          "         </div>" +
-          "         <div class='radio'>" +
-          "           <label><input type='radio' name='radioDataMethod' value='jenks' ";
-        if (strClassMethod == "jenks") {
-            strLegend = strLegend + " checked";
-        }
-        strLegend = strLegend + ">Jenks Natural Breaks</label>" +
-          "         </div>" +
-          "       </fieldset>" +
-          "    </form>" +
-          "  </div>";
-     }
-    // ... Clóvis - 20170623: Optional selection between Natural Breaks and Quantils...
+    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px;'>" +
+        "    <div id=\"title_legend\">LEGENDA</div><br>" +
+        "    <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
+        "    <div> (" + strUnit + ") </div> <br>" +
+        "    <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
+        "    <ul>" +
+        "        <li>" +
+        "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +
+        "              <ul style='width:10px'>" +
+        "                <li class='graph count_441' style='width:30px;border:white'>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-1' style='text-align:left'>1Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-2' style='text-align:left'>2Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-3' style='text-align:left'>3Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-4' style='text-align:left'>4Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-5' style='text-align:left'>5Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-6' style='text-align:left'>6Q</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-l-7' style='text-align:left'>7Q</div>" +
+        "                  </div>" +
+        "                </li>" +
+        "              </ul>" +
+        "            </div>" +
+        "            <div style='max-width:14%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
+        "              <ul>" +
+        "                <li class='graph count_441' style='width:35px'>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula2' style='background:rgba(254, 217, 118," + opacity + ");color:black;'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula3' style='background:rgba(254, 178, 76," + opacity + ");color:black;'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula4' style='background:rgba(253, 141, 60," + opacity + ");color:black;'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula5' style='background:rgba(252, 78, 42," + opacity + ");color:black;'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula6' style='background:rgba(227, 26, 28," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
+        "                  </div>" +
+        "                  <div class='colors'>" +
+        "                    <div class='quartile-cem' id='celula7' style='background:rgba(177, 0, 38," + opacity + ");color: " + textColorForDarkBackground + ";'></div>" +
+        "                  </div>" +
+        "                </li>" +
+        "              </ul>" +
+        "            </div>" +
+        "            <div style='max-width:14%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
+        "              <ul>" +
+        "                <li class='graph count_441' style='width:35px;border:white'>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-2' style='text-align:left'>" + classMethod [0] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-3' style='text-align:left'>" + classMethod [1] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-4' style='text-align:left'>" + classMethod [2] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-5' style='text-align:left'>" + classMethod [3] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-6' style='text-align:left'>" + classMethod [4] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-7' style='text-align:left'>" + classMethod [5] + "</div>" +
+        "                  </div>" +
+        "                  <div>" +
+        "                    <div class='quartile-cem' id='leg-r-8' style='text-align:left'>" + classMethod [6] + "</div>" +
+        "                  </div>" +
+        "                </li>" +
+        "              </ul>" +
+        "            </div>" +
+        "            <div style='max-width: 100%;min-width: 38%;display:inline-block;padding-left:25px;vertical-align:middle;text-transform:none'>" +
+        "              <div style='padding: 7px 0px 0px 0px;'>" +
+        "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
+        "                <div class='cell-cem-no-value-text' id='nodata' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + noDataMessage + "</div>" +
+        "                <br>" +
+        "                <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
+        "                <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Área metropolitana<br> não urbana</div>" +
+        "              </div>" +
+        "              <br><br>" +
+        "              <div id='containerOptionsDataMethod'>" +
+        "                <form id='selectDataMethod'>" +
+        "                    <fieldset>" +
+        "                      <legend><b>Método de Classificação<br> de dados:</b></legend>" +
+        "                      <div class='radio'>" +
+        "                        <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles'";
+    if (strClassMethod == "quantiles") {
+        strLegend = strLegend + " checked";
+    }
+    strLegend = strLegend + ">Quantile</label>" +
+        "                      </div>" +
+        "                      <div class='radio'>" +
+        "                        <label><input type='radio' name='radioDataMethod' value='jenks' style='font-size: 10px;'";
+    if (strClassMethod == "jenks") {
+        strLegend = strLegend + " checked";
+    }
+    strLegend = strLegend + ">Jenks</label>" +
+        "                      </div>" +
+        "                    </fieldset>" +
+        "                </form>" +
+        "              </div>" +
+        "          </div>" +
+        "        </li>" +
+        "    </ul>";// +
 
      strLegend = strLegend + "</div>";
      return (strLegend);
