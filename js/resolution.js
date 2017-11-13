@@ -154,6 +154,14 @@ function removeBaseMap(typeOfBaseMapChosen) {
             map.removeLayer(layerDarkMatter);
         }
 }
+// +++++ create vizualization
+// var url = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json';
+
+/*cartodb.createVis('map', url)
+    .done(function (vis, layers) {
+        cartodb_logo: false
+    });*/
+
 
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
 
@@ -184,8 +192,10 @@ cartodb.createLayer(map,{
           layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
           // Check if layer's legend. Remove if exists
           takeOutLegend();
-        })
+        });
+
     });
+
 
 /*
  * Function to take out the legend of screen
@@ -660,7 +670,17 @@ function convertToPdf() {
 
 }
 
+
+/* Take out the carto logo */
+function takeOutCartodbLogo() {
+    // Check if Layers's legend. Remove if exists
+    if ($("div.cartodb-logo").length){
+        $('div.cartodb-logo').remove();
+    }
+}
+
 function exportMapOK() {
+    takeOutCartodbLogo();
     var optImagem = document.getElementById('optImagem');
     cover.className = 'active';
     if (optImagem.checked) {
@@ -671,3 +691,4 @@ function exportMapOK() {
         convertToPdf();
     }
 }
+

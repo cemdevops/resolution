@@ -11,31 +11,23 @@
     <meta property="og:image:type" content="image/png">  
 	<meta charset="utf-8">
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />-->
-    <!-- configuração de estilos (css) -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
 	<!-- Configuração de estilos for modals -->
 	<link rel="stylesheet" type="text/css" href="css/modals.css">
 
 	<link rel="stylesheet" type="text/css" href="css/printing.css">
     <!-- include cartodb css  -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+	<!-- configuração de estilos (css) -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- include cartodb.js library -->
 	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>-->
-
-	<script type="text/javascript" src="js/html2canvas.js"></script>
-	<!--<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>-->
-	<script src="https://cdn.rawgit.com/rowanwins/leaflet-easyPrint/gh-pages/dist/bundle.js"></script>
+	<!--<script type="text/javascript" src="js/html2canvas.js"></script>-->
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>-->
 	<script type="text/javascript" src="js/dom-to-image.min.js"></script>
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
-	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
-
-
 
 </head>
 <body>
@@ -61,7 +53,7 @@
 		<a id="linkedin" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
 		<a id="email" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
 		<hr class="separator-icons">
-		<a id="cem" href="http://www.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>
+		<a id="cem" href="http://web.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>
 		<a id="fapesp" href="http://www.fapesp.br/" title="Fundação de Amparo à PEsquisa do Estado de São Paulo"><i class="fa fapesp-logo"></i></a>
 	</div>	
 
@@ -78,7 +70,7 @@
 		<div class="footerWrap-about">
 			<div class="about-footer"> 													
 				<div class="cem"> 
-					<a href="http://www.fflch.usp.br/centrodametropole/" > 
+					<a href="http://web.fflch.usp.br/centrodametropole/" >
 						<i class="cem-icon sprite"></i> 
 					</a> 
 				</div>
@@ -121,9 +113,11 @@
 	<div id="modal-download-map-image" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-			<span class="close-download-image">&times;</span>
-			<h2>Exportar Mapa</h2>
-			<div>
+			<div class="modal-header">
+				<h2>Exportar Mapa</h2>
+				<span class="close-download-image">&times;</span>
+			</div>
+			<div class="modal-body">
 				<input type="radio" id="optImagem" checked
 					   name="exportation-options" value="pdf">
 				<label for="optImagem">Exportar como imagem</label>
@@ -132,9 +126,9 @@
 					   name="exportation-options" value="pdf">
 				<label for="optPdf">Exportar como pdf</label>
 			</div>
-			<hr>
-			<div>
-				<button type="submit" onclick="exportMapOK()">Exportar</button>
+
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" onclick="exportMapOK()">Exportar</button>
 			</div>
 		</div>
 	</div>
