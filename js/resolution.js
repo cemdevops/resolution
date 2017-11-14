@@ -358,9 +358,9 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
 
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px;'>" +
         "    <div id=\"title_legend\">LEGENDA</div><br>" +
-        "    <div class='legend-title' title='Variável escolhida'>" + strTitle + "</div>" +
-        "    <div> (" + strUnit + ") </div> <br>" +
-        "    <div id ='bairro' class='legend-title' style='height:20px' title='Bairro'> </div>" +
+        "    <div class='legend-title' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
+        "    <div> (" + strUnit + ") </div>" +
+        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Bairro'> </div>" +
         "    <ul>" +
         "        <li>" +
         "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +
@@ -459,7 +459,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "              <div id='containerOptionsDataMethod'>" +
         "                <form id='selectDataMethod'>" +
         "                    <fieldset>" +
-        "                      <legend><b>Método de Classificação<br> de dados:</b></legend>" +
+        "                      <legend><b>Classificação<br> de dados:</b></legend>" +
         "                      <div class='radio'>" +
         "                        <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles'";
     if (strClassMethod == "quantiles") {
