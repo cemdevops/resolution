@@ -289,7 +289,7 @@ function showThematicLayer(layer){
     var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
 
     // add legend to map
-    $('body').append(legenda);
+    $('#map').append(legenda);
 
     // Clóvis - 20170626: change event - selection between quantile and natural break (jenks)...
     $("input[type=radio][name=radioDataMethod]").change (function () {

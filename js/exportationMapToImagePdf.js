@@ -166,7 +166,7 @@ downloadIMG = function (strData, strFileName, strMimeType) {
 downloadPDF = function (strData, strFileName, strMimeType) {
     var pdf = new jsPDF('l', 'pt', 'a4');
     var dimensions = map.getSize();
-    pdf.addImage(strData, strMimeType, 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
+    pdf.addImage(strData, strMimeType, 0, 0, dimensions.x * 0.43, dimensions.y * 0.43);
     pdf.save(strFileName);
 
 
