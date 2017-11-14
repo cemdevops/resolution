@@ -11,29 +11,28 @@
     <meta property="og:image:type" content="image/png">  
 	<meta charset="utf-8">
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />-->
-    <!-- configuração de estilos (css) -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
 	<!-- Configuração de estilos for modals -->
 	<link rel="stylesheet" type="text/css" href="css/modals.css">
 
 	<link rel="stylesheet" type="text/css" href="css/printing.css">
     <!-- include cartodb css  -->
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />-->
+	<link rel="stylesheet" type="text/css" href="css/cartodb/css/cartodb.css"/>
+	<!-- configuração de estilos (css) -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- include cartodb.js library -->
 	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css"/>
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>-->
-
 	<script type="text/javascript" src="js/html2canvas.js"></script>
-	<!--<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>-->
-	<script src="https://cdn.rawgit.com/rowanwins/leaflet-easyPrint/gh-pages/dist/bundle.js"></script>
+	<script type="text/javascript" src="js/canvas2image.js"></script>
+	<script type="text/javascript" src="js/canvas-to-blob.js"></script>
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>-->
 	<script type="text/javascript" src="js/dom-to-image.min.js"></script>
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
-	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
+	<script type="text/javascript" src="js/exportationMapToImagePdf.js"></script>
 	
 	<script>
 		function DownloadsLayers() {
@@ -76,15 +75,18 @@
 		<a id="graphs" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
 		<a id="download-layers"
 		   title="Baixar arquivos dos layers usados no projeto"><i class="fa fa-download"></i></a>
-		<a id="download-map-image-0" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
+		<a id="download-map-image" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
 		<hr class="separator-icons">
 		<a id="facebook" href="#" title="Compartilhar o site no facebook"><i class="fa fa-facebook"></i></a> 
 		<a id="twitter" href="#" title="Compartilhar o site no twiter"><i class="fa fa-twitter"></i></a> 
 		<a id="linkedin" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
 		<a id="email" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
 		<hr class="separator-icons">
-		<a id="cem" target="_blank" href="http://www.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>
+
+		<a id="cem" href="http://web.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>
+
 		<!--
+
 		<a id="fapesp" href="http://www.fapesp.br/" title="Fundação de Amparo à PEsquisa do Estado de São Paulo"><i class="fa fapesp-logo"></i></a>
 		-->
 	</div>	
@@ -103,7 +105,7 @@
 		<div class="footerWrap-about">
 			<div class="about-footer"> 													
 				<div class="cem"> 
-					<a href="http://www.fflch.usp.br/centrodametropole/" > 
+					<a href="http://web.fflch.usp.br/centrodametropole/" >
 						<i class="cem-icon sprite"></i> 
 					</a> 
 				</div>
@@ -173,7 +175,7 @@
 			<div class="footerWrap-about">
 				<div class="about-footer">
 					Este site é melhor visualizado em Mozilla Firefox e Google Chrome
-					<span class="close-about" style="margin-top:-9px"><button style="font-size:14px;width:90px;height:35px;border-radius:4px;size:10;color:#ffffff;box-shadow: rgba(14, 105, 180, 0.2) 0 0 0px 0px;background: rgba(23, 119, 230, 0.7);">Fechar</button></span>
+					<span class="close-about" style="margin-top:-9px"><button style="font-size:14px;width:90px;height:35px;border-radius:4px;size:10px;color:#ffffff;box-shadow: rgba(14, 105, 180, 0.2) 0 0 0px 0px;background: rgba(23, 119, 230, 0.7);">Fechar</button></span>
 				</div>
 			</div>
 			
@@ -185,8 +187,12 @@
 	<div id="modal-download-layers" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-			<span class="close">&times;</span>
-			<div>
+			<!--<span class="close">&times;</span>-->
+			<div class="modal-header">
+				<h2>Download Mapas</h2>
+				<span class="close">&times;</span>
+			</div>
+			<div  class="modal-body">
 				<div>Layer:</div>
 				<div>
 					<select id="layers-list" style="width:100%;">
@@ -197,8 +203,10 @@
 						<option>Águas</option>
 					</select>
 				</div>
+			</div>
+			<div class="modal-footer">
 				<div class="separator"></div>
-				<button type="button" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
+				<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
 			</div>
 		</div>
 	</div>
@@ -208,9 +216,11 @@
 	<div id="modal-download-map-image" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-			<span class="close-download-image">&times;</span>
-			<h2>Exportar Mapa</h2>
-			<div>
+			<div class="modal-header">
+				<h2>Exportar Mapa</h2>
+				<span class="close-download-image">&times;</span>
+			</div>
+			<div class="modal-body">
 				<input type="radio" id="optImagem" checked
 					   name="exportation-options" value="pdf">
 				<label for="optImagem">Exportar como imagem</label>
@@ -219,9 +229,10 @@
 					   name="exportation-options" value="pdf">
 				<label for="optPdf">Exportar como pdf</label>
 			</div>
-			<hr>
-			<div>
-				<button type="submit" onclick="exportMapOK()">Exportar</button>
+
+			<div class="modal-footer">
+				<!--<button type="button" class="btn btn-secondary" class="close-download-image" data-dismiss="modal">Close</button>-->
+				<button type="submit" class="btn btn-primary" onclick="exportMapToImagePDF()">Exportar</button>
 			</div>
 		</div>
 	</div>

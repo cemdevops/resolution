@@ -154,6 +154,14 @@ function removeBaseMap(typeOfBaseMapChosen) {
             map.removeLayer(layerDarkMatter);
         }
 }
+// +++++ create vizualization
+// var url = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json';
+
+/*cartodb.createVis('map', url)
+    .done(function (vis, layers) {
+        cartodb_logo: false
+    });*/
+
 
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
 
@@ -184,8 +192,10 @@ cartodb.createLayer(map,{
           layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
           // Check if layer's legend. Remove if exists
           takeOutLegend();
-        })
+        });
+
     });
+
 
 /*
  * Function to take out the legend of screen
@@ -657,91 +667,3 @@ cartodb.createLayer(map,{
     });
 
 
-//---------------------------------- Exportation to Image and to PDF---------------
-
-function downloadURI(uri, name) {
-    var link = document.createElement("a");
-
-    link.download = name;
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    //after creating link you should delete dynamic link
-    //clearDynamicLink(link);
-}
-
-function convertToImage() {
-    var node = document.getElementById('map');
-    domtoimage.toPng(node)
-        .then(function (dataUrl) {
-            //var img = new Image();
-            //img.src = dataUrl;
-            //document.body.appendChild(img);
-
-            var link = document.createElement('a');
-            link.download = 'meu-mapa.png';
-            link.href = dataUrl;
-            link.click();
-            cover.className = '';
-        })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
-    // export to jpeg
-    /*var node = document.getElementById('map');
-    var h = node.height;
-    var w = node.width;
-    var options = {
-        quality: 1.0,
-        height: h,
-        width:w
-    };
-    domtoimage.toJpeg(node, options)
-        .then(function (dataUrl) {
-            var link = document.createElement('a');
-            link.download = 'my-image-name.jpeg';
-            link.href = dataUrl;
-            link.click();
-        });*/
-
-    // export to blob
-    /*var node = document.getElementById('map');
-
-    domtoimage.toBlob(node).then(function (blob) {
-        window.saveAs(blob, 'my-node.png');
-    });*/
-}
-
-function convertToPdf() {
-    var node = document.getElementById('map');
-    domtoimage.toPng(node)
-        .then(function (dataUrl) {
-            var pdf = new jsPDF('l', 'pt', 'a4');
-            var img = new Image();
-            img.src = dataUrl;
-            img.onload = function() {
-                //pdf.addImage(img, 'PNG', 10, 15);
-                var dimensions = map.getSize();
-                pdf.addImage(img, 'PNG', 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
-                pdf.save('meu-mapa.pdf');
-            };
-            cover.className = '';
-
-        })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
-
-}
-
-function exportMapOK() {
-    var optImagem = document.getElementById('optImagem');
-    cover.className = 'active';
-    if (optImagem.checked) {
-        // exportar como imagem
-        convertToImage();
-    } else {
-        // exportar como pdf
-        convertToPdf();
-    }
-}
