@@ -1,5 +1,5 @@
 //---------------------------------- Exportation to Image and to PDF---------------
-
+/*
 function downloadURI(uri, name) {
     var link = document.createElement("a");
 
@@ -7,8 +7,6 @@ function downloadURI(uri, name) {
     link.href = uri;
     document.body.appendChild(link);
     link.click();
-    //after creating link you should delete dynamic link
-    //clearDynamicLink(link);
 }
 
 function convertToImage() {
@@ -28,29 +26,6 @@ function convertToImage() {
         .catch(function (error) {
             console.error('oops, something went wrong!', error);
         });
-    // export to jpeg
-    /*var node = document.getElementById('map');
-    var h = node.height;
-    var w = node.width;
-    var options = {
-        quality: 1.0,
-        height: h,
-        width:w
-    };
-    domtoimage.toJpeg(node, options)
-        .then(function (dataUrl) {
-            var link = document.createElement('a');
-            link.download = 'my-image-name.jpeg';
-            link.href = dataUrl;
-            link.click();
-        });*/
-
-    // export to blob
-    /*var node = document.getElementById('map');
-
-    domtoimage.toBlob(node).then(function (blob) {
-        window.saveAs(blob, 'my-node.png');
-    });*/
 }
 
 function convertToPdf() {
@@ -76,14 +51,6 @@ function convertToPdf() {
 }
 
 
-/* Take out the carto logo */
-function takeOutCartodbLogo() {
-    // Check if Layers's legend. Remove if exists
-    if ($("div.cartodb-logo").length){
-        $('div.cartodb-logo').remove();
-    }
-}
-
 function exportMapOK() {
     takeOutCartodbLogo();
     var optImagem = document.getElementById('optImagem');
@@ -96,6 +63,16 @@ function exportMapOK() {
         convertToPdf();
     }
 }
+*/
+
+/* Take out the carto logo */
+function takeOutCartodbLogo() {
+    // Check if Layers's legend. Remove if exists
+    if ($("div.cartodb-logo").length){
+        $('div.cartodb-logo').remove();
+    }
+}
+
 
 function exportMapToImagePDF() {
     takeOutCartodbLogo();
@@ -166,6 +143,7 @@ downloadIMG = function (strData, strFileName, strMimeType) {
 downloadPDF = function (strData, strFileName, strMimeType) {
     var pdf = new jsPDF('l', 'pt', 'a4');
     var dimensions = map.getSize();
+
     pdf.addImage(strData, strMimeType, 0, 0, dimensions.x * 0.43, dimensions.y * 0.43);
     pdf.save(strFileName);
 
