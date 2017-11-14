@@ -16,18 +16,23 @@
 
 	<link rel="stylesheet" type="text/css" href="css/printing.css">
     <!-- include cartodb css  -->
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />-->
+	<link rel="stylesheet" type="text/css" href="css/cartodb/css/cartodb.css"/>
 	<!-- configuração de estilos (css) -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- include cartodb.js library -->
 	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css"/>
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!--<script type="text/javascript" src="js/html2canvas.js"></script>-->
+	<script type="text/javascript" src="js/html2canvas.js"></script>
+	<script type="text/javascript" src="js/canvas2image.js"></script>
+	<script type="text/javascript" src="js/canvas-to-blob.js"></script>
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>-->
 	<script type="text/javascript" src="js/dom-to-image.min.js"></script>
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
+	<script type="text/javascript" src="js/exportationMapToImagePdf.js"></script>
 	
 	<script>
 		function DownloadsLayers() {
@@ -185,7 +190,7 @@
 			<!--<span class="close">&times;</span>-->
 			<div class="modal-header">
 				<h2>Download Mapas</h2>
-				<span class="close-download-image close">&times;</span>
+				<span class="close">&times;</span>
 			</div>
 			<div  class="modal-body">
 				<div>Layer:</div>
@@ -213,7 +218,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h2>Exportar Mapa</h2>
-				<span class="close-download-image close">&times;</span>
+				<span class="close-download-image">&times;</span>
 			</div>
 			<div class="modal-body">
 				<input type="radio" id="optImagem" checked
@@ -226,7 +231,8 @@
 			</div>
 
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary" onclick="exportMapOK()">Exportar</button>
+				<!--<button type="button" class="btn btn-secondary" class="close-download-image" data-dismiss="modal">Close</button>-->
+				<button type="submit" class="btn btn-primary" onclick="exportMapToImagePDF()">Exportar</button>
 			</div>
 		</div>
 	</div>

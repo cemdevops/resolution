@@ -123,6 +123,17 @@
     border-color: #007bff;
 }
 
+.modal-footer>:not(:last-child) {
+    margin-right: .25rem;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #868e96;
+    border-color: #868e96;
+}
+
+
 .btn {
     display: inline-block;
     font-weight: 400;
