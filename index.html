@@ -3,271 +3,239 @@
 <head>
 	<title>CEM - Portal Resolution</title>
 	<!-- Meta Tags Redes Sociais -->
-    <meta property="og:url" content="http://200.144.244.157:8000/resolution/">
-    <meta property="og:title" content="CEM - Portal Resolution">
-    <meta property="og:site_name" content="CEM - Portal Resolution">
-    <meta property="og:description" content="O RESOLUTION é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.">
-    <meta property="og:image" content="http://200.144.244.157:8000/resolution/img/resolution.png">
-    <meta property="og:image:type" content="image/png">  
+	<meta property="og:url" content="http://200.144.244.157:8000/resolution/">
+	<meta property="og:title" content="CEM - Portal Resolution">
+	<meta property="og:site_name" content="CEM - Portal Resolution">
+	<meta property="og:description" content="O RESOLUTION é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.">
+	<meta property="og:image" content="http://200.144.244.157:8000/resolution/img/resolution.png">
+	<meta property="og:image:type" content="image/png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />-->
 	<!-- Configuração de estilos for modals -->
-	<link rel="stylesheet" type="text/css" href="css/modals.css">
+	<!--<link rel="stylesheet" type="text/css" href="css/modals.css">-->
 
 	<link rel="stylesheet" type="text/css" href="css/printing.css">
-    <!-- include cartodb css  -->
-    <!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />-->
+	<!-- include cartodb css  -->
+	<!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />-->
 	<link rel="stylesheet" type="text/css" href="css/cartodb/css/cartodb.css"/>
 	<!-- configuração de estilos (css) -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- include cartodb.js library -->
+	<!-- include cartodb.js library -->
 	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css"/>
 	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/html2canvas.js"></script>
 	<script type="text/javascript" src="js/canvas2image.js"></script>
 	<script type="text/javascript" src="js/canvas-to-blob.js"></script>
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
 	<script type="text/javascript" src="js/exportationMapToImagePdf.js"></script>
-	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script>
-		function DownloadsLayers() {
-			var e = document.getElementById("layers-list");
-	    	var itemSelecionado = e.options[e.selectedIndex].value;
-		    var file_path = './downloads/';
-			var alink = document.createElement('a');
-			if (itemSelecionado == "Áreas de Ponderação 2010") 
-				file_path += 'ap2010_rmsp_cem_r.zip';
-			else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
-				 	file_path +='resolution_places_osm_rmsp.zip';
-     		 else if (itemSelecionado == "Linhas de Metrô")
-			     	file_path += 'resolution_metro_linhas.zip';
-			else if (itemSelecionado == "Linhas de Trem")
-					file_path += 'resolution_trem_linhas.zip';
-             else if (itemSelecionado == 'Águas')
-					file_path += 'resolution_cem_aguas_2.zip';
-     		alink.href = file_path;
-			alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
-			document.body.appendChild(alink);
-			alink.click();
-			document.body.removeChild(alink);
-	}
+        function DownloadsLayers() {
+            var e = document.getElementById("layers-list");
+            var itemSelecionado = e.options[e.selectedIndex].value;
+            var file_path = './downloads/';
+            var alink = document.createElement('a');
+            if (itemSelecionado == "Áreas de Ponderação 2010")
+                file_path += 'ap2010_rmsp_cem_r.zip';
+            else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
+                file_path +='resolution_places_osm_rmsp.zip';
+            else if (itemSelecionado == "Linhas de Metrô")
+                file_path += 'resolution_metro_linhas.zip';
+            else if (itemSelecionado == "Linhas de Trem")
+                file_path += 'resolution_trem_linhas.zip';
+            else if (itemSelecionado == 'Águas')
+                file_path += 'resolution_cem_aguas_2.zip';
+            alink.href = file_path;
+            alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+            document.body.appendChild(alink);
+            alink.click();
+            document.body.removeChild(alink);
+        }
 	</script>
 
 </head>
 <body>
-	<!-- header -->
-	<header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
+<!-- header -->
+<header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
     border-bottom: 2px solid #868e96;">
-		<a class="navbar-brand mr-0 mr-md-2" href="#">
-			<img src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
-			<!--<label>CENTRO DE ESTUDOS DA METROOPOLE <br> <small>Projeto resolution</small></label>-->
-		</a>
+	<a class="navbar-brand mr-0 mr-md-2" href="http://web.fflch.usp.br/centrodametropole/">
+		<img src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
+	</a>
 
-		<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-			<a id="about-resolution" class="nav-link p-2"  style="font-size: 1.3em;" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a>
-			<a id="graphs"   class="nav-link p-2"  style="font-size: 1.3em;" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
-			<a id="download-layers"   class="nav-link p-2"  style="font-size: 1.3em;"
-			   title="Baixar arquivos dos layers usados no projeto"><i class="fa fa-download"></i></a>
-			<a id="download-map-image"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
+	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+		<li class="nav-item">
+			<a id="about-resolution" class="nav-link p-2"  style="font-size: 1.3em;" title="Mostrar quadro de informações do projeto"
+			   data-toggle="modal" data-target="#aboutResolution">
+				<i class="fa fa-question-circle"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a id="graphs"   class="nav-link p-2"  style="font-size: 1.3em;" title="Em desenvolvimento ...">
+				<i class="fa fa-area-chart"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a id="download-layers"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar arquivos dos layers usados no projeto"
+			   data-toggle="modal" data-target="#downloadLayersFiles">
+				<i class="fa fa-download"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a id="download-map-image"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar imagem do mapa"
+			   data-toggle="modal" data-target="#downloadMapImagePdf">
+				<i class="fa fa-floppy-o"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a id="facebook"  class="nav-link p-2" style="font-size: 1.3em;" href="#" title="Compartilhar o site no facebook" target="_blank" rel="noopener" aria-label="Facebook">
+				<i class="fa fa-facebook"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a id="twitter" class="nav-link p-2"  style="font-size: 1.3em;" title="Compartilhar o site no twiter" href="#"><i class="fa fa-twitter"></i></a>
+		</li>
+		<li class="nav-item">
+			<a id="linkedin" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
+		</li>
+		<li class="nav-item">
+			<a id="email" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
+		</li>
+	</ul>
 
-			<li class="nav-item">
-				<a id="facebook"  class="nav-link p-2" style="font-size: 1.3em;" href="#" title="Compartilhar o site no facebook" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-			</li>
-			<li class="nav-item">
-				<a id="twitter" class="nav-link p-2"  style="font-size: 1.3em;" title="Compartilhar o site no twiter" href="#"><i class="fa fa-twitter"></i></a>
-			</li>
-			<li class="nav-item">
-				<a id="linkedin" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
-			</li>
-			<li class="nav-item">
-				<a id="email" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
-			</li>
-		</ul>
-
-		<!--<a class="btn btn-bd-yellow d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="https://github.com/twbs/bootstrap/archive/v4.0.0-beta.2.zip">Download</a>-->
-	</header>
-	<!-- end header -->
-	<!-- body -->
-	<div style="top: 110px;">
-
-	<style type="text/css" media="print">
-		@page { size: landscape; }
-	</style>
-	<div id="cover"><p style="font-size: medium">Generating pdf/image ....</p></div>
-
+</header>
+<!-- end header -->
+<!-- body -->
+<div style="top: 110px;">
 	<!-- div onde será atribuído o mapa -->
 	<div id="map" style="height: calc(100vh - 80px);
   height: -moz-calc(100vh - 80px);
   height: -webkit-calc(100vh - 80px);"></div>
 
-	<!-- div to about button -->	
-	<!--<div id="container-icons" class="icon-bar">
-		<a id="about-resolution" title="Mostrar quadro de informações do projeto"><i class="fa fa-question-circle"></i></a> 
-		<a id="graphs" title="Em desenvolvimento ..."><i class="fa fa-area-chart"></i></a>
-		<a id="download-layers"
-		   title="Baixar arquivos dos layers usados no projeto"><i class="fa fa-download"></i></a>
-		<a id="download-map-image" title="Baixar imagem do mapa"><i class="fa fa-floppy-o"></i></a>
-		<hr class="separator-icons">
-		<a id="facebook" href="#" title="Compartilhar o site no facebook"><i class="fa fa-facebook"></i></a> 
-		<a id="twitter" href="#" title="Compartilhar o site no twiter"><i class="fa fa-twitter"></i></a> 
-		<a id="linkedin" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
-		<a id="email" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>-->
-		<!--<hr class="separator-icons">-->
+	<!-- Modal to About Resolution -->
+	<div class="modal fade" id="aboutResolution" tabindex="-1" role="dialog" aria-labelledby="aboutResolutionTitle" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div>
+					<h2 class="modal-title" id="aboutResolutionTitle"><b>ReSolution</b></h2>
+					<h5>RE​silient S​ystems fO​r Land Use TransportatION</h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.
+					<hr>
+					<div style="font-size:15pt"><b>Parcerias</b></div>
+					<div class="row">
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-cem2.png" title="CEM - Centro de Estudos da Metrópole" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-poli.png" title="Laboratório de Geoprocessamento - POLI - USP" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-ufabc.png" title="Universidade Federal do ABC" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-inpe3.png" title="INPE - Instituto Nacional de Pesquisas Espaciais" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-casa.png" title="CASA - Centre for Advanced Spatial Analysis" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-kingscollege.png" title="Kings College Longdon" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-birkbeck.png" title="Birkbeck University of London" style="height:80px;">
+						</div>
+					</div>
+					<hr>
+					<div style="font-size:15pt;float:left"><b>Apoio: </b></div>
+						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+							<i class="fapesp-icon sprite"></i>
+						</a>
 
-		<!--<a id="cem" href="http://web.fflch.usp.br/centrodametropole/" title="Centro de Estudos da Metrópole"><i class="cem-logo"></i></a>-->
-
-		<!--
-
-		<a id="fapesp" href="http://www.fapesp.br/" title="Fundação de Amparo à PEsquisa do Estado de São Paulo"><i class="fa fapesp-logo"></i></a>
-		-->
-	<!--</div>-->
-
-	<!-- ABout the project -->
-	<!--
-	<div id="main-container-about" style="display:none;">		
-		<div id="title-about">ReSolution</DIV>
-		<div  id="subtitle-about">RE​silient S​ystems fO​r Land Use TransportatION</div>				
-		
-		<div id="container-text-about">					
-			<div id="title_options">O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo. 
-				<a href="#"><i class="fa fa-external-link"></i></a>
-			</div>		
-		</div>					
-		<div class="footerWrap-about">
-			<div class="about-footer"> 													
-				<div class="cem"> 
-					<a href="http://web.fflch.usp.br/centrodametropole/" >
-						<i class="cem-icon sprite"></i> 
-					</a> 
 				</div>
-				<div class="fapesp"> 
-					<a href="http://www.fapesp.br/" > 
-						<i class="fapesp-icon sprite"></i> 
-					</a> 
-				</div> 									
-			</div>
-		</div>		
-	</div>
-	-->
-	<!-- End - about the project -->
-
-	<!-- MODAL to About the Project Window... -->
-	<div id="modal-about" class="modal-about">
-		<!-- Modal content -->
-		<div class="modal-content-about">
-			<div id="container-text-about">
-				<div style="font-size:24pt"><b>ReSolution</b></div>
-				<h2>RE​silient S​ystems fO​r Land Use TransportatION</h2>
-				<div id="title_options">O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.
-					<!-- <a href="#"><i class="fa fa-external-link"></i></a> -->
-				</div>		
-				<br>
-			</div>					
-			<div id="container-text-about">
-				<div style="font-size:18pt"><b>Parcerias</b></div>
-				<br>
-
-				<div>
-					<a target="_blank" href="http://www.centrodametropole.org.br/"> 
-						<!-- <i class="cem-icon sprite"></i>  -->
-						<img src="img/logo-cem2.png" title="CEM - Centro de Estudos da Metrópole" style="margin-left:30px;margin-top:10px;width:100px;float:left">
-					</a>
-				</div>
-				<div>
-						<img src="img/logo-poli.png" title="Laboratório de Geoprocessamento - POLI - USP" style="margin-left:30px;margin-top:10px;width:100px;float:left;">
-				</div>
-				<div>
-						<img src="img/logo-ufabc.png" title="Universidade Federal do ABC" style="margin-left:30px;margin-top:10px;width:100px;float:left;">
-				</div>
-				<div>
-						<img src="img/logo-inpe3.png" title="INPE - Instituto Nacional de Pesquisas Espaciais" style="margin-left:30px;margin-top:10px;width:110px;float:left;">
-				</div>
-				<div>
-						<img src="img/logo-casa.png" title="CASA - Centre for Advanced Spatial Analysis" style="margin-left:40px;margin-top:10px;width:60px;float:left;">
-				</div>
-				<div>
-						<img src="img/logo-kingscollege.png" title="Kings College Longdon" style="margin-left:60px;margin-top:10px;width:100px;float:left;">
-				</div>
-				<div>
-						<img src="img/logo-birkbeck.png" title="Birkbeck University of London" style="margin-left:30px;margin-top:10px;width:100px;">
-				</div>
-				<br><br>
-			</div>					
-			<div id="container-text-about">
-				<br>
-				<div style="font-size:18pt;float:left"><b>Apoio:</b></div>
-				<br>
-				<div class="fapesp" style="margin:0px;margin-left:20px"> 
-					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo"> 
-						<i class="fapesp-icon sprite"></i> 
-					</a> 
-				</div> 									
-			</div>					
-			<div class="footerWrap-about">
-				<div class="about-footer">
-					Este site é melhor visualizado em Mozilla Firefox e Google Chrome
-					<span class="close-about" style="margin-top:-9px"><button style="font-size:14px;width:90px;height:35px;border-radius:4px;size:10px;color:#ffffff;box-shadow: rgba(14, 105, 180, 0.2) 0 0 0px 0px;background: rgba(23, 119, 230, 0.7);">Fechar</button></span>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 				</div>
 			</div>
-			
 		</div>
 	</div>
+
 	<!-- ... End - Screen to About the Project Window -->
-	
+
 	<!-- MODAL to download the Layers -->
-	<div id="modal-download-layers" class="modal">
-		<!-- Modal content -->
-		<div class="modal-content">
-			<!--<span class="close">&times;</span>-->
-			<div class="modal-header">
-				<h2>Download Mapas</h2>
-				<span class="close">&times;</span>
-			</div>
-			<div  class="modal-body">
-				<div>Layer:</div>
-				<div>
-					<select id="layers-list" style="width:100%;">
-						<option>Áreas de Ponderação 2010</option>
-						<option>Setores Censitários da Região Metropolitana 2010</option>
-						<option>Linhas de Metrô</option>
-						<option>Linhas de Trem</option>
-						<option>Águas</option>
-					</select>
+	<div class="modal fade" id="downloadLayersFiles" tabindex="-1" role="dialog" aria-labelledby="downloadLayersFilesTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="downloadLayersFilesTitle">Download Mapas</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<div class="separator"></div>
-				<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
+				<div class="modal-body">
+					<div  class="form-group row">
+						<div class="col">Layer:</div>
+						<div class="col">
+							<select id="layers-list" style="width:auto;">
+								<option>Áreas de Ponderação 2010</option>
+								<option>Setores Censitários da Região Metropolitana 2010</option>
+								<option>Linhas de Metrô</option>
+								<option>Linhas de Trem</option>
+								<option>Águas</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End - Screen to download the Layers -->
 
 	<!-- MODAL to download the Map Image -->
-	<div id="modal-download-map-image" class="modal">
-		<!-- Modal content -->
-		<div class="modal-content">
-			<div class="modal-header">
-				<h2>Exportar Mapa</h2>
-				<span class="close-download-image">&times;</span>
-			</div>
-			<div class="modal-body">
-				<input type="radio" id="optImagem" checked
-					   name="exportation-options" value="pdf">
-				<label for="optImagem">Exportar como imagem</label>
-
-				<input type="radio" id="optPdf"
-					   name="exportation-options" value="pdf">
-				<label for="optPdf">Exportar como pdf</label>
-			</div>
-
-			<div class="modal-footer">
-				<!--<button type="button" class="btn btn-secondary" class="close-download-image" data-dismiss="modal">Close</button>-->
-				<button type="submit" class="btn btn-primary" onclick="exportMapToImagePDF()">Exportar</button>
+	<!-- Modal -->
+	<div class="modal fade" id="downloadMapImagePdf" tabindex="-1" role="dialog" aria-labelledby="downloadMapImagePdfTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="downloadMapImagePdfTitle">Exportação de Mapas</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-auto col-form-label">Tipo de Arquivo: </label>
+						<div class="col" style="margin-top:7px;">
+							<input type="radio" id="optImagem" checked
+								   name="exportation-options" value="imagem">
+							<label for="optImagem">Imagem (JPEG)</label>
+							<input type="radio" id="optPdf"
+								   name="exportation-options" value="pdf">
+							<label for="optPdf"> PDF (a4)</label>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-primary" onclick="exportMapToImagePDF()">Exportar</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -275,34 +243,34 @@
 
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
-		<div class="leaflet-bottom leaflet-left" style="bottom: 30px; left:-5px;">	
+		<div class="leaflet-bottom leaflet-left" style="bottom: 30px; left:-5px;">
 			<div class=" leaflet-control">
-				<input id='option_basemap_thematic' type="button"  value="SEM MAPA BASE" 
-				title="Click aqui para visualizar o mapa temático sem o mapa base!" 
-				data-placement="auto" data-toggle="tooltip" 
-				class="input-map-option thematic-map">
+				<input id='option_basemap_thematic' type="button"  value="SEM MAPA BASE"
+					   title="Click aqui para visualizar o mapa temático sem o mapa base!"
+					   data-placement="auto" data-toggle="tooltip"
+					   class="input-map-option thematic-map">
 			</div>
 		</div>
 	</div>
 	<!--end control-->
-    <div id="container_menu" >
-        <div id="title_menu">SELECIONAR TEMAS E VARIÁVEIS</div>
+	<div id="container_menu" >
+		<div id="title_menu">SELECIONAR TEMAS E VARIÁVEIS</div>
 		<div id="container_options">
 			<div id="title_options_tema">Tema:</div>
 			<div id="theme_options">
-	            <select id="option_theme">
-	            </select>
-	        </div>
-	        <div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
+				<select id="option_theme">
+				</select>
+			</div>
+			<div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
 			<div class="separator"></div>
 			<div id="title_options_variavel">Variável:</div>
 			<div id="variables_options">
 				<select id="option_variables">
 				</select>
-			</div>			
-	        <div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
-		</div>		
-		
+			</div>
+			<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
+		</div>
+
 
 		<div id="container_extras">
 			<form action="select_extras" title="Most27pxrar as linhas de Metrô e/ou Trem">
@@ -310,13 +278,13 @@
 				<label><input type="checkbox" name="transporte" id="trem_linha">Trem</label>
 			</form>
 		</div>
-    </div>
 	</div>
+</div>
 
-	<!-- importar o arquivo js -->
-	<script type="text/javascript" src="js/queries.js"></script>
-	<script type="text/javascript" src="js/menuoptions.js"></script>
-	<script type="text/javascript" src="js/resolution.js"></script>
-	<script type="text/javascript" src="js/controlsdata.js"></script>
+<!-- importar o arquivo js -->
+<script type="text/javascript" src="js/queries.js"></script>
+<script type="text/javascript" src="js/menuoptions.js"></script>
+<script type="text/javascript" src="js/resolution.js"></script>
+<script type="text/javascript" src="js/controlsdata.js"></script>
 </body>
 </html>
