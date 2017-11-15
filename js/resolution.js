@@ -62,9 +62,9 @@ function addControlPlaceholders(map) {
 addControlPlaceholders(map);
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Mariela: Specify the zoom control
-map.zoomControl.setPosition('verticalcustomleft');
+map.zoomControl.setPosition('topleft'); /*verticalcustomleft*/
 // André - 20170512: inclusão de escala (km) no mapa
-L.control.scale({metric: true, imperial: false, position: 'verticalcustomleft' }).addTo(map);
+L.control.scale({metric: true, imperial: false, position: 'topleft' }).addTo(map); /*verticalcustomleft*/
 
 
 
@@ -356,7 +356,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
-    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px;'>" +
+    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px; width:300px;'>" +
         "    <div id=\"title_legend\">LEGENDA</div><br>" +
         "    <div class='legend-title' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div> (" + strUnit + ") </div>" +
@@ -459,7 +459,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "              <div id='containerOptionsDataMethod'>" +
         "                <form id='selectDataMethod'>" +
         "                    <fieldset>" +
-        "                      <legend><b>Classificação<br> de dados:</b></legend>" +
+        "                      <legend style='font-size: 10px;'><b>Classificação<br> de dados:</b></legend>" +
         "                      <div class='radio'>" +
         "                        <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles'";
     if (strClassMethod == "quantiles") {
