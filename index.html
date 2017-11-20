@@ -61,52 +61,60 @@
 </head>
 <body>
 <!-- header -->
-<header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
-    border-bottom: 2px solid #868e96;">
-	<a class="navbar-brand mr-0 mr-md-2" href="http://web.fflch.usp.br/centrodametropole/">
-		<img src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
-	</a>
+<header>
 
-	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-		<li class="nav-item">
-			<a id="about-resolution" class="nav-link p-2"  style="font-size: 1.3em;" title="Mostrar quadro de informações do projeto"
-			   data-toggle="modal" data-target="#aboutResolution">
-				<i class="fa fa-question-circle"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a id="graphs"   class="nav-link p-2"  style="font-size: 1.3em;" title="Em desenvolvimento ...">
-				<i class="fa fa-area-chart"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a id="download-layers"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar arquivos dos layers usados no projeto"
-			   data-toggle="modal" data-target="#downloadLayersFiles">
-				<i class="fa fa-download"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a id="download-map-image"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar imagem do mapa"
-			   data-toggle="modal" data-target="#downloadMapImagePdf">
-				<i class="fa fa-floppy-o"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a id="facebook"  class="nav-link p-2" style="font-size: 1.3em;" href="#" title="Compartilhar o site no facebook" target="_blank" rel="noopener" aria-label="Facebook">
-				<i class="fa fa-facebook"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a id="twitter" class="nav-link p-2"  style="font-size: 1.3em;" title="Compartilhar o site no twiter" href="#"><i class="fa fa-twitter"></i></a>
-		</li>
-		<li class="nav-item">
-			<a id="linkedin" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
-		</li>
-		<li class="nav-item">
-			<a id="email" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
-		</li>
-	</ul>
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<a class="navbar-brand" href="http://web.fflch.usp.br/centrodametropole/">
+			<img src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
+		</a>
 
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResolution"
+				aria-controls="navbarResolution" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarResolution">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a id="about-resolution" class="nav-link p-2"  style="font-size: 1.3em;" title="Mostrar quadro de informações do projeto"
+					   data-toggle="modal" data-target="#aboutResolution">
+						<i class="fa fa-question-circle"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="graphs"   class="nav-link p-2"  style="font-size: 1.3em;" title="Em desenvolvimento ...">
+						<i class="fa fa-area-chart"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="download-layers"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar arquivos dos layers usados no projeto"
+					   data-toggle="modal" data-target="#downloadLayersFiles">
+						<i class="fa fa-download"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="download-map-image"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar imagem do mapa"
+					   data-toggle="modal" data-target="#downloadMapImagePdf">
+						<i class="fa fa-floppy-o"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="facebook"  class="nav-link p-2" style="font-size: 1.3em;" href="#" title="Compartilhar o site no facebook" target="_blank" rel="noopener" aria-label="Facebook">
+						<i class="fa fa-facebook"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="twitter" class="nav-link p-2"  style="font-size: 1.3em;" title="Compartilhar o site no twiter" href="#"><i class="fa fa-twitter"></i></a>
+				</li>
+				<li class="nav-item">
+					<a id="linkedin" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site no linkedin"><i class="fa fa-linkedin"></i></a>
+				</li>
+				<li class="nav-item">
+					<a id="email" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 </header>
 <!-- end header -->
 <!-- body -->
@@ -122,8 +130,8 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div>
-					<h2 class="modal-title" id="aboutResolutionTitle"><b>ReSolution</b></h2>
-					<h5>RE​silient S​ystems fO​r Land Use TransportatION</h5>
+						<h2 class="modal-title" id="aboutResolutionTitle"><b>ReSolution</b></h2>
+						<h5>RE​silient S​ystems fO​r Land Use TransportatION</h5>
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -158,9 +166,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Apoio: </b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
