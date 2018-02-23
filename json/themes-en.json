@@ -1,0 +1,52 @@
+{ "Themes": [
+    {
+        "idTheme": 1,
+        "codTheme": "demografia",
+        "theme": "Demography",
+        "description": "Demography",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "polygonArea": "Census Sectors",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 2,
+        "codTheme": "raca_imigracao",
+        "theme": "Race and Immigration",
+        "description": "Race and Immigration",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "polygonArea": "Census Sectors",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 3,
+        "codTheme": "religiao",
+        "theme": "Religion",
+        "description": "Religion",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "polygonArea": "Census Sectors",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 4,
+        "codTheme": "educacao",
+        "theme": "Education",
+        "description": "Education",
+        "tableName": "ap2010_rmsp_cem_erase",
+        "polygonArea": "Weighting Areas",
+        "showEdge": 0.5,
+        "colTableToLegend": "nom_mu"
+    },
+    {
+        "idTheme": 5,
+        "codTheme": "renda_trabalho",
+        "theme": "Income and Work",
+        "description": "Income and Work",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "polygonArea": "Census Sectors",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    }
+]}

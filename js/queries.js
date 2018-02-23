@@ -19,6 +19,13 @@ var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253,
 var noValueClassColor = "#A9A9A9";
 var noDataMessage = "Sem dados válidos";
 
+// Variable to hold current language. Initial value is portuguese (pt)
+var globalCurrentLanguage = "pt-br";
+
+var globalLangTokens = {
+    noDataMessage: "Sem dados válidos"
+}
+
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
 //var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];
@@ -31,6 +38,9 @@ var noDataMessage = "Sem dados válidos";
 $.getJSON(
     "json/config.json", 
     function(result) {           	
+       if (result.initialLanguage) {
+           globalCurrentLanguage = result.initialLanguage;
+       }
        if (result.zoomInitialLevel) {
            ZOOM_INITIAL_LEVEL = result.zoomInitialLevel;
        }
@@ -55,6 +65,7 @@ $.getJSON(
        if (result.classColorNoValue) {
            noValueClassColor = result.classColorNoValue;
        }
+       // Clóvis - retirar!
        if (result.noDataMessage) {
            noDataMessage = result.noDataMessage;
        }
@@ -112,9 +123,14 @@ function getCurrentLayerData (idTheme, variable){
         async: false
     });
 
+    // Get themes JSON File.
+    // The file name must be 'json/themes-' followed by the language string
+    // So it will be easy to add new language files
+    var strJSONFile = "json/themes-" + globalCurrentLanguage + ".json";
+
     // get values from themes JSON file
     $.getJSON(
-        "json/themes.json", 
+        strJSONFile, 
         function(result) {        	
         	jsonFiltered = result.Themes.filter(function(n){
         		return n.idTheme==idTheme;
@@ -131,8 +147,12 @@ function getCurrentLayerData (idTheme, variable){
     );
 
     // get values from variables JSON file
+    // The file name must be 'json/variables-' followed by the language string
+    // So it will be easy to add new language files
+    strJSONFile = "json/variables-" + globalCurrentLanguage + ".json";
+
     $.getJSON(
-        "json/variables.json", 
+        strJSONFile,
         function(result) {
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme && n.codVariable==variable;
@@ -155,9 +175,95 @@ function getCurrentLayerData (idTheme, variable){
 	return (objRet);
 }
 
+// Function to laod language tokens
+// Next step: put it in a JSON file, and if possible put all tokens in just one file.
+//            Current tokens are spread in themes and variable files, and also in this function
+function getLanguageTokens () {
+    
+    if (globalCurrentLanguage == "pt-br") {
+        globalLangTokens.CEMString = "CENTRO DE ESTUDOS DA METRÓPOLE";
+        globalLangTokens.CEMLogoFilePath = "img/Logo_CEM_em_alta_resolu_o.png";
+        globalLangTokens.projectInformationTitle = "Mostrar quadro de informações do projeto";
+        globalLangTokens.projectInfoDataTarget = "#aboutResolution";
+        globalLangTokens.graphsTitle = "Em desenvolvimento ...";
+        globalLangTokens.downloadLayersTitle = "Baixar arquivos dos layers usados no projeto";
+        globalLangTokens.downloadMapImageTitle = "Baixar imagem do mapa";
+        globalLangTokens.facebookTitle = "Compartilhar o site no facebook";
+        globalLangTokens.twiterTitle = "Compartilhar o site no twiter";
+        globalLangTokens.linkedinTitle = "Compartilhar o site no linkedin";
+        globalLangTokens.emailTitle = "Compartilhar o site pelo e-mail";
+        globalLangTokens.languageString = "Idiomas";
+        globalLangTokens.languageTitle = "Escolha o idioma";
+        globalLangTokens.themesAndVariablesTitle = "SELECIONAR TEMAS E VARIÁVEIS";
+        globalLangTokens.themeString = "Tema:";
+        globalLangTokens.themeDescString = "Descrição do tema escolhido...";
+        globalLangTokens.variableString = "Variável:";
+        globalLangTokens.variableDescString = "Descrição da variável escolhida...";
+        globalLangTokens.variableOptionSelectString = "Selecione";
+        globalLangTokens.variableOptionSelectDescription = "Selecione uma variável";
+        globalLangTokens.subwayString = "Metrô";
+        globalLangTokens.trainString = "Trem";
+        globalLangTokens.legendTitle = "LEGENDA";
+        
+        globalLangTokens.noDataMessage = "Sem dados válidos";
+        globalLangTokens.nonUrbanAreaString = "Área metropolitana\nnão urbana";
+        globalLangTokens.dataClassificationString = "Classificação\nde dados:";
+        globalLangTokens.withBaseMapString = "COM MAPA BASE";
+        globalLangTokens.withBaseMapTitle = "Clique aqui para visualizar o mapa temático com o mapa base!";
+        globalLangTokens.withoutBaseMapString = "SEM MAPA BASE";
+        globalLangTokens.withoutBaseMapTitle = "Clique aqui para visualizar o mapa temático sem o mapa base!";
+
+        globalLangTokens.tokenStringClose = "Fechar";
+        globalLangTokens.tokenStringMaps = "Mapas";
+        globalLangTokens.tokenStringExport = "Exportar";
+        globalLangTokens.tokenStringFile = "Arquivo";
+        globalLangTokens.tokenStringType = "Tipo";
+        globalLangTokens.tokenStringImage = "Imagem";
+    } else {
+        globalLangTokens.CEMString = "CENTER FOR METROPOLITAN STUDIES";
+        globalLangTokens.CEMLogoFilePath = "img/Logo_CEM_em_alta_resolu_o-en.png";
+        globalLangTokens.projectInformationTitle = "Show project information frame";
+        globalLangTokens.projectInfoDataTarget = "#aboutResolution-en";
+        globalLangTokens.graphsTitle = "Under development ...";
+        globalLangTokens.downloadLayersTitle = "Download files from the layers used in the project";
+        globalLangTokens.downloadMapImageTitle = "Download map image";
+        globalLangTokens.facebookTitle = "Share this site on Facebook";
+        globalLangTokens.twiterTitle = "Share this site on twiter";
+        globalLangTokens.linkedinTitle = "Share this site on linkedin";
+        globalLangTokens.emailTitle = "Share this site by e-mail";
+        globalLangTokens.languageString = "language";
+        globalLangTokens.languageTitle = "Choose language";
+        globalLangTokens.themesAndVariablesTitle = "SELECT THEMES AND VARIABLES";
+        globalLangTokens.themeString = "Theme";
+        globalLangTokens.themeDescString = "Description of the chosen theme ...";
+        globalLangTokens.variableString = "Variable";
+        globalLangTokens.variableDescString = "Description of chosen variable...";
+        globalLangTokens.variableOptionSelectString = "Select";
+        globalLangTokens.variableOptionSelectDescription = "Select one variable";
+        globalLangTokens.subwayString = "Subway";
+        globalLangTokens.trainString = "Train";
+        globalLangTokens.legendTitle = "LEGEND";
+        
+        globalLangTokens.noDataMessage = "No valid data";
+        globalLangTokens.nonUrbanAreaString = "Non-urban\nmetropolitan area";
+        globalLangTokens.dataClassificationString = "Data\nclassification:";
+        globalLangTokens.withBaseMapString = "WITH BASE MAP";
+        globalLangTokens.withBaseMapTitle = "Click here to view thematic map with the base map!";
+        globalLangTokens.withoutBaseMapString = "WITHOUT BASE MAP";
+        globalLangTokens.withoutBaseMapTitle = "Click here to view thematic map without the base map!";
+
+        globalLangTokens.tokenStringClose = "Close";
+        globalLangTokens.tokenStringMaps = "Maps";
+        globalLangTokens.tokenStringExport = "Export";
+        globalLangTokens.tokenStringFile = "File";
+        globalLangTokens.tokenStringType = "Type";
+        globalLangTokens.tokenStringImage = "Image";
+    }
+        
+}
+
 // The structures below are no longer used
 // Left here for historical and consultations purposes, for now
-
 
 // ... Mariela - 20170629:
 // DEMOGRAPHY

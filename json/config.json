@@ -1,4 +1,6 @@
 {
+    "initialLanguage": "pt-br",
+    "initialLanguage-English-Change-To-This": "en",
     "zoomInitialLevel": 10,
     "zoomMinLevel": 10,
     "zoomMaxLevel": 18,
