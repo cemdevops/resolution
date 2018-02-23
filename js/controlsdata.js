@@ -1,15 +1,20 @@
 window.onload = function() {
-	populateThemes();
-	populateVariables(1);
+	populateThemes(0);
+	populateVariables(1, "");
 	// $('#about-resolution').trigger('click')
+	// Update language tokens for the first time
+	getLanguageTokens ();
+	updateLanguageTokens ();
 };
 
-function populateThemes(){
+function populateThemes(intTheme){
 	var selectControl = document.getElementById("option_theme");	
     var option = null;
-    
+
+	var strJSONFile = "json/themes-" + globalCurrentLanguage + ".json";
+
     $.getJSON(
-        "json/themes.json", 
+        strJSONFile, 
         function(result) {        	
             //find the array and do something
             $.each(result.Themes, function(key,val) {
@@ -19,13 +24,16 @@ function populateThemes(){
 		        option.title = val.description;
 		        selectControl.appendChild(option);
             });
-            // Change the theme description
+			// Change the theme description
+			if (intTheme && intTheme > 0) {
+				document.getElementById("option_theme").value = intTheme;
+			}
             document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
         }
     );	
 }
 
-function populateVariables(idTheme){
+function populateVariables(idTheme, op){
 	var selectControl = document.getElementById("option_variables");	
     var option = null;	
     var jsonFiltered = null;
@@ -33,23 +41,25 @@ function populateVariables(idTheme){
     var numberOfVariables = selectControl.options.length;
     for (var i = 0; i<numberOfVariables; i++) {
     	selectControl.remove(0);
-    }
-
+	}
+	
+	var strJSONFile = "json/variables-" + globalCurrentLanguage + ".json";
+	
     $.getJSON(
-        "json/variables.json", 
-        function(result) {           	
+        strJSONFile, 
+        function(result) {
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme;
         	});
         	
         	// criar o primeiro item do SELECT control
-        	option = document.createElement("option");
-        	option.value = "selecione";
-        	option.innerHTML = "Selecione";
+			option = document.createElement("option");
+        	option.value = globalLangTokens.variableOptionSelectString;
+        	option.innerHTML = globalLangTokens.variableOptionSelectString;
         	option.title = "";
         	selectControl.appendChild(option);
-        	// Change the variable description
-        	document.getElementById("variable_description").innerHTML = "Selecione uma variável";
+        	// Change the variable description to "Select" option (default)
+        	document.getElementById("variable_description").innerHTML = globalLangTokens.variableOptionSelectDescription;
 
         	for (var i=0; i<jsonFiltered.length;i++)
         	{
@@ -58,8 +68,12 @@ function populateVariables(idTheme){
         		option.innerHTML = jsonFiltered[i].variable;
         		option.title = jsonFiltered[i].description;
         		selectControl.appendChild(option);
-        	}
-        }
+			}
+			if (op && op != "") {
+				document.getElementById("option_variables").value = op;
+				document.getElementById("variable_description").innerHTML = $("#option_variables").find('option:selected').attr('title');
+			}
+		}
     );
 }
 
@@ -70,7 +84,7 @@ $("#option_theme").change(function(){
 	document.getElementById("theme_description").innerHTML = $(this).find('option:selected').attr('title');
 	
 	//Populate the variable DropDownList
-	populateVariables(idTheme);
+	populateVariables(idTheme, "");
 });
 
 /* Change the variable description */

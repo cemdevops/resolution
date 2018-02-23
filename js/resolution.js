@@ -10,13 +10,13 @@ Constants and global parameters read from config.json can be found in queries.js
 
 // Mariela: Event triggered by clicking in base/thematic map button
 $("#option_basemap_thematic").click(function () {
-    if ($("#option_basemap_thematic").val() == 'COM MAPA BASE'){
+    if ($("#option_basemap_thematic").val() == globalLangTokens.withBaseMapString){
         // Show the base map and/or thematic map
         addBaseMap('osm');
 
         // Change the background image and button description
-        $("#option_basemap_thematic").attr('value', 'SEM MAPA BASE');
-        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático sem o mapa base!');
+        $("#option_basemap_thematic").attr('value', globalLangTokens.withoutBaseMapString);
+        $("#option_basemap_thematic").attr('title',globalLangTokens.withoutBaseMapTitle);
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
 
@@ -25,13 +25,106 @@ $("#option_basemap_thematic").click(function () {
         removeBaseMap(layerMapaBaseSel);
 
         // Change the background image and the button text
-        $("#option_basemap_thematic").attr('value', 'COM MAPA BASE');
-        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático com o mapa base!');
+        $("#option_basemap_thematic").attr('value', globalLangTokens.withBaseMapString);
+        $("#option_basemap_thematic").attr('title',globalLangTokens.withBaseMapTitle);
         // $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
         $("#option_basemap_thematic").removeClass("thematic-map");
         $("#option_basemap_thematic").addClass("base-map");
     }
 });
+
+// Change language tokens in page
+function changeLanguage (strNewLanguage) {
+    if (strNewLanguage != globalCurrentLanguage) {
+        // change language
+        // Get new language tokens
+        globalCurrentLanguage = strNewLanguage;
+
+        // get current theme and variable
+        var e = document.getElementById("option_theme");
+        var theme = e.options[e.selectedIndex].value;
+        var el = document.getElementById("option_variables");
+        var op = el.options[el.selectedIndex].value
+        if (op == globalLangTokens.variableOptionSelectString) {
+            op = "";
+        }
+
+        // Load new tokens. Function in queries.js.
+        getLanguageTokens ();
+
+        // Change tokens in pages
+        updateLanguageTokens ();
+
+        // Change tokens in themes and variables window
+        // Clear themes
+        var selectControl = document.getElementById("option_theme");
+        var option = null;
+        // Remove elements of "variables" select control
+        var numberOfVariables = selectControl.options.length;
+        for (var i = 0; i<numberOfVariables; i++) {
+            selectControl.remove(0);
+        }
+        // Populate themes
+        populateThemes(theme);
+
+        // Populate variables
+        populateVariables (theme, op);
+
+        // Change variable in legend
+        if ($("div.cartodb-legend.choropleth").length) {
+            // Legend is active. Change.
+            var currentLayerData = getCurrentLayerData (theme, op);
+            $("#legendVariableStr").text(currentLayerData.title);
+            $("#legendVariableUnit").text(currentLayerData.polygonArea);
+        }
+    }
+}
+
+// Update language tokens and images in pages
+function updateLanguageTokens () {
+    $("#CEM-logo-img").attr('src', globalLangTokens.CEMLogoFilePath);
+    
+    $("#about-resolution").attr('title', globalLangTokens.projectInformationTitle);
+    $("#about-resolution").attr('data-target', globalLangTokens.projectInfoDataTarget);
+    $("#graphs").attr('title', globalLangTokens.graphsTitle);
+    $("#download-layers").attr('title', globalLangTokens.downloadLayersTitle);
+    $("#download-map-image").attr('title', globalLangTokens.downloadMapImageTitle);
+    $("#facebook").attr('title', globalLangTokens.facebookTitle);
+    $("#twitter").attr('title', globalLangTokens.twiterTitle);
+    $("#linkedin").attr('title', globalLangTokens.linkedinTitle);
+    $("#email").attr('title', globalLangTokens.emailTitle);
+    $("#languagesDropDownString").text(globalLangTokens.languageString);
+    $("#languagesDropDown").attr('title', globalLangTokens.languageTitle);
+    
+    $("#title_menu").text(globalLangTokens.themesAndVariablesTitle);
+    $("#title_options_tema").text(globalLangTokens.themeString);
+    $("#theme_description").text(globalLangTokens.themeDescString);
+    $("#title_options_variavel").text(globalLangTokens.themeString);
+    $("#variable_description").text(globalLangTokens.themeDescString);
+
+    $("#metro_linha_label").text(globalLangTokens.subwayString);
+    $("#trem_linha_label").text(globalLangTokens.trainString);
+
+    $("#title_legend").text(globalLangTokens.legendTitle);
+    $("#noValidData").text(globalLangTokens.noDataMessage);
+    $("#nonUbanArea").text(globalLangTokens.nonUrbanAreaString);
+    $("#dataClassification").text(globalLangTokens.dataClassificationString);
+    
+    $("#option_basemap_thematic").attr('value', globalLangTokens.withoutBaseMapString);
+    $("#option_basemap_thematic").attr('title',globalLangTokens.withoutBaseMapTitle);
+
+
+    // Download maps window
+    $("#downloadLayersFilesTitle").text("Download " + globalLangTokens.tokenStringMaps);
+    $("#downloadLayersFilesCloseButton").text(globalLangTokens.tokenStringClose);
+
+    // Download image window
+    $("#downloadMapImagePdfTitle").text(globalLangTokens.tokenStringExport + " " + globalLangTokens.tokenStringMaps);
+    $("#downloadMapImagePdfLabel").text(globalLangTokens.tokenStringFile +  " " + globalLangTokens.tokenStringType);
+    $("#downloadMapImagePdfImage").text(globalLangTokens.tokenStringImage + " (JPEG)");
+    $("#downloadMapImagePdfCloseButton").text(globalLangTokens.tokenStringClose);
+    $("#downloadMapImagePdfExportButton").text(globalLangTokens.tokenStringExport);
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Initial Map's properties definitions
@@ -223,17 +316,16 @@ function showThematicLayer(layer){
   // get selected Theme
   var e = document.getElementById("option_theme");
   var theme = e.options[e.selectedIndex].value;
-  console.log(theme +'-'+ op);
 
   // Check if layer's legend. Remove if exists
   takeOutLegend();
 
   // if option is valid, tooltip and legend will be build
-  if(op != 'selecione') {
+  if(op != globalLangTokens.variableOptionSelectString) {
     // get button value
     var buttonVal = document.getElementById("option_basemap_thematic").value;
     // If button value is 'Mapa base' is because the basemap isn't visible
-    var opacity = buttonVal == 'COM MAPA BASE' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+    var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
 
     // get all data configuration of current layer, based on theme and variable (op)
     var currentLayerData = getCurrentLayerData (theme, op);
@@ -258,7 +350,7 @@ function showThematicLayer(layer){
         for (i=1; i < 8; i++) {
             document.getElementById("celula"+i).innerHTML = "";
         }
-        // document.getElementById("nodata").innerHTML = noDataMessage;
+        // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
 
         // Fill district value in legend
         document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
@@ -266,7 +358,7 @@ function showThematicLayer(layer){
         if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
             document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
         } else {
-            // document.getElementById("nodata").innerHTML = noDataMessage;
+            // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
         }
     }); // sublayer.on
     // ... Clóvis/André 20170331
@@ -276,7 +368,7 @@ function showThematicLayer(layer){
         for (i=1; i < 8; i++) {
             document.getElementById("celula"+i).innerHTML = "";
         }
-        //document.getElementById("nodata").innerHTML = "";
+        //document.getElementById("noValidData").innerHTML = "";
     }); // sublayer.on
 
     // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
@@ -357,9 +449,9 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px; width:300px;'>" +
-        "    <div id=\"title_legend\">LEGENDA</div><br>" +
-        "    <div class='legend-title' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
-        "    <div> (" + strUnit + ") </div>" +
+        "    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
+        "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
+        "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
         "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Bairro'> </div>" +
         "    <ul>" +
         "        <li>" +
@@ -450,16 +542,16 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            <div style='max-width: 100%;min-width: 38%;display:inline-block;padding-left:25px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
-        "                <div class='cell-cem-no-value-text' id='nodata' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + noDataMessage + "</div>" +
+        "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
         "                <br>" +
         "                <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
-        "                <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Área metropolitana<br> não urbana</div>" +
+        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
         "              </div>" +
         "              <br><br>" +
         "              <div id='containerOptionsDataMethod'>" +
         "                <form id='selectDataMethod'>" +
         "                    <fieldset>" +
-        "                      <legend style='font-size: 10px;'><b>Classificação<br> de dados:</b></legend>" +
+        "                      <legend style='font-size: 10px;'><b id='dataClassification' style='white-space:pre-wrap;'>" + globalLangTokens.dataClassificationString + "</b></legend>" +
         "                      <div class='radio'>" +
         "                        <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles'";
     if (strClassMethod == "quantiles") {
@@ -617,7 +709,7 @@ function showPlacesLayer(placesLayer,placesSublayer){
     // Clean the places layer
     placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});
 
-    if (variableSel != 'selecione' && variableSel != '' && buttonVal == 'COM MAPA BASE'){
+    if (variableSel != globalLangTokens.variableOptionSelectString && variableSel != '' && buttonVal == globalLangTokens.withBaseMapString){
         // create and add a new sublayer to map
         placesLayer.createSubLayer(places["rmsp"]);
         // this line is used to show places layer while the zoom is working
@@ -650,8 +742,9 @@ cartodb.createLayer(map,{
 // +++++++++++++++++++++++++++++++++++++ RMSP +++++++++++++++++++++++++++++++++++++
 // metropolitan region of São Paulo
 // testing layer
+
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda", // alter to CEM account
+        user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
     })
