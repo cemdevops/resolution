@@ -1,0 +1,109 @@
+{
+    "CEMString-pt-br": "CENTRO DE ESTUDOS DA METRÓPOLE",
+    "CEMString-en": "CENTER FOR METROPOLITAN STUDIES",
+
+    "CEMLogoFilePath-pt-br": "img/Logo_CEM_em_alta_resolu_o.png",
+    "CEMLogoFilePath-en": "img/Logo_CEM_em_alta_resolu_o-en.png",
+
+    "projectInformationTitle-pt-br": "Mostrar quadro de informações do projeto",
+    "projectInformationTitle-en": "Show project information frame",
+
+    "projectInfoDataTarget-pt-br": "#aboutResolution",
+    "projectInfoDataTarget-en": "#aboutResolution-en",
+
+    "graphsTitle-pt-br": "Em desenvolvimento ...",
+    "graphsTitle-en": "Under development ...",
+
+    "downloadLayersTitle-pt-br": "Baixar arquivos dos layers usados no projeto",
+    "downloadLayersTitle-en": "Download files from the layers used in the project",
+
+    "downloadMapImageTitle-pt-br": "Baixar imagem do mapa",
+    "downloadMapImageTitle-en": "Download map image",
+
+    "facebookTitle-pt-br": "Compartilhar o site no facebook",
+    "facebookTitle-en": "Share this site on Facebook",
+
+    "twiterTitle-pt-br": "Compartilhar o site no twiter",
+    "twiterTitle-en": "Share this site on twiter",
+
+    "linkedinTitle-pt-br": "Compartilhar o site no linkedin",
+    "linkedinTitle-en": "Share this site on linkedin",
+
+    "emailTitle-pt-br": "Compartilhar o site pelo e-mail",
+    "emailTitle-en": "Share this site by e-mail",
+
+    "languageString-pt-br": "Idiomas",
+    "languageString-en": "language",
+
+    "languageTitle-pt-br": "Escolha o idioma",
+    "languageTitle-en": "Choose language",
+
+    "themesAndVariablesTitle-pt-br": "SELECIONAR TEMAS E VARIÁVEIS",
+    "themesAndVariablesTitle-en": "SELECT THEMES AND VARIABLES",
+
+    "themeString-pt-br": "Tema:",
+    "themeString-en": "Theme",
+
+    "themeDescString-pt-br": "Descrição do tema escolhido...",
+    "themeDescString-en": "Description of the chosen theme ...",
+
+    "variableString-pt-br": "Variável:",
+    "variableString-en": "Variable",
+
+    "variableDescString-pt-br": "Descrição da variável escolhida...",
+    "variableDescString-en": "Description of chosen variable...",
+
+    "variableOptionSelectString-pt-br": "Selecione",
+    "variableOptionSelectString-en": "Select",
+
+    "variableOptionSelectDescription-pt-br": "Selecione uma variável",
+    "variableOptionSelectDescription-en": "Select one variable",
+
+    "subwayString-pt-br": "Metrô",
+    "subwayString-en": "Subway",
+
+    "trainString-pt-br": "Trem",
+    "trainString-en": "Train",
+
+    "legendTitle-pt-br": "LEGENDA",
+    "legendTitle-en": "LEGEND",
+    
+    "noDataMessage-pt-br": "Sem dados válidos",
+    "noDataMessage-en": "No valid data",
+
+    "nonUrbanAreaString-pt-br": "Área metropolitana\nnão urbana",
+    "nonUrbanAreaString-en": "Non-urban\nmetropolitan area",
+
+    "dataClassificationString-pt-br": "Classificação\nde dados:",
+    "dataClassificationString-en": "Data\nclassification:",
+
+    "withBaseMapString-pt-br": "COM MAPA BASE",
+    "withBaseMapString-en": "WITH BASE MAP",
+
+    "withBaseMapTitle-pt-br": "Clique aqui para visualizar o mapa temático com o mapa base!",
+    "withBaseMapTitle-en": "Click here to view thematic map with the base map!",
+
+    "withoutBaseMapString-pt-br": "SEM MAPA BASE",
+    "withoutBaseMapString-en": "WITHOUT BASE MAP",
+
+    "withoutBaseMapTitle-pt-br": "Clique aqui para visualizar o mapa temático sem o mapa base!",
+    "withoutBaseMapTitle-en": "Click here to view thematic map without the base map!",
+    
+    "tokenStringClose-pt-br": "Fechar",
+    "tokenStringClose-en": "Close",
+
+    "tokenStringMaps-pt-br": "Mapas",
+    "tokenStringMaps-en": "Maps",
+
+    "tokenStringExport-pt-br": "Exportar",
+    "tokenStringExport-en": "Export",
+
+    "tokenStringFile-pt-br": "Arquivo",
+    "tokenStringFile-en": "File",
+
+    "tokenStringType-pt-br": "Tipo",
+    "tokenStringType-en": "Type",
+    
+    "tokenStringImage-pt-br": "Imagem",
+    "tokenStringImage-en": "Image"
+}

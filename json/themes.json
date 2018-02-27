@@ -1,0 +1,67 @@
+{ "Themes": [
+    {
+        "idTheme": 1,
+        "codTheme": "demografia",
+        "theme-pt-br": "Demografia",
+        "description-pt-br": "Demografia",
+        "polygonArea-pt-br": "Setores Censitários",
+        "theme-en": "Demography",
+        "description-en": "Demography",
+        "polygonArea-en": "Census Sectors",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 2,
+        "codTheme": "raca_imigracao",
+        "theme-pt-br": "Raça e imigração",
+        "description-pt-br": "Raça e imigração",
+        "polygonArea-pt-br": "Setores Censitários",
+        "theme-en": "Race and Immigration",
+        "description-en": "Race and Immigration",
+        "polygonArea-en": "Census Sectors",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 3,
+        "codTheme": "religiao",
+        "theme-pt-br": "Religião",
+        "description-pt-br": "Religião",
+        "polygonArea-pt-br": "Setores Censitários",
+        "theme-en": "Religion",
+        "description-en": "Religion",
+        "polygonArea-en": "Census Sectors",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 4,
+        "codTheme": "educacao",
+        "theme-pt-br": "Educação",
+        "description-pt-br": "Educação",
+        "polygonArea-pt-br": "Áreas de Ponderação",
+        "theme-en": "Education",
+        "description-en": "Education",
+        "polygonArea-en": "Weighting Areas",
+        "tableName": "ap2010_rmsp_cem_erase",
+        "showEdge": 0.5,
+        "colTableToLegend": "nom_mu"
+    },
+    {
+        "idTheme": 5,
+        "codTheme": "renda_trabalho",
+        "theme-pt-br": "Renda e Trabalho",
+        "description-pt-br": "Renda e Trabalho",
+        "polygonArea-pt-br": "Setores Censitários",
+        "theme-en": "Income and Work",
+        "description-en": "Income and Work",
+        "polygonArea-en": "Census Sectors",
+        "tableName": "resolution_sc2010_cem_rmsp_erase",
+        "showEdge": 2,
+        "colTableToLegend": "nom_di"
+    }
+]}
