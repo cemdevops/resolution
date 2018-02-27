@@ -3,6 +3,7 @@ window.onload = function() {
 	populateVariables(1, "");
 	// $('#about-resolution').trigger('click')
 	// Update language tokens for the first time
+	
 	getLanguageTokens ();
 	updateLanguageTokens ();
 };
@@ -11,7 +12,8 @@ function populateThemes(intTheme){
 	var selectControl = document.getElementById("option_theme");	
     var option = null;
 
-	var strJSONFile = "json/themes-" + globalCurrentLanguage + ".json";
+	var strJSONFile = "json/themes.json";
+	//var strAux = "";
 
     $.getJSON(
         strJSONFile, 
@@ -19,12 +21,25 @@ function populateThemes(intTheme){
             //find the array and do something
             $.each(result.Themes, function(key,val) {
             	option = document.createElement("option");
-		        option.value = val.idTheme;
-		        option.innerHTML = val.theme;
-		        option.title = val.description;
+				option.value = val.idTheme;
+				// Read theme
+				if (val ["theme-" + globalCurrentLanguage]) {
+					option.innerHTML = val ["theme-" + globalCurrentLanguage];
+				} else {
+					// default = pt-br
+					option.innerHTML = val ["theme-pt-br"];
+				}
+				// Read theme description
+				if (val ["description-" + globalCurrentLanguage]) {
+					option.title = val ["description-" + globalCurrentLanguage];
+				} else {
+					// default = pt-br
+					option.title = val ["description-pt-br"];
+				}
+				// Append new option
 		        selectControl.appendChild(option);
             });
-			// Change the theme description
+			// Change the theme description, if there is one
 			if (intTheme && intTheme > 0) {
 				document.getElementById("option_theme").value = intTheme;
 			}
@@ -43,7 +58,7 @@ function populateVariables(idTheme, op){
     	selectControl.remove(0);
 	}
 	
-	var strJSONFile = "json/variables-" + globalCurrentLanguage + ".json";
+	var strJSONFile = "json/variables.json";
 	
     $.getJSON(
         strJSONFile, 
@@ -52,7 +67,7 @@ function populateVariables(idTheme, op){
         		return n.idTheme==idTheme;
         	});
         	
-        	// criar o primeiro item do SELECT control
+        	// Create first item of SELECT control
 			option = document.createElement("option");
         	option.value = globalLangTokens.variableOptionSelectString;
         	option.innerHTML = globalLangTokens.variableOptionSelectString;
@@ -64,11 +79,25 @@ function populateVariables(idTheme, op){
         	for (var i=0; i<jsonFiltered.length;i++)
         	{
         		option = document.createElement("option");
-        		option.value = jsonFiltered[i].codVariable;
-        		option.innerHTML = jsonFiltered[i].variable;
-        		option.title = jsonFiltered[i].description;
+				option.value = jsonFiltered[i].codVariable;
+				// Read variable
+				if (jsonFiltered[i]["variable-" + globalCurrentLanguage]) {
+					option.innerHTML = jsonFiltered[i]["variable-" + globalCurrentLanguage];
+				} else {
+					// default pt-br
+					option.innerHTML = jsonFiltered[i]["variable-pt-br"];
+				}
+				// Read variable description
+				if (jsonFiltered[i]["description-" + globalCurrentLanguage]) {
+					option.title = jsonFiltered[i]["description-" + globalCurrentLanguage];
+				} else {
+					// default pt-br
+					option.title = jsonFiltered[i]["description-pt-br"];
+				}
+        		
         		selectControl.appendChild(option);
 			}
+			// Change variable and description, if there is one
 			if (op && op != "") {
 				document.getElementById("option_variables").value = op;
 				document.getElementById("variable_description").innerHTML = $("#option_variables").find('option:selected').attr('title');

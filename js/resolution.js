@@ -75,7 +75,7 @@ function changeLanguage (strNewLanguage) {
             // Legend is active. Change.
             var currentLayerData = getCurrentLayerData (theme, op);
             $("#legendVariableStr").text(currentLayerData.title);
-            $("#legendVariableUnit").text(currentLayerData.polygonArea);
+            $("#legendVariableUnit").text("(" + currentLayerData.polygonArea + ")");
         }
     }
 }
