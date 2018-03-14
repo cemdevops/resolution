@@ -10,13 +10,13 @@ Constants and global parameters read from config.json can be found in queries.js
 
 // Mariela: Event triggered by clicking in base/thematic map button
 $("#option_basemap_thematic").click(function () {
-    if ($("#option_basemap_thematic").val() == 'COM MAPA BASE'){
+    if ($("#option_basemap_thematic").val() == globalLangTokens.withBaseMapString){
         // Show the base map and/or thematic map
         addBaseMap('osm');
 
         // Change the background image and button description
-        $("#option_basemap_thematic").attr('value', 'SEM MAPA BASE');
-        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático sem o mapa base!');
+        $("#option_basemap_thematic").attr('value', globalLangTokens.withoutBaseMapString);
+        $("#option_basemap_thematic").attr('title',globalLangTokens.withoutBaseMapTitle);
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
 
@@ -25,13 +25,106 @@ $("#option_basemap_thematic").click(function () {
         removeBaseMap(layerMapaBaseSel);
 
         // Change the background image and the button text
-        $("#option_basemap_thematic").attr('value', 'COM MAPA BASE');
-        $("#option_basemap_thematic").attr('title','Click aqui para visualizar o mapa temático com o mapa base!');
+        $("#option_basemap_thematic").attr('value', globalLangTokens.withBaseMapString);
+        $("#option_basemap_thematic").attr('title',globalLangTokens.withBaseMapTitle);
         // $("#option_basemap_thematic").toggleClass("base-map thematic-map"); // add 'base-map', remove 'thematic-map'
         $("#option_basemap_thematic").removeClass("thematic-map");
         $("#option_basemap_thematic").addClass("base-map");
     }
 });
+
+// Change language tokens in page
+function changeLanguage (strNewLanguage) {
+    if (strNewLanguage != globalCurrentLanguage) {
+        // change language
+        // Get new language tokens
+        globalCurrentLanguage = strNewLanguage;
+
+        // get current theme and variable
+        var e = document.getElementById("option_theme");
+        var theme = e.options[e.selectedIndex].value;
+        var el = document.getElementById("option_variables");
+        var op = el.options[el.selectedIndex].value
+        if (op == globalLangTokens.variableOptionSelectString) {
+            op = "";
+        }
+
+        // Load new tokens. Function in queries.js.
+        getLanguageTokens ();
+
+        // Change tokens in pages
+        updateLanguageTokens ();
+
+        // Change tokens in themes and variables window
+        // Clear themes
+        var selectControl = document.getElementById("option_theme");
+        var option = null;
+        // Remove elements of "variables" select control
+        var numberOfVariables = selectControl.options.length;
+        for (var i = 0; i<numberOfVariables; i++) {
+            selectControl.remove(0);
+        }
+        // Populate themes
+        populateThemes(theme);
+
+        // Populate variables
+        populateVariables (theme, op);
+
+        // Change variable in legend
+        if ($("div.cartodb-legend.choropleth").length) {
+            // Legend is active. Change.
+            var currentLayerData = getCurrentLayerData (theme, op);
+            $("#legendVariableStr").text(currentLayerData.title);
+            $("#legendVariableUnit").text("(" + currentLayerData.polygonArea + ")");
+        }
+    }
+}
+
+// Update language tokens and images in pages
+function updateLanguageTokens () {
+    $("#CEM-logo-img").attr('src', globalLangTokens.CEMLogoFilePath);
+
+    $("#about-resolution").attr('title', globalLangTokens.projectInformationTitle);
+    $("#about-resolution").attr('data-target', globalLangTokens.projectInfoDataTarget);
+    $("#graphs").attr('title', globalLangTokens.graphsTitle);
+    $("#download-layers").attr('title', globalLangTokens.downloadLayersTitle);
+    $("#download-map-image").attr('title', globalLangTokens.downloadMapImageTitle);
+    $("#facebook").attr('title', globalLangTokens.facebookTitle);
+    $("#twitter").attr('title', globalLangTokens.twiterTitle);
+    $("#linkedin").attr('title', globalLangTokens.linkedinTitle);
+    $("#email").attr('title', globalLangTokens.emailTitle);
+    $("#languagesDropDownString").text(globalLangTokens.languageString);
+    $("#languagesDropDown").attr('title', globalLangTokens.languageTitle);
+
+    $("#title_menu").text(globalLangTokens.themesAndVariablesTitle);
+    $("#title_options_tema").text(globalLangTokens.themeString);
+    $("#theme_description").text(globalLangTokens.themeDescString);
+    $("#title_options_variavel").text(globalLangTokens.themeString);
+    $("#variable_description").text(globalLangTokens.themeDescString);
+
+    $("#metro_linha_label").text(globalLangTokens.subwayString);
+    $("#trem_linha_label").text(globalLangTokens.trainString);
+
+    $("#title_legend").text(globalLangTokens.legendTitle);
+    $("#noValidData").text(globalLangTokens.noDataMessage);
+    $("#nonUbanArea").text(globalLangTokens.nonUrbanAreaString);
+    $("#dataClassification").text(globalLangTokens.dataClassificationString);
+
+    $("#option_basemap_thematic").attr('value', globalLangTokens.withoutBaseMapString);
+    $("#option_basemap_thematic").attr('title',globalLangTokens.withoutBaseMapTitle);
+
+
+    // Download maps window
+    $("#downloadLayersFilesTitle").text("Download " + globalLangTokens.tokenStringMaps);
+    $("#downloadLayersFilesCloseButton").text(globalLangTokens.tokenStringClose);
+
+    // Download image window
+    $("#downloadMapImagePdfTitle").text(globalLangTokens.tokenStringExport + " " + globalLangTokens.tokenStringMaps);
+    $("#downloadMapImagePdfLabel").text(globalLangTokens.tokenStringFile +  " " + globalLangTokens.tokenStringType);
+    $("#downloadMapImagePdfImage").text(globalLangTokens.tokenStringImage + " (JPEG)");
+    $("#downloadMapImagePdfCloseButton").text(globalLangTokens.tokenStringClose);
+    $("#downloadMapImagePdfExportButton").text(globalLangTokens.tokenStringExport);
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Initial Map's properties definitions
@@ -44,7 +137,7 @@ var map = L.map("map", {
 
 // Create additional Control placeholders
 function addControlPlaceholders(map) {
-	var corners = map._controlCorners,
+    var corners = map._controlCorners,
         l = 'leaflet-',
         container = map._controlContainer;
 
@@ -121,38 +214,38 @@ addBaseMap('osm');
 function addBaseMap(typeOfBaseMapChosen) {
 
     if (typeOfBaseMapChosen=="osm") {
-            map.addLayer(layerOSM);
-            layerMapaBaseSel = 'osm';
+        map.addLayer(layerOSM);
+        layerMapaBaseSel = 'osm';
 
-        } else if (typeOfBaseMapChosen=="google_maps") {
-            map.addLayer(layerGoogle);
-            layerMapaBaseSel = 'google_maps';
+    } else if (typeOfBaseMapChosen=="google_maps") {
+        map.addLayer(layerGoogle);
+        layerMapaBaseSel = 'google_maps';
 
-        } else if (typeOfBaseMapChosen=="carto_positron") {
-            map.addLayer(layerPositron);
-            layerMapaBaseSel = 'carto_positron';
+    } else if (typeOfBaseMapChosen=="carto_positron") {
+        map.addLayer(layerPositron);
+        layerMapaBaseSel = 'carto_positron';
 
-        } else if (typeOfBaseMapChosen=="carto_darkmatter") {
-            map.addLayer(layerDarkMatter);
-            layerMapaBaseSel = 'carto_darkmatter';
-        }
+    } else if (typeOfBaseMapChosen=="carto_darkmatter") {
+        map.addLayer(layerDarkMatter);
+        layerMapaBaseSel = 'carto_darkmatter';
+    }
 }
 
 // Mariela: Remove the existing base map
 function removeBaseMap(typeOfBaseMapChosen) {
 
     if (typeOfBaseMapChosen=="osm") {
-            map.removeLayer(layerOSM);
+        map.removeLayer(layerOSM);
 
-        } else if (typeOfBaseMapChosen=="google_maps") {
-            map.removeLayer(layerGoogle);
+    } else if (typeOfBaseMapChosen=="google_maps") {
+        map.removeLayer(layerGoogle);
 
-        } else if (typeOfBaseMapChosen=="carto_positron") {
-            map.removeLayer(layerPositron);
+    } else if (typeOfBaseMapChosen=="carto_positron") {
+        map.removeLayer(layerPositron);
 
-        } else if (typeOfBaseMapChosen=="carto_darkmatter") {
-            map.removeLayer(layerDarkMatter);
-        }
+    } else if (typeOfBaseMapChosen=="carto_darkmatter") {
+        map.removeLayer(layerDarkMatter);
+    }
 }
 // +++++ create vizualization
 // var url = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json';
@@ -167,31 +260,31 @@ function removeBaseMap(typeOfBaseMapChosen) {
 
 // Manages the layers for each theme dropdownlist
 cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
+    user_name: "cemdevops",
+    type: "cartodb",
+    sublayers: []
+})
     .addTo(map)
     .done(function(layer){
         // colocando ordem de sobreposição dos layers
         layer.setZIndex(1);
 
         $("#option_basemap_thematic").click(function () {
-          showThematicLayer(layer);
-          console.log("changing... base map thematic");
+            showThematicLayer(layer);
+            console.log("changing... base map thematic");
         });
 
         $("#option_variables").change(function(){
-          showThematicLayer(layer);
-          console.log("changing variables");
+            showThematicLayer(layer);
+            console.log("changing variables");
         });
 
         $("#option_theme").change(function(){
-          console.log("changing theme");
-          // Clear all transport active layers
-          layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-          // Check if layer's legend. Remove if exists
-          takeOutLegend();
+            console.log("changing theme");
+            // Clear all transport active layers
+            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+            // Check if layer's legend. Remove if exists
+            takeOutLegend();
         });
 
     });
@@ -201,10 +294,10 @@ cartodb.createLayer(map,{
  * Function to take out the legend of screen
  */
 function takeOutLegend(){
-  // Check if layer's legend. Remove if exists
-  if ($("div.cartodb-legend.choropleth").length) {
-    $('div.cartodb-legend.choropleth').remove();
-  }
+    // Check if layer's legend. Remove if exists
+    if ($("div.cartodb-legend.choropleth").length) {
+        $('div.cartodb-legend.choropleth').remove();
+    }
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -212,100 +305,99 @@ function takeOutLegend(){
  * Function to show thematic layer
  */
 function showThematicLayer(layer){
-  // Clear all transport active layers
-  layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+    // Clear all transport active layers
+    layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
 
-  // get Variable code. For example, p3_001, p11_001 . codVariable == op
-  //var op = $(this).val(); //$(this).attr("value");
-  var el = document.getElementById("option_variables");
-  var op = el.options[el.selectedIndex].value;
+    // get Variable code. For example, p3_001, p11_001 . codVariable == op
+    //var op = $(this).val(); //$(this).attr("value");
+    var el = document.getElementById("option_variables");
+    var op = el.options[el.selectedIndex].value;
 
-  // get selected Theme
-  var e = document.getElementById("option_theme");
-  var theme = e.options[e.selectedIndex].value;
-  console.log(theme +'-'+ op);
+    // get selected Theme
+    var e = document.getElementById("option_theme");
+    var theme = e.options[e.selectedIndex].value;
 
-  // Check if layer's legend. Remove if exists
-  takeOutLegend();
+    // Check if layer's legend. Remove if exists
+    takeOutLegend();
 
-  // if option is valid, tooltip and legend will be build
-  if(op != 'selecione') {
-    // get button value
-    var buttonVal = document.getElementById("option_basemap_thematic").value;
-    // If button value is 'Mapa base' is because the basemap isn't visible
-    var opacity = buttonVal == 'COM MAPA BASE' ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+    // if option is valid, tooltip and legend will be build
+    if(op != globalLangTokens.variableOptionSelectString) {
+        // get button value
+        var buttonVal = document.getElementById("option_basemap_thematic").value;
+        // If button value is 'Mapa base' is because the basemap isn't visible
+        var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
 
-    // get all data configuration of current layer, based on theme and variable (op)
-    var currentLayerData = getCurrentLayerData (theme, op);
-    // get data class method values for current method (quantile or jenks).
-    var arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
+        // get all data configuration of current layer, based on theme and variable (op)
+        var currentLayerData = getCurrentLayerData (theme, op);
+        // get data class method values for current method (quantile or jenks).
+        var arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
 
-    // Create sublayer - thematic
-    layer.createSubLayer(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
+        // Create sublayer - thematic
+        layer.createSubLayer(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
 
-    // Get data of current layer on screen
-    var sublayer = layer.getSubLayer(0);
+        // Get data of current layer on screen
+        var sublayer = layer.getSubLayer(0);
 
-    // Set table column (on carto dataset) to be retrieved and showed in legend
-    sublayer.setInteractivity(currentLayerData.colTableToLegend + ',' + op);
+        // Set table column (on carto dataset) to be retrieved and showed in legend
+        sublayer.setInteractivity(currentLayerData.colTableToLegend + ',' + op);
 
 
-    // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
-    sublayer.on('featureOver', function(e,latlng,pos,data) {
-        // get value from carto dataset (tooltip)
-        valor = data[op];
-        // Clear legend content
-        for (i=1; i < 8; i++) {
-            document.getElementById("celula"+i).innerHTML = "";
-        }
-        // document.getElementById("nodata").innerHTML = noDataMessage;
+        // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
+        sublayer.on('featureOver', function(e,latlng,pos,data) {
+            // get value from carto dataset (tooltip)
+            valor = data[op];
+            // Clear legend content
+            for (i=1; i < 8; i++) {
+                document.getElementById("celula"+i).innerHTML = "";
+            }
+            // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
 
-        // Fill district value in legend
-        document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
-        // Fill legend cell with data set value
-        if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
-            document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
-        } else {
-            // document.getElementById("nodata").innerHTML = noDataMessage;
-        }
-    }); // sublayer.on
-    // ... Clóvis/André 20170331
+            // Fill district value in legend
+            document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
+            // Fill legend cell with data set value
+            if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
+                document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
+            } else {
+                // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
+            }
+        }); // sublayer.on
+        // ... Clóvis/André 20170331
 
-    sublayer.on('featureOut', function(e,latlng,pos,data) {
-        // Clear legend content
-        for (i=1; i < 8; i++) {
-            document.getElementById("celula"+i).innerHTML = "";
-        }
-        //document.getElementById("nodata").innerHTML = "";
-    }); // sublayer.on
+        sublayer.on('featureOut', function(e,latlng,pos,data) {
+            // Clear legend content
+            for (i=1; i < 8; i++) {
+                document.getElementById("celula"+i).innerHTML = "";
+            }
+            //document.getElementById("noValidData").innerHTML = "";
+        }); // sublayer.on
 
-    // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
-    var toolTip = createInfoboxTooltip(layer,sublayer,currentLayerData.colTableToLegend);
-    $('body').append(toolTip.render().el);
+        // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
+        var toolTip = createInfoboxTooltip(layer,sublayer,currentLayerData.colTableToLegend);
+        $('body').append(toolTip.render().el);
 
-    // var to define if data classification method choice (quantile or jenks) will be enabled in legend
-    var bolEnableDataMethod = true;
-    // Build legend. 20170331: creation of class=quartile-cem. 20170623: legend str composition in separated function. Units included.
-    var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
+        // var to define if data classification method choice (quantile or jenks) will be enabled in legend
+        var bolEnableDataMethod = true;
+        // Build legend. 20170331: creation of class=quartile-cem. 20170623: legend str composition in separated function. Units included.
+        var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
 
-    // add legend to map
-    $('#map').append(legenda);
+        // add legend to map
+        $('#map').append(legenda);
 
-    // Clóvis - 20170626: change event - selection between quantile and natural break (jenks)...
-    $("input[type=radio][name=radioDataMethod]").change (function () {
-      // Update current data classification method
-      // sublayer.setCartoCSS(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks = currentLayerData[currentDataClassificationMethod = this.value], quantiles_colors_hex, opacity, currentLayerData.showEdge).cartocss);
-      // get current data classification method (quantile or jenks)
-      currentDataClassificationMethod = this.value;
-      // get array of data classification method breaks
-      arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
-      // get carto query and CSS
-      var layerConf = getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
-      // set carto CSS of current layer
-      sublayer.setCartoCSS(layerConf.cartocss);
-    });
-    // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
-  }
+        // Clóvis - 20170626: change event - selection between quantile and natural break (jenks)...
+        $("input[type=radio][name=radioDataMethod]").change (function () {
+            // Update current data classification method
+            // sublayer.setCartoCSS(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks = currentLayerData[currentDataClassificationMethod = this.value], quantiles_colors_hex, opacity, currentLayerData.showEdge).cartocss);
+            // get current data classification method (quantile or jenks)
+            currentDataClassificationMethod = this.value;
+            // get array of data classification method breaks
+            arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
+            // get carto query and CSS
+            var layerConf = getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
+            // set carto CSS of current layer
+            sublayer.setCartoCSS(layerConf.cartocss);
+        });
+        // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
+    }
 }
 
 /*
@@ -357,9 +449,9 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
     var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px; width:300px;'>" +
-        "    <div id=\"title_legend\">LEGENDA</div><br>" +
-        "    <div class='legend-title' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
-        "    <div> (" + strUnit + ") </div>" +
+        "    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
+        "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
+        "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
         "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Bairro'> </div>" +
         "    <ul>" +
         "        <li>" +
@@ -450,16 +542,16 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            <div style='max-width: 100%;min-width: 38%;display:inline-block;padding-left:25px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
-        "                <div class='cell-cem-no-value-text' id='nodata' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + noDataMessage + "</div>" +
+        "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
         "                <br>" +
         "                <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
-        "                <div class='cell-cem-no-value-text' id='nodata1' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>Área metropolitana<br> não urbana</div>" +
+        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
         "              </div>" +
         "              <br><br>" +
         "              <div id='containerOptionsDataMethod'>" +
         "                <form id='selectDataMethod'>" +
         "                    <fieldset>" +
-        "                      <legend style='font-size: 10px;'><b>Classificação<br> de dados:</b></legend>" +
+        "                      <legend style='font-size: 10px;'><b id='dataClassification' style='white-space:pre-wrap;'>" + globalLangTokens.dataClassificationString + "</b></legend>" +
         "                      <div class='radio'>" +
         "                        <label><input type='radio' name='radioDataMethod' id='radioQuantil' value='quantiles'";
     if (strClassMethod == "quantiles") {
@@ -481,8 +573,8 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "        </li>" +
         "    </ul>";// +
 
-     strLegend = strLegend + "</div>";
-     return (strLegend);
+    strLegend = strLegend + "</div>";
+    return (strLegend);
 }
 
 // ++++++++++++++++++++++++++ TRANSPORTS (RAILS AND METRO) LAYER ++++++++++++++++++++++++++
@@ -491,52 +583,52 @@ var transportes = {
     "metro_linha": {
         sql: "SELECT * FROM resolution_metro_linhas",
         cartocss: "#resolution_metro_linhas{line-color: #fff; line-opacity: 0.5;} " +
-            "#resolution_metro_linhas [ linha = 'Azul'     ] { line-color: #0153A0; } " + // linha 1-Azul
-            "#resolution_metro_linhas [ linha = 'Verde'    ] { line-color: #008061; } " + // linha 2-Verde
-            "#resolution_metro_linhas [ linha = 'Vermelha' ] { line-color: #EE3E34; } " + // linha 3-Vermelha
-            "#resolution_metro_linhas [ linha = 'Amarela'  ] { line-color: #FED304; } " + // linha 4-Amarela
-            "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } " + // linha 5-Lilás
-            "[zoom=9] {line-width: 0.0;} " +
-            "[zoom=10] {line-width: 2.6;} " +
-            "[zoom=11] {line-width: 2.4;} " +
-            "[zoom=12] {line-width: 2.2;} " +
-            "[zoom=13] {line-width: 2.0;} " +
-            "[zoom=14] {line-width: 1.8;} " +
-            "[zoom=15] {line-width: 1.6;} " +
-            "[zoom=16] {line-width: 1.4;} " +
-            "[zoom=17] {line-width: 1.2;} " +
-            "[zoom=18] {line-width: 1.0;} " +
-            "[zoom=19] {line-width: 0.0;} "
+        "#resolution_metro_linhas [ linha = 'Azul'     ] { line-color: #0153A0; } " + // linha 1-Azul
+        "#resolution_metro_linhas [ linha = 'Verde'    ] { line-color: #008061; } " + // linha 2-Verde
+        "#resolution_metro_linhas [ linha = 'Vermelha' ] { line-color: #EE3E34; } " + // linha 3-Vermelha
+        "#resolution_metro_linhas [ linha = 'Amarela'  ] { line-color: #FED304; } " + // linha 4-Amarela
+        "#resolution_metro_linhas [ linha = 'Lilas'    ] { line-color: #A54499; } " + // linha 5-Lilás
+        "[zoom=9] {line-width: 0.0;} " +
+        "[zoom=10] {line-width: 2.6;} " +
+        "[zoom=11] {line-width: 2.4;} " +
+        "[zoom=12] {line-width: 2.2;} " +
+        "[zoom=13] {line-width: 2.0;} " +
+        "[zoom=14] {line-width: 1.8;} " +
+        "[zoom=15] {line-width: 1.6;} " +
+        "[zoom=16] {line-width: 1.4;} " +
+        "[zoom=17] {line-width: 1.2;} " +
+        "[zoom=18] {line-width: 1.0;} " +
+        "[zoom=19] {line-width: 0.0;} "
     },
     "trem_linha": {
         sql: "SELECT * FROM resolution_trem_linhas",
         cartocss: "#resolution_trem_linhas{line-color: #fff; line-opacity: 0.5;}" +
-            "#resolution_trem_linhas [ id = 2 ] { line-color: #9E1766; }" + // Linha 7 - Rubi
-            "#resolution_trem_linhas [ id = 3 ] { line-color: #9E9E93; }" + // Linha 8 - Diamante
-            "#resolution_trem_linhas [ id = 4 ] { line-color: #00A78E; }" + // Linha 9 - Esmeralda
-            "#resolution_trem_linhas [ id = 5 ] { line-color: #007C8F; }" + // Linha 10 - Turquesa
-            "#resolution_trem_linhas [ id = 6 ] { line-color: #F04D22; }" + // Linha 11 - Coral
-            "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }" + // Linha 12 - Safira
-            "[zoom=9] {line-width: 0.0;} " +
-            "[zoom=10] {line-width: 2.6;} " +
-            "[zoom=11] {line-width: 2.4;} " +
-            "[zoom=12] {line-width: 2.2;} " +
-            "[zoom=13] {line-width: 2.0;} " +
-            "[zoom=14] {line-width: 1.8;} " +
-            "[zoom=15] {line-width: 1.6;} " +
-            "[zoom=16] {line-width: 1.4;} " +
-            "[zoom=17] {line-width: 1.2;} " +
-            "[zoom=18] {line-width: 1.0;} " +
-            "[zoom=19] {line-width: 0.0;} "
+        "#resolution_trem_linhas [ id = 2 ] { line-color: #9E1766; }" + // Linha 7 - Rubi
+        "#resolution_trem_linhas [ id = 3 ] { line-color: #9E9E93; }" + // Linha 8 - Diamante
+        "#resolution_trem_linhas [ id = 4 ] { line-color: #00A78E; }" + // Linha 9 - Esmeralda
+        "#resolution_trem_linhas [ id = 5 ] { line-color: #007C8F; }" + // Linha 10 - Turquesa
+        "#resolution_trem_linhas [ id = 6 ] { line-color: #F04D22; }" + // Linha 11 - Coral
+        "#resolution_trem_linhas [ id = 7 ] { line-color: #083E89; }" + // Linha 12 - Safira
+        "[zoom=9] {line-width: 0.0;} " +
+        "[zoom=10] {line-width: 2.6;} " +
+        "[zoom=11] {line-width: 2.4;} " +
+        "[zoom=12] {line-width: 2.2;} " +
+        "[zoom=13] {line-width: 2.0;} " +
+        "[zoom=14] {line-width: 1.8;} " +
+        "[zoom=15] {line-width: 1.6;} " +
+        "[zoom=16] {line-width: 1.4;} " +
+        "[zoom=17] {line-width: 1.2;} " +
+        "[zoom=18] {line-width: 1.0;} " +
+        "[zoom=19] {line-width: 0.0;} "
     }
 };
 
 // checckboxs controls to show/hide rails and metro line
 cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
+    user_name: "cemdevops",
+    type: "cartodb",
+    sublayers: []
+})
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
@@ -558,9 +650,9 @@ var places = {
     "rmsp": {
         sql: "SELECT * FROM resolution_places_osm_rmsp  WHERE type='city' OR type='town'",
         cartocss: "#resolution_places_osm_rmsp::labels {text-name: [name]; text-face-name: 'Lato Bold'; text-size: 12;" +
-                                                "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #fff; " +
-                                                "text-halo-radius: 1.5; text-dy: 0; text-allow-overlap: false; " +
-                                                "text-placement: point; text-placement-type: dummy;}"
+        "text-label-position-tolerance: 0; text-fill: #000; text-halo-fill: #fff; " +
+        "text-halo-radius: 1.5; text-dy: 0; text-allow-overlap: false; " +
+        "text-placement: point; text-placement-type: dummy;}"
     }
 };
 
@@ -568,42 +660,42 @@ var places = {
  * Function to add the places layer
  */
 cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
-.addTo(map) // add the layer to our map which already contains 0 sublayers
-.done(function(placesLayer){
-    var placesSublayer = null;
-    var zoomControleLabel = ZOOM_INITIAL_LEVEL;
-    // control places names (show/hide)
-    map.on('zoomend', function (e) {
-        if (placesLayer.getSubLayerCount()>0) {
-            // get zoom level
-            zoomControleLabel = map.getZoom();
-            if (zoomControleLabel < 13) {
-                placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
-            } else  {
-                placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
+    user_name: "cemdevops",
+    type: "cartodb",
+    sublayers: []
+})
+    .addTo(map) // add the layer to our map which already contains 0 sublayers
+    .done(function(placesLayer){
+        var placesSublayer = null;
+        var zoomControleLabel = ZOOM_INITIAL_LEVEL;
+        // control places names (show/hide)
+        map.on('zoomend', function (e) {
+            if (placesLayer.getSubLayerCount()>0) {
+                // get zoom level
+                zoomControleLabel = map.getZoom();
+                if (zoomControleLabel < 13) {
+                    placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
+                } else  {
+                    placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
+                }
             }
-        }
-    });
+        });
 
-    // Put the places layer on anothers layers
-    placesLayer.setZIndex(1);
-    // used to show/hide places names
-    $("#option_basemap_thematic").click(function () {
-        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
+        // Put the places layer on anothers layers
+        placesLayer.setZIndex(1);
+        // used to show/hide places names
+        $("#option_basemap_thematic").click(function () {
+            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
+        });
+        // used to show/hide places names
+        $("#option_theme").change(function(){
+            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
+        });
+        // used to show/hide places names
+        $("#option_variables").change(function(){
+            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
+        });
     });
-    // used to show/hide places names
-    $("#option_theme").change(function(){
-        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
-    });
-    // used to show/hide places names
-    $("#option_variables").change(function(){
-        placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
-    });
-});
 
 /*
  * Function to show the places layer
@@ -617,7 +709,7 @@ function showPlacesLayer(placesLayer,placesSublayer){
     // Clean the places layer
     placesLayer.getSubLayers().forEach(function(placesSublayer){placesSublayer.remove()});
 
-    if (variableSel != 'selecione' && variableSel != '' && buttonVal == 'COM MAPA BASE'){
+    if (variableSel != globalLangTokens.variableOptionSelectString && variableSel != '' && buttonVal == globalLangTokens.withBaseMapString){
         // create and add a new sublayer to map
         placesLayer.createSubLayer(places["rmsp"]);
         // this line is used to show places layer while the zoom is working
@@ -630,10 +722,10 @@ function showPlacesLayer(placesLayer,placesSublayer){
 
 // +++++++++++++++++++++++++++++++++++++ WATER LAYER +++++++++++++++++++++++++++++++++++++
 cartodb.createLayer(map,{
-        user_name: "cemdevops",
-        type: "cartodb",
-        sublayers: []
-    })
+    user_name: "cemdevops",
+    type: "cartodb",
+    sublayers: []
+})
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
@@ -650,11 +742,12 @@ cartodb.createLayer(map,{
 // +++++++++++++++++++++++++++++++++++++ RMSP +++++++++++++++++++++++++++++++++++++
 // metropolitan region of São Paulo
 // testing layer
+
 cartodb.createLayer(map,{
-        user_name: "viniciusmaeda", // alter to CEM account
-        type: "cartodb",
-        sublayers: []
-    })
+    user_name: "cemdevops",
+    type: "cartodb",
+    sublayers: []
+})
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
@@ -665,5 +758,3 @@ cartodb.createLayer(map,{
             cartocss: "#sc2010_rmsp_cem_r_merge{polygon-fill:#93887e; line-color:#93887e}"
         });
     });
-
-
