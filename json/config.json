@@ -1,4 +1,8 @@
 {
+    "initialLanguage": "pt-br",
+    "language-pt-br": "Português",
+    "language-en": "English",
+    "#language-es": "Español",
     "zoomInitialLevel": 10,
     "zoomMinLevel": 10,
     "zoomMaxLevel": 18,

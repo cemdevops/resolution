@@ -1,31 +1,54 @@
 window.onload = function() {
-	populateThemes();
-	populateVariables(1);
+	populateThemes(0);
+	populateVariables(1, "");
 	// $('#about-resolution').trigger('click')
+	// Update language tokens for the first time
+	
+	getLanguageTokens ();
+	updateLanguageTokens ();
 };
 
-function populateThemes(){
+function populateThemes(intTheme){
 	var selectControl = document.getElementById("option_theme");	
     var option = null;
-    
+
+	var strJSONFile = "json/themes.json";
+	//var strAux = "";
+
     $.getJSON(
-        "json/themes.json", 
+        strJSONFile, 
         function(result) {        	
             //find the array and do something
             $.each(result.Themes, function(key,val) {
             	option = document.createElement("option");
-		        option.value = val.idTheme;
-		        option.innerHTML = val.theme;
-		        option.title = val.description;
+				option.value = val.idTheme;
+				// Read theme
+				if (val ["theme-" + globalCurrentLanguage]) {
+					option.innerHTML = val ["theme-" + globalCurrentLanguage];
+				} else {
+					// default = pt-br
+					option.innerHTML = val ["theme-pt-br"];
+				}
+				// Read theme description
+				if (val ["description-" + globalCurrentLanguage]) {
+					option.title = val ["description-" + globalCurrentLanguage];
+				} else {
+					// default = pt-br
+					option.title = val ["description-pt-br"];
+				}
+				// Append new option
 		        selectControl.appendChild(option);
             });
-            // Change the theme description
+			// Change the theme description, if there is one
+			if (intTheme && intTheme > 0) {
+				document.getElementById("option_theme").value = intTheme;
+			}
             document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
         }
     );	
 }
 
-function populateVariables(idTheme){
+function populateVariables(idTheme, op){
 	var selectControl = document.getElementById("option_variables");	
     var option = null;	
     var jsonFiltered = null;
@@ -33,33 +56,53 @@ function populateVariables(idTheme){
     var numberOfVariables = selectControl.options.length;
     for (var i = 0; i<numberOfVariables; i++) {
     	selectControl.remove(0);
-    }
-
+	}
+	
+	var strJSONFile = "json/variables.json";
+	
     $.getJSON(
-        "json/variables.json", 
-        function(result) {           	
+        strJSONFile, 
+        function(result) {
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme;
         	});
         	
-        	// criar o primeiro item do SELECT control
-        	option = document.createElement("option");
-        	option.value = "selecione";
-        	option.innerHTML = "Selecione";
+        	// Create first item of SELECT control
+			option = document.createElement("option");
+        	option.value = globalLangTokens.variableOptionSelectString;
+        	option.innerHTML = globalLangTokens.variableOptionSelectString;
         	option.title = "";
         	selectControl.appendChild(option);
-        	// Change the variable description
-        	document.getElementById("variable_description").innerHTML = "Selecione uma variável";
+        	// Change the variable description to "Select" option (default)
+        	document.getElementById("variable_description").innerHTML = globalLangTokens.variableOptionSelectDescription;
 
         	for (var i=0; i<jsonFiltered.length;i++)
         	{
         		option = document.createElement("option");
-        		option.value = jsonFiltered[i].codVariable;
-        		option.innerHTML = jsonFiltered[i].variable;
-        		option.title = jsonFiltered[i].description;
+				option.value = jsonFiltered[i].codVariable;
+				// Read variable
+				if (jsonFiltered[i]["variable-" + globalCurrentLanguage]) {
+					option.innerHTML = jsonFiltered[i]["variable-" + globalCurrentLanguage];
+				} else {
+					// default pt-br
+					option.innerHTML = jsonFiltered[i]["variable-pt-br"];
+				}
+				// Read variable description
+				if (jsonFiltered[i]["description-" + globalCurrentLanguage]) {
+					option.title = jsonFiltered[i]["description-" + globalCurrentLanguage];
+				} else {
+					// default pt-br
+					option.title = jsonFiltered[i]["description-pt-br"];
+				}
+        		
         		selectControl.appendChild(option);
-        	}
-        }
+			}
+			// Change variable and description, if there is one
+			if (op && op != "") {
+				document.getElementById("option_variables").value = op;
+				document.getElementById("variable_description").innerHTML = $("#option_variables").find('option:selected').attr('title');
+			}
+		}
     );
 }
 
@@ -70,7 +113,7 @@ $("#option_theme").change(function(){
 	document.getElementById("theme_description").innerHTML = $(this).find('option:selected').attr('title');
 	
 	//Populate the variable DropDownList
-	populateVariables(idTheme);
+	populateVariables(idTheme, "");
 });
 
 /* Change the variable description */

@@ -19,6 +19,12 @@ var quantiles_colors_rgb = ["255, 255, 178","254, 217, 118","254, 178, 76","253,
 var noValueClassColor = "#A9A9A9";
 var noDataMessage = "Sem dados válidos";
 
+// Variable to hold current language. Initial value is portuguese (pt)
+var globalCurrentLanguage = "pt-br";
+
+// Variable to hold current language tokens.
+var globalLangTokens = {};
+
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
 //var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];
@@ -31,6 +37,9 @@ var noDataMessage = "Sem dados válidos";
 $.getJSON(
     "json/config.json", 
     function(result) {           	
+       if (result.initialLanguage) {
+           globalCurrentLanguage = result.initialLanguage;
+       }
        if (result.zoomInitialLevel) {
            ZOOM_INITIAL_LEVEL = result.zoomInitialLevel;
        }
@@ -55,6 +64,7 @@ $.getJSON(
        if (result.classColorNoValue) {
            noValueClassColor = result.classColorNoValue;
        }
+       // Clóvis - retirar!
        if (result.noDataMessage) {
            noDataMessage = result.noDataMessage;
        }
@@ -67,6 +77,32 @@ $.getJSON(
        if (result.polygonOpacityWithBaseMap) {
            polygonOpacityWithBaseMap = result.polygonOpacityWithBaseMap;
        }
+    }
+);
+
+// Clóvis - 20180227: Function to get languages
+$.getJSON(
+    "json/config.json",
+    function(result) {
+        $.each(result, function(key,val) {
+
+            var selectControl = document.getElementById("option_language");	
+
+            var liElement= document.createElement ("li");
+            liElement.class="dropdown-item";
+
+            //console.log ("-> ", key.substring (0,5), " - ", val);
+
+            if (key.substring (0,9) == "language-") {
+                var aElement= document.createElement ("a");
+                aElement.id = key;
+                aElement.href =  "javascript:changeLanguage ('" + key.substring (9,key.length) + "');";
+                aElement.innerHTML = val;
+                liElement.appendChild(aElement);
+                selectControl.appendChild(liElement);
+                //<a id="language-pt" href="javascript:changeLanguage ('pt-br');"> Português</a>
+            }
+        });
     }
 );
 
@@ -112,34 +148,79 @@ function getCurrentLayerData (idTheme, variable){
         async: false
     });
 
+    // Get themes JSON File.
+    // The file name must be 'json/themes-' followed by the language string
+    // So it will be easy to add new language files
+    var strJSONFile = "json/themes.json"; // -" + globalCurrentLanguage + "
+    var strAux = "";
+
     // get values from themes JSON file
     $.getJSON(
-        "json/themes.json", 
-        function(result) {        	
+        strJSONFile,
+        function(result) {
         	jsonFiltered = result.Themes.filter(function(n){
         		return n.idTheme==idTheme;
         	});
 			objRet.idTheme = jsonFiltered[0].idTheme;
-			objRet.codTheme = jsonFiltered[0].codTheme;
-			objRet.theme = jsonFiltered[0].theme;
-			objRet.themeDescription = jsonFiltered[0].description;
+            objRet.codTheme = jsonFiltered[0].codTheme;
+            strAux = "theme-" + globalCurrentLanguage;
+            if (jsonFiltered[0] [strAux]) {
+                objRet.theme = jsonFiltered[0] [strAux];
+            } else {
+                // default pt-br
+                objRet.theme = jsonFiltered[0] ["theme-pt-br"];
+            }
+			
+            strAux = "description-" + globalCurrentLanguage;
+            if (jsonFiltered[0] [strAux]) {
+                objRet.themeDescription = jsonFiltered[0] [strAux];
+            } else {
+                // default pt-br
+                objRet.themeDescription = jsonFiltered[0] ["description-pt-br"];
+            }
+
+            strAux = "polygonArea-" + globalCurrentLanguage;
+            if (jsonFiltered[0] [strAux]) {
+                objRet.polygonArea = jsonFiltered[0] [strAux];
+            } else {
+                // default pt-br
+                objRet.polygonArea = jsonFiltered[0] ["polygonArea-pt-br"];
+            }
+            
 			objRet.tableName = jsonFiltered[0].tableName;
-			objRet.polygonArea = jsonFiltered[0].polygonArea;
 			objRet.showEdge = jsonFiltered[0].showEdge;
 			objRet.colTableToLegend = jsonFiltered[0].colTableToLegend;
         }
     );
 
     // get values from variables JSON file
+    // The file name must be 'json/variables-' followed by the language string
+    // So it will be easy to add new language files
+    strJSONFile = "json/variables.json";
+
     $.getJSON(
-        "json/variables.json", 
+        strJSONFile,
         function(result) {
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme && n.codVariable==variable;
         	});
 			objRet.codVariable = jsonFiltered[0].codVariable;
-			objRet.title = jsonFiltered[0].variable;
-			objRet.varDescription = jsonFiltered[0].description;
+            strAux = "variable-" + globalCurrentLanguage;
+            if (jsonFiltered[0][strAux]) {
+                objRet.title = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.title = jsonFiltered[0]["variable-pt-br"];
+            }
+			
+            strAux = "description-" + globalCurrentLanguage;
+            if (objRet.varDescription = jsonFiltered[0][strAux]) {
+                objRet.varDescription = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.varDescription = jsonFiltered[0]["description-pt-br"];
+            }
+			
 			objRet.quantiles = jsonFiltered[0].quantiles;
 			objRet.jenks = jsonFiltered[0].jenks;
 			objRet.minLegendValue = jsonFiltered[0].minLegendValue;
@@ -155,9 +236,246 @@ function getCurrentLayerData (idTheme, variable){
 	return (objRet);
 }
 
+// Function to laod language tokens
+// Next step: put it in a JSON file, and if possible put all tokens in just one file.
+//            Current tokens are spread in themes and variable files, and also in this function
+function getLanguageTokens () {
+    // Load defalt language (pt-br)
+
+    // Must be executed in a synchronous way
+    // async will be disabled until the end of this function
+    $.ajaxSetup({
+        async: false
+    });
+
+    $.getJSON (
+        "json/languageTokens.json", 
+        function(result) {           	
+           if (result ["CEMString-" + globalCurrentLanguage]) {
+               globalLangTokens.CEMString = result ["CEMString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.CEMString = result ["CEMString-pt-br"];
+           }
+
+           if (result ["CEMLogoFilePath-" + globalCurrentLanguage]) {
+               globalLangTokens.CEMLogoFilePath = result ["CEMLogoFilePath-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.CEMLogoFilePath = result ["CEMLogoFilePath-pt-br"];
+           }
+           
+           if (result ["projectInformationTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.projectInformationTitle = result ["projectInformationTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.projectInformationTitle = result ["projectInformationTitle-pt-br"];
+           }
+           
+           if (result ["projectInfoDataTarget-" + globalCurrentLanguage]) {
+               globalLangTokens.projectInfoDataTarget = result ["projectInfoDataTarget-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.projectInfoDataTarget = result ["projectInfoDataTarget-pt-br"];
+           }
+           
+           if (result ["graphsTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.graphsTitle = result ["graphsTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.graphsTitle = result ["graphsTitle-pt-br"];
+           }
+           
+           if (result ["downloadLayersTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.downloadLayersTitle = result ["downloadLayersTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.downloadLayersTitle = result ["downloadLayersTitle-pt-br"];
+           }
+           
+           if (result ["downloadMapImageTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.downloadMapImageTitle = result ["downloadMapImageTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.downloadMapImageTitle = result ["downloadMapImageTitle-pt-br"];
+           }
+           
+           if (result ["facebookTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.facebookTitle = result ["facebookTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.facebookTitle = result ["facebookTitle-pt-br"];
+           }
+           
+           if (result ["twiterTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.twiterTitle = result ["twiterTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.twiterTitle = result ["twiterTitle-pt-br"];
+           }
+           
+           if (result ["linkedinTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.linkedinTitle = result ["linkedinTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.linkedinTitle = result ["linkedinTitle-pt-br"];
+           }
+           
+           if (result ["emailTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.emailTitle = result ["emailTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.emailTitle = result ["emailTitle-pt-br"];
+           }
+           
+           if (result ["languageString-" + globalCurrentLanguage]) {
+               globalLangTokens.languageString = result ["languageString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.languageString = result ["languageString-pt-br"];
+           }
+           
+           if (result ["languageTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.languageTitle = result ["languageTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.languageTitle = result ["languageTitle-pt-br"];
+           }
+           
+           if (result ["themesAndVariablesTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.themesAndVariablesTitle = result ["themesAndVariablesTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.themesAndVariablesTitle = result ["themesAndVariablesTitle-pt-br"];
+           }
+           
+           if (result ["themeString-" + globalCurrentLanguage]) {
+               globalLangTokens.themeString = result ["themeString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.themeString = result ["themeString-pt-br"];
+           }
+           
+           if (result ["themeDescString-" + globalCurrentLanguage]) {
+               globalLangTokens.themeDescString = result ["themeDescString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.themeDescString = result ["themeDescString-pt-br"];
+           }
+           
+           if (result ["variableString-" + globalCurrentLanguage]) {
+               globalLangTokens.variableString = result ["variableString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.variableString = result ["variableString-pt-br"];
+           }
+           
+           if (result ["variableDescString-" + globalCurrentLanguage]) {
+               globalLangTokens.variableDescString = result ["variableDescString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.variableDescString = result ["variableDescString-pt-br"];
+           }
+           
+           if (result ["variableOptionSelectString-" + globalCurrentLanguage]) {
+               globalLangTokens.variableOptionSelectString = result ["variableOptionSelectString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.variableOptionSelectString = result ["variableOptionSelectString-pt-br"];
+           }
+           
+           if (result ["variableOptionSelectDescription-" + globalCurrentLanguage]) {
+               globalLangTokens.variableOptionSelectDescription = result ["variableOptionSelectDescription-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.variableOptionSelectDescription = result ["variableOptionSelectDescription-pt-br"];
+           }
+           
+           if (result ["subwayString-" + globalCurrentLanguage]) {
+               globalLangTokens.subwayString = result ["subwayString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.subwayString = result ["subwayString-pt-br"];
+           }
+           
+           if (result ["trainString-" + globalCurrentLanguage]) {
+               globalLangTokens.trainString = result ["trainString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.trainString = result ["trainString-pt-br"];
+           }
+           
+           if (result ["legendTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.legendTitle = result ["legendTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.legendTitle = result ["legendTitle-pt-br"];
+           }
+           
+           if (result ["noDataMessage-" + globalCurrentLanguage]) {
+               globalLangTokens.noDataMessage = result ["noDataMessage-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.noDataMessage = result ["noDataMessage-pt-br"];
+           }
+           
+           if (result ["nonUrbanAreaString-" + globalCurrentLanguage]) {
+               globalLangTokens.nonUrbanAreaString = result ["nonUrbanAreaString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.nonUrbanAreaString = result ["nonUrbanAreaString-pt-br"];
+           }
+           
+           if (result ["dataClassificationString-" + globalCurrentLanguage]) {
+               globalLangTokens.dataClassificationString = result ["dataClassificationString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.dataClassificationString = result ["dataClassificationString-pt-br"];
+           }
+           
+           if (result ["withBaseMapString-" + globalCurrentLanguage]) {
+               globalLangTokens.withBaseMapString = result ["withBaseMapString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.withBaseMapString = result ["withBaseMapString-pt-br"];
+           }
+           
+           if (result ["withBaseMapTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.withBaseMapTitle = result ["withBaseMapTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.withBaseMapTitle = result ["withBaseMapTitle-pt-br"];
+           }
+           
+           if (result ["withoutBaseMapString-" + globalCurrentLanguage]) {
+               globalLangTokens.withoutBaseMapString = result ["withoutBaseMapString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.withoutBaseMapString = result ["withoutBaseMapString-pt-br"];
+           }
+           
+           if (result ["withoutBaseMapTitle-" + globalCurrentLanguage]) {
+               globalLangTokens.withoutBaseMapTitle = result ["withoutBaseMapTitle-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.withoutBaseMapTitle = result ["withoutBaseMapTitle-pt-br"];
+           }
+           
+           if (result ["tokenStringClose-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringClose = result ["tokenStringClose-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringClose = result ["tokenStringClose-pt-br"];
+           }
+           
+           if (result ["tokenStringMaps-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringMaps = result ["tokenStringMaps-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringMaps = result ["tokenStringMaps-pt-br"];
+           }
+           
+           if (result ["tokenStringExport-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringExport = result ["tokenStringExport-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringExport = result ["tokenStringExport-pt-br"];
+           }
+           
+           if (result ["tokenStringFile-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringFile = result ["tokenStringFile-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringFile = result ["tokenStringFile-pt-br"];
+           }
+           
+           if (result ["tokenStringType-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringType = result ["tokenStringType-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringType = result ["tokenStringType-pt-br"];
+           }
+           
+           if (result ["tokenStringImage-" + globalCurrentLanguage]) {
+               globalLangTokens.tokenStringImage = result ["tokenStringImage-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.tokenStringImage = result ["tokenStringImage-pt-br"];
+           }
+        }
+    );
+
+    $.ajaxSetup({
+        async: true
+    });
+}
+
 // The structures below are no longer used
 // Left here for historical and consultations purposes, for now
-
 
 // ... Mariela - 20170629:
 // DEMOGRAPHY

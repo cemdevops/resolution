@@ -63,11 +63,11 @@
 <!-- header -->
 <header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
     border-bottom: 2px solid #868e96;">
-	<a class="navbar-brand mr-0 mr-md-2" href="http://web.fflch.usp.br/centrodametropole/">
-		<img src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
+	<a class="navbar-brand mr-0 mr-md-2" target="_blank" href="http://web.fflch.usp.br/centrodametropole/">
+		<img id="CEM-logo-img" src="img/Logo_CEM_em_alta_resolu_o.png" height="50px" class="d-inline-block align-top" alt="">
 	</a>
 
-	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex" style="align-items:center">
 		<li class="nav-item">
 			<a id="about-resolution" class="nav-link p-2"  style="font-size: 1.3em;" title="Mostrar quadro de informações do projeto"
 			   data-toggle="modal" data-target="#aboutResolution">
@@ -105,6 +105,24 @@
 		<li class="nav-item">
 			<a id="email" class="nav-link p-2"  style="font-size: 1.3em;" href="#" title="Compartilhar o site pelo email"><i class="fa fa-envelope"></i></a>
 		</li>
+
+		<li class="dropdown nav-item">
+			<a href="javascript:;" class="nav-link dropdown-toggle" id="languagesDropDown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Escolha o idioma">
+				<!-- <i class="fa fa-2x fa-language" style="float:left;padding-right:5px"></i> -->
+				<div id="languagesDropDownString" style="float:left">Idiomas</div>
+			</a>
+			<ul id="option_language" class="dropdown-menu dropdown-menu-right" aria-labelledby="languagesDropDown" style="text-align:center">
+				<!--
+				<li class="dropdown-item">
+					<a id="language-pt" href="javascript:changeLanguage ('pt-br');"> Português</a>
+				</li>
+				<li class="dropdown-item">
+					<a id="language-en" href="javascript:changeLanguage ('en');"> English</a>
+				</li>
+				-->
+			</ul>
+		</li>
+
 	</ul>
 
 </header>
@@ -132,7 +150,7 @@
 				<div class="modal-body" style="font-size: 14px;">
 					O ReSolution é um portal que apresenta informações censitárias relativas a segregação e desigualdades socioespaciais na Região Metropolitana de São Paulo.
 					<hr>
-					<div style="font-size:15pt"><b>Parcerias</b></div>
+					<div style="font-size:15pt"><b>Parcerias:</b></div><br>
 					<div class="row">
 						<div class="col-md-3 ml-auto">
 							<img src="img/logo-cem2.png" title="CEM - Centro de Estudos da Metrópole" style="height:80px;">
@@ -157,7 +175,7 @@
 						</div>
 					</div>
 					<hr>
-					<div style="font-size:15pt;float:left"><b>Apoio: </b></div>
+					<div style="font-size:15pt;float:left"><b>Apoio:&nbsp&nbsp</b></div>
 						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
 							<i class="fapesp-icon sprite"></i>
 						</a>
@@ -170,6 +188,58 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="aboutResolution-en" tabindex="-1" role="dialog" aria-labelledby="aboutResolutionTitle" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div>
+					<h2 class="modal-title" id="aboutResolutionTitle-en"><b>ReSolution</b></h2>
+					<h5>RE​silient S​ystems fO​r Land Use TransportatION</h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					ReSolution is a portal that presents census information regarding segregation and socio-spatial inequalities in São Paulo Metropolitan Region.
+					<hr>
+					<div style="font-size:15pt"><b>Partnerships:</b></div><br>
+					<div class="row">
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-cem2.png" title="CEM - Center for Metropolitan Studies" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-poli.png" title="Geoprocessing Laboratory - POLI - USP" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-ufabc.png" title="Federal University of ABC" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-inpe3.png" title="INPE - National Institute of Space Research" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-casa.png" title="CASA - Centre for Advanced Spatial Analysis" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-kingscollege.png" title="Kings College Longdon" style="height:80px;">
+						</div>
+						<div class="col-md-3 ml-auto">
+							<img src="img/logo-birkbeck.png" title="Birkbeck University of London" style="height:80px;">
+						</div>
+					</div>
+					<hr>
+					<div style="font-size:15pt;float:left"><b>Support:&nbsp&nbsp</b></div>
+						<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
+							<i class="fapesp-icon sprite"></i>
+						</a>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- ... End - Screen to About the Project Window -->
 
 	<!-- MODAL to download the Layers -->
@@ -197,8 +267,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Baixar</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="downloadLayersFilesCloseButton">Fechar</button>
+					<button type="button" class="btn btn-primary" value="layers-list" onclick="DownloadsLayers()">Download</button>
 				</div>
 			</div>
 		</div>
@@ -211,27 +281,28 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="downloadMapImagePdfTitle">Exportação de Mapas</h5>
+					<h5 class="modal-title" id="downloadMapImagePdfTitle">Exportar Mapas</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<div class="form-group row">
-						<label class="col-auto col-form-label">Tipo de Arquivo: </label>
+						<label class="col-auto col-form-label" id="downloadMapImagePdfLabel">Arquivo Tipo: </label>
 						<div class="col" style="margin-top:7px;">
 							<input type="radio" id="optImagem" checked
 								   name="exportation-options" value="imagem">
-							<label for="optImagem">Imagem (JPEG)</label>
+							<label for="optImagem" id="downloadMapImagePdfImage">Imagem (JPEG)</label>
+							&nbsp &nbsp
 							<input type="radio" id="optPdf"
 								   name="exportation-options" value="pdf">
-							<label for="optPdf"> PDF (a4)</label>
+							<label for="optPdf"> PDF (A4)</label>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-primary" onclick="exportMapToImagePDF()">Exportar</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="downloadMapImagePdfCloseButton">Fechar</button>
+					<button type="button" class="btn btn-primary" onclick="exportMapToImagePDF()" id="downloadMapImagePdfExportButton">Exportar</button>
 				</div>
 			</div>
 		</div>
@@ -269,10 +340,10 @@
 		</div>
 
 
-		<div id="container_extras">
-			<form action="select_extras" title="Most27pxrar as linhas de Metrô e/ou Trem">
-				<label><input type="checkbox" name="transporte" id="metro_linha">Metrô</label>
-				<label><input type="checkbox" name="transporte" id="trem_linha">Trem</label>
+		<div id="container_extras" style="padding:5px 10px 20px 15px">
+			<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
+				<label style="float:left"><input type="checkbox" name="transporte" id="metro_linha" style="float:left;padding-right:5px"><div id="metro_linha_label" style="padding-right:10px; float:left">Metrô</div></label>
+				<label style="float:left"><input type="checkbox" name="transporte" id="trem_linha" style="float:left"><div id="trem_linha_label" style="padding-right:10px; float:left">Trem</div></label>
 			</form>
 		</div>
 	</div>
