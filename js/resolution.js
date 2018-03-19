@@ -275,7 +275,7 @@ $('document').ready(function () {
         .addTo(map)
         .done(function(layer){
             // colocando ordem de sobreposição dos layers
-            layer.setZIndex(1);
+            layer.setZIndex(-1);
 
             $("#option_basemap_thematic").click(function () {
                 showThematicLayer(layer);
@@ -300,9 +300,8 @@ $('document').ready(function () {
 
 $("#option_theme").change(function () {
     var theme = this.value;
-    console.log("hollaaaatgga");
     console.log(theme);
-    if (theme == 4) {
+    if (theme == 4) { // 4: educação
         userNameCarto = "marielaf";
 
     } else {
@@ -318,7 +317,7 @@ $("#option_theme").change(function () {
         .addTo(map)
         .done(function(layer){
             // colocando ordem de sobreposição dos layers
-            layer.setZIndex(1);
+            layer.setZIndex(-1);
 
             $("#option_basemap_thematic").click(function () {
                 showThematicLayer(layer);
@@ -340,6 +339,38 @@ $("#option_theme").change(function () {
 
         });
 });
+
+function createLayerChoropletic(userNameCarto){
+    cartodb.createLayer(map,{
+        user_name: userNameCarto,
+        type: "cartodb",
+        sublayers: []
+    })
+        .addTo(map)
+        .done(function(layer){
+            // colocando ordem de sobreposição dos layers
+            layer.setZIndex(-1);
+
+            $("#option_basemap_thematic").click(function () {
+                showThematicLayer(layer);
+                console.log("changing... base map thematic");
+            });
+
+            $("#option_variables").change(function(){
+                showThematicLayer(layer);
+                console.log("changing variables");
+            });
+
+            $("#option_theme").change(function(){
+                console.log("changing theme");
+                // Clear all transport active layers
+                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+                // Check if layer's legend. Remove if exists
+                takeOutLegend();
+            });
+
+        });
+}
 
 /*
  * Function to take out the legend of screen
@@ -780,7 +811,7 @@ cartodb.createLayer(map,{
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
-        layer.setZIndex(-1);
+        layer.setZIndex(-2);
         // add layer to the map
         layer.createSubLayer({
             sql: "SELECT * FROM resolution_cem_aguas_2",
@@ -802,7 +833,7 @@ cartodb.createLayer(map,{
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
-        layer.setZIndex(-2);
+        layer.setZIndex(-3);
         // add layer to the map
         layer.createSubLayer({
             sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",

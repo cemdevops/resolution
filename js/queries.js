@@ -119,9 +119,9 @@ function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, witho
   } else {
       sqlString = " SELECT * FROM logradouros_sc_40000" +
           " UNION " +
-      "SELECT * FROM logradouros_sc40000_80000" +
-      " UNION " +
-      "SELECT * FROM logradouros_sc80000_";
+          "SELECT * FROM logradouros_sc40000_80000" +
+          " UNION " +
+          "SELECT * FROM logradouros_sc80000_";
 
   }
   console.log("testando...");
