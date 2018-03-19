@@ -376,10 +376,10 @@ function createLayerChoropletic(userNameCarto){
  * Function to take out the legend of screen
  */
 function takeOutLegend(){
-    // Check if layer's legend. Remove if exists
-    if ($("div.cartodb-legend.choropleth").length) {
-        $('div.cartodb-legend.choropleth').remove();
-    }
+  // Check if layer's legend. Remove if exists
+  if ($("div.cartodb-legend.choropleth").length) {
+    $('div.cartodb-legend.choropleth').remove();
+  }
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -530,7 +530,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
-    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container' style='border-radius: 6px; width:300px;'>" +
+    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'>" +
         "    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +

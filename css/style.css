@@ -28,19 +28,19 @@ html, body, #map {
 }
 
 #title_menu {
-    font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
+    font: bold 12px Arial, Tahoma, Helvetica, sans-serif;
     /*text-transform: uppercase;*/
     color: #333;
-    padding: 15px 15px 10px 15px;
+    padding: 10px 15px 5px 15px;
     border-bottom: 2px solid rgba(35,87,146,0.4);    
 }
 
 #title_legend {
-    font: bold 13px Arial, Tahoma, Helvetica, sans-serif;
+    font: bold 12px Arial, Tahoma, Helvetica, sans-serif;
     background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
     /*text-transform: uppercase;*/
     color: #333;
-    padding: 15px 15px 10px 15px;
+    padding: 10px 15px 5px 15px;
     border-bottom: 2px solid rgba(35,87,146,0.4);
     margin-left: -15px;
     margin-right: -15px;
@@ -109,8 +109,23 @@ html, body, #map {
 }
 
 /* Legend */
-.cartodb-legend-container{    
-    width: 270px;
+.cartodb-legend {
+    left: 6px;
+    bottom: 10px!important;
+    /*width: 90px;*/
+    height: auto;
+    /*background-color: #FFF;
+    opacity: 1;*/
+    border-radius: 6px;
+    /*border-radius: 25px!important;
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
+    border-radius: 6px;
+    border: 3px solid rgba(35,87,146,0.4);
+    */
+}
+
+.cartodb-legend-container{
+    width: 300px;
     background: rgba(255,255,255, 0.8) ! important;
     border-radius: 6px;
 }
