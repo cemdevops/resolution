@@ -257,38 +257,89 @@ function removeBaseMap(typeOfBaseMapChosen) {
 
 
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
+// get selected Theme
+function f(){
+    /*var el=document.getElementById('option_theme');
+    var val = el.options[el.selectedIndex].value;
+    console.log(val);*/
+}
 
-// Manages the layers for each theme dropdownlist
-cartodb.createLayer(map,{
-    user_name: "cemdevops",
-    type: "cartodb",
-    sublayers: []
-})
-    .addTo(map)
-    .done(function(layer){
-        // colocando ordem de sobreposição dos layers
-        layer.setZIndex(1);
 
-        $("#option_basemap_thematic").click(function () {
-            showThematicLayer(layer);
-            console.log("changing... base map thematic");
+$('document').ready(function () {
+    console.log("cargó");
+    cartodb.createLayer(map,{
+        user_name: "hikarym",
+        type: "cartodb",
+        sublayers: []
+    })
+        .addTo(map)
+        .done(function(layer){
+            // colocando ordem de sobreposição dos layers
+            layer.setZIndex(1);
+
+            $("#option_basemap_thematic").click(function () {
+                showThematicLayer(layer);
+                console.log("changing... base map thematic");
+            });
+
+            $("#option_variables").change(function(){
+                showThematicLayer(layer);
+                console.log("changing variables");
+            });
+
+            $("#option_theme").change(function(){
+                console.log("changing theme");
+                // Clear all transport active layers
+                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+                // Check if layer's legend. Remove if exists
+                takeOutLegend();
+            });
+
         });
+});
 
-        $("#option_variables").change(function(){
-            showThematicLayer(layer);
-            console.log("changing variables");
+$("#option_theme").change(function () {
+    var theme = this.value;
+    console.log("hollaaaatgga");
+    console.log(theme);
+    if (theme == 4) {
+        userNameCarto = "marielaf";
+
+    } else {
+        userNameCarto = "hikarym";
+
+    }
+
+    cartodb.createLayer(map,{
+        user_name: userNameCarto,
+        type: "cartodb",
+        sublayers: []
+    })
+        .addTo(map)
+        .done(function(layer){
+            // colocando ordem de sobreposição dos layers
+            layer.setZIndex(1);
+
+            $("#option_basemap_thematic").click(function () {
+                showThematicLayer(layer);
+                console.log("changing... base map thematic");
+            });
+
+            $("#option_variables").change(function(){
+                showThematicLayer(layer);
+                console.log("changing variables");
+            });
+
+            $("#option_theme").change(function(){
+                console.log("changing theme");
+                // Clear all transport active layers
+                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
+                // Check if layer's legend. Remove if exists
+                takeOutLegend();
+            });
+
         });
-
-        $("#option_theme").change(function(){
-            console.log("changing theme");
-            // Clear all transport active layers
-            layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-            // Check if layer's legend. Remove if exists
-            takeOutLegend();
-        });
-
-    });
-
+});
 
 /*
  * Function to take out the legend of screen

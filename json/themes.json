@@ -47,7 +47,7 @@
         "theme-en": "Education",
         "description-en": "Education",
         "polygonArea-en": "Weighting Areas",
-        "tableName": "ap2010_rmsp_cem_erase",
+        "tableName": "logradouros_ap",
         "showEdge": 0.5,
         "colTableToLegend": "nom_mu"
     },
