@@ -176,9 +176,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Apoio:&nbsp&nbsp</b></div>
-					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
-						<i class="fapesp-icon sprite"></i>
-					</a>
+						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+							<i class="fapesp-icon sprite"></i>
+						</a>
 
 				</div>
 				<div class="modal-footer">
@@ -229,9 +229,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Support:&nbsp&nbsp</b></div>
-					<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
-						<i class="fapesp-icon sprite"></i>
-					</a>
+						<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
+							<i class="fapesp-icon sprite"></i>
+						</a>
 
 				</div>
 				<div class="modal-footer">
@@ -311,9 +311,10 @@
 
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
-		<div class="leaflet-bottom leaflet-left" style="bottom: 30px; left:-5px;">
+		<!-- <div class="leaflet-bottom leaflet-left" style="bottom: 30px; left:-5px;"> -->
+		<div class="leaflet-top leaflet-left" style="top:165px; left:-5px;">
 			<div class=" leaflet-control">
-				<input id='option_basemap_thematic' type="button"  value="SEM MAPA BASE"
+				<input id='option_basemap_thematic' type="button" value="SEM MAPA BASE"
 					   title="Click aqui para visualizar o mapa temático sem o mapa base!"
 					   data-placement="auto" data-toggle="tooltip"
 					   class="input-map-option thematic-map">
@@ -324,14 +325,14 @@
 	<div id="container_menu" >
 		<div id="title_menu">SELECIONAR TEMAS E VARIÁVEIS</div>
 		<div id="container_options">
-			<div id="title_options_tema">Tema:</div>
+			<!-- <div id="title_options_tema">Tema:</div> -->
 			<div id="theme_options">
 				<select id="option_theme" onchange="f()">
 				</select>
 			</div>
 			<div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
 			<div class="separator"></div>
-			<div id="title_options_variavel">Variável:</div>
+			<!-- <div id="title_options_variavel">Variável:</div> -->
 			<div id="variables_options">
 				<select id="option_variables">
 				</select>
