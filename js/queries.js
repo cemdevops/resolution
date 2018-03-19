@@ -113,7 +113,21 @@ $.getJSON(
  */
 function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  var sqlString = "SELECT * FROM " + tableName;
+  var sqlString = "";
+  if (tableName == "logradouros_ap") {
+      sqlString = "SELECT * FROM " + tableName;
+  } else {
+      sqlString = " SELECT * FROM logradouros_sc_40000" +
+          " UNION " +
+      "SELECT * FROM logradouros_sc40000_80000" +
+      " UNION " +
+      "SELECT * FROM logradouros_sc80000_";
+
+  }
+  console.log("testando...");
+  console.log(sqlString);
+
+
   var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;}";
   
   if (showEdge == 2) {
