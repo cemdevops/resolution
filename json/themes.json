@@ -48,7 +48,7 @@
         "description-en": "Education",
         "polygonArea-en": "Weighting Areas",
         "tableName": "logradouros_ap",
-        "showEdge": 0.5,
+        "showEdge": 2,
         "colTableToLegend": "nom_mu"
     },
     {
