@@ -113,8 +113,8 @@ $.getJSON(
  */
 function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  var sqlString = "";
-  if (tableName == "logradouros_ap") {
+  var sqlString = "SELECT * FROM " + tableName;
+  /*if (tableName == "logradouros_ap") {
       sqlString = "SELECT * FROM " + tableName;
   } else {
       sqlString = " SELECT * FROM logradouros_sc_40000" +
@@ -123,7 +123,7 @@ function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, witho
           " UNION " +
           "SELECT * FROM logradouros_sc80000_";
 
-  }
+  }*/
   console.log("testando...");
   console.log(sqlString);
 
@@ -177,6 +177,10 @@ function getCurrentLayerData (idTheme, variable){
         	});
 			objRet.idTheme = jsonFiltered[0].idTheme;
             objRet.codTheme = jsonFiltered[0].codTheme;
+            objRet.cartoAccountWithBaseMap = jsonFiltered[0].withBaseMap.cartoAccount;
+            objRet.tableNameWithBaseMap = jsonFiltered[0].withBaseMap.tableName;
+            objRet.cartoAccountWithoutBaseMap = jsonFiltered[0].withoutBaseMap.cartoAccount;
+            objRet.tableNameWithoutBaseMap = jsonFiltered[0].withoutBaseMap.tableName;
             strAux = "theme-" + globalCurrentLanguage;
             if (jsonFiltered[0] [strAux]) {
                 objRet.theme = jsonFiltered[0] [strAux];
