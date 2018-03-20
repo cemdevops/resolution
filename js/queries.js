@@ -25,6 +25,13 @@ var globalCurrentLanguage = "pt-br";
 // Variable to hold current language tokens.
 var globalLangTokens = {};
 
+// Variable to store key e value language.
+var globalLangKey = new Array ();
+var globalLangVal = new Array ();
+
+// Store selected prior language
+var auxglobalCurrentLanguage;
+
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
 //var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];
@@ -85,22 +92,13 @@ $.getJSON(
     "json/config.json",
     function(result) {
         $.each(result, function(key,val) {
-
-            var selectControl = document.getElementById("option_language");	
-
-            var liElement= document.createElement ("li");
-            liElement.class="dropdown-item";
-
-            //console.log ("-> ", key.substring (0,5), " - ", val);
-
             if (key.substring (0,9) == "language-") {
-                var aElement= document.createElement ("a");
-                aElement.id = key;
-                aElement.href =  "javascript:changeLanguage ('" + key.substring (9,key.length) + "');";
-                aElement.innerHTML = val;
-                liElement.appendChild(aElement);
-                selectControl.appendChild(liElement);
-                //<a id="language-pt" href="javascript:changeLanguage ('pt-br');"> Português</a>
+                globalLangKey.push(key.substring (9,key.length));
+                globalLangVal.push(val);
+                if (key.substring (9,key.length) != result.initialLanguage) {
+                    $("#option_language").text(val);
+                    $("#option_language").attr("href", "javascript:changeLanguage ('" + key.substring (9,key.length) + "');");
+                }
             }
         });
     }

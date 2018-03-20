@@ -36,6 +36,10 @@ $("#option_basemap_thematic").click(function () {
 // Change language tokens in page
 function changeLanguage (strNewLanguage) {
     if (strNewLanguage != globalCurrentLanguage) {
+        
+        // Store prior language
+        auxglobalCurrentLanguage = globalCurrentLanguage;
+        
         // change language
         // Get new language tokens
         globalCurrentLanguage = strNewLanguage;
@@ -77,11 +81,18 @@ function changeLanguage (strNewLanguage) {
             $("#legendVariableStr").text(currentLayerData.title);
             $("#legendVariableUnit").text("(" + currentLayerData.polygonArea + ")");
         }
+            
+        // Change language in element HTML
+        $("#option_language").text(globalLangVal[globalLangKey.indexOf(auxglobalCurrentLanguage)]);	
+        $("#option_language").attr("href", "javascript:changeLanguage ('" + auxglobalCurrentLanguage + "');");
+    
+    
     }
 }
 
 // Update language tokens and images in pages
 function updateLanguageTokens () {
+    console.log("teste");
     $("#CEM-logo-img").attr('src', globalLangTokens.CEMLogoFilePath);
 
     $("#about-resolution").attr('title', globalLangTokens.projectInformationTitle);
@@ -124,6 +135,7 @@ function updateLanguageTokens () {
     $("#downloadMapImagePdfImage").text(globalLangTokens.tokenStringImage + " (JPEG)");
     $("#downloadMapImagePdfCloseButton").text(globalLangTokens.tokenStringClose);
     $("#downloadMapImagePdfExportButton").text(globalLangTokens.tokenStringExport);
+
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
