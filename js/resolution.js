@@ -20,6 +20,7 @@ $("#option_basemap_thematic").click(function () {
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
 
+
     } else{
         // Show only the thematic map
         removeBaseMap(layerMapaBaseSel);
@@ -269,15 +270,42 @@ function removeBaseMap(typeOfBaseMapChosen) {
 
 
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
-// get selected Theme
-function f(){
-    /*var el=document.getElementById('option_theme');
-    var val = el.options[el.selectedIndex].value;
-    console.log(val);*/
-}
+$("#option_variables").change(function () {
+    var variable = this.value;
+    var theme = $("#option_theme").val();
 
+    createLayerChoropletic(theme, variable);
+    console.log("-------------------------");
+    console.log("thema: ",theme);
+    console.log("variavel", variable);
+    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
+    //createPlacesLayer();
+});
 
-$('document').ready(function () {
+$("#option_basemap_thematic").click(function () {
+    var variable = $("#option_variables").val();
+    var theme = $("#option_theme").val();
+
+    createLayerChoropletic(theme, variable);
+    console.log("-------------------------");
+    console.log("thema: ",theme);
+    console.log("variavel", variable);
+    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
+    //createPlacesLayer();
+});
+
+/*$("#option_theme").change(function(){
+    var variable = $("#option_variables").val();
+    var theme = $("#option_theme").val();
+
+    createLayerChoropletic(theme, variable);
+    console.log("-------------------------");
+    console.log("thema: ",theme);
+    console.log("variavel", variable);
+    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
+});*/
+
+/*$('document').ready(function () {
     console.log("cargó");
     cartodb.createLayer(map,{
         user_name: "hikarym",
@@ -308,9 +336,9 @@ $('document').ready(function () {
             });
 
         });
-});
+});*/
 
-$("#option_theme").change(function () {
+/*$("#option_theme").change(function () {
     var theme = this.value;
     console.log(theme);
     if (theme == 4) { // 4: educação
@@ -350,26 +378,50 @@ $("#option_theme").change(function () {
             });
 
         });
-});
+});*/
 
-function createLayerChoropletic(userNameCarto){
+function createLayerChoropletic(theme, variable){
+
+    // get all data configuration of current layer, based on theme and variable (op)
+    var currentLayerData = getCurrentLayerData (theme, variable);
+    // get data class method values for current method (quantile or jenks).
+    var cartoAccount =  "";
+    var tableName =  "";
+
+    if ($("#option_basemap_thematic").val() == globalLangTokens.withoutBaseMapString) {
+        //with base map (OSM)
+        cartoAccount = currentLayerData.cartoAccountWithBaseMap;
+        tableName =  currentLayerData.tableNameWithBaseMap;
+    } else {
+        //without base map
+        cartoAccount = currentLayerData.cartoAccountWithoutBaseMap;
+        tableName =  currentLayerData.tableNameWithoutBaseMap;
+    }
+
+    console.log("carto account: ",cartoAccount);
+    console.log("table Name: ",tableName);
+
     cartodb.createLayer(map,{
-        user_name: userNameCarto,
+        user_name: cartoAccount,
         type: "cartodb",
         sublayers: []
     })
         .addTo(map)
         .done(function(layer){
-            // colocando ordem de sobreposição dos layers
-            layer.setZIndex(-1);
+            // Clear all transport active layers
+            /*layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});*/
+
 
             $("#option_basemap_thematic").click(function () {
-                showThematicLayer(layer);
+                //showThematicLayer(layer, tableName);
+                // Clear all transport active layers
+                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
                 console.log("changing... base map thematic");
             });
 
             $("#option_variables").change(function(){
-                showThematicLayer(layer);
+                // Clear all transport active layers
+                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
                 console.log("changing variables");
             });
 
@@ -380,6 +432,10 @@ function createLayerChoropletic(userNameCarto){
                 // Check if layer's legend. Remove if exists
                 takeOutLegend();
             });
+
+            // colocando ordem de sobreposição dos layers
+            layer.setZIndex(1);
+            showThematicLayer(layer,tableName,theme,variable);
 
         });
 }
@@ -398,48 +454,50 @@ function takeOutLegend(){
 /*
  * Function to show thematic layer
  */
-function showThematicLayer(layer){
+function showThematicLayer(layer, tableName, theme, variable){
     // Clear all transport active layers
     layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
 
-    // get Variable code. For example, p3_001, p11_001 . codVariable == op
+   /* // get Variable code. For example, p3_001, p11_001 . codVariable == op
     //var op = $(this).val(); //$(this).attr("value");
     var el = document.getElementById("option_variables");
     var op = el.options[el.selectedIndex].value;
 
     // get selected Theme
     var e = document.getElementById("option_theme");
-    var theme = e.options[e.selectedIndex].value;
+    var theme = e.options[e.selectedIndex].value;*/
 
     // Check if layer's legend. Remove if exists
     takeOutLegend();
 
     // if option is valid, tooltip and legend will be build
-    if(op != globalLangTokens.variableOptionSelectString) {
+    if(variable != globalLangTokens.variableOptionSelectString) {
         // get button value
         var buttonVal = document.getElementById("option_basemap_thematic").value;
         // If button value is 'Mapa base' is because the basemap isn't visible
         var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
 
-        // get all data configuration of current layer, based on theme and variable (op)
-        var currentLayerData = getCurrentLayerData (theme, op);
+        // get all data configuration of current layer, based on theme and variable (variable)
+        var currentLayerData = getCurrentLayerData (theme, variable);
         // get data class method values for current method (quantile or jenks).
         var arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
 
         // Create sublayer - thematic
-        layer.createSubLayer(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
+        layer.createSubLayer(getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
 
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
         // Set table column (on carto dataset) to be retrieved and showed in legend
-        sublayer.setInteractivity(currentLayerData.colTableToLegend + ',' + op);
+        sublayer.setInteractivity(currentLayerData.colTableToLegend + ',' + variable);
+        //Create the places layer
+        createPlacesLayer();
 
 
         // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
         sublayer.on('featureOver', function(e,latlng,pos,data) {
             // get value from carto dataset (tooltip)
-            valor = data[op];
+            valor = data[variable];
             // Clear legend content
             for (i=1; i < 8; i++) {
                 document.getElementById("celula"+i).innerHTML = "";
@@ -480,13 +538,13 @@ function showThematicLayer(layer){
         // Clóvis - 20170626: change event - selection between quantile and natural break (jenks)...
         $("input[type=radio][name=radioDataMethod]").change (function () {
             // Update current data classification method
-            // sublayer.setCartoCSS(getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks = currentLayerData[currentDataClassificationMethod = this.value], quantiles_colors_hex, opacity, currentLayerData.showEdge).cartocss);
+            // sublayer.setCartoCSS(getQueryAndCssToCreateLayer(variable, currentLayerData.tableName, arrayDataClassBreaks = currentLayerData[currentDataClassificationMethod = this.value], quantiles_colors_hex, opacity, currentLayerData.showEdge).cartocss);
             // get current data classification method (quantile or jenks)
             currentDataClassificationMethod = this.value;
             // get array of data classification method breaks
             arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
             // get carto query and CSS
-            var layerConf = getQueryAndCssToCreateLayer(op, currentLayerData.tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
+            var layerConf = getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
             // set carto CSS of current layer
             sublayer.setCartoCSS(layerConf.cartocss);
         });
@@ -726,7 +784,7 @@ cartodb.createLayer(map,{
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
-        layer.setZIndex(1);
+        layer.setZIndex(2);
         // throw this function after checckboxs click
         $("input[name='transporte']").change(function(){
             // first, we must remove all active transport layer
@@ -750,47 +808,49 @@ var places = {
     }
 };
 
-/*
- * Function to add the places layer
- */
-cartodb.createLayer(map,{
-    user_name: "cemdevops",
-    type: "cartodb",
-    sublayers: []
-})
-    .addTo(map) // add the layer to our map which already contains 0 sublayers
-    .done(function(placesLayer){
-        var placesSublayer = null;
-        var zoomControleLabel = ZOOM_INITIAL_LEVEL;
-        // control places names (show/hide)
-        map.on('zoomend', function (e) {
-            if (placesLayer.getSubLayerCount()>0) {
-                // get zoom level
-                zoomControleLabel = map.getZoom();
-                if (zoomControleLabel < 13) {
-                    placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
-                } else  {
-                    placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
+function createPlacesLayer() {
+    /*
+     * Function to add the places layer
+     */
+    cartodb.createLayer(map, {
+        user_name: "cemdevops",
+        type: "cartodb",
+        sublayers: []
+    })
+        .addTo(map) // add the layer to our map which already contains 0 sublayers
+        .done(function (placesLayer) {
+            var placesSublayer = null;
+            var zoomControleLabel = ZOOM_INITIAL_LEVEL;
+            // control places names (show/hide)
+            map.on('zoomend', function (e) {
+                if (placesLayer.getSubLayerCount() > 0) {
+                    // get zoom level
+                    zoomControleLabel = map.getZoom();
+                    if (zoomControleLabel < 13) {
+                        placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp WHERE type='city' OR type='town'");
+                    } else {
+                        placesSublayer.setSQL("SELECT * FROM resolution_places_osm_rmsp");
+                    }
                 }
-            }
+            });
+
+            // Put the places layer on anothers layers
+            placesLayer.setZIndex(2);
+            // used to show/hide places names
+            $("#option_basemap_thematic").click(function () {
+                placesSublayer = showPlacesLayer(placesLayer, placesSublayer);
+            });
+            // used to show/hide places names
+            $("#option_theme").change(function () {
+                placesSublayer = showPlacesLayer(placesLayer, placesSublayer);
+            });
+            // used to show/hide places names
+            $("#option_variables").change(function () {
+                placesSublayer = showPlacesLayer(placesLayer, placesSublayer);
+            });
         });
 
-        // Put the places layer on anothers layers
-        placesLayer.setZIndex(1);
-        // used to show/hide places names
-        $("#option_basemap_thematic").click(function () {
-            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
-        });
-        // used to show/hide places names
-        $("#option_theme").change(function(){
-            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
-        });
-        // used to show/hide places names
-        $("#option_variables").change(function(){
-            placesSublayer = showPlacesLayer(placesLayer,placesSublayer);
-        });
-    });
-
+}
 /*
  * Function to show the places layer
  */
