@@ -37,6 +37,10 @@ $("#option_basemap_thematic").click(function () {
 // Change language tokens in page
 function changeLanguage (strNewLanguage) {
     if (strNewLanguage != globalCurrentLanguage) {
+        
+        // Store prior language
+        auxglobalCurrentLanguage = globalCurrentLanguage;
+        
         // change language
         // Get new language tokens
         globalCurrentLanguage = strNewLanguage;
@@ -78,11 +82,18 @@ function changeLanguage (strNewLanguage) {
             $("#legendVariableStr").text(currentLayerData.title);
             $("#legendVariableUnit").text("(" + currentLayerData.polygonArea + ")");
         }
+            
+        // Change language in element HTML
+        $("#option_language").text(globalLangVal[globalLangKey.indexOf(auxglobalCurrentLanguage)]);	
+        $("#option_language").attr("href", "javascript:changeLanguage ('" + auxglobalCurrentLanguage + "');");
+    
+    
     }
 }
 
 // Update language tokens and images in pages
 function updateLanguageTokens () {
+    console.log("teste");
     $("#CEM-logo-img").attr('src', globalLangTokens.CEMLogoFilePath);
 
     $("#about-resolution").attr('title', globalLangTokens.projectInformationTitle);
@@ -125,6 +136,7 @@ function updateLanguageTokens () {
     $("#downloadMapImagePdfImage").text(globalLangTokens.tokenStringImage + " (JPEG)");
     $("#downloadMapImagePdfCloseButton").text(globalLangTokens.tokenStringClose);
     $("#downloadMapImagePdfExportButton").text(globalLangTokens.tokenStringExport);
+
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -772,7 +784,7 @@ cartodb.createLayer(map,{
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
-        layer.setZIndex(1);
+        layer.setZIndex(2);
         // throw this function after checckboxs click
         $("input[name='transporte']").change(function(){
             // first, we must remove all active transport layer
