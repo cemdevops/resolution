@@ -75,6 +75,7 @@ function takeOutCartodbLogo() {
 
 
 function exportMapToImagePDF() {
+    $(".leaflet-control-zoom").css("visibility", "hidden");
     takeOutCartodbLogo();
 
     var optImagem = document.getElementById('optImagem');
@@ -93,6 +94,7 @@ function exportMapToImagePDF() {
 
         }
     });
+    $(".leaflet-control-zoom").css("visibility", "visible");
 }
 
 downloadIMG = function (strData, strFileName, strMimeType) {
