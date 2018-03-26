@@ -41,16 +41,20 @@
             var file_path = './downloads/';
             var alink = document.createElement('a');
             if (itemSelecionado == "Áreas de Ponderação 2010")
-                file_path += 'ap2010_rmsp_cem_r.zip';
+                file_path += 'ap2010_rmsp_cem_erase.zip';
             else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
-                file_path +='resolution_places_osm_rmsp.zip';
+                file_path +='resolution_sc2010_cem_rmsp_erase.zip';
             else if (itemSelecionado == "Linhas de Metrô")
                 file_path += 'resolution_metro_linhas.zip';
             else if (itemSelecionado == "Linhas de Trem")
                 file_path += 'resolution_trem_linhas.zip';
             else if (itemSelecionado == 'Águas')
                 file_path += 'resolution_cem_aguas_2.zip';
-            alink.href = file_path;
+            else if (itemSelecionado == 'Integração entre Logradouros e Setores Censitários')
+				file_path += 'logradouros_sc_codsc_cem.zip';   
+			else if (itemSelecionado == 'Integração entre Logradouros e Áreas de Ponderação')
+				file_path += 'logradouros_ap_codap_cem.zip';   
+			alink.href = file_path;
             alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
             document.body.appendChild(alink);
             alink.click();
@@ -263,6 +267,8 @@
 							<select id="layers-list" style="width:auto;">
 								<option>Áreas de Ponderação 2010</option>
 								<option>Setores Censitários da Região Metropolitana 2010</option>
+								<option>Integração entre Logradouros e Áreas de Ponderação</option>
+								<option>Integração entre Logradouros e Setores Censitários</option>
 								<option>Linhas de Metrô</option>
 								<option>Linhas de Trem</option>
 								<option>Águas</option>
