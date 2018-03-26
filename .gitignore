@@ -44,3 +44,6 @@ Thumbs.db
 # configuration
 /config
 
+# downloads  files
+/downloads
+
