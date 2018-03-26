@@ -567,6 +567,7 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
 
             var pol = polygonsHighlighted;
             //console.log ("FeatureOver: Vai verificar se tem layer...", pol.length);
+            console.log('verificando existencia da variável: ',polygonsHighlighted);
 
             if ((pol.length == 1 && data.codap_cem == pol[0].cartoId)) {
                 //console.log ("já está highlight ou não tem nada.")
