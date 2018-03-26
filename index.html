@@ -24,12 +24,16 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css"/>
 	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 
+	<link rel="stylesheet" href="./css/lib/dc.min.css">
+	<!-- graphs styles -->
+	<link rel="stylesheet" type="text/css" href="css/graphs/graphs.css">
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/html2canvas.js"></script>
-	<script type="text/javascript" src="js/canvas2image.js"></script>
-	<script type="text/javascript" src="js/canvas-to-blob.js"></script>
-	<script type="text/javascript" src="js/jspdf.min.js"></script>
+	<script type="text/javascript" src="js/lib/html2canvas.js"></script>
+	<script type="text/javascript" src="js/lib/canvas2image.js"></script>
+	<script type="text/javascript" src="js/lib/canvas-to-blob.js"></script>
+	<script type="text/javascript" src="js/lib/jspdf.min.js"></script>
 	<script type="text/javascript" src="js/exportationMapToImagePdf.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -60,6 +64,15 @@
 
 </head>
 <body>
+<!-- load the necessary scripts -->
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<!-- <script src="http://d3js.org/d3.v4.min.js"></script> -->
+<!-- Clóvis - Dimple -->
+<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+<script src="js/lib/leaflet.label.js" type="text/javascript"></script>
+<script src="js/lib/crossfilter.js"></script>
+<script src="js/lib/dc.min.js"></script>
+
 <!-- header -->
 <header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
     border-bottom: 2px solid #868e96;">
@@ -352,12 +365,125 @@
 			</form>
 		</div>
 	</div>
+
+	<!-- Panel for Graphics -->
+	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
+	<div class="leaflet-control-container">
+		<div class="leaflet-bottom leaflet-left" id="municControl" style="bottom: 100px; left:-5px;">
+			<div class="leaflet-control" style="cursor:move">
+				<!--<div style="width: 650px; height: 330px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
+
+				</div>-->
+				<div id="d3-elements2" style="background: rgba(255,255,255, 0.8)">
+				</div>
+				<div id="d3-elements" style="background: rgba(255,255,255, 0.8)">
+				</div>
+				<!--<div style="width: 200px; height: 510px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
+
+				</div>-->
+				<div class="chart" style="background: rgba(255,255,255, 0.8)"></div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- importar o arquivo js -->
-<script type="text/javascript" src="js/queries.js"></script>
+<!--<script type="text/javascript" src="js/queries.js"></script>
 <script type="text/javascript" src="js/menuoptions.js"></script>
 <script type="text/javascript" src="js/resolution.js"></script>
-<script type="text/javascript" src="js/controlsdata.js"></script>
+<script type="text/javascript" src="js/controlsdata.js"></script>-->
+<script>
+    $.getScript( "js/queries.js", function( data, textStatus, jqxhr ) {
+        $.getScript( "js/menuoptions.js", function( data, textStatus, jqxhr ) {
+            $.getScript( "js/resolution.js", function( data, textStatus, jqxhr ) {
+                $.getScript( "js/controlsdata.js", function( data, textStatus, jqxhr ) {
+                });
+            });
+        });
+    });
+    var graphType = 5;
+
+    function execScriptGraph () {
+        if (graphExists) {
+            d3.select ("svg").remove();
+            graphExists = false;
+        } else {
+            if (graphType == 1) {
+                $.getScript( "js/graphics-eixos_xy.js", function( data, textStatus, jqxhr ) {
+                    //console.log( data ); // Data returned
+                    //console.log( textStatus ); // Success
+                    //console.log( jqxhr.status ); // 200
+                    console.log( "Eixos was performed." );
+                    graphExists = true;
+                });
+            } else if (graphType == 2) {
+                $.getScript( "js/graphics-circles.js", function( data, textStatus, jqxhr ) {
+                    console.log( "Circles was performed." );
+                    graphExists = true;
+                });
+            } else if (graphType == 3) {
+                $.getScript( "js/graphics-barras-and-mapa.js", function( data, textStatus, jqxhr ) {
+                    console.log( "Barras was performed." );
+                    graphExists = true;
+                });
+            } else if (graphType == 4) {
+                $.getScript( "js/graphics-bubbles.js", function( data, textStatus, jqxhr ) {
+                    console.log( "Bubbles was performed." );
+                    graphExists = true;
+                });
+            } else if (graphType == 5) {
+                $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+                    console.log( "Circles-2 was performed." );
+                    graphExists = true;
+                });
+            }
+        }
+    }
+
+    //Make the DIV element draggagle:
+    dragElement(document.getElementById(("municControl")));
+    //dragElement(document.getElementById(("container_menu")));
+    //dragElement(document.getElementById(("mydivheader")));
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id)) {
+            /* if present, the header is where you move the DIV from:*/
+            document.getElementById(elmnt.id).onmousedown = dragMouseDown;
+        } else {
+            /* otherwise, move the DIV from anywhere inside the DIV:*/
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            /* stop moving when mouse button is released:*/
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+</script>
 </body>
 </html>
