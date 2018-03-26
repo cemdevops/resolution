@@ -1,4 +1,6 @@
-window.onload = function() {
+
+//window.onload = function()  {
+function loadControlsAndTokens(){
 	populateThemes(0);
 	populateVariables(1, "");
 	// $('#about-resolution').trigger('click')

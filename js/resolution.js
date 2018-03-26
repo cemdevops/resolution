@@ -386,15 +386,18 @@ function createLayerChoropletic(theme, variable){
     // get data class method values for current method (quantile or jenks).
     var cartoAccount =  "";
     var tableName =  "";
+    var codcem = "";
 
     if ($("#option_basemap_thematic").val() == globalLangTokens.withoutBaseMapString) {
         //with base map (OSM)
         cartoAccount = currentLayerData.cartoAccountWithBaseMap;
         tableName =  currentLayerData.tableNameWithBaseMap;
+        codcem = currentLayerData.codcemWithoutBaseMap;
     } else {
         //without base map
         cartoAccount = currentLayerData.cartoAccountWithoutBaseMap;
         tableName =  currentLayerData.tableNameWithoutBaseMap;
+        codcem = currentLayerData.codcemWithBaseMap;
     }
 
     console.log("carto account: ",cartoAccount);
@@ -434,7 +437,7 @@ function createLayerChoropletic(theme, variable){
 
             // colocando ordem de sobreposição dos layers
             layer.setZIndex(1);
-            showThematicLayer(layer,tableName,theme,variable);
+            showThematicLayer(layer,tableName,theme,variable,codcem);
 
         });
 }
@@ -461,7 +464,7 @@ var polygonsHighlighted = [];
 
 /*  ... CLÓVIS - TESTE*/
 
-function showThematicLayer(layer, tableName, theme, variable){
+function showThematicLayer(layer, tableName, theme, variable,codcem){
     // Clear all transport active layers
     layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
 
@@ -496,7 +499,8 @@ function showThematicLayer(layer, tableName, theme, variable){
         var sublayer = layer.getSubLayer(0);
 
         // Set table column (on carto dataset) to be retrieved and showed in legend
-        sublayer.setInteractivity('codap_cem' + ',' + currentLayerData.colTableToLegend + ',' + variable);
+        sublayer.setInteractivity(codcem + ',' + currentLayerData.colTableToLegend + ',' + variable);
+
         //Create the places layer
         createPlacesLayer();
 

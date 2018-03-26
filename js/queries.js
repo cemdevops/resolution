@@ -179,6 +179,8 @@ function getCurrentLayerData (idTheme, variable){
             objRet.tableNameWithBaseMap = jsonFiltered[0].withBaseMap.tableName;
             objRet.cartoAccountWithoutBaseMap = jsonFiltered[0].withoutBaseMap.cartoAccount;
             objRet.tableNameWithoutBaseMap = jsonFiltered[0].withoutBaseMap.tableName;
+            objRet.codcemWithoutBaseMap = jsonFiltered[0].withoutBaseMap.codcem;
+            objRet.codcemWithBaseMap = jsonFiltered[0].withBaseMap.codcem;
             strAux = "theme-" + globalCurrentLanguage;
             if (jsonFiltered[0] [strAux]) {
                 objRet.theme = jsonFiltered[0] [strAux];
@@ -203,7 +205,7 @@ function getCurrentLayerData (idTheme, variable){
                 objRet.polygonArea = jsonFiltered[0] ["polygonArea-pt-br"];
             }
             
-			objRet.tableName = jsonFiltered[0].tableName;
+			//objRet.tableName = jsonFiltered[0].tableName;
 			objRet.showEdge = jsonFiltered[0].showEdge;
 			objRet.colTableToLegend = jsonFiltered[0].colTableToLegend;
         }

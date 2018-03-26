@@ -394,47 +394,42 @@
 	</div>
 </div>
 
-<!-- importar o arquivo js --
+<!-- importar o arquivo js -->
 <script type="text/javascript" src="js/queries.js"></script>
 <script type="text/javascript" src="js/menuoptions.js"></script>
 <script type="text/javascript" src="js/resolution.js"></script>
 <script type="text/javascript" src="js/controlsdata.js"></script>
--->
+<script type="text/javascript" src="js/graphics-circles-2.js"></script>
+
 <script>
-	var bolOK = false;
-	bolOK = true;
-	if (bolOK) {
+    dragElement(document.getElementById(("graphicPanel")));
+    window.onload = loadControlsAndTokens;
 
-		$.getScript( "js/queries.js", function( data, textStatus, jqxhr ) {
-			$.getScript( "js/menuoptions.js", function( data, textStatus, jqxhr ) {
-				$.getScript( "js/resolution.js", function( data, textStatus, jqxhr ) {
-					$.getScript( "js/controlsdata.js", function( data, textStatus, jqxhr ) {
-						console.log ("Va icomeçar graphuics js")
-						$.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+    /*var bolOK = false;
+    bolOK = true;
+    if (bolOK) {
+        $.getScript( "js/queries.js", function( data, textStatus, jqxhr ) {
+            $.getScript( "js/menuoptions.js", function( data, textStatus, jqxhr ) {
+                $.getScript( "js/resolution.js", function( data, textStatus, jqxhr ) {
+                    $.getScript( "js/controlsdata.js", function( data, textStatus, jqxhr ) {
+                        console.log ("Va icomeçar graphuics js")
+                        $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+                            console.log ("Terminou carga js");
+                            window.onload();
+                            //Make the DIV element draggagle:
+                            dragElement(document.getElementById(("graphicPanel")));
+                            //dragElement(document.getElementById(("container_menu")));
+                            //dragElement(document.getElementById(("mydivheader")));
 
-							console.log ("Terminou carga js");
-							//window.onload();
-
-							//Make the DIV element draggagle:
-							dragElement(document.getElementById(("graphicPanel")));
-							//dragElement(document.getElementById(("container_menu")));
-							//dragElement(document.getElementById(("mydivheader")));
-							
-						});
-					});
-				});
-			});
-		});
-	} else {
-		$.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
-		});	
-	}
-
-
+                        });
+                    });
+                });
+            });
+        });
+    } else {
+        $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+        });
+    }*/
 </script>
-
-<!-- <script src="js/graphics-eixos_xy.js" type="text/javascript"></script> -->
-<!-- <script type="text/javascript" src="js/graphics-circles.js"></script> -->
-<!-- <script type="text/javascript" src="js/graphics-barras-and-mapa.js"></script> -->
 </body>
 </html>
