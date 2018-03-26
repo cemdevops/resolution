@@ -93,7 +93,6 @@ function changeLanguage (strNewLanguage) {
 
 // Update language tokens and images in pages
 function updateLanguageTokens () {
-    console.log("teste");
     $("#CEM-logo-img").attr('src', globalLangTokens.CEMLogoFilePath);
 
     $("#about-resolution").attr('title', globalLangTokens.projectInformationTitle);
@@ -454,6 +453,14 @@ function takeOutLegend(){
 /*
  * Function to show thematic layer
  */
+
+/* CLÓVIS - TESTE ... */
+
+var polygons = {};
+var polygonsHighlighted = [];
+
+/*  ... CLÓVIS - TESTE*/
+
 function showThematicLayer(layer, tableName, theme, variable){
     // Clear all transport active layers
     layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
@@ -489,10 +496,51 @@ function showThematicLayer(layer, tableName, theme, variable){
         var sublayer = layer.getSubLayer(0);
 
         // Set table column (on carto dataset) to be retrieved and showed in legend
-        sublayer.setInteractivity(currentLayerData.colTableToLegend + ',' + variable);
+        sublayer.setInteractivity('codap_cem' + ',' + currentLayerData.colTableToLegend + ',' + variable);
         //Create the places layer
         createPlacesLayer();
 
+        // TESTE GHRAP`H CLOVIS...
+        
+        var HIGHLIGHT_STYLE = {
+            weight: 3,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: '#FFFFFF',
+            fillOpacity: 0.3
+        };
+        style = HIGHLIGHT_STYLE;
+
+        var sql = new cartodb.SQL({user: "cemdevops", format: 'geojson'});
+        strTable = sublayer.getSQL();
+        strTable = 'Select * from ap2010_rmsp_cem_erase';
+        sql.execute("select cartodb_id, codap_cem, the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
+        console.log ("Select OK: ", geojson);
+        var features = geojson.features;
+        for(var i = 0; i < features.length; ++i) {
+            var f = geojson.features[i];
+    // clovis-01        var key = f.properties.cartodb_id
+            var key = f.properties.codap_cem;
+            
+            // generate geometry
+    //        var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+            var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+            geo.setStyle(style);
+
+            var objGeo = {
+                "geo": geo,
+                "cartoId": key
+            }
+            //var geo = features[i].geometry;
+            //geo.setStyle(style);
+
+            // add to polygons
+            polygons[key] = polygons[key] ||  [];
+            polygons[key].push(objGeo);
+        }
+        });
+
+        // ... CLOVIS TESTE GHRAP`H
 
         // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
         sublayer.on('featureOver', function(e,latlng,pos,data) {
@@ -512,6 +560,37 @@ function showThematicLayer(layer, tableName, theme, variable){
             } else {
                 // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
             }
+
+            var pol = polygonsHighlighted;
+            //console.log ("FeatureOver: Vai verificar se tem layer...", pol.length);
+
+            if ((pol.length == 1 && data.codap_cem == pol[0].cartoId)) {
+                //console.log ("já está highlight ou não tem nada.")
+            } else {
+                //console.log ("NÃO já está highlight: ", pol, pol.length);
+                for (i = 0; i < pol.length; i++) {
+                    console.log ("Vai remover layer (ADD): ", pol[i])
+                    map.removeLayer(pol[i].geo);
+                    highLightNodeOff (pol[i].cartoId);
+                }
+                polygonsHighlighted = [];
+                //console.log ("VERRificou ", pol)
+                
+                //console.log ("Vai criar layer: ", data)
+    // Clóvis - 1            pol = polygons[data.cartodb_id];
+                pol = polygons[data.codap_cem];
+                //console.log ("VAI VER PARA Inserir ",data.codap_cem, pol,polygons)
+                for(var i = 0; i < pol.length; ++i) {
+                    //var tornadoLayer = L.geoJson().addTo(map);            
+                    console.log ("Vai adicionar layer: ", pol[i])
+                    map.addLayer(pol[i].geo);
+                    //tornadoLayer.addData(pol[i]);
+                    highLightNodeOn (data.codap_cem);
+                    polygonsHighlighted.push(pol[i]);
+                }
+                //console.log ("VIU ", pol)
+            }
+
         }); // sublayer.on
         // ... Clóvis/André 20170331
 
@@ -521,6 +600,23 @@ function showThematicLayer(layer, tableName, theme, variable){
                 document.getElementById("celula"+i).innerHTML = "";
             }
             //document.getElementById("noValidData").innerHTML = "";
+
+            var pol = polygonsHighlighted;
+            var idxPol = 0;
+            //console.log ("Verifica se tem layer")
+            if (pol.length > 0) {
+                //console.log ("POL:", pol,"DATA:", valor, "e:", e)
+                for (var i = 0; i < pol.length; ++i) {
+                    console.log ("Vai remover layer: ", idxPol, " ==> ", pol[i]);
+                    map.removeLayer(pol[i].geo);
+                    highLightNodeOff (pol[i].cartoId);
+                }
+                //console.log ("DATA:", data, "e:", e)
+                
+                polygonsHighlighted = [];
+            }
+            //sublayer.toggle();
+
         }); // sublayer.on
 
         // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
@@ -549,6 +645,23 @@ function showThematicLayer(layer, tableName, theme, variable){
             sublayer.setCartoCSS(layerConf.cartocss);
         });
         // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
+
+        /** CLOVIS ...*/
+        //if (graphExists) {
+        $("#d3-elements").empty ();
+        $("#graphic-close").hide ();
+    // }
+
+        console.log ("Desenha gráfico: ", theme, variable);
+        execScriptGraph (theme, variable);
+
+        //execScriptGraph(theme, op);//loadGraphicCircles (theme, op);
+        //graphExists = true;
+        /** ...CLOVIS */
+
+    } else {
+        $("#d3-elements").empty ();
+        $("#graphic-close").hide ();
     }
 }
 
@@ -600,7 +713,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
-    var strLegend = "<div class='cartodb-legend choropleth cartodb-legend-container'>" +
+    var strLegend = "<div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
         "    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +

@@ -73,7 +73,7 @@
         "polygonArea-en": "Weighting Areas",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "ap2010_rmsp_cen_erase"
+            "tableName": "ap2010_rmsp_cem_erase"
         },
         "withoutBaseMap": {
             "cartoAccount": "marielaf",
