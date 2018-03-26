@@ -3,7 +3,7 @@
 var ZOOM_EDGES_PRESENTATION = 13;
 // Initial, Min and Max zoom level
 var ZOOM_INITIAL_LEVEL = 10;
-var ZOOM_MIN_LEVEL = 10;
+var ZOOM_MIN_LEVEL = 9;
 var ZOOM_MAX_LEVEL = 18;
 var LEGEND_NUM_BUCKETS = 7;
 // Initial data class method

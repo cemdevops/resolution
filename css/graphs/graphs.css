@@ -1,0 +1,68 @@
+/*------------*/
+.bar{
+    fill: steelblue;
+}
+
+.bar:hover{
+    fill: brown;
+}
+
+.axis {
+    font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+/*<!-- Bubble charts -->*/
+.chart rect {
+    fill: steelblue;
+    stroke:black;
+    stroke-width:2px;
+    opacity: .8;
+}
+
+.chart rect:hover {
+    fill: turquoise;
+}
+
+.chart .rectM {
+    stroke: green;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: .2;
+}
+
+.chart .rectM:hover {
+    fill: green;
+    fill-opacity: .5;
+}
+
+.chart text {
+    font: 10px sans-serif;
+}
+
+.chart .title {
+    font: 15px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+
+circle .teste {
+    fill:#3498DB;
+    stroke: black;
+    stroke-width:10px;
+    opacity: .8;
+}
+
+/*------------*/

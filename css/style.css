@@ -358,3 +358,28 @@ hr.separator-icons {
 .leaflet-verticalcustom .leaflet-control {
     margin-bottom: 10px;
 }
+
+.window-close {
+    position:absolute;
+    /*
+    background:black;
+    color:white;
+    right:-15px;
+    top:-15px;
+    border-radius:50%;
+    */
+    background:white;
+    color:black;
+    right:5px;
+    top:5px;
+    border-radius:5%;
+    width:30px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    font-size:12px;
+    /*font-weight:bold;*/
+    font-family:'Arial Black', Arial, sans-serif;
+    cursor:pointer;
+    box-shadow:0 0 10px 0 #000;
+}
