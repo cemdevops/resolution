@@ -10,13 +10,14 @@
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "resolution_sc2010_cem_rmsp_erase"
+            "tableName": "resolution_sc2010_cem_rmsp_erase",
+            "codcem": "codsc_cem"
         },
         "withoutBaseMap": {
             "cartoAccount": "hikarym",
-            "tableName": "logradouros_sc_40000"
+            "tableName": "logradouros_sc_40000",
+            "codcem": "codsc_cem"
         },
-        "tableName": "resolution_sc2010_cem_rmsp_erase",
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -31,13 +32,14 @@
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "resolution_sc2010_cem_rmsp_erase"
+            "tableName": "resolution_sc2010_cem_rmsp_erase",
+            "codcem": "codsc_cem"
         },
         "withoutBaseMap": {
             "cartoAccount": "hikarym",
-            "tableName": "logradouros_sc_40000"
+            "tableName": "logradouros_sc_40000",
+            "codcem": "codsc_cem"
         },
-        "tableName": "resolution_sc2010_cem_rmsp_erase",
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -52,13 +54,14 @@
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "resolution_sc2010_cem_rmsp_erase"
+            "tableName": "resolution_sc2010_cem_rmsp_erase",
+            "codcem": "codsc_cem"
         },
         "withoutBaseMap": {
             "cartoAccount": "hikarym",
-            "tableName": "logradouros_sc_40000"
+            "tableName": "logradouros_sc_40000",
+            "codcem": "codsc_cem"
         },
-        "tableName": "resolution_sc2010_cem_rmsp_erase",
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -73,13 +76,14 @@
         "polygonArea-en": "Weighting Areas",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "ap2010_rmsp_cem_erase"
+            "tableName": "ap2010_rmsp_cem_erase",
+            "codcem": "codap_cem"
         },
         "withoutBaseMap": {
             "cartoAccount": "marielaf",
-            "tableName": "logradouros_ap"
+            "tableName": "logradouros_ap",
+            "codcem": "codap_cem"
         },
-        "tableName": "logradouros_ap",
         "showEdge": 2,
         "colTableToLegend": "nom_mu"
     },
@@ -94,13 +98,14 @@
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
             "cartoAccount": "cemdevops",
-            "tableName": "resolution_sc2010_cem_rmsp_erase"
+            "tableName": "resolution_sc2010_cem_rmsp_erase",
+            "codcem": "codsc_cem"
         },
         "withoutBaseMap": {
             "cartoAccount": "hikarym",
-            "tableName": "logradouros_sc_40000"
+            "tableName": "logradouros_sc_40000",
+            "codcem": "codsc_cem"
         },
-        "tableName": "resolution_sc2010_cem_rmsp_erase",
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     }
