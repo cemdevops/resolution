@@ -375,8 +375,8 @@
 	<!-- Panel for Graphics -->
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
-		<div class="leaflet-bottom leaflet-left" id="graphicPanel" style="bottom: 100px; left:-5px;">
-			<div class="leaflet-control" style="cursor:move">
+		<div class="leaflet-bottom leaflet-right" id="graphicPanel" style="bottom: 15px;">
+			<div class="leaflet-control" style="cursor:default">
 				<!--<div style="width: 650px; height: 330px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
 
 				</div>-->
@@ -402,7 +402,7 @@
 <script type="text/javascript" src="js/graphics-circles-2.js"></script>
 
 <script>
-    dragElement(document.getElementById(("graphicPanel")));
+    //dragElement(document.getElementById(("graphicPanel")));
     window.onload = loadControlsAndTokens;
 
     /*var bolOK = false;
