@@ -57,20 +57,23 @@ function execScriptGraph (theme, variable) {
 function loadGraphicCircles (theme, variable) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
+        var margin = {top: 20, right: 20, bottom: 50, left: 70},
+            width = 300,
+            height = 200;
         var graphHeight = 200;
         var graphWidth = 300;
         var graphMargin = 40;
         var graphLabelX = 'Eixo X';
-        var graphLabelY = 'Eixo --- - - - -Y';
+        var graphLabelY = 'Eixo Y';
 
         //apSvg = d3.select('.chart')
         apSvg = d3.select('#d3-elements')
         .append('svg')
             .attr('class', 'chart')
-            .attr("width", graphWidth + graphMargin + graphMargin)
-            .attr("height", graphHeight + graphMargin + graphMargin)
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + graphMargin + "," + graphMargin + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x = d3.scale.linear()
             .domain([
@@ -110,27 +113,33 @@ function loadGraphicCircles (theme, variable) {
         
         console.log ("yAxis: ", yAxis)
 
-        apSvg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("x", 20)
-            .attr("y", -graphMargin)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(graphLabelY);
-        // x axis and label
+        // Add the x Axis
         apSvg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + graphHeight + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("x", graphWidth + 20)
-            .attr("y", graphMargin - 10)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        // text label for the x axis
+        apSvg.append("text")
+            .attr("transform",
+                "translate(" + (width/2) + " ," +
+                (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
             .text(graphLabelX);
+
+        // Add the y Axis
+        apSvg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        // text label for the y axis
+        apSvg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "2em")
+            .style("text-anchor", "middle")
+            .text(graphLabelY);
 
             
         apSvg.selectAll("circle")
