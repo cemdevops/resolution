@@ -4,7 +4,34 @@
 var apSvg;
 var graphExists = false;
 var graphType = 5;
-var yVariable = "ren002";
+
+var graphHeight = 200;
+var graphWidth = 300;
+var graphMargin = 50;
+var graphLabelX = 'Eixo X';
+var graphLabelY = 'Eixo --- - - - -Y';
+
+var xVariable = "cartodb_id";
+var varXMin = 1;
+var varXMax = 633;
+graphLabelX = "CartoDB_ID";
+
+xVariable = "ren002"; // renda domiciliar total media
+varXMin = 1071.52;
+varXMax = 19292.2;
+graphLabelX = "Average total household income";
+
+xVariable = "ren003"; // renda domiciliar total media
+varXMin = 0.65;
+varXMax = 15.86;
+graphLabelX = "Per capita household income in minimum salaries";
+
+/*
+xVariable = "p3_001"; // população
+varXMin = 8258;
+varXMax = 155804;
+graphLabelY = "Population";
+*/
 
 function execScriptGraph (theme, variable, xlabel, ylabel) {
     console.log ("Vai verifiar");
@@ -72,41 +99,95 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
 
         var x = d3.scale.linear()
             .domain([
-    
                 d3.min (data, function (d) {
-                return d [yVariable]; //.p3_001; // <- população d.cartodb_id; 1071
+                    return varXMin;//d [xVariable]; //.p3_001; // <- população d.cartodb_id; 1071
                 }),
                 d3.max (data, function (d) {
-                    return d [yVariable];//.p3_001; // <- população d.cartodb_id; 19292
+                    return varXMax;//d [xVariable];//.p3_001; // <- população d.cartodb_id; 19292
                 })
             ])
-            .range([0, width]);
+            .range([0, graphWidth]);
 
         var y = d3.scale.linear()
             .domain([
                 d3.min (data, function (d) {
-                    return d [variable];//d.p1_001
+                    //return 6794;
+                    
+                    switch (variable) {
+                        case "p1_001": return 6794; // 137423
+                                       break;
+                        case "ins001": return 4.71; // 14.49
+                                       break;
+                        case "ins002": return 4.62; // 14.13
+                                       break;
+                        case "ins032": return 0;//-999.99; // 18.57
+                                       break;
+                        case "ins037": return 0;//-999.99; // 38.26
+                                       break;
+                    }
+                    
+                    //return d [variable];//d.p1_001
                 }),
                 d3.max (data, function (d) {
-                    return d [variable];//137423;//d.p1_001;
+                    //return 137423;
+                    
+                    switch (variable) {
+                        case "p1_001": return 137423;
+                                       break;
+                        case "ins001": return 14.49;
+                                       break;
+                        case "ins002": return 14.13;
+                                       break;
+                        case "ins032": return 18.57;
+                                       break;
+                        case "ins037": return 38.26;
+                                       break;
+                    }
+                    
+                    //return d [variable];//137423;//d.p1_001;
                 })
             ])
-            .range([height, 0]);
+            .range([graphHeight, 0]);
 
         var scale = d3.scale.sqrt()
-            .domain([d3.min(data, function (d) { return 5000; }), d3.max(data, function (d) { return 19; })])
+            .domain([
+                d3.min (data, function (d) {
+                    return 5000;
+                }),
+                d3.max (data, function (d) {
+                    return 19;
+                })
+            ])
             .range([1, 20]);
 
         var opacity = d3.scale.sqrt()
-            .domain([d3.min(data, function (d) { return 30; }), d3.max(data, function (d) { return 20; })])
+            .domain([
+                d3.min (data, function (d) {
+                    return 30;
+                }),
+                d3.max (data, function (d) {
+                    return 20;
+                })
+            ])
             .range([1, .5]);
 
         var color = d3.scale.category10();
 
         var xAxis = d3.svg.axis().scale(x);
         var yAxis = d3.svg.axis().scale(y).orient("left");
-        
-        console.log ("yAxis: ", yAxis)
+
+        switch (variable) {
+            case "p1_001": graphLabelY = "Literate with 5 or more years of age";
+                           break;
+            case "ins001": graphLabelY = "Average years of schooling of the households heads";
+                           break;
+            case "ins002": graphLabelY = "Aver. years of schooling of women households heads";
+                           break;
+            case "ins032": graphLabelY = "% people (7 to 14 years old) - out of school";
+                           break;
+            case "ins037": graphLabelY = "% people (3 to 7 years old) - never went to school";
+                           break;
+        }
 
         // Add the x Axis
         apSvg.append("g")
@@ -120,7 +201,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
                 "translate(" + (width/2) + " ," +
                 (height + margin.top + 20) + ")")
             .style("text-anchor", "middle")
-            .text(xlabel);
+            .text(graphLabelX);
 
         // Add the y Axis
         apSvg.append("g")
@@ -134,33 +215,54 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
             .attr("x", 0 - (height / 2))
             .attr("dy", "2em")
             .style("text-anchor", "middle")
-            .text(ylabel);
+            .text(graphLabelY);
 
-            
+// Define the div for the tooltip
+var div = d3.select("body").append("div")	
+.attr("class", "tooltip")				
+.style("opacity", 0);
+        
         apSvg.selectAll("circle")
             .data(data)
             .enter()
             .insert("circle")
-            .attr("cx", width)
-            .attr("cy", height)
+            .filter(function (d) {
+                console.log ("FILTER: ", d,"d.data", d.data)
+                return d [variable] >= 0;
+            })
+            .attr("cx", graphWidth)
+            .attr("cy", graphHeight)
             .attr("opacity", function (d) { return opacity(d.data); })
             .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
             .style("fill", function (d) { return color(d.data); })
-            .on('mouseover', function (d, i) {
+            .on('mouseover', function (d) {
                 //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
                 fade(d.data, d.cartodb_id, .1);
+
+                div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+
+                div	.html("<b>" + variable + ":</b> " + d [variable]+ "<br/><b>"  + xVariable + ":</b> " + d [xVariable])	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+                //tooltip.html ("d.category" + "<br>" + "d.title" + "<br>" + "d.views"); 
+                //return tooltip.style ("visibility", "visible");
             })
-            .on('mouseout', function (d, i) {
+            .on('mouseout', function (d) {
                 fadeOut(d.cartodb_id);
+                div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
             })
             .transition()
     //      .delay(function (d, i) { return x(d.cartodb_id) - y(d.p1_001); })
             .duration(500)
-            .attr("cx", function (d) { return x(d [yVariable]); }) // cartodb_id, .p3_001
+            .attr("cx", function (d) { return x(d [xVariable]); }) // cartodb_id, .p3_001
             .attr("cy", function (d) { return y(d[variable]); }) // d.p1_001
             .ease("bounce");
 
-            
+                    
         function fade(c, cartodb_id, opacity) {
             /*
             apSvg.selectAll("circle")
@@ -248,11 +350,30 @@ function highLightNodeOff (cartodb_id) {
 }
 //console.log ("==> apData: ", apData)
 
+function isGraphVisible () {
+    if (document.getElementById("d3-elements").innerHTML == "") {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function graphErase () {
+    $("#d3-elements").empty ();
+    $("#graphic-close").hide ();
+}
+
 $("#graphic-close").click(function () {
     $("#d3-elements").empty ();
     $("#graphic-close").hide ();
 });
-    
+
+$("#option_theme").change(function(){
+    if (isGraphVisible ()) {
+        graphErase();
+    }
+});
+
 /*
 var sql = new cartodb.SQL({ user: 'cemdevops' });
 
