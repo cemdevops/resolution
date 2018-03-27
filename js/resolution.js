@@ -739,8 +739,27 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
-    var strLegend = "<div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
-        "    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
+    var strLegend =
+        "<div class=\"leaflet-control-container\">" +
+        "<div class=\"leaflet-bottom leaflet-left\" id=\"legendPanel\"  style=\"bottom: 10px;left:15px\" >" +
+        "<div class=\"leaflet-control\" style=\"cursor:default\">" +
+        "<div id=\"legend\">" +
+        "<div class='card' style='word-wrap:normal;'>" +
+        "<div class='card-header' id='headingLegend'>" +
+        "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
+        "<a id='title_menu2'  data-toggle='collapse' data-parent='#legend' href='#collapseLegend' +\n" +
+        "        aria-expanded='true' aria-controls='collapseLegend'>"+
+        globalLangTokens.legendTitle +
+        "</a>"+
+        "</h6>"+
+        "</div>"+
+
+        "<div id='collapseLegend' class='collapse show' aria-labelledby='headingLegend' data-parent='#legend'>"+
+        "<div class='card-body bg-transparent' style='padding: .8rem;font-size:small;'>"+
+
+        "    <div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
+        //"    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
+
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
         "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Bairro'> </div>" +
@@ -748,7 +767,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "        <li>" +
         "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +
         "              <ul style='width:10px'>" +
-        "                <li class='graph count_441' style='width:30px;border:white'>" +
+        "                <li class='graph count_441' style='width:30px;border:white;'>" +
         "                  <div>" +
         "                    <div class='quartile-cem' id='leg-l-1' style='text-align:left'>1Q</div>" +
         "                  </div>" +
@@ -865,6 +884,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "    </ul>";// +
 
     strLegend = strLegend + "</div>";
+    strLegend = strLegend + "</div>" + "</div>" + "</div>" + "</div>" + "</div>" + "</div>" + "</div>";
     return (strLegend);
 }
 

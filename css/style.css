@@ -1,3 +1,20 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+.panel-title > a:before {
+    float: right !important;
+    font-family: FontAwesome;
+    content:"\f055";
+    padding-right: 5px;
+}
+.panel-title > a.collapsed:before {
+    float: right !important;
+    content:"\f056";
+}
+.panel-title > a:hover,
+.panel-title > a:active,
+.panel-title > a:focus  {
+    text-decoration:none;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -27,7 +44,7 @@ html, body, #map {
     z-index: 1;
 }
 
-#title_menu {
+#title_menu-1 {
     font: bold 12px Arial, Tahoma, Helvetica, sans-serif;
     /*text-transform: uppercase;*/
     color: #333;
@@ -110,13 +127,16 @@ html, body, #map {
 
 /* Legend */
 .cartodb-legend {
-    left: 6px;
-    bottom: 10px!important;
+    bottom: 0px!important;
     /*width: 90px;*/
     height: auto;
     /*background-color: #FFF;
     opacity: 1;*/
-    border-radius: 6px;
+    border-radius: 0px;
+    position: relative!important;
+    box-shadow: none!important;
+    border: 0px!important;
+    right: 0px!important;
     /*border-radius: 25px!important;
     box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
     border-radius: 6px;
@@ -128,6 +148,10 @@ html, body, #map {
     width: 300px;
     background: rgba(255,255,255, 0.8) ! important;
     border-radius: 6px;
+}
+
+div.cartodb-legend.choropleth {
+    padding: 0px!important;
 }
 
 .colors{
@@ -163,6 +187,19 @@ html, body, #map {
     vertical-align: middle;
     height: 18px;
 }
+
+a {
+
+    color: #0078A8!important;
+
+}
+
+ a:hover {
+
+    color: #0056b3!important;
+
+}
+
 
 /* button thematic/base map option */
 .input-map-option{
