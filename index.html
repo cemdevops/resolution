@@ -55,10 +55,10 @@
             else if (itemSelecionado == 'Águas')
                 file_path += 'resolution_cem_aguas_2.zip';
             else if (itemSelecionado == 'Integração entre Logradouros e Setores Censitários')
-				file_path += 'logradouros_sc_codsc_cem.zip';   
-			else if (itemSelecionado == 'Integração entre Logradouros e Áreas de Ponderação')
-				file_path += 'logradouros_ap_codap_cem.zip';   
-			alink.href = file_path;
+                file_path += 'logradouros_sc_codsc_cem.zip';
+            else if (itemSelecionado == 'Integração entre Logradouros e Áreas de Ponderação')
+                file_path += 'logradouros_ap_codap_cem.zip';
+            alink.href = file_path;
             alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
             document.body.appendChild(alink);
             alink.click();
@@ -92,7 +92,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a id="graphs" class="nav-link p-2" style="font-size: 1.3em;" title="Em desenvolvimento ..." onclick="execScriptGraph--- ();">
+			<a id="graphs" class="nav-link p-2" style="font-size: 1.3em;" title="Em desenvolvimento ..." onclick="execScriptGraph---- ();">
 				<i class="fa fa-area-chart"></i>
 			</a>
 		</li>
@@ -126,11 +126,11 @@
 			<a class="nav-link" id="option_language"></a>
 			<!-- <a class="nav-link" id="option_language" href="javascript:changeLanguage ('en');" ></a> -->
 		</li>
-		
+
 		<!--
 		<li class="dropdown nav-item">
 			<a href="javascript:;" class="nav-link dropdown-toggle" id="languagesDropDown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Escolha o idioma">
-				<i class="fa fa-2x fa-language" style="float:left;padding-right:5px"></i> 
+				<i class="fa fa-2x fa-language" style="float:left;padding-right:5px"></i>
 				<div id="languagesDropDownString" style="float:left">Idiomas</div>
 			</a>
 			<ul id="option_language" class="dropdown-menu dropdown-menu-right" aria-labelledby="languagesDropDown" style="text-align:center">
@@ -140,7 +140,7 @@
 				<li class="dropdown-item">
 					<a id="language-en" href="javascript:changeLanguage ('en');"> English</a>
 				</li>
-				
+
 			</ul>
 		 </li> -->
 
@@ -197,9 +197,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Apoio:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -250,9 +250,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Support:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -345,17 +345,17 @@
 		</div>
 	</div>
 	<!--end control-->
-	<div id="container_menu" >
-		<div id="title_menu">SELECIONAR TEMAS E VARIÁVEIS</div>
+	<!--<div id="container_menu" >
+		<div id="title_menu1">SELECIONAR TEMAS E VARIÁVEIS</div>
 		<div id="container_options">
-			<!-- <div id="title_options_tema">Tema:</div> -->
+			<div id="title_options_tema">Tema:</div>
 			<div id="theme_options">
 				<select id="option_theme">
 				</select>
 			</div>
 			<div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
 			<div class="separator"></div>
-			<!-- <div id="title_options_variavel">Variável:</div> -->
+			<div id="title_options_variavel">Variável:</div>
 			<div id="variables_options">
 				<select id="option_variables">
 				</select>
@@ -370,7 +370,47 @@
 				<label style="float:left"><input type="checkbox" name="transporte" id="trem_linha" style="float:left"><div id="trem_linha_label" style="padding-right:10px; float:left">Trem</div></label>
 			</form>
 		</div>
+	</div>-->
+
+	<!--Theme and variables selcection panel -->
+	<div id="accordion" style="position: absolute;z-index: 1;top: 100px; right: 20px; width: 300px;">
+		<div class="card">
+			<div class="card-header" id="headingOne">
+				<h6 class="mb-0 panel-title">
+					<a id="title_menu" style="font-size: 12px;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+					   aria-expanded="true" aria-controls="collapseOne">
+						SELECIONAR TEMAS E VARIÁVEIS
+					</a>
+				</h6>
+			</div>
+
+			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				<div class="card-body bg-transparent" style="padding: .8rem;font-size:small;">
+					<select id="option_theme" >
+					</select>
+					<div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
+					<div class="separator"></div>
+
+					<select id="option_variables" >
+					</select>
+					<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
+				</div>
+				<hr class="mb-0 mt-0">
+				<div class="card-body" style="padding: .8rem .8rem 0rem;font-size:small;">
+					<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
+						<label><input type="checkbox" name="transporte" id="metro_linha" style="float:left;padding-right:5px"><div id="metro_linha_label" style="padding-right:10px; float:left">Metrô</div></label>
+						<label ><input type="checkbox" name="transporte" id="trem_linha" style="float:left"><div id="trem_linha_label" style="padding-right:10px; float:left">Trem</div></label>
+
+					</form>
+
+				</div>
+
+
+			</div>
+		</div>
+
 	</div>
+	<!--End variables selection panel -->
 
 	<!-- Panel for Graphics -->
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
@@ -384,7 +424,7 @@
 				</div>
 				<div id="d3-elements" style="background: rgba(255,255,255, 0.8)">
 				</div>
-				<div class='window-close' id="graphic-close">X</div>
+				<!--<div class='window-close' id="graphic-close">X</div>-->
 				<!--<div style="width: 200px; height: 510px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
 
 				</div>-->
@@ -392,6 +432,8 @@
 			</div>
 		</div>
 	</div>
+
+
 </div>
 
 <!-- importar o arquivo js --
@@ -401,35 +443,35 @@
 <script type="text/javascript" src="js/controlsdata.js"></script>
 -->
 <script>
-	var bolOK = false;
-	bolOK = true;
-	if (bolOK) {
+    var bolOK = false;
+    bolOK = true;
+    if (bolOK) {
 
-		$.getScript( "js/queries.js", function( data, textStatus, jqxhr ) {
-			$.getScript( "js/menuoptions.js", function( data, textStatus, jqxhr ) {
-				$.getScript( "js/resolution.js", function( data, textStatus, jqxhr ) {
-					$.getScript( "js/controlsdata.js", function( data, textStatus, jqxhr ) {
-						console.log ("Va icomeçar graphuics js")
-						$.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+        $.getScript( "js/queries.js", function( data, textStatus, jqxhr ) {
+            $.getScript( "js/menuoptions.js", function( data, textStatus, jqxhr ) {
+                $.getScript( "js/resolution.js", function( data, textStatus, jqxhr ) {
+                    $.getScript( "js/controlsdata.js", function( data, textStatus, jqxhr ) {
+                        console.log ("Va icomeçar graphuics js")
+                        $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
 
-							console.log ("Terminou carga js");
-							//window.onload();
-loadControlsAndTokens();
+                            console.log ("Terminou carga js");
+                            //window.onload();
+                            loadControlsAndTokens();
 
-							//Make the DIV element draggagle:
-							//dragElement(document.getElementById(("graphicPanel")));
-							//dragElement(document.getElementById(("container_menu")));
-							//dragElement(document.getElementById(("mydivheader")));
-							
-						});
-					});
-				});
-			});
-		});
-	} else {
-		$.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
-		});	
-	}
+                            //Make the DIV element draggagle:
+                            //dragElement(document.getElementById(("graphicPanel")));
+                            //dragElement(document.getElementById(("container_menu")));
+                            //dragElement(document.getElementById(("mydivheader")));
+
+                        });
+                    });
+                });
+            });
+        });
+    } else {
+        $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
+        });
+    }
 
 
 </script>
