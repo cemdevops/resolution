@@ -6,7 +6,7 @@ var graphExists = false;
 var graphType = 5;
 var yVariable = "ren002";
 
-function execScriptGraph (theme, variable) {
+function execScriptGraph (theme, variable, xlabel, ylabel) {
     console.log ("Vai verifiar");
     if (graphExists || (theme == 0 && variable == "") ||
         (theme != 4)) {
@@ -42,7 +42,7 @@ function execScriptGraph (theme, variable) {
                // graphExists = true;
             });		
         } else if (graphType == 5) {
-            loadGraphicCircles (theme, variable);
+            loadGraphicCircles (theme, variable, xlabel, ylabel);
             //graphExists = true;
             /*
             $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
@@ -54,23 +54,21 @@ function execScriptGraph (theme, variable) {
     }
 }
 
-function loadGraphicCircles (theme, variable) {
+function loadGraphicCircles (theme, variable, xlabel, ylabel) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
-        var graphHeight = 200;
-        var graphWidth = 300;
-        var graphMargin = 40;
-        var graphLabelX = 'Eixo X';
-        var graphLabelY = 'Eixo --- - - - -Y';
+        var margin = {top: 20, right: 20, bottom: 50, left: 70},
+            width = 300,
+            height = 200;
 
         //apSvg = d3.select('.chart')
         apSvg = d3.select('#d3-elements')
         .append('svg')
             .attr('class', 'chart')
-            .attr("width", graphWidth + graphMargin + graphMargin)
-            .attr("height", graphHeight + graphMargin + graphMargin)
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + graphMargin + "," + graphMargin + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x = d3.scale.linear()
             .domain([
@@ -82,7 +80,7 @@ function loadGraphicCircles (theme, variable) {
                     return d [yVariable];//.p3_001; // <- população d.cartodb_id; 19292
                 })
             ])
-            .range([0, graphWidth]);
+            .range([0, width]);
 
         var y = d3.scale.linear()
             .domain([
@@ -93,7 +91,7 @@ function loadGraphicCircles (theme, variable) {
                     return d [variable];//137423;//d.p1_001;
                 })
             ])
-            .range([graphHeight, 0]);
+            .range([height, 0]);
 
         var scale = d3.scale.sqrt()
             .domain([d3.min(data, function (d) { return 5000; }), d3.max(data, function (d) { return 19; })])
@@ -110,35 +108,41 @@ function loadGraphicCircles (theme, variable) {
         
         console.log ("yAxis: ", yAxis)
 
-        apSvg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("x", 20)
-            .attr("y", -graphMargin)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(graphLabelY);
-        // x axis and label
+        // Add the x Axis
         apSvg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + graphHeight + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("x", graphWidth + 20)
-            .attr("y", graphMargin - 10)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(graphLabelX);
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        // text label for the x axis
+        apSvg.append("text")
+            .attr("transform",
+                "translate(" + (width/2) + " ," +
+                (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text(xlabel);
+
+        // Add the y Axis
+        apSvg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        // text label for the y axis
+        apSvg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "2em")
+            .style("text-anchor", "middle")
+            .text(ylabel);
 
             
         apSvg.selectAll("circle")
             .data(data)
             .enter()
             .insert("circle")
-            .attr("cx", graphWidth)
-            .attr("cy", graphHeight)
+            .attr("cx", width)
+            .attr("cy", height)
             .attr("opacity", function (d) { return opacity(d.data); })
             .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
             .style("fill", function (d) { return color(d.data); })
