@@ -6,7 +6,7 @@ var graphExists = false;
 var graphType = 5;
 var yVariable = "ren002";
 
-function execScriptGraph (theme, variable) {
+function execScriptGraph (theme, variable, xlabel, ylabel) {
     console.log ("Vai verifiar");
     if (graphExists || (theme == 0 && variable == "") ||
         (theme != 4)) {
@@ -42,7 +42,7 @@ function execScriptGraph (theme, variable) {
                // graphExists = true;
             });		
         } else if (graphType == 5) {
-            loadGraphicCircles (theme, variable);
+            loadGraphicCircles (theme, variable, xlabel, ylabel);
             //graphExists = true;
             /*
             $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
@@ -54,17 +54,12 @@ function execScriptGraph (theme, variable) {
     }
 }
 
-function loadGraphicCircles (theme, variable) {
+function loadGraphicCircles (theme, variable, xlabel, ylabel) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
         var margin = {top: 20, right: 20, bottom: 50, left: 70},
             width = 300,
             height = 200;
-        var graphHeight = 200;
-        var graphWidth = 300;
-        var graphMargin = 40;
-        var graphLabelX = 'Eixo X';
-        var graphLabelY = 'Eixo Y';
 
         //apSvg = d3.select('.chart')
         apSvg = d3.select('#d3-elements')
@@ -85,7 +80,7 @@ function loadGraphicCircles (theme, variable) {
                     return d [yVariable];//.p3_001; // <- população d.cartodb_id; 19292
                 })
             ])
-            .range([0, graphWidth]);
+            .range([0, width]);
 
         var y = d3.scale.linear()
             .domain([
@@ -96,7 +91,7 @@ function loadGraphicCircles (theme, variable) {
                     return d [variable];//137423;//d.p1_001;
                 })
             ])
-            .range([graphHeight, 0]);
+            .range([height, 0]);
 
         var scale = d3.scale.sqrt()
             .domain([d3.min(data, function (d) { return 5000; }), d3.max(data, function (d) { return 19; })])
@@ -125,7 +120,7 @@ function loadGraphicCircles (theme, variable) {
                 "translate(" + (width/2) + " ," +
                 (height + margin.top + 20) + ")")
             .style("text-anchor", "middle")
-            .text(graphLabelX);
+            .text(xlabel);
 
         // Add the y Axis
         apSvg.append("g")
@@ -139,15 +134,15 @@ function loadGraphicCircles (theme, variable) {
             .attr("x", 0 - (height / 2))
             .attr("dy", "2em")
             .style("text-anchor", "middle")
-            .text(graphLabelY);
+            .text(ylabel);
 
             
         apSvg.selectAll("circle")
             .data(data)
             .enter()
             .insert("circle")
-            .attr("cx", graphWidth)
-            .attr("cy", graphHeight)
+            .attr("cx", width)
+            .attr("cy", height)
             .attr("opacity", function (d) { return opacity(d.data); })
             .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
             .style("fill", function (d) { return color(d.data); })
