@@ -498,7 +498,16 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
+        var strTableGeo = "";
         // Set table column (on carto dataset) to be retrieved and showed in legend
+        //var strCodCEM = "";
+        if (codcem == "codsc_cem") {
+            //strCodCEM = "codsc_cem";
+            strTableGeo = "resolution_sc2010_cem_rmsp_erase";
+        } else {
+            //strCodCEM = "codap_cem";
+            strTableGeo = "ap2010_rmsp_cem_erase";
+        }
         sublayer.setInteractivity(codcem + ',' + currentLayerData.colTableToLegend + ',' + variable);
 
         //Create the places layer
@@ -517,14 +526,16 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
 
         var sql = new cartodb.SQL({user: "cemdevops", format: 'geojson'});
         strTable = sublayer.getSQL();
-        strTable = 'Select * from ap2010_rmsp_cem_erase';
-        sql.execute("select cartodb_id, codap_cem, the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
-        console.log ("Select OK: ", geojson);
+        strTable = "Select * from " + strTableGeo;
+
+        console.log ("Vai selecionar: ", "select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap");
+        sql.execute("select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
+        console.log ("Select OK: ", strTableGeo, geojson);
         var features = geojson.features;
         for(var i = 0; i < features.length; ++i) {
             var f = geojson.features[i];
     // clovis-01        var key = f.properties.cartodb_id
-            var key = f.properties.codap_cem;
+            var key = f.properties[codcem];
             
             // generate geometry
     //        var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
@@ -567,30 +578,36 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
 
             var pol = polygonsHighlighted;
             //console.log ("FeatureOver: Vai verificar se tem layer...", pol.length);
-            console.log('verificando existencia da variável: ',polygonsHighlighted);
 
-            if ((pol.length == 1 && data.codap_cem == pol[0].cartoId)) {
+            if ((pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
+                if (pol.length > 20) {
+                    console.log ("Erro. Muitos layers: ", pol.length)
+                }
                 //console.log ("já está highlight ou não tem nada.")
             } else {
                 //console.log ("NÃO já está highlight: ", pol, pol.length);
                 for (i = 0; i < pol.length; i++) {
                     console.log ("Vai remover layer (ADD): ", pol[i])
                     map.removeLayer(pol[i].geo);
-                    highLightNodeOff (pol[i].cartoId);
+                    if (isGraphVisible ()) {
+                        highLightNodeOff (pol[i].cartoId);
+                    }
                 }
                 polygonsHighlighted = [];
                 //console.log ("VERRificou ", pol)
                 
                 //console.log ("Vai criar layer: ", data)
     // Clóvis - 1            pol = polygons[data.cartodb_id];
-                pol = polygons[data.codap_cem];
+                pol = polygons[data[codcem]];
                 //console.log ("VAI VER PARA Inserir ",data.codap_cem, pol,polygons)
                 for(var i = 0; i < pol.length; ++i) {
-                    //var tornadoLayer = L.geoJson().addTo(map);            
-                    console.log ("Vai adicionar layer: ", pol[i])
+                    //var tornadoLayer = L.geoJson().addTo(map);
+                    console.log ("Vai adicionar layer: ", pol[i]);
                     map.addLayer(pol[i].geo);
                     //tornadoLayer.addData(pol[i]);
-                    highLightNodeOn (data.codap_cem);
+                    if (isGraphVisible ()) {
+                        highLightNodeOn (data [codcem]);
+                    }
                     polygonsHighlighted.push(pol[i]);
                 }
                 //console.log ("VIU ", pol)
@@ -614,7 +631,9 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
                 for (var i = 0; i < pol.length; ++i) {
                     console.log ("Vai remover layer: ", idxPol, " ==> ", pol[i]);
                     map.removeLayer(pol[i].geo);
-                    highLightNodeOff (pol[i].cartoId);
+                    if (isGraphVisible ()) {
+                        highLightNodeOff (pol[i].cartoId);
+                    }
                 }
                 //console.log ("DATA:", data, "e:", e)
                 
