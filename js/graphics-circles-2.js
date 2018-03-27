@@ -84,7 +84,7 @@ function execScriptGraph (theme, variable, xlabel, ylabel) {
 function loadGraphicCircles (theme, variable, xlabel, ylabel) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
-        var margin = {top: 40, right: 70, bottom: 50, left: 90},
+        var margin = {top: 50, right: 70, bottom: 50, left: 90},
             width = 300,
             height = 200;
 
@@ -234,7 +234,7 @@ var div = d3.select("body").append("div")
             .attr("cy", graphHeight)
             //.attr("opacity", function (d) { return opacity(d.data); })  // transparency
             .attr("opacity", .9)
-            .attr("r", 4.5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
+            .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
             //.style("fill", function (d) { return color(d.data); })
             .style("fill", "#404040" )
             .on('mouseover', function (d) {
