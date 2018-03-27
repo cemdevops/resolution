@@ -658,8 +658,8 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
     // }
 
         console.log ("Desenha gráfico: ", theme, variable);
-        var xlabel = "";
-        var ylabel = "";
+        var xlabel = "variável x";
+        var ylabel = "variável y";
         execScriptGraph (theme, variable, xlabel, ylabel);
 
         //execScriptGraph(theme, op);//loadGraphicCircles (theme, op);
