@@ -84,7 +84,7 @@ function execScriptGraph (theme, variable, xlabel, ylabel) {
 function loadGraphicCircles (theme, variable, xlabel, ylabel) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
-        var margin = {top: 50, right: 70, bottom: 50, left: 90},
+        var margin = {top: 50, right: 50, bottom: 50, left: 90},
             width = 300,
             height = 200;
 
@@ -199,7 +199,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
         apSvg.append("text")
             .attr("transform",
                 "translate(" + (width/2) + " ," +
-                (height + margin.top) + ")")
+                (height + margin.top/1.3) + ")")
             .style("text-anchor", "middle")
             .text(graphLabelX);
 
@@ -236,7 +236,7 @@ var div = d3.select("body").append("div")
             .attr("opacity", .9)
             .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
             //.style("fill", function (d) { return color(d.data); })
-            .style("fill", "#404040" )
+            .style("fill", "#595959" )
             .on('mouseover', function (d) {
                 //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
                 fade(d.data, d.cartodb_id, .1);
@@ -350,7 +350,7 @@ function highLightNodeOff (cartodb_id) {
     })
     .style("stroke", "")
     .style("stroke-width", "0px")
-        .style("fill", "#404040")
+        .style("fill", "#595959")
         .attr("opacity", .9)
 }
 //console.log ("==> apData: ", apData)
