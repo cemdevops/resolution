@@ -2,7 +2,6 @@
 // load the data
 
 var apSvg;
-var graphExists = false;
 var graphType = 5;
 
 var graphHeight = 200;
@@ -33,55 +32,38 @@ varXMax = 155804;
 graphLabelY = "Population";
 */
 
-function execScriptGraph (theme, variable, xlabel, ylabel) {
-    console.log ("Vai verifiar");
-    if (graphExists || (theme == 0 && variable == "") ||
-        (theme != 4)) {
-//        d3.select ("svg").remove();
-        console.log ("Vai retirar:",graphExists,theme,variable);
-        $("#d3-elements").empty ();
-        $("#graphic-close").hide ();
-        
-        graphExists = false;
+function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend) {
+    if ((theme == 0 && variable == "") || (theme != 4)) {
+        graphErase ();
+        //$("#d3-elements").empty ();
+        //$("#graphic-close").hide ();
     } else {
-        console.log ("Vai desenhar Educação");
         if (graphType == 1) {
             $.getScript( "js/graphics-eixos_xy.js", function( data, textStatus, jqxhr ) {
                 //console.log( data ); // Data returned
                 //console.log( textStatus ); // Success
                 //console.log( jqxhr.status ); // 200
                 console.log( "Eixos was performed." );
-                //graphExists = true;
             });
         } else if (graphType == 2) {
             $.getScript( "js/graphics-circles.js", function( data, textStatus, jqxhr ) {
                 console.log( "Circles was performed." );
-                //graphExists = true;
             });		
         } else if (graphType == 3) {
             $.getScript( "js/graphics-barras-and-mapa.js", function( data, textStatus, jqxhr ) {
                 console.log( "Barras was performed." );
-                //graphExists = true;
             });		
         } else if (graphType == 4) {
             $.getScript( "js/graphics-bubbles.js", function( data, textStatus, jqxhr ) {
                 console.log( "Bubbles was performed." );
-               // graphExists = true;
             });		
         } else if (graphType == 5) {
-            loadGraphicCircles (theme, variable, xlabel, ylabel);
-            //graphExists = true;
-            /*
-            $.getScript( "js/graphics-circles-2.js", function( data, textStatus, jqxhr ) {
-                console.log( "Circles-2 was performed." );
-                graphExists = true;
-            });		
-            */
+            loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend);
         }
     }
 }
 
-function loadGraphicCircles (theme, variable, xlabel, ylabel) {
+function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend) {
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
         var margin = {top: 50, right: 50, bottom: 50, left: 90},
@@ -111,8 +93,6 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
         var y = d3.scale.linear()
             .domain([
                 d3.min (data, function (d) {
-                    //return 6794;
-                    
                     switch (variable) {
                         case "p1_001": return 6794; // 137423
                                        break;
@@ -125,12 +105,8 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
                         case "ins037": return 0;//-999.99; // 38.26
                                        break;
                     }
-                    
-                    //return d [variable];//d.p1_001
                 }),
                 d3.max (data, function (d) {
-                    //return 137423;
-                    
                     switch (variable) {
                         case "p1_001": return 137423;
                                        break;
@@ -143,8 +119,6 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
                         case "ins037": return 38.26;
                                        break;
                     }
-                    
-                    //return d [variable];//137423;//d.p1_001;
                 })
             ])
             .range([graphHeight, 0]);
@@ -217,17 +191,17 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel) {
             .style("text-anchor", "middle")
             .text(graphLabelY);
 
-// Define the div for the tooltip
-var div = d3.select("body").append("div")	
-.attr("class", "tooltip")				
-.style("opacity", 0);
+        // Define the div for the tooltip
+        var div = d3.select("body").append("div")	
+                    .attr("class", "tooltip")				
+                    .style("opacity", 0);
         
         apSvg.selectAll("circle")
             .data(data)
             .enter()
             .insert("circle")
             .filter(function (d) {
-                console.log ("FILTER: ", d,"d.data", d.data)
+                //console.log ("FILTER: ", d,"d.data", d.data)
                 return d [variable] >= 0;
             })
             .attr("cx", graphWidth)
@@ -240,7 +214,14 @@ var div = d3.select("body").append("div")
             .on('mouseover', function (d) {
                 //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
                 fade(d.data, d.cartodb_id, .1);
-
+                document.getElementById("bairro").innerHTML = d [colTableToLegend];
+                for (i=1; i < 8; i++) {
+                    document.getElementById("celula"+i).innerHTML = "";
+                }
+                if (d [variable] >= 0 && d [variable] <= arrayDataClassBreaks[6]) {
+                    document.getElementById("celula" + getClassBreaksCel (d [variable], arrayDataClassBreaks)).innerHTML = d [variable];
+                }
+    
                 div.transition()		
                 .duration(200)		
                 .style("opacity", .9);
@@ -248,12 +229,14 @@ var div = d3.select("body").append("div")
                 div	.html("<b>" + variable + ":</b> " + d [variable]+ "<br/><b>"  + xVariable + ":</b> " + d [xVariable])	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
-                //tooltip.html ("d.category" + "<br>" + "d.title" + "<br>" + "d.views"); 
-                //return tooltip.style ("visibility", "visible");
             })
             .on('mouseout', function (d) {
                 fadeOut(d.cartodb_id);
-                div.transition()		
+                for (i=1; i < 8; i++) {
+                    document.getElementById("celula"+i).innerHTML = "";
+                }
+    
+                div.transition()
                 .duration(500)		
                 .style("opacity", 0);	
             })
@@ -281,13 +264,11 @@ var div = d3.select("body").append("div")
                 .style("stroke-width", "10px")
                 .style("opacity", ".8");
             */
-        
             var cartoId = cartodb_id;
-            //selectFeature(id);
             var pol = polygonsHighlighted;
             if (pol.length > 0) {
-                for(var i = 0; i < pol.length; ++i) {
-                    console.log ("OFF highLightNodeOff (ADD): ", pol[i])
+                for (var i = 0; i < pol.length; i++) {
+                    //console.log ("OFF highLightNodeOff (ADD): ", pol[i])
                     map.removeLayer(pol[i].geo);
                     highLightNodeOff (pol[i].cartoId);
                 }
@@ -296,12 +277,10 @@ var div = d3.select("body").append("div")
 
             pol = polygons[cartoId];
             if (pol) {
-                for(var i = 0; i < pol.length; ++i) {
-                //var tornadoLayer = L.geoJson().addTo(map);            
-                console.log ("ON highLightNodeOn: ", pol[i])
+                for (var i = 0; i < pol.length; i++) {
+                //console.log ("ON highLightNodeOn: ", pol[i])
                 map.addLayer(pol[i].geo);
                 highLightNodeOn (pol[i].cartoId);
-                //tornadoLayer.addData(pol[i]);
                 polygonsHighlighted.push(pol[i]);
                 }
             }
@@ -316,13 +295,11 @@ var div = d3.select("body").append("div")
                 .style("stroke", "")
                 .style("stroke-width", "0x")
             */
-                    
             var cartoId = cartodb_id;
-            //selectFeature(id);
             var pol = polygonsHighlighted;
             if (pol.length > 0) {
-                for(var i = 0; i < pol.length; ++i) {
-                    console.log ("OFF highLightNodeOff: ", pol[i])
+                for(var i = 0; i < pol.length; i++) {
+                    // console.log ("OFF highLightNodeOff: ", pol[i])
                     map.removeLayer(pol[i].geo);
                     highLightNodeOff (pol[i].cartoId);
                 }
@@ -353,7 +330,6 @@ function highLightNodeOff (cartodb_id) {
         .style("fill", "#595959")
         .attr("opacity", .9)
 }
-//console.log ("==> apData: ", apData)
 
 function isGraphVisible () {
     if (document.getElementById("d3-elements").innerHTML == "") {
@@ -364,19 +340,20 @@ function isGraphVisible () {
 }
 
 function graphErase () {
-    $("#d3-elements").empty ();
-    $("#graphic-close").hide ();
+    if (isGraphVisible ()) {
+        $("#d3-elements").empty ();
+        $("#graphic-close").hide ();
+    }
 }
 
 $("#graphic-close").click(function () {
-    $("#d3-elements").empty ();
-    $("#graphic-close").hide ();
+    graphErase ();
+    //$("#d3-elements").empty ();
+    //$("#graphic-close").hide ();
 });
 
 $("#option_theme").change(function(){
-    if (isGraphVisible ()) {
-        graphErase();
-    }
+    graphErase ();
 });
 
 /*

@@ -162,5 +162,3 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
 }
-	
-console.log ("Terminou controlsdata.js");
