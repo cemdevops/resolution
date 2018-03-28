@@ -447,8 +447,12 @@ function createLayerChoropletic(theme, variable){
  */
 function takeOutLegend(){
   // Check if layer's legend. Remove if exists
-  if ($("div.cartodb-legend.choropleth").length) {
+  /*if ($("div.cartodb-legend.choropleth").length) {
     $('div.cartodb-legend.choropleth').remove();
+  }*/
+
+  if ($("div.leaflet-control-container.legend").length) {
+      $("div.leaflet-control-container.legend").remove();
   }
 }
 
@@ -740,10 +744,10 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
 
     var strLegend =
-        "<div class=\"leaflet-control-container\">" +
-        "<div class=\"leaflet-bottom leaflet-left\" id=\"legendPanel\"  style=\"bottom: 10px;left:15px\" >" +
-        "<div class=\"leaflet-control\" style=\"cursor:default\">" +
-        "<div id=\"legend\">" +
+        "<div class='leaflet-control-container legend'>" +
+        "<div class='leaflet-bottom leaflet-left' id='legendPanel'  style='bottom: 10px;left:15px' >" +
+        "<div class='leaflet-control' style='cursor:default'>" +
+        "<div id='legend'>" +
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
@@ -758,7 +762,6 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='card-body bg-transparent' style='padding: .8rem;font-size:small;'>"+
 
         "    <div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
-        //"    <div id=\"title_legend\">" + globalLangTokens.legendTitle + "</div><br>" +
 
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
