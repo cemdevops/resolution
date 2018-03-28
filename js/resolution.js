@@ -745,7 +745,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
 
     var strLegend =
         "<div class='leaflet-control-container legend'>" +
-        "<div class='leaflet-bottom leaflet-left' id='legendPanel'  style='bottom: 10px;left:15px' >" +
+        "<div class='leaflet-bottom leaflet-right' id='legendPanel'  style='bottom: 10px;left:15px' >" +
         "<div class='leaflet-control' style='cursor:default'>" +
         "<div id='legend'>" +
         "<div class='card' style='word-wrap:normal;'>" +
