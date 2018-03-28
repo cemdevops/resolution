@@ -456,13 +456,8 @@ function takeOutLegend(){
 /*
  * Function to show thematic layer
  */
-
-/* CLÓVIS - TESTE ... */
-
-var polygons = {};
-var polygonsHighlighted = [];
-
-/*  ... CLÓVIS - TESTE*/
+var polygons = {}; // store all AP or SC polygons of a layer
+var polygonsHighlighted = []; // store all highlighted polygons (one layer)
 
 function showThematicLayer(layer, tableName, theme, variable,codcem){
     // Clear all transport active layers
@@ -513,8 +508,6 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         //Create the places layer
         createPlacesLayer();
 
-        // TESTE GHRAP`H CLOVIS...
-        
         var HIGHLIGHT_STYLE = {
             weight: 3,
             color: '#FFFFFF',
@@ -528,34 +521,30 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         strTable = sublayer.getSQL();
         strTable = "Select * from " + strTableGeo;
 
-        console.log ("Vai selecionar: ", "select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap");
-        sql.execute("select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
-        console.log ("Select OK: ", strTableGeo, geojson);
-        var features = geojson.features;
-        for(var i = 0; i < features.length; ++i) {
-            var f = geojson.features[i];
-    // clovis-01        var key = f.properties.cartodb_id
-            var key = f.properties[codcem];
-            
-            // generate geometry
-    //        var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-            var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-            geo.setStyle(style);
+//        console.log ("Vai selecionar: ", "select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap");
+        strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
+//        sql.execute("select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
+        sql.execute(strQuery).done(function(geojson) {
+            var features = geojson.features;
+            polygons = {};
+            for(var i = 0; i < features.length; ++i) {
+                var f = geojson.features[i];
+                var key = f.properties[codcem];
+                
+                // generate geometry
+                var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+                geo.setStyle(style);
 
-            var objGeo = {
-                "geo": geo,
-                "cartoId": key
+                var objGeo = {
+                    "geo": geo,
+                    "cartoId": key
+                }
+
+                // add to polygons
+                polygons[key] = polygons[key] ||  [];
+                polygons[key].push(objGeo);
             }
-            //var geo = features[i].geometry;
-            //geo.setStyle(style);
-
-            // add to polygons
-            polygons[key] = polygons[key] ||  [];
-            polygons[key].push(objGeo);
-        }
         });
-
-        // ... CLOVIS TESTE GHRAP`H
 
         // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
         sublayer.on('featureOver', function(e,latlng,pos,data) {
@@ -572,45 +561,38 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             // Fill legend cell with data set value
             if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
                 document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
-            } else {
-                // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
             }
 
             var pol = polygonsHighlighted;
-            //console.log ("FeatureOver: Vai verificar se tem layer...", pol.length);
 
-            if ((pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
+            if (!pol || (pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
                 if (pol.length > 20) {
-                    console.log ("Erro. Muitos layers: ", pol.length)
+                    console.log ("Too many layers: ", pol.length)
                 }
-                //console.log ("já está highlight ou não tem nada.")
             } else {
-                //console.log ("NÃO já está highlight: ", pol, pol.length);
                 for (i = 0; i < pol.length; i++) {
-                    console.log ("Vai remover layer (ADD): ", pol[i])
+                    //console.log ("Vai remover layer (ADD): ", pol[i])
                     map.removeLayer(pol[i].geo);
                     if (isGraphVisible ()) {
                         highLightNodeOff (pol[i].cartoId);
                     }
                 }
                 polygonsHighlighted = [];
-                //console.log ("VERRificou ", pol)
-                
-                //console.log ("Vai criar layer: ", data)
-    // Clóvis - 1            pol = polygons[data.cartodb_id];
+
                 pol = polygons[data[codcem]];
-                //console.log ("VAI VER PARA Inserir ",data.codap_cem, pol,polygons)
-                for(var i = 0; i < pol.length; ++i) {
-                    //var tornadoLayer = L.geoJson().addTo(map);
-                    console.log ("Vai adicionar layer: ", pol[i]);
-                    map.addLayer(pol[i].geo);
-                    //tornadoLayer.addData(pol[i]);
-                    if (isGraphVisible ()) {
-                        highLightNodeOn (data [codcem]);
+
+                if (pol) { // Verify if polygon exists
+                    for(var i = 0; i < pol.length; ++i) {
+                        //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
+                        map.addLayer(pol[i].geo);
+                        if (isGraphVisible ()) {
+                            highLightNodeOn (data [codcem]);
+                        }
+                        polygonsHighlighted.push(pol[i]);
                     }
-                    polygonsHighlighted.push(pol[i]);
+                } else {
+                    //console.log ("POL vazio. Data[codcem]= ", data[codcem])
                 }
-                //console.log ("VIU ", pol)
             }
 
         }); // sublayer.on
@@ -621,25 +603,20 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             for (i=1; i < 8; i++) {
                 document.getElementById("celula"+i).innerHTML = "";
             }
-            //document.getElementById("noValidData").innerHTML = "";
 
             var pol = polygonsHighlighted;
-            var idxPol = 0;
-            //console.log ("Verifica se tem layer")
+            
             if (pol.length > 0) {
                 //console.log ("POL:", pol,"DATA:", valor, "e:", e)
                 for (var i = 0; i < pol.length; ++i) {
-                    console.log ("Vai remover layer: ", idxPol, " ==> ", pol[i]);
+                    //console.log ("Vai remover layer: ==> ", pol[i]);
                     map.removeLayer(pol[i].geo);
                     if (isGraphVisible ()) {
                         highLightNodeOff (pol[i].cartoId);
                     }
                 }
-                //console.log ("DATA:", data, "e:", e)
-                
                 polygonsHighlighted = [];
             }
-            //sublayer.toggle();
 
         }); // sublayer.on
 
@@ -670,24 +647,14 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         });
         // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
 
-        /** CLOVIS ...*/
-        //if (graphExists) {
-        $("#d3-elements").empty ();
-        $("#graphic-close").hide ();
-    // }
+        graphErase ();
 
-        console.log ("Desenha gráfico: ", theme, variable);
         var xlabel = "variável x";
         var ylabel = "variável y";
-        execScriptGraph (theme, variable, xlabel, ylabel);
-
-        //execScriptGraph(theme, op);//loadGraphicCircles (theme, op);
-        //graphExists = true;
-        /** ...CLOVIS */
+        execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend);
 
     } else {
-        $("#d3-elements").empty ();
-        $("#graphic-close").hide ();
+        graphErase ();
     }
 }
 
