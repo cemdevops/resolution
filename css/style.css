@@ -2,12 +2,14 @@
 .panel-title > a:before {
     float: right !important;
     font-family: FontAwesome;
-    content:"\f055";
+    content:"\f106";
+    font-size: 17px;
+    font-weight: 700;
     padding-right: 5px;
 }
 .panel-title > a.collapsed:before {
     float: right !important;
-    content:"\f056";
+    content:"\f107";
 }
 .panel-title > a:hover,
 .panel-title > a:active,
