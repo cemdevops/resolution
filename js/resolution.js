@@ -110,8 +110,8 @@ function updateLanguageTokens () {
     $("#title_menu").text(globalLangTokens.themesAndVariablesTitle);
     $("#title_options_tema").text(globalLangTokens.themeString);
     $("#theme_description").text(globalLangTokens.themeDescString);
-    $("#title_options_variavel").text(globalLangTokens.themeString);
-    $("#variable_description").text(globalLangTokens.themeDescString);
+    $("#title_options_variavel").text(globalLangTokens.variableString);
+    $("#variable_description").text(globalLangTokens.variableDescString);
 
     $("#metro_linha_label").text(globalLangTokens.subwayString);
     $("#trem_linha_label").text(globalLangTokens.trainString);
@@ -136,6 +136,8 @@ function updateLanguageTokens () {
     $("#downloadMapImagePdfCloseButton").text(globalLangTokens.tokenStringClose);
     $("#downloadMapImagePdfExportButton").text(globalLangTokens.tokenStringExport);
 
+    $("#labelQuantileString").text(globalLangTokens.labelQuantileString);
+    $("#labelJenksString").text(globalLangTokens.labelJenksString);
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -498,16 +500,19 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         var sublayer = layer.getSubLayer(0);
 
         var strTableGeo = "";
+        var strInteractivity = "";
         // Set table column (on carto dataset) to be retrieved and showed in legend
         //var strCodCEM = "";
         if (codcem == "codsc_cem") {
             //strCodCEM = "codsc_cem";
             strTableGeo = "resolution_sc2010_cem_rmsp_erase";
+            strInteractivity = codcem + ',' + 'nom_mu,' + currentLayerData.colTableToLegend + ',' + variable;
         } else {
             //strCodCEM = "codap_cem";
             strTableGeo = "ap2010_rmsp_cem_erase";
+            strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
         }
-        sublayer.setInteractivity(codcem + ',' + currentLayerData.colTableToLegend + ',' + variable);
+        sublayer.setInteractivity(strInteractivity);
 
         //Create the places layer
         createPlacesLayer();
@@ -561,7 +566,13 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
 
             // Fill district value in legend
-            document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
+            if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
+                document.getElementById("bairro").innerHTML = data["nom_mu"] + " - " +
+                                                              data[currentLayerData.colTableToLegend];
+            } else {
+                document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
+            }
+                
             // Fill legend cell with data set value
             if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
                 document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
@@ -648,6 +659,24 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             var layerConf = getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
             // set carto CSS of current layer
             sublayer.setCartoCSS(layerConf.cartocss);
+            // Update legend: data class breaks
+            var strPercent = "";
+            if (currentLayerData.minLegendValue.indexOf ("%") >= 0) {
+                strPercent = "%";
+            }
+            document.getElementById("leg-r-1").innerHTML = currentLayerData.minLegendValue;
+            for (i=0; i < 7; i++) {
+                document.getElementById("leg-r-" + (i + 2)).innerHTML = arrayDataClassBreaks [i] + strPercent;
+            }
+            if (currentDataClassificationMethod == "quantiles") {
+                for (i=1; i < 8; i++) {
+                    document.getElementById("leg-l-"+i).innerHTML = i + "Q";
+                }
+            } else { // its jenks
+                for (i=1; i < 8; i++) {
+                    document.getElementById("leg-l-"+i).innerHTML = "";
+                }
+            }
         });
         // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
 
@@ -709,6 +738,16 @@ function createInfoboxTooltip(layer, sublayer, colName){
 function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
+    if (strClassMethod == "quantiles") {
+        arrayStrLeg1 = ["1Q","2Q","3Q","4Q","5Q","6Q","7Q"];
+    } else {
+        arrayStrLeg1 = ["","","","","","",""];
+    }
+
+    var strPercent = "";
+    if (strMinValue.indexOf ("%") >= 0) {
+        strPercent = "%";
+    }
 
     var strLegend =
         "<div class='leaflet-control-container legend'>" +
@@ -739,25 +778,25 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "              <ul style='width:10px'>" +
         "                <li class='graph count_441' style='width:30px;border:white;'>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-1' style='text-align:left'>1Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-1' style='text-align:left'>" + arrayStrLeg1 [0] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-2' style='text-align:left'>2Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-2' style='text-align:left'>" + arrayStrLeg1 [1] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-3' style='text-align:left'>3Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-3' style='text-align:left'>" + arrayStrLeg1 [2] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-4' style='text-align:left'>4Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-4' style='text-align:left'>" + arrayStrLeg1 [3] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-5' style='text-align:left'>5Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-5' style='text-align:left'>" + arrayStrLeg1 [4] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-6' style='text-align:left'>6Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-6' style='text-align:left'>" + arrayStrLeg1 [5] + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-l-7' style='text-align:left'>7Q</div>" +
+        "                    <div class='quartile-cem' id='leg-l-7' style='text-align:left'>" + arrayStrLeg1 [6] + "</div>" +
         "                  </div>" +
         "                </li>" +
         "              </ul>" +
@@ -796,25 +835,25 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-2' style='text-align:left'>" + classMethod [0] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-2' style='text-align:left'>" + classMethod [0] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-3' style='text-align:left'>" + classMethod [1] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-3' style='text-align:left'>" + classMethod [1] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-4' style='text-align:left'>" + classMethod [2] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-4' style='text-align:left'>" + classMethod [2] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-5' style='text-align:left'>" + classMethod [3] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-5' style='text-align:left'>" + classMethod [3] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-6' style='text-align:left'>" + classMethod [4] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-6' style='text-align:left'>" + classMethod [4] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-7' style='text-align:left'>" + classMethod [5] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-7' style='text-align:left'>" + classMethod [5] + strPercent + "</div>" +
         "                  </div>" +
         "                  <div>" +
-        "                    <div class='quartile-cem' id='leg-r-8' style='text-align:left'>" + classMethod [6] + "</div>" +
+        "                    <div class='quartile-cem' id='leg-r-8' style='text-align:left'>" + classMethod [6] + strPercent + "</div>" +
         "                  </div>" +
         "                </li>" +
         "              </ul>" +
@@ -837,14 +876,14 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     if (strClassMethod == "quantiles") {
         strLegend = strLegend + " checked";
     }
-    strLegend = strLegend + ">Quantile</label>" +
+    strLegend = strLegend + ">&nbsp;<div id='labelQuantileString' style='float:right'>" + globalLangTokens.labelQuantileString + "</div></label>" +
         "                      </div>" +
         "                      <div class='radio'>" +
         "                        <label><input type='radio' name='radioDataMethod' value='jenks' style='font-size: 10px;'";
     if (strClassMethod == "jenks") {
         strLegend = strLegend + " checked";
     }
-    strLegend = strLegend + ">Jenks</label>" +
+    strLegend = strLegend + ">&nbsp;<div id='labelJenksString' style='float:right'>" + globalLangTokens.labelJenksString + "</div></label>" +
         "                      </div>" +
         "                    </fieldset>" +
         "                </form>" +

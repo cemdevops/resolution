@@ -94,11 +94,13 @@
 				<i class="fa fa-question-circle"></i>
 			</a>
 		</li>
+		<!-- Hide while graphs is showed automatically when variable is selected
 		<li class="nav-item">
 			<a id="graphs" class="nav-link p-2" style="font-size: 1.3em;" title="Em desenvolvimento ..." onclick="execScriptGraph---- ();">
 				<i class="fa fa-area-chart"></i>
 			</a>
 		</li>
+		-->
 		<li class="nav-item">
 			<a id="download-layers"   class="nav-link p-2"  style="font-size: 1.3em;" title="Baixar arquivos dos layers usados no projeto"
 			   data-toggle="modal" data-target="#downloadLayersFiles">
@@ -380,7 +382,7 @@
 		<div class="card">
 			<div class="card-header" id="headingOne">
 				<h6 class="mb-0 panel-title">
-					<a id="title_menu" style="font-size: 12px;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+					<a id="title_menu" style="font-size: 12px;white-space:pre-wrap;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
 					   aria-expanded="true" aria-controls="collapseOne">
 						SELECIONAR TEMAS E VARIÁVEIS
 					</a>
@@ -391,7 +393,7 @@
 				<div class="card-body bg-transparent" style="padding: .8rem;font-size:small;">
 					<select id="option_theme" >
 					</select>
-					<div id="theme_description" class="description-item"> Descrição do tema escolhido... </div>
+					<div id="theme_description" class="description-item">  </div>
 					<div class="separator"></div>
 
 					<select id="option_variables" >
