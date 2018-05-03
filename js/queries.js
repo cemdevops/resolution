@@ -484,9 +484,19 @@ function getLanguageTokens () {
            } else {
                globalLangTokens.tokenStringImage = result ["tokenStringImage-pt-br"];
            }
+           if (result ["labelQuantileString-" + globalCurrentLanguage]) {
+               globalLangTokens.labelQuantileString = result ["labelQuantileString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.labelQuantileString = result ["labelQuantileString-pt-br"];
+           }
+           if (result ["labelJenksString-" + globalCurrentLanguage]) {
+               globalLangTokens.labelJenksString = result ["labelJenksString-" + globalCurrentLanguage];
+           } else {
+               globalLangTokens.labelJenksString = result ["labelJenksString-pt-br"];
+           }
         }
     );
-
+    
     $.ajaxSetup({
         async: true
     });

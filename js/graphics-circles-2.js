@@ -226,9 +226,10 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 .duration(200)		
                 .style("opacity", .9);
 
-                div	.html("<b>" + variable + ":</b> " + d [variable]+ "<br/><b>"  + xVariable + ":</b> " + d [xVariable])	
-                .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px");	
+                div.html("<b>" + graphLabelY + ":</b> " + d [variable]+ "<br/><b>"  + graphLabelX + ":</b> " + d [xVariable])	
+                .style("left", (d3.event.pageX + 5) + "px")		
+                .style("top", (d3.event.pageY - 23) + "px")
+                .style("width", (graphLabelY.length > graphLabelX.length ? graphLabelY.length * 6 : graphLabelX.length * 6) + "px");	
             })
             .on('mouseout', function (d) {
                 fadeOut(d.cartodb_id);

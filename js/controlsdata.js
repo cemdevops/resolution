@@ -45,7 +45,8 @@ function populateThemes(intTheme){
 			if (intTheme && intTheme > 0) {
 				document.getElementById("option_theme").value = intTheme;
 			}
-            document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
+            // document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
+            document.getElementById("theme_description").innerHTML = globalLangTokens.themeDescString;
         }
     );	
 }
