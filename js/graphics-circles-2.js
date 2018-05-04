@@ -48,15 +48,15 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
         } else if (graphType == 2) {
             $.getScript( "js/graphics-circles.js", function( data, textStatus, jqxhr ) {
                 console.log( "Circles was performed." );
-            });		
+            });
         } else if (graphType == 3) {
             $.getScript( "js/graphics-barras-and-mapa.js", function( data, textStatus, jqxhr ) {
                 console.log( "Barras was performed." );
-            });		
+            });
         } else if (graphType == 4) {
             $.getScript( "js/graphics-bubbles.js", function( data, textStatus, jqxhr ) {
                 console.log( "Bubbles was performed." );
-            });		
+            });
         } else if (graphType == 5) {
             loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend);
         }
@@ -72,7 +72,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
 
         //apSvg = d3.select('.chart')
         apSvg = d3.select('#d3-elements')
-        .append('svg')
+            .append('svg')
             .attr('class', 'chart')
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -95,29 +95,29 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 d3.min (data, function (d) {
                     switch (variable) {
                         case "p1_001": return 6794; // 137423
-                                       break;
+                            break;
                         case "ins001": return 4.71; // 14.49
-                                       break;
+                            break;
                         case "ins002": return 4.62; // 14.13
-                                       break;
+                            break;
                         case "ins032": return 0;//-999.99; // 18.57
-                                       break;
+                            break;
                         case "ins037": return 0;//-999.99; // 38.26
-                                       break;
+                            break;
                     }
                 }),
                 d3.max (data, function (d) {
                     switch (variable) {
                         case "p1_001": return 137423;
-                                       break;
+                            break;
                         case "ins001": return 14.49;
-                                       break;
+                            break;
                         case "ins002": return 14.13;
-                                       break;
+                            break;
                         case "ins032": return 18.57;
-                                       break;
+                            break;
                         case "ins037": return 38.26;
-                                       break;
+                            break;
                     }
                 })
             ])
@@ -152,15 +152,15 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
 
         switch (variable) {
             case "p1_001": graphLabelY = "Literate with 5 or more years of age";
-                           break;
+                break;
             case "ins001": graphLabelY = "Average years of schooling of the households heads";
-                           break;
+                break;
             case "ins002": graphLabelY = "Aver. years of schooling of women households heads";
-                           break;
+                break;
             case "ins032": graphLabelY = "% people (7 to 14 years old) - out of school";
-                           break;
+                break;
             case "ins037": graphLabelY = "% people (3 to 7 years old) - never went to school";
-                           break;
+                break;
         }
 
         // Add the x Axis
@@ -192,10 +192,10 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .text(graphLabelY);
 
         // Define the div for the tooltip
-        var div = d3.select("body").append("div")	
-                    .attr("class", "tooltip")				
-                    .style("opacity", 0);
-        
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
         apSvg.selectAll("circle")
             .data(data)
             .enter()
@@ -215,40 +215,40 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
                 fade(d.data, d.cartodb_id, .1);
                 document.getElementById("bairro").innerHTML = d [colTableToLegend];
-                for (i=1; i < 8; i++) {
+                for (var i=1; i < 8; i++) {
                     document.getElementById("celula"+i).innerHTML = "";
                 }
                 if (d [variable] >= 0 && d [variable] <= arrayDataClassBreaks[6]) {
                     document.getElementById("celula" + getClassBreaksCel (d [variable], arrayDataClassBreaks)).innerHTML = d [variable];
                 }
-    
-                div.transition()		
-                .duration(200)		
-                .style("opacity", .9);
 
-                div.html("<b>" + graphLabelY + ":</b> " + d [variable]+ "<br/><b>"  + graphLabelX + ":</b> " + d [xVariable])	
-                .style("left", (d3.event.pageX + 5) + "px")		
-                .style("top", (d3.event.pageY - 23) + "px")
-                .style("width", (graphLabelY.length > graphLabelX.length ? graphLabelY.length * 6 : graphLabelX.length * 6) + "px");	
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+
+                div.html("<b>" + graphLabelY + ":</b> " + d [variable]+ "<br/><b>"  + graphLabelX + ":</b> " + d [xVariable])
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY - 23) + "px")
+                    .style("width", (graphLabelY.length > graphLabelX.length ? graphLabelY.length * 6 : graphLabelX.length * 6) + "px");
             })
             .on('mouseout', function (d) {
                 fadeOut(d.cartodb_id);
-                for (i=1; i < 8; i++) {
+                for (var i=1; i < 8; i++) {
                     document.getElementById("celula"+i).innerHTML = "";
                 }
-    
+
                 div.transition()
-                .duration(500)		
-                .style("opacity", 0);	
+                    .duration(500)
+                    .style("opacity", 0);
             })
             .transition()
-    //      .delay(function (d, i) { return x(d.cartodb_id) - y(d.p1_001); })
+            //      .delay(function (d, i) { return x(d.cartodb_id) - y(d.p1_001); })
             .duration(500)
             .attr("cx", function (d) { return x(d [xVariable]); }) // cartodb_id, .p3_001
             .attr("cy", function (d) { return y(d[variable]); }) // d.p1_001
             .ease("bounce");
 
-                    
+
         function fade(c, cartodb_id, opacity) {
             /*
             apSvg.selectAll("circle")
@@ -279,13 +279,13 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             pol = polygons[cartoId];
             if (pol) {
                 for (var i = 0; i < pol.length; i++) {
-                //console.log ("ON highLightNodeOn: ", pol[i])
-                map.addLayer(pol[i].geo);
-                highLightNodeOn (pol[i].cartoId);
-                polygonsHighlighted.push(pol[i]);
+                    //console.log ("ON highLightNodeOn: ", pol[i])
+                    map.addLayer(pol[i].geo);
+                    highLightNodeOn (pol[i].cartoId);
+                    polygonsHighlighted.push(pol[i]);
                 }
             }
-                
+
         }
 
         function fadeOut(cartodb_id) {
@@ -306,28 +306,38 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 }
                 polygonsHighlighted = [];
             }
-                
+
         }
     });
 }
 
 function highLightNodeOn (cartodb_id) {
     apSvg.selectAll("circle")
-    .filter(function (d) {
-        return d.cartodb_id == cartodb_id;
-    })
-    .style("stroke", "#ff3300")
-    .style("stroke-width", "2px")
-        .style("fill","#ff3300")
+        .filter(function (d) {
+            //console.log('ponto sel:', d);
+            return d.cartodb_id == cartodb_id;
+        })
+        .moveToFront()
+        .style("stroke", "#ff3300")
+        .style("stroke-width", "2px")
+        .style("fill","#ff3300");
+
+    console.log('apSVG', apSvg);
 }
+
+d3.selection.prototype.moveToFront = function() {
+    return this.each(function(){
+        this.parentNode.appendChild(this);
+    });
+};
 
 function highLightNodeOff (cartodb_id) {
     apSvg.selectAll("circle")
-    .filter(function (d) {
-        return d.cartodb_id == cartodb_id;
-    })
-    .style("stroke", "")
-    .style("stroke-width", "0px")
+        .filter(function (d) {
+            return d.cartodb_id == cartodb_id;
+        })
+        .style("stroke", "")
+        .style("stroke-width", "0px")
         .style("fill", "#595959")
         .attr("opacity", .9)
 }
