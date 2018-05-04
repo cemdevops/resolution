@@ -753,7 +753,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='leaflet-control-container legend'>" +
         "<div class='leaflet-bottom leaflet-right' id='legendPanel'  style='bottom: 10px;left:15px' >" +
         "<div class='leaflet-control' style='cursor:default'>" +
-        "<div id='legend'>" +
+        "<div id='legend' style='width: 328px;'>" +
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
