@@ -771,7 +771,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
 
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
-        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Bairro'> </div>" +
+        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Municipio-distrito'> </div>" +
         "    <ul>" +
         "        <li>" +
         "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +

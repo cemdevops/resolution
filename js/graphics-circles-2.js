@@ -67,61 +67,33 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
 
     var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
         var margin = {top: 50, right: 50, bottom: 50, left: 90},
-            width = 300,
-            height = 200;
+            width = 400 -margin.left - margin.right,
+            height = 300 - margin.top - margin.bottom;
 
         //apSvg = d3.select('.chart')
         apSvg = d3.select('#d3-elements')
             .append('svg')
             .attr('class', 'chart')
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+            .attr("height", height + margin.top + margin.bottom);
+
+        var chart = apSvg.append("g")
+            .attr('class', 'circle')
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var x = d3.scale.linear()
-            .domain([
-                d3.min (data, function (d) {
-                    return varXMin;//d [xVariable]; //.p3_001; // <- população d.cartodb_id; 1071
-                }),
-                d3.max (data, function (d) {
-                    return varXMax;//d [xVariable];//.p3_001; // <- população d.cartodb_id; 19292
-                })
-            ])
-            .range([0, graphWidth]);
+        var x = d3.scale.linear().range([0, width]);
+        x.domain([ 0, d3.max (data, function (d) {
+            return parseFloat(d[xVariable]);//d [xVariable];//.p3_001; // <- população d.cartodb_id; 19292
+        })
+        ]);
 
-        var y = d3.scale.linear()
-            .domain([
-                d3.min (data, function (d) {
-                    switch (variable) {
-                        case "p1_001": return 6794; // 137423
-                            break;
-                        case "ins001": return 4.71; // 14.49
-                            break;
-                        case "ins002": return 4.62; // 14.13
-                            break;
-                        case "ins032": return 0;//-999.99; // 18.57
-                            break;
-                        case "ins037": return 0;//-999.99; // 38.26
-                            break;
-                    }
-                }),
-                d3.max (data, function (d) {
-                    switch (variable) {
-                        case "p1_001": return 137423;
-                            break;
-                        case "ins001": return 14.49;
-                            break;
-                        case "ins002": return 14.13;
-                            break;
-                        case "ins032": return 18.57;
-                            break;
-                        case "ins037": return 38.26;
-                            break;
-                    }
-                })
-            ])
-            .range([graphHeight, 0]);
+        var y = d3.scale.linear().range([height,0]);
+        y.domain([0,
+            d3.max (data, function (d) {
+                //console.log('ddddd max: ',d[variable]);
+                return parseFloat(d[variable]);
+            })
+        ]);
 
         var scale = d3.scale.sqrt()
             .domain([
@@ -164,13 +136,13 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
         }
 
         // Add the x Axis
-        apSvg.append("g")
+        chart.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
 
         // text label for the x axis
-        apSvg.append("text")
+        chart.append("text")
             .attr("transform",
                 "translate(" + (width/2) + " ," +
                 (height + margin.top/1.3) + ")")
@@ -178,12 +150,12 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .text(graphLabelX);
 
         // Add the y Axis
-        apSvg.append("g")
+        chart.append("g")
             .attr("class", "y axis")
             .call(yAxis);
 
         // text label for the y axis
-        apSvg.append("text")
+        chart.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 0 - margin.left)
             .attr("x", 0 - (height / 2))
@@ -196,7 +168,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-        apSvg.selectAll("circle")
+        chart.selectAll("circle")
             .data(data)
             .enter()
             .insert("circle")
@@ -204,8 +176,8 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 //console.log ("FILTER: ", d,"d.data", d.data)
                 return d [variable] >= 0;
             })
-            .attr("cx", graphWidth)
-            .attr("cy", graphHeight)
+            .attr("cx", width)
+            .attr("cy", height)
             //.attr("opacity", function (d) { return opacity(d.data); })  // transparency
             .attr("opacity", .9)
             .attr("r", 5)//function (d) { console.log ("scale d.data",d.p1_001, d.data, scale(d.p1_001)); return scale(d.data); })
@@ -314,15 +286,12 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
 function highLightNodeOn (cartodb_id) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            //console.log('ponto sel:', d);
             return d.cartodb_id == cartodb_id;
         })
         .moveToFront()
         .style("stroke", "#ff3300")
         .style("stroke-width", "2px")
         .style("fill","#ff3300");
-
-    console.log('apSVG', apSvg);
 }
 
 d3.selection.prototype.moveToFront = function() {

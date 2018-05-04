@@ -422,3 +422,18 @@ hr.separator-icons {
     cursor:pointer;
     box-shadow:0 0 10px 0 #000;
 }
+
+/* graphs*/
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #D4D8DA;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 10px;
+}
+.x path {
+    display: none;
+}
