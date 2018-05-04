@@ -33,7 +33,7 @@
         "quantiles":[168,244,302,358,420,510,1725],
         "jenks":[77,177,187,310,388,632,1725],
         "minLegendValue": "0",
-        "maxLegendValue": "1946"
+        "maxLegendValue": "1725"
     },
     {
         "codVariable": "p13_022",
