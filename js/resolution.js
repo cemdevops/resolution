@@ -283,11 +283,6 @@ $("#option_variables").change(function () {
     var theme = $("#option_theme").val();
 
     createLayerChoropletic(theme, variable, variableDescr);
-    console.log("-------------------------");
-    console.log("theme: ",theme);
-    console.log("variavel", variable);
-    console.log("description A:", variableDescr);
-    console.log("change base map valor: ", $("#option_basemap_thematic").val());
     //createPlacesLayer();
 });
 
@@ -297,11 +292,6 @@ $("#option_basemap_thematic").click(function () {
     var theme = $("#option_theme").val();
 
     createLayerChoropletic(theme, variable, variableDescr);
-    console.log("-------------------------");
-    console.log("thema: ",theme);
-    console.log("variavel", variable);
-    console.log("description:", variableDescr);
-    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
     //createPlacesLayer();
 });
 
