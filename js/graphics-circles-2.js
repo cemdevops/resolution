@@ -21,8 +21,8 @@ varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
 xVariable = "ren003"; // renda domiciliar total media
-varXMin = 0.65;
-varXMax = 15.86;
+/* varXMin = 0.65;
+varXMax = 15.86; */
 graphLabelX = "Per capita household income in minimum salaries";
 
 /*
@@ -35,8 +35,6 @@ graphLabelY = "Population";
 function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend) {
     if ((theme == 0 && variable == "") || (theme != 4)) {
         graphErase ();
-        //$("#d3-elements").empty ();
-        //$("#graphic-close").hide ();
     } else {
         if (graphType == 1) {
             $.getScript( "js/graphics-eixos_xy.js", function( data, textStatus, jqxhr ) {
@@ -90,7 +88,6 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
         var y = d3.scale.linear().range([height,0]);
         y.domain([0,
             d3.max (data, function (d) {
-                //console.log('ddddd max: ',d[variable]);
                 return parseFloat(d[variable]);
             })
         ]);

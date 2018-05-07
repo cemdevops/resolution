@@ -19,6 +19,7 @@ $("#option_basemap_thematic").click(function () {
         $("#option_basemap_thematic").attr('title',globalLangTokens.withoutBaseMapTitle);
         $("#option_basemap_thematic").removeClass("base-map");
         $("#option_basemap_thematic").addClass("thematic-map");
+        showRMSP(1, 0);
 
 
     } else{
@@ -243,6 +244,8 @@ function addBaseMap(typeOfBaseMapChosen) {
         map.addLayer(layerDarkMatter);
         layerMapaBaseSel = 'carto_darkmatter';
     }
+    // Show the RMSP limit
+    showRMSP(1, 0);
 }
 
 // Mariela: Remove the existing base map
@@ -260,6 +263,9 @@ function removeBaseMap(typeOfBaseMapChosen) {
     } else if (typeOfBaseMapChosen=="carto_darkmatter") {
         map.removeLayer(layerDarkMatter);
     }
+
+    // Hide the RMSP limit
+    showRMSP(-3, 1);
 }
 // +++++ create vizualization
 // var url = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json';
@@ -277,9 +283,9 @@ $("#option_variables").change(function () {
 
     createLayerChoropletic(theme, variable);
     console.log("-------------------------");
-    console.log("thema: ",theme);
+    console.log("theme: ",theme);
     console.log("variavel", variable);
-    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
+    console.log("change base map valor: ", $("#option_basemap_thematic").val());
     //createPlacesLayer();
 });
 
@@ -745,11 +751,11 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     }
 
     var strPercent = "";
-    var strTypeOfValuesDescription = "Valores expresados em números absolutos";
+    var strTypeOfValuesDescription = "Dados em números absolutos";
 
     if (strMinValue.indexOf ("%") >= 0) {
         strPercent = "%";
-        strTypeOfValuesDescription = "Valores expresados em percentuais";
+        strTypeOfValuesDescription = "Dados em percentuais";
     }
 
     var strLegend =
@@ -760,7 +766,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
-        "<a id='title_menu2'  data-toggle='collapse' data-parent='#legend' href='#collapseLegend' +\n" +
+        "<a id='title_legend'  data-toggle='collapse' data-parent='#legend' href='#collapseLegend' +\n" +
         "        aria-expanded='true' aria-controls='collapseLegend'>"+
         globalLangTokens.legendTitle +
         "</a>"+
@@ -1070,18 +1076,20 @@ cartodb.createLayer(map,{
 // metropolitan region of São Paulo
 // testing layer
 
-cartodb.createLayer(map,{
-    user_name: "cemdevops",
-    type: "cartodb",
-    sublayers: []
-})
-    .addTo(map)
-    .done(function(layer){
-        // set layer in order of overlap
-        layer.setZIndex(-3);
-        // add layer to the map
-        layer.createSubLayer({
-            sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",
-            cartocss: "#sc2010_rmsp_cem_r_merge{polygon-fill:#93887e; line-color:#93887e}"
+function showRMSP(zindex, polygonOpacity){
+    cartodb.createLayer(map,{
+        user_name: "cemdevops",
+        type: "cartodb",
+        sublayers: []
+    })
+        .addTo(map)
+        .done(function(layer){
+            // set layer in order of overlap
+            layer.setZIndex(zindex);/*1: with base map, -3: Without Base map*/
+            // add layer to the map
+            layer.createSubLayer({
+                sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",
+                cartocss: "#sc2010_rmsp_cem_r_merge{line-width: 3; polygon-fill:#93887e; line-color:#93887e; polygon-opacity: " + polygonOpacity + ";}"
+            });
         });
-    });
+}
