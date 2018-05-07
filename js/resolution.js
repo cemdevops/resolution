@@ -745,8 +745,11 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     }
 
     var strPercent = "";
+    var strTypeOfValuesDescription = "Valores expresados em números absolutos";
+
     if (strMinValue.indexOf ("%") >= 0) {
         strPercent = "%";
+        strTypeOfValuesDescription = "Valores expresados em percentuais";
     }
 
     var strLegend =
@@ -889,6 +892,8 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                </form>" +
         "              </div>" +
         "          </div>" +
+        "        </li>" +
+        "        <li style='text-transform:none'>" + strTypeOfValuesDescription +
         "        </li>" +
         "    </ul>";// +
 
