@@ -182,6 +182,16 @@ div.cartodb-legend.choropleth {
     height: 18px;
 }
 
+.cell-line-no-value {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    opacity: 1;
+    width: 36px;
+    border-bottom: 3px solid #93887E;
+    height: 2px;
+}
+
 .cell-cem-no-value-text {
     display: table-cell;
     text-align: center;

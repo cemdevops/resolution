@@ -492,7 +492,13 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         // get button value
         var buttonVal = document.getElementById("option_basemap_thematic").value;
         // If button value is 'Mapa base' is because the basemap isn't visible
-        var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+//        var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
+        var withBaseMap = false;
+        var opacity = polygonOpacityWithBaseMap;
+        if (buttonVal == globalLangTokens.withBaseMapString) {
+            opacity = polygonOpacityWithoutBaseMap;
+            withBaseMap = true;
+        }
 
         // get all data configuration of current layer, based on theme and variable (variable)
         var currentLayerData = getCurrentLayerData (theme, variable);
@@ -648,7 +654,9 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         // var to define if data classification method choice (quantile or jenks) will be enabled in legend
         var bolEnableDataMethod = true;
         // Build legend. 20170331: creation of class=quartile-cem. 20170623: legend str composition in separated function. Units included.
-        var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea, currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity, currentDataClassificationMethod);
+        var legenda = getStrLegend (currentLayerData, currentLayerData.title, currentLayerData.polygonArea,
+            currentLayerData.minLegendValue, currentLayerData.maxLegendValue, bolEnableDataMethod, opacity,
+            currentDataClassificationMethod, withBaseMap);
 
         // add legend to map
         $('#map').append(legenda);
@@ -662,7 +670,8 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             // get array of data classification method breaks
             arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
             // get carto query and CSS
-            var layerConf = getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity, currentLayerData.showEdge);
+            var layerConf = getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor,
+                quantiles_colors_hex, opacity, currentLayerData.showEdge);
             // set carto CSS of current layer
             sublayer.setCartoCSS(layerConf.cartocss);
             // Update legend: data class breaks
@@ -741,7 +750,8 @@ function createInfoboxTooltip(layer, sublayer, colName){
  * Function to create legend string.
  * Return the HTML used to put legend on screen
  */
-function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod) {
+function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue, bolEnableMethod, opacity, strClassMethod,
+                       withBaseMap) {
     var textColorForDarkBackground = opacity == 1 ? 'white': 'black';
     var classMethod = strClassMethod == "quantiles" ? curLayerData.quantiles : curLayerData.jenks;
     if (strClassMethod == "quantiles") {
@@ -756,6 +766,10 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     if (strMinValue.indexOf ("%") >= 0) {
         strPercent = "%";
         strTypeOfValuesDescription = "Dados em percentuais";
+    }
+    var rmspDescriptionDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>";
+    if (!withBaseMap) {
+        rmspDescriptionDiv = "<div class='cell-line-no-value' id='celula10' ></div>";
     }
 
     var strLegend =
@@ -872,7 +886,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
         "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
         "                <br>" +
-        "                <div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>" +
+                         rmspDescriptionDiv +
         "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
         "              </div>" +
         "              <br><br>" +
