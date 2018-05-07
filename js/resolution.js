@@ -279,115 +279,33 @@ function removeBaseMap(typeOfBaseMapChosen) {
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
 $("#option_variables").change(function () {
     var variable = this.value;
+    var variableDescr = $("#option_variables option:selected").text();
     var theme = $("#option_theme").val();
 
-    createLayerChoropletic(theme, variable);
+    createLayerChoropletic(theme, variable, variableDescr);
     console.log("-------------------------");
     console.log("theme: ",theme);
     console.log("variavel", variable);
+    console.log("description A:", variableDescr);
     console.log("change base map valor: ", $("#option_basemap_thematic").val());
     //createPlacesLayer();
 });
 
 $("#option_basemap_thematic").click(function () {
     var variable = $("#option_variables").val();
+    var variableDescr = $("#option_variables option:selected").text();
     var theme = $("#option_theme").val();
 
-    createLayerChoropletic(theme, variable);
+    createLayerChoropletic(theme, variable, variableDescr);
     console.log("-------------------------");
     console.log("thema: ",theme);
     console.log("variavel", variable);
+    console.log("description:", variableDescr);
     console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
     //createPlacesLayer();
 });
 
-/*$("#option_theme").change(function(){
-    var variable = $("#option_variables").val();
-    var theme = $("#option_theme").val();
-
-    createLayerChoropletic(theme, variable);
-    console.log("-------------------------");
-    console.log("thema: ",theme);
-    console.log("variavel", variable);
-    console.log("change mapa base valor: ", $("#option_basemap_thematic").val());
-});*/
-
-/*$('document').ready(function () {
-    console.log("cargó");
-    cartodb.createLayer(map,{
-        user_name: "hikarym",
-        type: "cartodb",
-        sublayers: []
-    })
-        .addTo(map)
-        .done(function(layer){
-            // colocando ordem de sobreposição dos layers
-            layer.setZIndex(-1);
-
-            $("#option_basemap_thematic").click(function () {
-                showThematicLayer(layer);
-                console.log("changing... base map thematic");
-            });
-
-            $("#option_variables").change(function(){
-                showThematicLayer(layer);
-                console.log("changing variables");
-            });
-
-            $("#option_theme").change(function(){
-                console.log("changing theme");
-                // Clear all transport active layers
-                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-                // Check if layer's legend. Remove if exists
-                takeOutLegend();
-            });
-
-        });
-});*/
-
-/*$("#option_theme").change(function () {
-    var theme = this.value;
-    console.log(theme);
-    if (theme == 4) { // 4: educação
-        userNameCarto = "marielaf";
-
-    } else {
-        userNameCarto = "hikarym";
-
-    }
-
-    cartodb.createLayer(map,{
-        user_name: userNameCarto,
-        type: "cartodb",
-        sublayers: []
-    })
-        .addTo(map)
-        .done(function(layer){
-            // colocando ordem de sobreposição dos layers
-            layer.setZIndex(-1);
-
-            $("#option_basemap_thematic").click(function () {
-                showThematicLayer(layer);
-                console.log("changing... base map thematic");
-            });
-
-            $("#option_variables").change(function(){
-                showThematicLayer(layer);
-                console.log("changing variables");
-            });
-
-            $("#option_theme").change(function(){
-                console.log("changing theme");
-                // Clear all transport active layers
-                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-                // Check if layer's legend. Remove if exists
-                takeOutLegend();
-            });
-
-        });
-});*/
-
-function createLayerChoropletic(theme, variable){
+function createLayerChoropletic(theme, variable, variableDescr){
 
     // get all data configuration of current layer, based on theme and variable (op)
     var currentLayerData = getCurrentLayerData (theme, variable);
@@ -445,7 +363,7 @@ function createLayerChoropletic(theme, variable){
 
             // colocando ordem de sobreposição dos layers
             layer.setZIndex(1);
-            showThematicLayer(layer,tableName,theme,variable,codcem);
+            showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem);
 
         });
 }
@@ -471,19 +389,9 @@ function takeOutLegend(){
 var polygons = {}; // store all AP or SC polygons of a layer
 var polygonsHighlighted = []; // store all highlighted polygons (one layer)
 
-function showThematicLayer(layer, tableName, theme, variable,codcem){
+function showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem){
     // Clear all transport active layers
     layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-
-   /* // get Variable code. For example, p3_001, p11_001 . codVariable == op
-    //var op = $(this).val(); //$(this).attr("value");
-    var el = document.getElementById("option_variables");
-    var op = el.options[el.selectedIndex].value;
-
-    // get selected Theme
-    var e = document.getElementById("option_theme");
-    var theme = e.options[e.selectedIndex].value;*/
-
     // Check if layer's legend. Remove if exists
     takeOutLegend();
 
@@ -492,7 +400,6 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         // get button value
         var buttonVal = document.getElementById("option_basemap_thematic").value;
         // If button value is 'Mapa base' is because the basemap isn't visible
-//        var opacity = buttonVal == globalLangTokens.withBaseMapString ? polygonOpacityWithoutBaseMap : polygonOpacityWithBaseMap;
         var withBaseMap = false;
         var opacity = polygonOpacityWithBaseMap;
         if (buttonVal == globalLangTokens.withBaseMapString) {
@@ -516,11 +423,9 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         // Set table column (on carto dataset) to be retrieved and showed in legend
         //var strCodCEM = "";
         if (codcem == "codsc_cem") {
-            //strCodCEM = "codsc_cem";
             strTableGeo = "resolution_sc2010_cem_rmsp_erase";
             strInteractivity = codcem + ',' + 'nom_mu,' + currentLayerData.colTableToLegend + ',' + variable;
         } else {
-            //strCodCEM = "codap_cem";
             strTableGeo = "ap2010_rmsp_cem_erase";
             strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
         }
@@ -541,10 +446,7 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         var sql = new cartodb.SQL({user: "cemdevops", format: 'geojson'});
         strTable = sublayer.getSQL();
         strTable = "Select * from " + strTableGeo;
-
-//        console.log ("Vai selecionar: ", "select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap");
         strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
-//        sql.execute("select cartodb_id, " + codcem + ", the_geom from (" + strTable + ") as _wrap").done(function(geojson) {
         sql.execute(strQuery).done(function(geojson) {
             var features = geojson.features;
             polygons = {};
@@ -575,7 +477,6 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
             for (i=1; i < 8; i++) {
                 document.getElementById("celula"+i).innerHTML = "";
             }
-            // document.getElementById("noValidData").innerHTML = globalLangTokens.noDataMessage;
 
             // Fill district value in legend
             if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
@@ -663,8 +564,6 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
 
         // Clóvis - 20170626: change event - selection between quantile and natural break (jenks)...
         $("input[type=radio][name=radioDataMethod]").change (function () {
-            // Update current data classification method
-            // sublayer.setCartoCSS(getQueryAndCssToCreateLayer(variable, currentLayerData.tableName, arrayDataClassBreaks = currentLayerData[currentDataClassificationMethod = this.value], quantiles_colors_hex, opacity, currentLayerData.showEdge).cartocss);
             // get current data classification method (quantile or jenks)
             currentDataClassificationMethod = this.value;
             // get array of data classification method breaks
@@ -680,15 +579,15 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
                 strPercent = "%";
             }
             document.getElementById("leg-r-1").innerHTML = currentLayerData.minLegendValue;
-            for (i=0; i < 7; i++) {
+            for (var i=0; i < 7; i++) {
                 document.getElementById("leg-r-" + (i + 2)).innerHTML = arrayDataClassBreaks [i] + strPercent;
             }
             if (currentDataClassificationMethod == "quantiles") {
-                for (i=1; i < 8; i++) {
+                for (var i=1; i < 8; i++) {
                     document.getElementById("leg-l-"+i).innerHTML = i + "Q";
                 }
             } else { // its jenks
-                for (i=1; i < 8; i++) {
+                for (var i=1; i < 8; i++) {
                     document.getElementById("leg-l-"+i).innerHTML = "";
                 }
             }
@@ -698,8 +597,9 @@ function showThematicLayer(layer, tableName, theme, variable,codcem){
         graphErase ();
 
         var xlabel = "variável x";
-        var ylabel = "variável y";
-        execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend);
+        var ylabel = variableDescr;
+        console.log('ylable: ', ylabel)
+        execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);
 
     } else {
         graphErase ();
