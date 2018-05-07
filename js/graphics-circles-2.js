@@ -1,18 +1,10 @@
-
 // load the data
-
 var apSvg;
 var graphType = 5;
-
-var graphHeight = 200;
-var graphWidth = 300;
-var graphMargin = 50;
 var graphLabelX = 'Eixo X';
 var graphLabelY = 'Eixo --- - - - -Y';
 
 var xVariable = "cartodb_id";
-var varXMin = 1;
-var varXMax = 633;
 graphLabelX = "CartoDB_ID";
 
 xVariable = "ren002"; // renda domiciliar total media
@@ -21,22 +13,12 @@ varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
 xVariable = "ren003"; // renda domiciliar total media
-varXMin = 0.65;
-varXMax = 15.86;
 graphLabelX = "Per capita household income in minimum salaries";
 
-/*
-xVariable = "p3_001"; // população
-varXMin = 8258;
-varXMax = 155804;
-graphLabelY = "Population";
-*/
 
-function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend) {
-    if ((theme == 0 && variable == "") || (theme != 4)) {
+function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+    if ((theme == 0 && variable == "")) {
         graphErase ();
-        //$("#d3-elements").empty ();
-        //$("#graphic-close").hide ();
     } else {
         if (graphType == 1) {
             $.getScript( "js/graphics-eixos_xy.js", function( data, textStatus, jqxhr ) {
@@ -58,14 +40,15 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
                 console.log( "Bubbles was performed." );
             });
         } else if (graphType == 5) {
-            loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend);
+            loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
         }
     }
 }
 
-function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend) {
+function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
-    var apData = d3.csv ("ap2010_rmsp_cem_erase.csv", function (data) {
+    tableName = 'files/' + tableName + '.csv';
+    var apData = d3.csv (tableName, function (data) {
         var margin = {top: 50, right: 50, bottom: 50, left: 90},
             width = 400 -margin.left - margin.right,
             height = 300 - margin.top - margin.bottom;
@@ -90,7 +73,6 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
         var y = d3.scale.linear().range([height,0]);
         y.domain([0,
             d3.max (data, function (d) {
-                //console.log('ddddd max: ',d[variable]);
                 return parseFloat(d[variable]);
             })
         ]);
@@ -122,19 +104,6 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
         var xAxis = d3.svg.axis().scale(x);
         var yAxis = d3.svg.axis().scale(y).orient("left");
 
-        switch (variable) {
-            case "p1_001": graphLabelY = "Literate with 5 or more years of age";
-                break;
-            case "ins001": graphLabelY = "Average years of schooling of the households heads";
-                break;
-            case "ins002": graphLabelY = "Aver. years of schooling of women households heads";
-                break;
-            case "ins032": graphLabelY = "% people (7 to 14 years old) - out of school";
-                break;
-            case "ins037": graphLabelY = "% people (3 to 7 years old) - never went to school";
-                break;
-        }
-
         // Add the x Axis
         chart.append("g")
             .attr("class", "x axis")
@@ -161,7 +130,9 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .attr("x", 0 - (height / 2))
             .attr("dy", "2.5em")
             .style("text-anchor", "middle")
-            .text(graphLabelY);
+            // .attr("startOffset", "50%")
+            .text(ylabel)
+            .call(wrap, height);
 
         // Define the div for the tooltip
         var div = d3.select("body").append("div")
@@ -221,22 +192,8 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .ease("bounce");
 
 
+
         function fade(c, cartodb_id, opacity) {
-            /*
-            apSvg.selectAll("circle")
-                .filter(function (d) {
-                    console.log ("FILTER: ", d,"d.data", d.data,"C: ", c)
-                    return d.data != c;
-                })
-                .transition()
-                .style("opacity", opacity);
-            */
-            /*
-                .style("fill", "#3498DB")
-                .style("stroke", "black")
-                .style("stroke-width", "10px")
-                .style("opacity", ".8");
-            */
             var cartoId = cartodb_id;
             var pol = polygonsHighlighted;
             if (pol.length > 0) {
@@ -283,9 +240,34 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
     });
 }
 
+function wrap(text, width) {
+    text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", -100).attr("y", y).attr("dy", dy + "em")
+        while (word = words.pop()) {
+            line.push(word)
+            tspan.text(line.join(" "))
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop()
+                tspan.text(line.join(" "))
+                line = [word]
+                tspan = text.append("tspan").attr("x", -100).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word)
+            }
+        }
+    })
+}
+
 function highLightNodeOn (cartodb_id) {
     apSvg.selectAll("circle")
         .filter(function (d) {
+            // console.log(d.cartodb_id, cartodb_id);
             return d.cartodb_id == cartodb_id;
         })
         .moveToFront()
