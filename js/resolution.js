@@ -211,6 +211,8 @@ var copyGoogle = "&copy; <a href='http://maps.google.com'>Google Maps</a>";
 var layerGoogle = L.tileLayer(urlGoogle, {attribution: copyGoogle});
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// map.attributionControl.addAttribution('Dados do Censo 2010');
+
 // Mariela: inicalizamos o portal usando o mapa base de OSM
 layerOSM.addTo(map);
 /*L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
