@@ -108,5 +108,71 @@
         },
         "showEdge": 2,
         "colTableToLegend": "nom_di"
+    },
+    {
+        "idTheme": 6,
+        "codTheme": "segregacao-residencia",
+        "theme-pt-br": "Segregação Residencial",
+        "description-pt-br": "",
+        "polygonArea-pt-br": "Zona OD",
+        "theme-en": "Residential Segregation",
+        "description-en": "",
+        "polygonArea-en": "OD Zone",
+        "withBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_residencia",
+            "codcem": "zona"
+        },
+        "withoutBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_residencia",
+            "codcem": "zona"
+        },
+        "showEdge": 2,
+        "colTableToLegend": "nomezona"
+    },
+    {
+        "idTheme": 7,
+        "codTheme": "segregacao-trabalho",
+        "theme-pt-br": "segregação Ocupacional",
+        "description-pt-br": "",
+        "polygonArea-pt-br": "Zona OD",
+        "theme-en": "Occupational Segregation",
+        "description-en": "",
+        "polygonArea-en": "OD Zone",
+        "withBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_trabalho",
+            "codcem": "zona"
+        },
+        "withoutBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_trabalho",
+            "codcem": "zona"
+        },
+        "showEdge": 2,
+        "colTableToLegend": "nomezona"
+    },
+    {
+        "idTheme": 8,
+        "codTheme": "acessibilidade",
+        "theme-pt-br": "Acessibilidade",
+        "description-pt-br": "",
+        "polygonArea-pt-br": "Sub-zona OD",
+        "theme-en": "Accessibility",
+        "description-en": "",
+        "polygonArea-en": "OD Sub-zone",
+        "withBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "acessibilidade_copy",
+            "codcem": "code"
+        },
+        "withoutBaseMap": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "acessibilidade_copy",
+            "codcem": "code"
+        },
+        "showEdge": 2,
+        "colTableToLegend": "nome_zona"
     }
 ]}
