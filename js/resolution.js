@@ -410,30 +410,11 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
-        var strTableGeo = tableName;
-        console.log('strTableGeo:', strTableGeo)
-        var userStrTableGeo = "";
-        var strInteractivity = "";
+        var userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
+        var strTableGeo = currentLayerData.tableNameRawDataBase;
+        console.log('strTableGeo:', strTableGeo);
         // Set table column (on carto dataset) to be retrieved and showed in legend
-        //var strCodCEM = "";
-        switch (codcem) {
-            case "codsc_cem":
-                userStrTableGeo = "cemdevops";
-                strInteractivity = codcem + ',' + 'nom_mu,' + currentLayerData.colTableToLegend + ',' + variable;
-                break;
-            case "codap_cem":
-                userStrTableGeo = "cemdevops";
-                strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
-                break;
-            case "zona":
-                userStrTableGeo = "resolutioncem";
-                strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
-                break;
-            case "code":
-                userStrTableGeo = "resolutioncem";
-                strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
-                break;
-        }
+        var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
 
         //Create the places layer
@@ -449,8 +430,6 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         style = HIGHLIGHT_STYLE;
 
         var sql = new cartodb.SQL({user: userStrTableGeo, format: 'geojson'});
-        // strTable = sublayer.getSQL();
-        // strTable = "Select * from " + strTableGeo;
         strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
         console.log('user:', userStrTableGeo);
         sql.execute(strQuery).done(function(geojson) {

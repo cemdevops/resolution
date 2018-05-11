@@ -18,6 +18,10 @@
             "tableName": "logradouros_sc_40000",
             "codcem": "codsc_cem"
         },
+        "rawDataBase": {
+            "cartoAccount": "cemdevops",
+            "tableName": "resolution_sc2010_cem_rmsp_erase"
+        },
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -39,6 +43,10 @@
             "cartoAccount": "hikarym",
             "tableName": "logradouros_sc_40000",
             "codcem": "codsc_cem"
+        },
+        "rawDataBase": {
+            "cartoAccount": "cemdevops",
+            "tableName": "resolution_sc2010_cem_rmsp_erase"
         },
         "showEdge": 2,
         "colTableToLegend": "nom_di"
@@ -62,6 +70,10 @@
             "tableName": "logradouros_sc_40000",
             "codcem": "codsc_cem"
         },
+        "rawDataBase": {
+            "cartoAccount": "cemdevops",
+            "tableName": "resolution_sc2010_cem_rmsp_erase"
+        },
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -83,6 +95,10 @@
             "cartoAccount": "marielaf",
             "tableName": "logradouros_ap",
             "codcem": "codap_cem"
+        },
+        "rawDataBase": {
+            "cartoAccount": "cemdevops",
+            "tableName": "ap2010_rmsp_cem_erase"
         },
         "showEdge": 2,
         "colTableToLegend": "nom_mu"
@@ -106,6 +122,10 @@
             "tableName": "logradouros_sc_40000",
             "codcem": "codsc_cem"
         },
+        "rawDataBase": {
+            "cartoAccount": "cemdevops",
+            "tableName": "resolution_sc2010_cem_rmsp_erase"
+        },
         "showEdge": 2,
         "colTableToLegend": "nom_di"
     },
@@ -127,6 +147,10 @@
             "cartoAccount": "resolutioncem",
             "tableName": "segregacao_residencia",
             "codcem": "zona"
+        },
+        "rawDataBase": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_residencia"
         },
         "showEdge": 2,
         "colTableToLegend": "nomezona"
@@ -150,6 +174,10 @@
             "tableName": "segregacao_trabalho",
             "codcem": "zona"
         },
+        "rawDataBase": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "segregacao_trabalho"
+        },
         "showEdge": 2,
         "colTableToLegend": "nomezona"
     },
@@ -171,6 +199,10 @@
             "cartoAccount": "resolutioncem",
             "tableName": "acessibilidade",
             "codcem": "code"
+        },
+        "rawDataBase": {
+            "cartoAccount": "resolutioncem",
+            "tableName": "acessibilidade"
         },
         "showEdge": 2,
         "colTableToLegend": "nome_zona"
