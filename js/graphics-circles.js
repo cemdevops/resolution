@@ -15,8 +15,8 @@ graphLabelX = "Average total household income";
 xVariable = "ren003"; // rem003 renda domiciliar total media
 graphLabelX = "Per capita household income in minimum salaries";
 
-xlabel = graphLabelX;
 function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+    xlabel = graphLabelX;
     if ((theme == 0 && variable == "")) {
         graphErase ();
     } else {

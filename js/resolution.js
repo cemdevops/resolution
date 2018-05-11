@@ -290,8 +290,6 @@ $("#option_variables").change(function () {
     THEME_GLOBAL = theme;
     VARIABLE_GLOBAL = variable;
     VARIABLE_DESC_GLOBAL = variableDescr;
-    console.log('theme VAAAA:',THEME_GLOBAL);
-    console.log('variable VAAAA:',VARIABLE_GLOBAL);
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
     {
         $("#graphCheck")[0].checked = false;
@@ -300,8 +298,6 @@ $("#option_variables").change(function () {
         $("#graphCheck").attr("disabled", false);
     }
     showGraph($("#graphCheck")[0].checked);
-
-    //$("#graphCheck")[0].checked = false;
 
     createLayerChoropletic(theme, variable, variableDescr);
     //createPlacesLayer();
@@ -790,7 +786,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                </li>" +
         "              </ul>" +
         "            </div>" +
-        "            <div style='max-width:18%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
+        "            <div style='max-width:16%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
         "                <li class='graph count_441' style='width:48px;border:white'>" +
         "                  <div>" +
