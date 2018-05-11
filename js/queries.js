@@ -402,6 +402,12 @@ function getLanguageTokens () {
            } else {
                globalLangTokens.trainString = result ["trainString-pt-br"];
            }
+
+            if (result ["graphString-" + globalCurrentLanguage]) {
+                globalLangTokens.graphString = result ["graphString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.graphString = result ["graphString-pt-br"];
+            }
            
            if (result ["legendTitle-" + globalCurrentLanguage]) {
                globalLangTokens.legendTitle = result ["legendTitle-" + globalCurrentLanguage];

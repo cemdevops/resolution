@@ -116,6 +116,7 @@ function updateLanguageTokens () {
 
     $("#metro_linha_label").text(globalLangTokens.subwayString);
     $("#trem_linha_label").text(globalLangTokens.trainString);
+    $("#graficos_label").text(globalLangTokens.graphString);
 
     $("#title_legend").text(globalLangTokens.legendTitle);
     $("#noValidData").text(globalLangTokens.noDataMessage);
@@ -277,21 +278,47 @@ function removeBaseMap(typeOfBaseMapChosen) {
         cartodb_logo: false
     });*/
 
+var THEME_GLOBAL = 0;
+var VARIABLE_GLOBAL = '';
+var VARIABLE_DESC_GLOBAL = '';
 
 // +++++++++++++++++++++++++++++++++++++++++THEMATIC LAYER++++++++++++++++++++++++++++++++++++++++++++
 $("#option_variables").change(function () {
     var variable = this.value;
     var variableDescr = $("#option_variables option:selected").text();
     var theme = $("#option_theme").val();
+    THEME_GLOBAL = theme;
+    VARIABLE_GLOBAL = variable;
+    VARIABLE_DESC_GLOBAL = variableDescr;
+    console.log('theme VAAAA:',THEME_GLOBAL);
+    console.log('variable VAAAA:',VARIABLE_GLOBAL);
+    if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
+    {
+        $("#graphCheck")[0].checked = false;
+        $("#graphCheck").attr("disabled", true);
+    }else {
+        $("#graphCheck").attr("disabled", false);
+    }
+    showGraph($("#graphCheck")[0].checked);
+
+    //$("#graphCheck")[0].checked = false;
 
     createLayerChoropletic(theme, variable, variableDescr);
     //createPlacesLayer();
+});
+
+$("#option_theme").change(function () {
+    $("#graphCheck")[0].checked = false;
+    $("#graphCheck").attr("disabled", true);
 });
 
 $("#option_basemap_thematic").click(function () {
     var variable = $("#option_variables").val();
     var variableDescr = $("#option_variables option:selected").text();
     var theme = $("#option_theme").val();
+    THEME_GLOBAL = theme;
+    VARIABLE_GLOBAL = variable;
+    VARIABLE_DESC_GLOBAL = variableDescr;
 
     createLayerChoropletic(theme, variable, variableDescr);
     //createPlacesLayer();
@@ -380,6 +407,10 @@ function takeOutLegend(){
  */
 var polygons = {}; // store all AP or SC polygons of a layer
 var polygonsHighlighted = []; // store all highlighted polygons (one layer)
+var arrayDataClassBreaks = [];
+var userStrTableGeo = "";
+var strTableGeo = "";
+var colTableToLegend = "";
 
 function showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem){
     // Clear all transport active layers
@@ -402,7 +433,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         // get all data configuration of current layer, based on theme and variable (variable)
         var currentLayerData = getCurrentLayerData (theme, variable);
         // get data class method values for current method (quantile or jenks).
-        var arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
+        arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
 
         // Create sublayer - thematic
         layer.createSubLayer(getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
@@ -410,9 +441,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
-        var userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
-        var strTableGeo = currentLayerData.tableNameRawDataBase;
-        console.log('strTableGeo:', strTableGeo);
+        userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
+        strTableGeo = currentLayerData.tableNameRawDataBase;
+        colTableToLegend = currentLayerData.colTableToLegend;
         // Set table column (on carto dataset) to be retrieved and showed in legend
         var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
@@ -428,10 +459,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
             fillOpacity: 0.3
         };
         style = HIGHLIGHT_STYLE;
-
         var sql = new cartodb.SQL({user: userStrTableGeo, format: 'geojson'});
         strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
-        console.log('user:', userStrTableGeo);
+
         sql.execute(strQuery).done(function(geojson) {
             var features = geojson.features;
             polygons = {};
@@ -584,12 +614,36 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         var xlabel = "variável x";
         var ylabel = variableDescr;
         console.log('ylable: ', ylabel)
-        execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);
+        // execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);
 
     } else {
         graphErase ();
     }
 }
+
+/*
+ * Function to show or hide the graph panel
+ */
+// throw this function after checckboxs click
+
+$('#graphCheck').change(function() {
+    graphErase();
+    showGraph(this.checked);
+});
+
+function showGraph (flag) {
+    var xlabel = "variável x";
+    if(flag) {
+        execScriptGraph(THEME_GLOBAL, VARIABLE_GLOBAL, xlabel, VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
+    }
+}
+
+/*if (showGraph){
+    console.log('this.checked:', this.checked);
+    console.log('theme:',THEME_GLOBAL);
+    console.log('variable:',VARIABLE_GLOBAL);
+
+}*/
 
 /*
  * Function to define the legend cell where the value from carto dataset will be presented
@@ -679,7 +733,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
 
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
-        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Municipio-distrito'> </div>" +
+        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title=''> </div>" +
         "    <ul>" +
         "        <li>" +
         "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +

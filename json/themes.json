@@ -139,17 +139,17 @@
         "description-en": "",
         "polygonArea-en": "OD Zone",
         "withBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_residencia",
             "codcem": "zona"
         },
         "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_residencia",
             "codcem": "zona"
         },
         "rawDataBase": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_residencia"
         },
         "showEdge": 2,
@@ -165,17 +165,17 @@
         "description-en": "",
         "polygonArea-en": "OD Zone",
         "withBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_trabalho",
             "codcem": "zona"
         },
         "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_trabalho",
             "codcem": "zona"
         },
         "rawDataBase": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "segregacao_trabalho"
         },
         "showEdge": 2,
@@ -191,17 +191,17 @@
         "description-en": "",
         "polygonArea-en": "OD Sub-zone",
         "withBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade",
             "codcem": "code"
         },
         "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade",
             "codcem": "code"
         },
         "rawDataBase": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade"
         },
         "showEdge": 2,

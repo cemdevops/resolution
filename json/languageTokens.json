@@ -65,6 +65,9 @@
     "trainString-pt-br": "Trem",
     "trainString-en": "Train",
 
+    "graphString-pt-br": "Mostrar/Ocultar gráfico",
+    "graphString-en": "Show/Hide graph",
+
     "legendTitle-pt-br": "LEGENDA",
     "legendTitle-en": "LEGEND",
     
