@@ -12,7 +12,7 @@ varXMin = 1071.52;
 varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
-xVariable = "area_ha"; // rem003 renda domiciliar total media
+xVariable = "ren003"; // rem003 renda domiciliar total media
 graphLabelX = "Per capita household income in minimum salaries";
 
 
@@ -47,7 +47,7 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
 
 function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
-    tableName = 'files/' + tableName + '.csv';
+    tableName = 'data/' + tableName + '.csv';
     var apData = d3.csv (tableName, function (data) {
         var margin = {top: 50, right: 50, bottom: 50, left: 90},
             width = 400 -margin.left - margin.right,
