@@ -131,80 +131,55 @@
     },
     {
         "idTheme": 6,
-        "codTheme": "segregacao-residencia",
-        "theme-pt-br": "Segregação Residencial",
+        "codTheme": "segregacao",
+        "theme-pt-br": "Segregação (Projeto Resolution)",
         "description-pt-br": "",
         "polygonArea-pt-br": "Zona OD",
-        "theme-en": "Residential Segregation",
+        "theme-en": "Segregation (Resolution Project)",
         "description-en": "",
         "polygonArea-en": "OD Zone",
         "withBaseMap": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_residencia",
+            "cartoAccount": "cemdevops",
+            "tableName": "segregacao",
             "codcem": "zona"
         },
         "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_residencia",
+            "cartoAccount": "cemdevops",
+            "tableName": "segregacao",
             "codcem": "zona"
         },
         "rawDataBase": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_residencia"
+            "cartoAccount": "cemdevops",
+            "tableName": "segregacao"
         },
         "showEdge": 2,
         "colTableToLegend": "nomezona"
     },
     {
         "idTheme": 7,
-        "codTheme": "segregacao-trabalho",
-        "theme-pt-br": "segregação Ocupacional",
-        "description-pt-br": "",
-        "polygonArea-pt-br": "Zona OD",
-        "theme-en": "Occupational Segregation",
-        "description-en": "",
-        "polygonArea-en": "OD Zone",
-        "withBaseMap": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_trabalho",
-            "codcem": "zona"
-        },
-        "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_trabalho",
-            "codcem": "zona"
-        },
-        "rawDataBase": {
-            "cartoAccount": "resolutioncem",
-            "tableName": "segregacao_trabalho"
-        },
-        "showEdge": 2,
-        "colTableToLegend": "nomezona"
-    },
-    {
-        "idTheme": 8,
         "codTheme": "acessibilidade",
-        "theme-pt-br": "Acessibilidade",
+        "theme-pt-br": "Acessibilidade (Projeto Resolution)",
         "description-pt-br": "",
         "polygonArea-pt-br": "Sub-zona OD",
-        "theme-en": "Accessibility",
+        "theme-en": "Accessibility (Resolution Project)",
         "description-en": "",
         "polygonArea-en": "OD Sub-zone",
         "withBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade",
             "codcem": "code"
         },
         "withoutBaseMap": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade",
             "codcem": "code"
         },
         "rawDataBase": {
-            "cartoAccount": "resolutioncem",
+            "cartoAccount": "cemdevops",
             "tableName": "acessibilidade"
         },
         "showEdge": 2,
         "colTableToLegend": "nome_zona"
     }
 ]}
+

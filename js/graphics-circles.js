@@ -15,8 +15,8 @@ graphLabelX = "Average total household income";
 xVariable = "ren003"; // rem003 renda domiciliar total media
 graphLabelX = "Per capita household income in minimum salaries";
 
-
 function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+    xlabel = graphLabelX;
     if ((theme == 0 && variable == "")) {
         graphErase ();
     } else {
@@ -40,12 +40,12 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
                 console.log( "Bubbles was performed." );
             });
         } else if (graphType == 5) {
-            loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
+            loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
         }
     }
 }
 
-function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
     tableName = 'data/' + tableName + '.csv';
     var apData = d3.csv (tableName, function (data) {
@@ -116,7 +116,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                 "translate(" + (width/2) + " ," +
                 (height + margin.top/1.3) + ")")
             .style("text-anchor", "middle")
-            .text(graphLabelX);
+            .text(xlabel);
 
         // Add the y Axis
         chart.append("g")
@@ -169,10 +169,10 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
                     .duration(200)
                     .style("opacity", .9);
 
-                div.html("<b>" + graphLabelY + ":</b> " + d [variable]+ "<br/><b>"  + graphLabelX + ":</b> " + d [xVariable])
+                div.html("<b>" + ylabel + ":</b> " + d [variable]+ "<br/><b>"  + xlabel + ":</b> " + d [xVariable])
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 23) + "px")
-                    .style("width", (graphLabelY.length > graphLabelX.length ? graphLabelY.length * 6 : graphLabelX.length * 6) + "px");
+                    .style("width", (ylabel.length > xlabel.length ? ylabel.length * 6 : xlabel.length * 6) + "px");
             })
             .on('mouseout', function (d) {
                 fadeOut(d.cartodb_id);
