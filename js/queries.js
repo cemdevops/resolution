@@ -179,6 +179,8 @@ function getCurrentLayerData (idTheme, variable){
             objRet.tableNameWithBaseMap = jsonFiltered[0].withBaseMap.tableName;
             objRet.cartoAccountWithoutBaseMap = jsonFiltered[0].withoutBaseMap.cartoAccount;
             objRet.tableNameWithoutBaseMap = jsonFiltered[0].withoutBaseMap.tableName;
+            objRet.cartoAccountRawDataBase = jsonFiltered[0].rawDataBase.cartoAccount;
+            objRet.tableNameRawDataBase = jsonFiltered[0].rawDataBase.tableName;
             objRet.codcemWithoutBaseMap = jsonFiltered[0].withoutBaseMap.codcem;
             objRet.codcemWithBaseMap = jsonFiltered[0].withBaseMap.codcem;
             strAux = "theme-" + globalCurrentLanguage;

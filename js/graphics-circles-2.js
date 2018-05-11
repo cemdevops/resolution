@@ -12,7 +12,7 @@ varXMin = 1071.52;
 varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
-xVariable = "ren003"; // renda domiciliar total media
+xVariable = "ren003"; // rem003 renda domiciliar total media
 graphLabelX = "Per capita household income in minimum salaries";
 
 
@@ -47,7 +47,7 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
 
 function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
-    tableName = 'files/' + tableName + '.csv';
+    tableName = 'data/' + tableName + '.csv';
     var apData = d3.csv (tableName, function (data) {
         var margin = {top: 50, right: 50, bottom: 50, left: 90},
             width = 400 -margin.left - margin.right,
@@ -187,7 +187,7 @@ function loadGraphicCircles (theme, variable, xlabel, ylabel, arrayDataClassBrea
             .transition()
             //      .delay(function (d, i) { return x(d.cartodb_id) - y(d.p1_001); })
             .duration(500)
-            .attr("cx", function (d) { return x(d [xVariable]); }) // cartodb_id, .p3_001
+            .attr("cx", function (d) { return x(d[xVariable]); }) // cartodb_id, .p3_001
             .attr("cy", function (d) { return y(d[variable]); }) // d.p1_001
             .ease("bounce");
 
@@ -267,7 +267,7 @@ function wrap(text, width) {
 function highLightNodeOn (cartodb_id) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            // console.log(d.cartodb_id, cartodb_id);
+            // console.log(d.cartodb_id);
             return d.cartodb_id == cartodb_id;
         })
         .moveToFront()

@@ -410,17 +410,11 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
-        var strTableGeo = "";
-        var strInteractivity = "";
+        var userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
+        var strTableGeo = currentLayerData.tableNameRawDataBase;
+        console.log('strTableGeo:', strTableGeo);
         // Set table column (on carto dataset) to be retrieved and showed in legend
-        //var strCodCEM = "";
-        if (codcem == "codsc_cem") {
-            strTableGeo = "resolution_sc2010_cem_rmsp_erase";
-            strInteractivity = codcem + ',' + 'nom_mu,' + currentLayerData.colTableToLegend + ',' + variable;
-        } else {
-            strTableGeo = "ap2010_rmsp_cem_erase";
-            strInteractivity = codcem + ',' + currentLayerData.colTableToLegend + ',' + variable;
-        }
+        var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
 
         //Create the places layer
@@ -435,10 +429,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         };
         style = HIGHLIGHT_STYLE;
 
-        var sql = new cartodb.SQL({user: "cemdevops", format: 'geojson'});
-        strTable = sublayer.getSQL();
-        strTable = "Select * from " + strTableGeo;
+        var sql = new cartodb.SQL({user: userStrTableGeo, format: 'geojson'});
         strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
+        console.log('user:', userStrTableGeo);
         sql.execute(strQuery).done(function(geojson) {
             var features = geojson.features;
             polygons = {};
@@ -716,9 +709,9 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                </li>" +
         "              </ul>" +
         "            </div>" +
-        "            <div style='max-width:14%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
+        "            <div style='max-width:18%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:35px'>" +
+        "                <li class='graph count_441' style='width:48px'>" +
         "                  <div class='colors'>" +
         "                    <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
         "                  </div>" +
@@ -743,9 +736,9 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                </li>" +
         "              </ul>" +
         "            </div>" +
-        "            <div style='max-width:14%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
+        "            <div style='max-width:18%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:35px;border:white'>" +
+        "                <li class='graph count_441' style='width:48px;border:white'>" +
         "                  <div>" +
         "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
         "                  </div>" +
