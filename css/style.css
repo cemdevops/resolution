@@ -188,7 +188,8 @@ div.cartodb-legend.choropleth {
     vertical-align: middle;
     opacity: 1;
     width: 36px;
-    border-bottom: 3px solid #93887E;
+    border: 1px solid #93887E;
+    /*border-bottom: 3px solid #93887E;*/
     height: 2px;
 }
 
