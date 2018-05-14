@@ -283,6 +283,37 @@
 	</div>
 	<!-- End - Screen to download the Layers -->
 
+	<!-- Modal to show an explanation about the themes --->
+	<div class="modal fade" id="aboutTheme" tabindex="-1" role="dialog" aria-labelledby="aboutThemeTitle" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div>
+						<h4 class="modal-title" id="aboutThemeTitle"><b>Acerca dos temas</b></h4>
+						<h5></h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					breve explicação dos temas
+					<hr>
+					<div style="font-size:15pt"><b>Descrição:</b></div><br>
+					<div class="row">
+
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ... End - Screen to About the themes -->
+
 	<!-- MODAL to download the Map Image -->
 	<!-- Modal -->
 	<div class="modal fade" id="downloadMapImagePdf" tabindex="-1" role="dialog" aria-labelledby="downloadMapImagePdfTitle" aria-hidden="true">
@@ -345,12 +376,17 @@
 
 			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 				<div class="card-body bg-transparent" style="padding: .8rem;font-size:small;">
-					<select id="option_theme" >
-					</select>
+					<div class="row">
+						<select id="option_theme" class="col">	</select>
+						<a id="about-themes"  style="font-size: 1.7em;line-height: 1; width: 25px; margin: 0 8px;" title="Ver descrição dos temas"
+						   data-toggle="modal" data-target="#aboutTheme">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</div>
 					<div id="theme_description" class="description-item">  </div>
 					<div class="separator"></div>
 
-					<select id="option_variables" >
+					<select id="option_variables"  class="col">
 					</select>
 					<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
 				</div>
