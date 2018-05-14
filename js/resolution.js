@@ -640,15 +640,14 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         });
         // ... Clóvis - 20170626: change event - selection between quantile and natural break (jenks)
 
-        graphErase ();
-
-        /*var xlabel = "variável x";
+        /*graphErase ();
+        var xlabel = "variável x";
         var ylabel = variableDescr;
-        console.log('ylable: ', ylabel)*/
-        // execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);
+        console.log('ylable: ', ylabel);
+        execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);*/
 
     } else {
-        graphErase ();
+        //graphErase ();
     }
 }
 
@@ -658,13 +657,13 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 // throw this function after checckboxs click
 
 $('#graphCheck').change(function() {
-    graphErase();
     showGraph(this.checked);
 });
 
 function showGraph (flag) {
     var xlabel = "variável x";
     console.log('flag:', flag);
+    graphErase();
     if(flag) {
         execScriptGraph(THEME_GLOBAL, VARIABLE_GLOBAL, xlabel, VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
     }
@@ -818,7 +817,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width:16%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:48px;border:white'>" +
+        "                <li class='graph count_441' style='width:51px;border:white'>" +
         "                  <div>" +
         "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
         "                  </div>" +
