@@ -252,6 +252,8 @@ function getCurrentLayerData (idTheme, variable){
         }
     );
 
+
+
     // enagle async again (default mode)
     $.ajaxSetup({
         async: true
@@ -370,7 +372,13 @@ function getLanguageTokens () {
            } else {
                globalLangTokens.themeDescString = result ["themeDescString-pt-br"];
            }
-           
+
+            if (result ["themeBaseYearString-" + globalCurrentLanguage]) {
+                globalLangTokens.themeBaseYearString = result ["themeBaseYearString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.themeBaseYearString = result ["themeBaseYearString-pt-br"];
+            }
+
            if (result ["variableString-" + globalCurrentLanguage]) {
                globalLangTokens.variableString = result ["variableString-" + globalCurrentLanguage];
            } else {

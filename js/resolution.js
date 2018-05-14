@@ -3,6 +3,7 @@
 // http://bl.ocks.org/michellechandra/90d59f022ad7e9fd0e5d legenda
 
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
+var BASE_YEAR_OF_THEMES = [];
 
 /*
 Constants and global parameters read from config.json can be found in queries.js file
