@@ -292,6 +292,7 @@ $("#option_variables").change(function () {
     VARIABLE_DESC_GLOBAL = variableDescr;
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
     {
+        console.log('checked:',$("#graphCheck")[0].checked);
         $("#graphCheck")[0].checked = false;
         $("#graphCheck").attr("disabled", true);
     }else {
@@ -309,78 +310,87 @@ $("#option_theme").change(function () {
 });
 
 $("#option_basemap_thematic").click(function () {
-    var variable = $("#option_variables").val();
-    var variableDescr = $("#option_variables option:selected").text();
-    var theme = $("#option_theme").val();
-    THEME_GLOBAL = theme;
-    VARIABLE_GLOBAL = variable;
-    VARIABLE_DESC_GLOBAL = variableDescr;
+    VARIABLE_GLOBAL = $("#option_variables").val();
+    VARIABLE_DESC_GLOBAL = $("#option_variables option:selected").text();
+    THEME_GLOBAL = $("#option_theme").val();
 
-    createLayerChoropletic(theme, variable, variableDescr);
-    //createPlacesLayer();
+    createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
 });
 
 function createLayerChoropletic(theme, variable, variableDescr){
 
-    // get all data configuration of current layer, based on theme and variable (op)
-    var currentLayerData = getCurrentLayerData (theme, variable);
-    // get data class method values for current method (quantile or jenks).
-    var cartoAccount =  "";
-    var tableName =  "";
-    var codcem = "";
+    if (!(VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)) {
+        // get all data configuration of current layer, based on theme and variable (op)
+        var currentLayerData = getCurrentLayerData (theme, variable);
+        // get data class method values for current method (quantile or jenks).
+        var cartoAccount =  "";
+        var tableName =  "";
+        var codcem = "";
 
-    if ($("#option_basemap_thematic").val() == globalLangTokens.withoutBaseMapString) {
-        //with base map (OSM)
-        cartoAccount = currentLayerData.cartoAccountWithBaseMap;
-        tableName =  currentLayerData.tableNameWithBaseMap;
-        codcem = currentLayerData.codcemWithoutBaseMap;
-    } else {
-        //without base map
-        cartoAccount = currentLayerData.cartoAccountWithoutBaseMap;
-        tableName =  currentLayerData.tableNameWithoutBaseMap;
-        codcem = currentLayerData.codcemWithBaseMap;
+        if ($("#option_basemap_thematic").val() == globalLangTokens.withoutBaseMapString) {
+            //with base map (OSM)
+            cartoAccount = currentLayerData.cartoAccountWithBaseMap;
+            tableName = currentLayerData.tableNameWithBaseMap;
+            codcem = currentLayerData.codcemWithoutBaseMap;
+        } else {
+            //without base map
+            cartoAccount = currentLayerData.cartoAccountWithoutBaseMap;
+            tableName = currentLayerData.tableNameWithoutBaseMap;
+            codcem = currentLayerData.codcemWithBaseMap;
+        }
+
+        console.log("carto account: ", cartoAccount);
+        console.log("table Name: ", tableName);
+
+        cartodb.createLayer(map, {
+            user_name: cartoAccount,
+            type: "cartodb",
+            sublayers: []
+        })
+            .addTo(map)
+            .done(function (layer) {
+                // Clear all transport active layers
+                /*layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});*/
+
+
+                $("#option_basemap_thematic").click(function () {
+                    //showThematicLayer(layer, tableName);
+                    // Clear all active layers
+                    layer.getSubLayers().forEach(function (sublayer) {
+                        sublayer.remove()
+                    });
+                    console.log("changing... base map thematic");
+                });
+
+                $("#option_variables").change(function () {
+                    // Clear all active layers
+                    layer.getSubLayers().forEach(function (sublayer) {
+                        sublayer.remove()
+                    });
+                    console.log("changing variables");
+                    takeOutLegend();
+                });
+
+                $("#option_theme").change(function () {
+                    console.log("changing theme");
+                    // Clear all transport active layers
+                    layer.getSubLayers().forEach(function (sublayer) {
+                        sublayer.remove()
+                    });
+                    // Check if layer's legend. Remove if exists
+                    takeOutLegend();
+                });
+                console.log('variableeeee:', variable);
+
+
+                // colocando ordem de sobreposição dos layers
+
+                layer.setZIndex(1);
+                showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem);
+
+
+            });
     }
-
-    console.log("carto account: ",cartoAccount);
-    console.log("table Name: ",tableName);
-
-    cartodb.createLayer(map,{
-        user_name: cartoAccount,
-        type: "cartodb",
-        sublayers: []
-    })
-        .addTo(map)
-        .done(function(layer){
-            // Clear all transport active layers
-            /*layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});*/
-
-
-            $("#option_basemap_thematic").click(function () {
-                //showThematicLayer(layer, tableName);
-                // Clear all transport active layers
-                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-                console.log("changing... base map thematic");
-            });
-
-            $("#option_variables").change(function(){
-                // Clear all transport active layers
-                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-                console.log("changing variables");
-            });
-
-            $("#option_theme").change(function(){
-                console.log("changing theme");
-                // Clear all transport active layers
-                layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
-                // Check if layer's legend. Remove if exists
-                takeOutLegend();
-            });
-
-            // colocando ordem de sobreposição dos layers
-            layer.setZIndex(1);
-            showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem);
-
-        });
 }
 
 /*
@@ -607,9 +617,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
         graphErase ();
 
-        var xlabel = "variável x";
+        /*var xlabel = "variável x";
         var ylabel = variableDescr;
-        console.log('ylable: ', ylabel)
+        console.log('ylable: ', ylabel)*/
         // execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, currentLayerData.colTableToLegend, strTableGeo);
 
     } else {
@@ -629,17 +639,11 @@ $('#graphCheck').change(function() {
 
 function showGraph (flag) {
     var xlabel = "variável x";
+    console.log('flag:', flag);
     if(flag) {
         execScriptGraph(THEME_GLOBAL, VARIABLE_GLOBAL, xlabel, VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
     }
 }
-
-/*if (showGraph){
-    console.log('this.checked:', this.checked);
-    console.log('theme:',THEME_GLOBAL);
-    console.log('variable:',VARIABLE_GLOBAL);
-
-}*/
 
 /*
  * Function to define the legend cell where the value from carto dataset will be presented
