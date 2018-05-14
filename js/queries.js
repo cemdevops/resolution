@@ -430,6 +430,12 @@ function getLanguageTokens () {
            } else {
                globalLangTokens.nonUrbanAreaString = result ["nonUrbanAreaString-pt-br"];
            }
+
+           if (result ["boundaryRMSPString-" + globalCurrentLanguage]) {
+                globalLangTokens.boundaryRMSPString = result ["boundaryRMSPString-" + globalCurrentLanguage];
+           } else {
+                globalLangTokens.boundaryRMSPString = result ["boundaryRMSPString-pt-br"];
+           }
            
            if (result ["dataClassificationString-" + globalCurrentLanguage]) {
                globalLangTokens.dataClassificationString = result ["dataClassificationString-" + globalCurrentLanguage];

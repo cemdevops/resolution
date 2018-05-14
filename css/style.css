@@ -98,8 +98,15 @@ html, body, #map {
     background: rgba(255,255,255,0.8);    
 }
 
-#option_theme, #option_variables {
-    width: 100%;opacity: 1 ! important;
+#option_theme{
+    /*width: 80%;opacity: 1 ! important;
+    float: left;*/
+    margin-left: 16px;
+}
+
+#option_variables {
+    /*width: 100%;opacity: 1 ! important;*/
+
 }
 
 #container_change_basemap {
@@ -173,6 +180,13 @@ div.cartodb-legend.choropleth {
     max-width: 5px;
 }
 
+.cell-empty {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 36px;
+    height: 18px;
+}
 .cell-cem-no-value {
     display: table-cell;
     text-align: center;
@@ -182,14 +196,14 @@ div.cartodb-legend.choropleth {
     height: 18px;
 }
 
+
 .cell-line-no-value {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
     opacity: 1;
     width: 36px;
-    border: 1px solid #93887E;
-    /*border-bottom: 3px solid #93887E;*/
+    border-bottom: 4px solid #7d7268;
     height: 2px;
 }
 

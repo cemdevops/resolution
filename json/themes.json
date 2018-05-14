@@ -3,7 +3,7 @@
         "idTheme": 1,
         "codTheme": "demografia",
         "theme-pt-br": "Demografia",
-        "description-pt-br": "",
+        "description-pt-br": "Tema obtido do Censo",
         "polygonArea-pt-br": "Setores Censitários",
         "theme-en": "Demography",
         "description-en": "",
@@ -28,10 +28,10 @@
     {
         "idTheme": 2,
         "codTheme": "raca_imigracao",
-        "theme-pt-br": "Raça e imigração",
+        "theme-pt-br": "Raça e Imigração",
         "description-pt-br": "",
         "polygonArea-pt-br": "Setores Censitários",
-        "theme-en": "Race and migration",
+        "theme-en": "Race and Migration",
         "description-en": "",
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
