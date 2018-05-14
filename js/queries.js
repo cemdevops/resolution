@@ -32,6 +32,10 @@ var globalLangVal = new Array ();
 // Store selected prior language
 var auxglobalCurrentLanguage;
 
+var bol_RMSP_in = false;
+var bol_Choropleth_in = false;
+var codcem_Choropleth_in = 0;
+
 // theme: 1--> demografia, 2-->raca e emigração, 3--> religião, 4-->educação, 5-->Renda e trabalho
 // Column names for each theme
 //var colsNameArray = ['nom_ba','nom_ba','nom_ba','nom_mu','nom_ba'];

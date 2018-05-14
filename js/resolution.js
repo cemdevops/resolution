@@ -492,81 +492,105 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
         // 20170331: 'featureOver' event function. Show values in legend (inside colored cells)
         sublayer.on('featureOver', function(e,latlng,pos,data) {
-            // get value from carto dataset (tooltip)
-            valor = data[variable];
-            // Clear legend content
-            for (i=1; i < 8; i++) {
-                document.getElementById("celula"+i).innerHTML = "";
-            }
+            // Check if its already inside choropleth or if its a new polygon
+            if (!bol_Choropleth_in || codcem_Choropleth_in != data [codcem]) {
+                // Mouse was not inside a choropleth or its a new polygon
+                bol_Choropleth_in = true;
+                codcem_Choropleth_in = data [codcem];
 
-            // Fill district value in legend
-            if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
-                document.getElementById("bairro").innerHTML = data["nom_mu"] + " - " +
-                                                              data[currentLayerData.colTableToLegend];
-            } else {
-                document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
-            }
+                // get value from carto dataset (tooltip)
+                valor = data[variable];
+                // Clear legend content
+                for (i=1; i < 8; i++) {
+                    document.getElementById("celula"+i).innerHTML = "";
+                }
+                // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
+                document.getElementById("celula8").innerHTML = "";
+                document.getElementById("celula9").innerHTML = "";
                 
-            // Fill legend cell with data set value
-            if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
-                document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
-            }
-
-            var pol = polygonsHighlighted;
-
-            if (!pol || (pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
-                if (pol.length > 20) {
-                    console.log ("Too many layers: ", pol.length)
+                // Fill district value in legend
+                if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
+                    document.getElementById("bairro").innerHTML = data["nom_mu"] + " - " +
+                                                                data[currentLayerData.colTableToLegend];
+                } else {
+                    document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
                 }
-            } else {
-                for (i = 0; i < pol.length; i++) {
-                    //console.log ("Vai remover layer (ADD): ", pol[i])
-                    map.removeLayer(pol[i].geo);
-                    if (isGraphVisible ()) {
-                        highLightNodeOff (pol[i].cartoId);
-                    }
+                    
+                // Fill legend cell with data set value
+                if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
+                    document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
+                } else {
+                    document.getElementById("celula8").innerHTML = "X";
                 }
-                polygonsHighlighted = [];
 
-                pol = polygons[data[codcem]];
+                var pol = polygonsHighlighted;
 
-                if (pol) { // Verify if polygon exists
-                    for(var i = 0; i < pol.length; ++i) {
-                        //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
-                        map.addLayer(pol[i].geo);
-                        if (isGraphVisible ()) {
-                            highLightNodeOn (data [codcem]);
-                        }
-                        polygonsHighlighted.push(pol[i]);
+                if (!pol || (pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
+                    if (pol.length > 20) {
+                        console.log ("Too many layers: ", pol.length)
                     }
                 } else {
-                    //console.log ("POL vazio. Data[codcem]= ", data[codcem])
+                    for (i = 0; i < pol.length; i++) {
+                        //console.log ("Vai remover layer (ADD): ", pol[i])
+                        map.removeLayer(pol[i].geo);
+                        if (isGraphVisible ()) {
+                            highLightNodeOff (pol[i].cartoId);
+                        }
+                    }
+                    polygonsHighlighted = [];
+
+                    pol = polygons[data[codcem]];
+
+                    if (pol) { // Verify if polygon exists
+                        for(var i = 0; i < pol.length; ++i) {
+                            //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
+                            map.addLayer(pol[i].geo);
+                            if (isGraphVisible ()) {
+                                highLightNodeOn (data [codcem]);
+                            }
+                            polygonsHighlighted.push(pol[i]);
+                        }
+                    } else {
+                        //console.log ("POL vazio. Data[codcem]= ", data[codcem])
+                    }
                 }
             }
+                
 
         }); // sublayer.on
         // ... Clóvis/André 20170331
 
         sublayer.on('featureOut', function(e,latlng,pos,data) {
-            // Clear legend content
-            for (i=1; i < 8; i++) {
-                document.getElementById("celula"+i).innerHTML = "";
-            }
+            if (bol_Choropleth_in) {
+                // It was inside Choropleth. Change var to false (out of Choropleth layer)
+                bol_Choropleth_in = false;
 
-            var pol = polygonsHighlighted;
-            
-            if (pol.length > 0) {
-                //console.log ("POL:", pol,"DATA:", valor, "e:", e)
-                for (var i = 0; i < pol.length; ++i) {
-                    //console.log ("Vai remover layer: ==> ", pol[i]);
-                    map.removeLayer(pol[i].geo);
-                    if (isGraphVisible ()) {
-                        highLightNodeOff (pol[i].cartoId);
-                    }
+                // Clear legend content
+                for (i=1; i < 8; i++) {
+                    document.getElementById("celula"+i).innerHTML = "";
                 }
-                polygonsHighlighted = [];
+                // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
+                document.getElementById("celula8").innerHTML = "";
+                if (bol_RMSP_in) {
+                    document.getElementById("celula9").innerHTML = "X";
+                } else {
+                    document.getElementById("celula9").innerHTML = "";
+                }
+                
+                var pol = polygonsHighlighted;
+                
+                if (pol.length > 0) {
+                    //console.log ("POL:", pol,"DATA:", valor, "e:", e)
+                    for (var i = 0; i < pol.length; ++i) {
+                        //console.log ("Vai remover layer: ==> ", pol[i]);
+                        map.removeLayer(pol[i].geo);
+                        if (isGraphVisible ()) {
+                            highLightNodeOff (pol[i].cartoId);
+                        }
+                    }
+                    polygonsHighlighted = [];
+                }
             }
-
         }); // sublayer.on
 
         // Create tooltip to get information related to mouse location (mouse hover), just to be presented in legend
@@ -708,7 +732,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
     }
     var rmspDescriptionDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>";
     if (!withBaseMap) {
-        rmspDescriptionDiv = "<div class='cell-line-no-value' id='celula10' ></div>";
+        rmspDescriptionDiv = "<div class='cell-line-no-value' id='celula9'></div>";
     }
 
     var strLegend =
@@ -1043,6 +1067,36 @@ function showRMSP(zindex, polygonOpacity){
             layer.createSubLayer({
                 sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",
                 cartocss: "#sc2010_rmsp_cem_r_merge{line-width: 3; polygon-fill:#93887e; line-color:#93887e; polygon-opacity: " + polygonOpacity + ";}"
+            });
+
+            var sublayer = layer.getSubLayer(0); 
+            sublayer.setInteraction(true);
+            sublayer.setInteractivity("cartodb_id");
+
+            sublayer.on('mouseover', function(e, pos, latlng, data) {
+                if (!bol_RMSP_in) {
+                    // It was outside RMSP. Entering now. Change var to true.
+                    bol_RMSP_in = true;
+                    if ($("div.cartodb-legend.choropleth").length) {
+                        // Legend is active. Change.
+                        if (!bol_Choropleth_in) {
+                            document.getElementById("celula9").innerHTML = "X";
+                        } else {
+                            document.getElementById("celula9").innerHTML = "";
+                        }
+                    }
+                }
+            });
+
+            sublayer.on('mouseout', function(e, pos, latlng, data) {
+                if (bol_RMSP_in) {
+                    // It was inside RMSP. Change var to false (out of RMSP layer)
+                    bol_RMSP_in = false;
+                    if ($("div.cartodb-legend.choropleth").length) {
+                        // Legend is active. Change.
+                        document.getElementById("celula9").innerHTML = "";
+                    }
+                }
             });
         });
 }
