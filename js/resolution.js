@@ -121,6 +121,7 @@ function updateLanguageTokens () {
     $("#title_legend").text(globalLangTokens.legendTitle);
     $("#noValidData").text(globalLangTokens.noDataMessage);
     $("#nonUbanArea").text(globalLangTokens.nonUrbanAreaString);
+    $("#boundaryRMSP").text(globalLangTokens.boundaryRMSPString);
     $("#dataClassification").text(globalLangTokens.dataClassificationString);
 
     $("#option_basemap_thematic").attr('value', globalLangTokens.withoutBaseMapString);
@@ -730,9 +731,10 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         strPercent = "%";
         strTypeOfValuesDescription = "Dados em percentuais";
     }
-    var rmspDescriptionDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#93887E;opacity:" + opacity + "'></div>";
+    var nonurbandataDescDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#b9b2ac;opacity:" + opacity + "'></div>";
     if (!withBaseMap) {
-        rmspDescriptionDiv = "<div class='cell-line-no-value' id='celula9'></div>";
+        nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ></div>";
+        // nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ><div style='width: 18px;background: #b9b2ac;display: inline-block;'></div><div style='width:18px;background: #f0f0f0;display: inline-block'></div></div>";
     }
 
     var strLegend =
@@ -844,13 +846,16 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "                </li>" +
         "              </ul>" +
         "            </div>" +
-        "            <div style='max-width: 100%;min-width: 38%;display:inline-block;padding-left:25px;vertical-align:middle;text-transform:none'>" +
+        "            <div style='max-width: 100%;min-width: 41%;display:inline-block;padding-left:15px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
         "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
         "                <br>" +
-                         rmspDescriptionDiv +
+                         nonurbandataDescDiv +
         "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
+        "                <br>" +
+        "                <div class='cell-line-no-value' id='celula10'></div>" +
+        "                <div class='cell-cem-no-value-text' id='boundaryRMSP' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.boundaryRMSPString + "</div>" +
         "              </div>" +
         "              <br><br>" +
         "              <div id='containerOptionsDataMethod'>" +
@@ -1066,7 +1071,7 @@ function showRMSP(zindex, polygonOpacity){
             // add layer to the map
             layer.createSubLayer({
                 sql: "SELECT * FROM sc2010_rmsp_cem_r_merge",
-                cartocss: "#sc2010_rmsp_cem_r_merge{line-width: 3; polygon-fill:#93887e; line-color:#93887e; polygon-opacity: " + polygonOpacity + ";}"
+                cartocss: "#sc2010_rmsp_cem_r_merge{line-width: 3; polygon-fill:#b9b2ac; line-color:#7d7268; polygon-opacity: " + polygonOpacity + ";}"
             });
 
             var sublayer = layer.getSubLayer(0); 

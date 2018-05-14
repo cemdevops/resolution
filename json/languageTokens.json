@@ -74,8 +74,11 @@
     "noDataMessage-pt-br": "Sem dados válidos",
     "noDataMessage-en": "No valid data",
 
-    "nonUrbanAreaString-pt-br": "Área metropolitana\nnão urbana",
-    "nonUrbanAreaString-en": "Non-urban\nmetropolitan area",
+    "nonUrbanAreaString-pt-br": "Área metropolitana\nsem população",
+    "nonUrbanAreaString-en": "Metropolitan area\nwithout population",
+
+    "boundaryRMSPString-pt-br": "Limite da Região \nMetropolitana de SP",
+    "boundaryRMSPString-en": "Boundary of São Paulo\nMetropolitan Region",
 
     "dataClassificationString-pt-br": "Classificação\nde dados:",
     "dataClassificationString-en": "Data\nclassification:",

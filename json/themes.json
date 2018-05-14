@@ -28,10 +28,10 @@
     {
         "idTheme": 2,
         "codTheme": "raca_imigracao",
-        "theme-pt-br": "Raça e imigração",
+        "theme-pt-br": "Raça e Imigração",
         "description-pt-br": "",
         "polygonArea-pt-br": "Setores Censitários",
-        "theme-en": "Race and migration",
+        "theme-en": "Race and Migration",
         "description-en": "",
         "polygonArea-en": "Census tracts",
         "withBaseMap": {
