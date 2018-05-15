@@ -38,14 +38,23 @@ function populateThemes(intTheme){
 					// default = pt-br
 					option.title = val ["description-pt-br"];
 				}
+                BASE_YEAR_OF_THEMES.push(val.baseYear);
+
 				// Append new option
 		        selectControl.appendChild(option);
             });
 			// Change the theme description, if there is one
 			if (intTheme && intTheme > 0) {
 				document.getElementById("option_theme").value = intTheme;
+
 			}
-            // document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
+			var baseYearString = 'Ano base';
+			if (globalLangTokens.themeBaseYearString != null){
+				baseYearString = globalLangTokens.themeBaseYearString;
+			}
+            document.getElementById("theme_baseyear").innerHTML = baseYearString + " " +BASE_YEAR_OF_THEMES[$("#option_theme")[0].selectedIndex] ;
+
+			// document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
             document.getElementById("theme_description").innerHTML = globalLangTokens.themeDescString;
         }
     );	
@@ -114,6 +123,7 @@ $("#option_theme").change(function(){
 	var idTheme = $(this).val();
 	// change the theme description
 	document.getElementById("theme_description").innerHTML = $(this).find('option:selected').attr('title');
+    document.getElementById("theme_baseyear").innerHTML = globalLangTokens.themeBaseYearString + BASE_YEAR_OF_THEMES[idTheme-1];
 	
 	//Populate the variable DropDownList
 	populateVariables(idTheme, "");

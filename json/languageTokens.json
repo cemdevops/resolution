@@ -38,14 +38,17 @@
     "languageTitle-pt-br": "Escolha o idioma",
     "languageTitle-en": "Choose language",
 
-    "themesAndVariablesTitle-pt-br": "SELECIONAR TEMAS E VARIÁVEIS\n(Ano Base 2010)",
-    "themesAndVariablesTitle-en": "SELECT THEMES AND VARIABLES\n(Base year 2010)",
+    "themesAndVariablesTitle-pt-br": "SELECIONAR TEMAS E VARIÁVEIS",
+    "themesAndVariablesTitle-en": "SELECT THEMES AND VARIABLES",
 
     "themeString-pt-br": "Tema:",
     "themeString-en": "Theme",
 
     "themeDescString-pt-br": "",
     "themeDescString-en": "",
+
+    "themeBaseYearString-pt-br": "Ano base ",
+    "themeBaseYearString-en": "Base Year ",
 
     "variableString-pt-br": "Variável:",
     "variableString-en": "Variable",

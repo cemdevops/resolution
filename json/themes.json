@@ -3,7 +3,7 @@
         "idTheme": 1,
         "codTheme": "demografia",
         "theme-pt-br": "Demografia",
-        "description-pt-br": "Tema obtido do Censo",
+        "description-pt-br": "",
         "polygonArea-pt-br": "Setores Censitários",
         "theme-en": "Demography",
         "description-en": "",
@@ -23,13 +23,14 @@
             "tableName": "resolution_sc2010_cem_rmsp_erase"
         },
         "showEdge": 2,
-        "colTableToLegend": "nom_di"
+        "colTableToLegend": "nom_di",
+        "baseYear": "2010"
     },
     {
         "idTheme": 2,
         "codTheme": "raca_imigracao",
         "theme-pt-br": "Raça e Imigração",
-        "description-pt-br": "",
+        "description-pt-br": "Raça e Imigração",
         "polygonArea-pt-br": "Setores Censitários",
         "theme-en": "Race and Migration",
         "description-en": "",
@@ -49,7 +50,8 @@
             "tableName": "resolution_sc2010_cem_rmsp_erase"
         },
         "showEdge": 2,
-        "colTableToLegend": "nom_di"
+        "colTableToLegend": "nom_di",
+        "baseYear": "2010"
     },
     {
         "idTheme": 3,
@@ -75,7 +77,8 @@
             "tableName": "resolution_sc2010_cem_rmsp_erase"
         },
         "showEdge": 2,
-        "colTableToLegend": "nom_di"
+        "colTableToLegend": "nom_di",
+        "baseYear": "2010"
     },
     {
         "idTheme": 4,
@@ -101,7 +104,8 @@
             "tableName": "ap2010_rmsp_cem_erase"
         },
         "showEdge": 2,
-        "colTableToLegend": "nom_mu"
+        "colTableToLegend": "nom_mu",
+        "baseYear": "2010"
     },
     {
         "idTheme": 5,
@@ -127,7 +131,8 @@
             "tableName": "resolution_sc2010_cem_rmsp_erase"
         },
         "showEdge": 2,
-        "colTableToLegend": "nom_di"
+        "colTableToLegend": "nom_di",
+        "baseYear": "2010"
     },
     {
         "idTheme": 6,
@@ -153,7 +158,8 @@
             "tableName": "segregacao"
         },
         "showEdge": 2,
-        "colTableToLegend": "nomezona"
+        "colTableToLegend": "nomezona",
+        "baseYear": "2007"
     },
     {
         "idTheme": 7,
@@ -179,7 +185,8 @@
             "tableName": "acessibilidade"
         },
         "showEdge": 2,
-        "colTableToLegend": "nome_zona"
+        "colTableToLegend": "nome_zona",
+        "baseYear": "2007"
     }
 ]}
 
