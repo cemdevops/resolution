@@ -794,7 +794,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width:18%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:48px'>" +
+        "                <li class='graph count_441' style='width:50px;font-size:10px'>" +
         "                  <div class='colors'>" +
         "                    <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
         "                  </div>" +
@@ -821,7 +821,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width:16%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:51px;border:white'>" +
+        "                <li class='graph count_441' style='width:55px;border:white'>" +
         "                  <div>" +
         "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
         "                  </div>" +
