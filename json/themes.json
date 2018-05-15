@@ -24,10 +24,7 @@
         },
         "showEdge": 2,
         "colTableToLegend": "nom_di",
-        "baseYear": "2010",
-        "graphVariables": [
-            {"codigo": "ren003", "description-pt-br": "Renda domiciliar per capita em salários mínimos", "description-en": "Per capita household income in minimum salaries"}
-        ]
+        "baseYear": "2010"
     },
     {
         "idTheme": 2,

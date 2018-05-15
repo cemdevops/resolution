@@ -280,6 +280,7 @@ function removeBaseMap(typeOfBaseMapChosen) {
         cartodb_logo: false
     });*/
 
+var COD_VARIABLE_FORGRAPH = 'ren003';
 var THEME_GLOBAL = 0;
 var VARIABLE_GLOBAL = '';
 var VARIABLE_DESC_GLOBAL = '';
@@ -302,7 +303,7 @@ $("#option_variables").change(function () {
     }
     showGraph($("#graphCheck")[0].checked);
 
-    createLayerChoropletic(theme, variable, variableDescr);
+    createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
     //createPlacesLayer();
 });
 
@@ -321,13 +322,15 @@ $("#option_basemap_thematic").click(function () {
 
 function createLayerChoropletic(theme, variable, variableDescr){
 
-    if (!(VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)) {
+    if (!(variable === globalLangTokens.variableOptionSelectString)) {
         // get all data configuration of current layer, based on theme and variable (op)
         var currentLayerData = getCurrentLayerData (theme, variable);
         // get data class method values for current method (quantile or jenks).
         var cartoAccount =  "";
         var tableName =  "";
         var codcem = "";
+
+        COD_VARIABLE_FORGRAPH = currentLayerData.graphVariable;
 
         if ($("#option_basemap_thematic").val() == globalLangTokens.withoutBaseMapString) {
             //with base map (OSM)
@@ -388,7 +391,7 @@ function createLayerChoropletic(theme, variable, variableDescr){
                 // colocando ordem de sobreposição dos layers
 
                 layer.setZIndex(1);
-                showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem);
+                showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem, currentLayerData);
 
 
             });
@@ -420,7 +423,7 @@ var userStrTableGeo = "";
 var strTableGeo = "";
 var colTableToLegend = "";
 
-function showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem){
+function showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem, currentLayerData){
     // Clear all transport active layers
     layer.getSubLayers().forEach(function(sublayer){sublayer.remove()});
     // Check if layer's legend. Remove if exists
@@ -439,7 +442,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         }
 
         // get all data configuration of current layer, based on theme and variable (variable)
-        var currentLayerData = getCurrentLayerData (theme, variable);
+        // var currentLayerData = getCurrentLayerData (theme, variable);
         // get data class method values for current method (quantile or jenks).
         arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
 
@@ -451,7 +454,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
         userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
         strTableGeo = currentLayerData.tableNameRawDataBase;
-        colTableToLegend = currentLayerData.colTableToLegend;
+        // colTableToLegend = currentLayerData.colTableToLegend;
         // Set table column (on carto dataset) to be retrieved and showed in legend
         var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
@@ -662,11 +665,11 @@ $('#graphCheck').change(function() {
 });
 
 function showGraph (flag) {
-    var xlabel = "variável x";
     console.log('flag:', flag);
     graphErase();
     if(flag) {
-        execScriptGraph(THEME_GLOBAL, VARIABLE_GLOBAL, xlabel, VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
+        execScriptGraph(COD_VARIABLE_FORGRAPH, THEME_GLOBAL, VARIABLE_GLOBAL,
+            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
     }
 }
 

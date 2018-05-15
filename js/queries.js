@@ -228,7 +228,14 @@ function getCurrentLayerData (idTheme, variable){
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme && n.codVariable==variable;
         	});
-			objRet.codVariable = jsonFiltered[0].codVariable;
+        	console.log(jsonFiltered[0]);
+        	objRet.codVariable = jsonFiltered[0].codVariable;
+            objRet.graphVariable = jsonFiltered[0].graphVariables[0];
+
+            /*for (var i=0; i<jsonFiltered[0].graphVariables.length; i++) {
+                objRet.graphVariables.push(jsonFiltered[0].graphVariables[0]);
+            }*/
+
             strAux = "variable-" + globalCurrentLanguage;
             if (jsonFiltered[0][strAux]) {
                 objRet.title = jsonFiltered[0][strAux];
@@ -262,7 +269,59 @@ function getCurrentLayerData (idTheme, variable){
 	return (objRet);
 }
 
-// Function to laod language tokens
+function getVariableData(idTheme, variable){
+    var jsonFiltered = null;
+    var objRet = {};
+
+    // Must be executed in a synchronous way
+    // async will be disabled until the end of this function
+    $.ajaxSetup({
+        async: false
+    });
+
+    var strAux = ""
+    // get values from variables JSON file
+    // The file name must be 'json/variables-' followed by the language string
+    // So it will be easy to add new language files
+    var strJSONFile = "json/graph.json";
+
+    $.getJSON(
+        strJSONFile,
+        function(result) {
+            jsonFiltered = result.Variables.filter(function(n){
+                return n.idTheme==idTheme && n.codVariable==variable;
+            });
+            console.log(jsonFiltered[0]);
+
+            strAux = "variable-" + globalCurrentLanguage;
+            if (jsonFiltered[0][strAux]) {
+                objRet.title = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.title = jsonFiltered[0]["variable-pt-br"];
+            }
+
+            strAux = "description-" + globalCurrentLanguage;
+            if (objRet.varDescription = jsonFiltered[0][strAux]) {
+                objRet.varDescription = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.varDescription = jsonFiltered[0]["description-pt-br"];
+            }
+        }
+    );
+
+
+
+    // enagle async again (default mode)
+    $.ajaxSetup({
+        async: true
+    });
+
+    return (objRet);
+}
+
+// Function to load language tokens
 // Next step: put it in a JSON file, and if possible put all tokens in just one file.
 //            Current tokens are spread in themes and variable files, and also in this function
 function getLanguageTokens () {

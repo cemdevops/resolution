@@ -1,7 +1,7 @@
 // load the data
 var apSvg;
 var graphType = 5;
-var graphLabelX = 'Eixo X';
+// var graphLabelX = 'Eixo X';
 var graphLabelY = 'Eixo --- - - - -Y';
 
 var xVariable = "cartodb_id";
@@ -12,11 +12,12 @@ varXMin = 1071.52;
 varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
-xVariable = "ren003"; // rem003 renda domiciliar total media
-graphLabelX = "Per capita household income in minimum salaries";
+function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
-function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
-    xlabel = graphLabelX;
+    console.log('xVariableForGraph:', xVariableForGraph);
+    var variableForGraph = getVariableData(theme,xVariableForGraph);
+    var xlabel = variableForGraph.title;
+
     if ((theme == 0 && variable == "")) {
         graphErase ();
     } else {
@@ -40,17 +41,17 @@ function execScriptGraph (theme, variable, xlabel, ylabel, arrayDataClassBreaks,
                 console.log( "Bubbles was performed." );
             });
         } else if (graphType == 5) {
-            loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
+            loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
         }
     }
 }
 
-function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
 
     tableName = 'data/' + tableName + '.csv';
     var apData = d3.csv (tableName, function (data) {
-        var margin = {top: 50, right: 50, bottom: 50, left: 90},
-            width = 400 -margin.left - margin.right,
+        var margin = {top: 50, right: 50, bottom: 50, left: 100},
+            width = 430 -margin.left - margin.right,
             height = 300 - margin.top - margin.bottom;
 
         //apSvg = d3.select('.chart')
@@ -66,7 +67,7 @@ function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, col
 
         var x = d3.scale.linear().range([0, width]);
         x.domain([ 0, d3.max (data, function (d) {
-            return parseFloat(d[xVariable]);//d [xVariable];//.p3_001; // <- população d.cartodb_id; 19292
+            return parseFloat(d[xVariableForGraph]);//d [xVariable];//.p3_001; // <- população d.cartodb_id; 19292
         })
         ]);
 
@@ -128,7 +129,7 @@ function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, col
             .attr("transform", "rotate(-90)")
             .attr("y", 0 - margin.left)
             .attr("x", 0 - (height / 2))
-            .attr("dy", "2.5em")
+            .attr("dy", "2.1em")
             .style("text-anchor", "middle")
             // .attr("startOffset", "50%")
             .text(ylabel)
@@ -169,7 +170,7 @@ function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, col
                     .duration(200)
                     .style("opacity", .9);
 
-                div.html("<b>" + ylabel + ":</b> " + d [variable]+ "<br/><b>"  + xlabel + ":</b> " + d [xVariable])
+                div.html("<b>" + ylabel + ":</b> " + d [variable]+ "<br/><b>"  + xlabel + ":</b> " + d [xVariableForGraph])
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 23) + "px")
                     .style("width", (ylabel.length > xlabel.length ? ylabel.length * 6 : xlabel.length * 6) + "px");
@@ -187,7 +188,7 @@ function loadGraphicCircles (variable, xlabel, ylabel, arrayDataClassBreaks, col
             .transition()
             //      .delay(function (d, i) { return x(d.cartodb_id) - y(d.p1_001); })
             .duration(500)
-            .attr("cx", function (d) { return x(d[xVariable]); }) // cartodb_id, .p3_001
+            .attr("cx", function (d) { return x(d[xVariableForGraph]); }) // cartodb_id, .p3_001
             .attr("cy", function (d) { return y(d[variable]); }) // d.p1_001
             .ease("bounce");
 

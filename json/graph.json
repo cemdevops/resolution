@@ -1,0 +1,58 @@
+{ "Variables": [
+    {
+        "idTheme": 1,
+        "codVariable": "ren003",
+        "variable-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "description-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "variable-en": "Per capita household income in minimum salaries",
+        "description-en": "Per capita household income in minimum salaries"
+    },
+    {
+        "idTheme": 2,
+        "codVariable": "ren003",
+        "variable-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "description-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "variable-en": "Per capita household income in minimum salaries",
+        "description-en": "Per capita household income in minimum salaries"
+    },
+    {
+        "idTheme": 3,
+        "codVariable": "ren003",
+        "variable-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "description-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "variable-en": "Per capita household income in minimum salaries",
+        "description-en": "Per capita household income in minimum salaries"
+    },
+    {
+        "idTheme": 4,
+        "codVariable": "ren003",
+        "variable-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "description-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "variable-en": "Per capita household income in minimum salaries",
+        "description-en": "Per capita household income in minimum salaries"
+    },
+    {
+        "idTheme": 5,
+        "codVariable": "ren003",
+        "variable-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "description-pt-br": "Renda domiciliar per capita em salários mínimos",
+        "variable-en": "Per capita household income in minimum salaries",
+        "description-en": "Per capita household income in minimum salaries"
+    },
+    {
+        "idTheme": 6,
+        "codVariable": "ren003",
+        "variable-pt-br": "Rendimento médio familiar em nº de salários mínimos em outubro de 2007",
+        "description-pt-br": "",
+        "variable-en": "Rendimento médio familiar em nº de salários mínimos em outubro de 2007",
+        "description-en": ""
+    },
+    {
+        "idTheme": 7,
+        "codVariable": "ren003",
+        "variable-pt-br": "Rendimento médio familiar em nº de salários mínimos em outubro de 2007",
+        "description-pt-br": "",
+        "variable-en": "Rendimento médio familiar em nº de salários mínimos em outubro de 2007",
+        "description-en": ""
+    }
+]}
