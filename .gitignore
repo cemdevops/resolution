@@ -44,6 +44,9 @@ Thumbs.db
 # data files
 /data
 
+# temp files
+/json/variables-bigquantiles.json
+
 # configuration
 /config
 
