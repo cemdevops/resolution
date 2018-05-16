@@ -512,6 +512,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
                 document.getElementById("celula8").innerHTML = "";
                 document.getElementById("celula9").innerHTML = "";
+                document.getElementById("nonUbanArea").innerHTML = "";
                 
                 // Fill district value in legend
                 if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
@@ -577,9 +578,11 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
                 document.getElementById("celula8").innerHTML = "";
                 if (bol_RMSP_in) {
-                    document.getElementById("celula9").innerHTML = "X";
+                    //document.getElementById("celula9").innerHTML = "X";
+                    document.getElementById("nonUbanArea").innerHTML=globalLangTokens.nonUrbanAreaString;
                 } else {
-                    document.getElementById("celula9").innerHTML = "";
+                    //document.getElementById("celula9").innerHTML = "";
+                    document.getElementById("nonUbanArea").innerHTML="";
                 }
                 
                 var pol = polygonsHighlighted;
@@ -734,7 +737,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         strPercent = "%";
         strTypeOfValuesDescription = "Dados em percentuais";
     }
-    var nonurbandataDescDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#b9b2ac;opacity:" + opacity + "'></div>";
+    var nonurbandataDescDiv = "<div class='cell-empty-no-value' id='celula9' style='opacity:" + opacity + "'></div>";
     if (!withBaseMap) {
         nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ></div>";
         // nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ><div style='width: 18px;background: #b9b2ac;display: inline-block;'></div><div style='width:18px;background: #f0f0f0;display: inline-block'></div></div>";
@@ -744,7 +747,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='leaflet-control-container legend'>" +
         "<div class='leaflet-bottom leaflet-right' id='legendPanel'  style='bottom: 10px;left:15px' >" +
         "<div class='leaflet-control' style='cursor:default'>" +
-        "<div id='legend' style='width: 328px;'>" +
+        "<div id='legend' style='width: 350px;'>" +
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
@@ -756,7 +759,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "</div>"+
 
         "<div id='collapseLegend' class='collapse show' aria-labelledby='headingLegend' data-parent='#legend'>"+
-        "<div class='card-body bg-transparent' style='padding: .8rem;font-size:small;'>"+
+        "<div class='card-body bg-transparent' style='padding: .6rem;font-size:small;'>"+
 
         "    <div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
 
@@ -851,11 +854,11 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width: 100%;min-width: 41%;display:inline-block;padding-left:15px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
+        nonurbandataDescDiv +
+        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + "</div>" +
+        "                <br>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
         "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
-        "                <br>" +
-                         nonurbandataDescDiv +
-        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
         "                <br>" +
         "                <div class='cell-line-no-value' id='celula10'></div>" +
         "                <div class='cell-cem-no-value-text' id='boundaryRMSP' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.boundaryRMSPString + "</div>" +
@@ -1088,9 +1091,11 @@ function showRMSP(zindex, polygonOpacity){
                     if ($("div.cartodb-legend.choropleth").length) {
                         // Legend is active. Change.
                         if (!bol_Choropleth_in) {
-                            document.getElementById("celula9").innerHTML = "X";
+                            //document.getElementById("celula9").innerHTML = "X";
+                            document.getElementById("nonUbanArea").innerHTML = globalLangTokens.nonUrbanAreaString;
                         } else {
-                            document.getElementById("celula9").innerHTML = "";
+                            //document.getElementById("celula9").innerHTML = "";
+                            document.getElementById("nonUbanArea").innerHTML = "";
                         }
                     }
                 }
@@ -1102,7 +1107,8 @@ function showRMSP(zindex, polygonOpacity){
                     bol_RMSP_in = false;
                     if ($("div.cartodb-legend.choropleth").length) {
                         // Legend is active. Change.
-                        document.getElementById("celula9").innerHTML = "";
+                        //document.getElementById("celula9").innerHTML = "";
+                        document.getElementById("nonUbanArea").innerHTML = "";
                     }
                 }
             });
