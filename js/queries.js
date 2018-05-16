@@ -115,6 +115,7 @@ $.getJSON(
  */
 function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  /*var sqlString = "SELECT cartodb_id,the_geom,codsc_cem,nom_ba" + "," + op + " FROM " + tableName;*/
   var sqlString = "SELECT * FROM " + tableName;
   /*if (tableName == "logradouros_ap") {
       sqlString = "SELECT * FROM " + tableName;

@@ -320,6 +320,7 @@ $("#option_basemap_thematic").click(function () {
     createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
 });
 
+var POLYGON_CODNAME = "";
 function createLayerChoropletic(theme, variable, variableDescr){
 
     if (!(variable === globalLangTokens.variableOptionSelectString)) {
@@ -343,6 +344,8 @@ function createLayerChoropletic(theme, variable, variableDescr){
             tableName = currentLayerData.tableNameWithoutBaseMap;
             codcem = currentLayerData.codcemWithBaseMap;
         }
+
+        POLYGON_CODNAME = codcem;
 
         console.log("carto account: ", cartoAccount);
         console.log("table Name: ", tableName);
@@ -486,7 +489,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                 var objGeo = {
                     "geo": geo,
-                    "cartoId": key
+                    "polId": key
                 }
 
                 // add to polygons
@@ -531,7 +534,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                 var pol = polygonsHighlighted;
 
-                if (!pol || (pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
+                if (!pol || (pol.length == 1 && data[codcem] == pol[0].polId) || pol.length > 20) {
                     if (pol.length > 20) {
                         console.log ("Too many layers: ", pol.length)
                     }
@@ -540,7 +543,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                         //console.log ("Vai remover layer (ADD): ", pol[i])
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
-                            highLightNodeOff (pol[i].cartoId);
+                            highLightNodeOff (codcem, pol[i].polId);/*polId*/
                         }
                     }
                     polygonsHighlighted = [];
@@ -552,9 +555,10 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                             //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
                             map.addLayer(pol[i].geo);
                             if (isGraphVisible ()) {
-                                highLightNodeOn (data [codcem]);
+                                highLightNodeOn (codcem, data [codcem]);
                             }
                             polygonsHighlighted.push(pol[i]);
+                            console.log('pol:',pol);
                         }
                     } else {
                         //console.log ("POL vazio. Data[codcem]= ", data[codcem])
@@ -593,7 +597,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                         //console.log ("Vai remover layer: ==> ", pol[i]);
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
-                            highLightNodeOff (pol[i].cartoId);
+                            highLightNodeOff (codcem, pol[i].polId);
                         }
                     }
                     polygonsHighlighted = [];
@@ -672,7 +676,7 @@ function showGraph (flag) {
     graphErase();
     if(flag) {
         execScriptGraph(COD_VARIABLE_FORGRAPH, THEME_GLOBAL, VARIABLE_GLOBAL,
-            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
+            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo, POLYGON_CODNAME);
     }
 }
 

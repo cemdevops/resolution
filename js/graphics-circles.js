@@ -12,9 +12,10 @@ varXMin = 1071.52;
 varXMax = 19292.2;
 graphLabelX = "Average total household income";
 
-function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName) {
 
     console.log('xVariableForGraph:', xVariableForGraph);
+    console.log('polygon cod name:', polygonCodName);
     var variableForGraph = getVariableData(theme,xVariableForGraph);
     var xlabel = variableForGraph.title;
 
@@ -41,19 +42,19 @@ function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataC
                 console.log( "Bubbles was performed." );
             });
         } else if (graphType == 5) {
-            loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName);
+            loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName);
         }
     }
 }
 
-function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName) {
+function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName) {
 
     //tableName = 'data/' + tableName + '.csv';
     //var apData = d3.csv (tableName, function (data) {
 
     var sql = new cartodb.SQL({ user: 'cemdevops' });
 
-    sql.execute("SELECT cartodb_id," + variable + "," + xVariableForGraph  + " FROM " + tableName)
+    sql.execute("SELECT cartodb_id,codsc_cem," + variable + "," + xVariableForGraph  + " FROM " + tableName)
         .done(function(dataQuery) {
             var data = dataQuery.rows;
             var margin = {top: 50, right: 50, bottom: 50, left: 100},
@@ -163,7 +164,8 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 .style("fill", "#595959" )
                 .on('mouseover', function (d) {
                     //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
-                    fade(d.data, d.cartodb_id, .1);
+                    //fade(d.data, d.cartodb_id, .1);
+                    fade(d.data, polygonCodName, d[polygonCodName], .1);
                     document.getElementById("bairro").innerHTML = d [colTableToLegend];
                     for (var i=1; i < 8; i++) {
                         document.getElementById("celula"+i).innerHTML = "";
@@ -182,7 +184,7 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                         .style("width", (ylabel.length > xlabel.length ? ylabel.length * 6 : xlabel.length * 6) + "px");
                 })
                 .on('mouseout', function (d) {
-                    fadeOut(d.cartodb_id);
+                    fadeOut( polygonCodName, d[polygonCodName]);
                     for (var i=1; i < 8; i++) {
                         document.getElementById("celula"+i).innerHTML = "";
                     }
@@ -200,31 +202,31 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
 
 
 
-            function fade(c, cartodb_id, opacity) {
-                var cartoId = cartodb_id;
+            function fade(c, polygonCodName, selectedPolygonCod, opacity) {
+                var polId = selectedPolygonCod;
                 var pol = polygonsHighlighted;
                 if (pol.length > 0) {
                     for (var i = 0; i < pol.length; i++) {
                         //console.log ("OFF highLightNodeOff (ADD): ", pol[i])
                         map.removeLayer(pol[i].geo);
-                        highLightNodeOff (pol[i].cartoId);
+                        highLightNodeOff (polygonCodName, pol[i].polId);
                     }
                     polygonsHighlighted = [];
                 }
 
-                pol = polygons[cartoId];
+                pol = polygons[polId];
                 if (pol) {
                     for (var i = 0; i < pol.length; i++) {
                         //console.log ("ON highLightNodeOn: ", pol[i])
                         map.addLayer(pol[i].geo);
-                        highLightNodeOn (pol[i].cartoId);
+                        highLightNodeOn (polygonCodName, pol[i].polId);
                         polygonsHighlighted.push(pol[i]);
                     }
                 }
 
             }
 
-            function fadeOut(cartodb_id) {
+            function fadeOut(polygonCodName, selectedPolygonCod) {
                 /*
                 apSvg.selectAll("circle")
                     .transition()
@@ -232,13 +234,13 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                     .style("stroke", "")
                     .style("stroke-width", "0x")
                 */
-                var cartoId = cartodb_id;
+                var polId = selectedPolygonCod;
                 var pol = polygonsHighlighted;
                 if (pol.length > 0) {
                     for(var i = 0; i < pol.length; i++) {
                         // console.log ("OFF highLightNodeOff: ", pol[i])
                         map.removeLayer(pol[i].geo);
-                        highLightNodeOff (pol[i].cartoId);
+                        highLightNodeOff (polygonCodName, pol[i].polId);
                     }
                     polygonsHighlighted = [];
                 }
@@ -272,11 +274,11 @@ function wrap(text, width) {
     })
 }
 
-function highLightNodeOn (cartodb_id) {
+function highLightNodeOn (polygonCodName, selectedPolygonCod) {
     apSvg.selectAll("circle")
         .filter(function (d) {
             // console.log(d.cartodb_id);
-            return d.cartodb_id == cartodb_id;
+            return d[polygonCodName] == selectedPolygonCod;
         })
         .moveToFront()
         .style("stroke", "#ff3300")
@@ -290,10 +292,11 @@ d3.selection.prototype.moveToFront = function() {
     });
 };
 
-function highLightNodeOff (cartodb_id) {
+function highLightNodeOff (polygonCodName, selectedPolygonCod) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            return d.cartodb_id == cartodb_id;
+            //return d.cartodb_id == cartodb_id;
+            return d[polygonCodName] == selectedPolygonCod;
         })
         .style("stroke", "")
         .style("stroke-width", "0px")
