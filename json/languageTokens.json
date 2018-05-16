@@ -77,8 +77,8 @@
     "noDataMessage-pt-br": "Sem dados válidos",
     "noDataMessage-en": "No valid data",
 
-    "nonUrbanAreaString-pt-br": "Área metropolitana\nsem população",
-    "nonUrbanAreaString-en": "Metropolitan area\nwithout population",
+    "nonUrbanAreaString-pt-br": "A área selecionada pelo mouse\nnão tem população",
+    "nonUrbanAreaString-en": "The area selected by the mouse\nhas no population",
 
     "boundaryRMSPString-pt-br": "Limite da Região \nMetropolitana de SP",
     "boundaryRMSPString-en": "Boundary of São Paulo\nMetropolitan Region",

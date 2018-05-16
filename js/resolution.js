@@ -742,7 +742,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='leaflet-control-container legend'>" +
         "<div class='leaflet-bottom leaflet-right' id='legendPanel'  style='bottom: 10px;left:15px' >" +
         "<div class='leaflet-control' style='cursor:default'>" +
-        "<div id='legend' style='width: 350px;'>" +
+        "<div id='legend' style='width: 360px;'>" +
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
@@ -850,7 +850,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            <div style='max-width: 100%;min-width: 41%;display:inline-block;padding-left:15px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
         nonurbandataDescDiv +
-        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + "</div>" +
+        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:blue;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + "</div>" +
         "                <br>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
         "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
