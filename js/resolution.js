@@ -295,7 +295,7 @@ $("#option_variables").change(function () {
     VARIABLE_DESC_GLOBAL = variableDescr;
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
     {
-        console.log('checked:',$("#graphCheck")[0].checked);
+        //console.log('checked:',$("#graphCheck")[0].checked);
         $("#graphCheck")[0].checked = false;
         $("#graphCheck").attr("disabled", true);
     }else {
@@ -346,9 +346,6 @@ function createLayerChoropletic(theme, variable, variableDescr){
         }
 
         POLYGON_CODNAME = codcem;
-
-        console.log("carto account: ", cartoAccount);
-        console.log("table Name: ", tableName);
 
         cartodb.createLayer(map, {
             user_name: cartoAccount,
@@ -540,7 +537,6 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                     }
                 } else {
                     for (i = 0; i < pol.length; i++) {
-                        //console.log ("Vai remover layer (ADD): ", pol[i])
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
                             highLightNodeOff (codcem, pol[i].polId);/*polId*/
@@ -552,13 +548,11 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                     if (pol) { // Verify if polygon exists
                         for(var i = 0; i < pol.length; ++i) {
-                            //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
                             map.addLayer(pol[i].geo);
                             if (isGraphVisible ()) {
                                 highLightNodeOn (codcem, data [codcem]);
                             }
                             polygonsHighlighted.push(pol[i]);
-                            console.log('pol:',pol);
                         }
                     } else {
                         //console.log ("POL vazio. Data[codcem]= ", data[codcem])
@@ -592,9 +586,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 var pol = polygonsHighlighted;
                 
                 if (pol.length > 0) {
-                    //console.log ("POL:", pol,"DATA:", valor, "e:", e)
                     for (var i = 0; i < pol.length; ++i) {
-                        //console.log ("Vai remover layer: ==> ", pol[i]);
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
                             highLightNodeOff (codcem, pol[i].polId);
@@ -672,11 +664,10 @@ $('#graphCheck').change(function() {
 });
 
 function showGraph (flag) {
-    console.log('flag:', flag);
     graphErase();
     if(flag) {
         execScriptGraph(COD_VARIABLE_FORGRAPH, THEME_GLOBAL, VARIABLE_GLOBAL,
-            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo, POLYGON_CODNAME);
+            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo, userStrTableGeo, POLYGON_CODNAME);
     }
 }
 

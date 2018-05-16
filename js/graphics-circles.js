@@ -4,18 +4,17 @@ var graphType = 5;
 // var graphLabelX = 'Eixo X';
 var graphLabelY = 'Eixo --- - - - -Y';
 
-var xVariable = "cartodb_id";
-graphLabelX = "CartoDB_ID";
+// var xVariable = "cartodb_id";
+// graphLabelX = "CartoDB_ID";
 
-xVariable = "ren002"; // renda domiciliar total media
-varXMin = 1071.52;
-varXMax = 19292.2;
-graphLabelX = "Average total household income";
+// xVariable = "ren002"; // renda domiciliar total media
+// varXMin = 1071.52;
+// varXMax = 19292.2;
+//graphLabelX = "Average total household income";
 
-function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName) {
+function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend,
+                          tableNameForGraphs, cartoUserForGraphs, polygonCodName) {
 
-    console.log('xVariableForGraph:', xVariableForGraph);
-    console.log('polygon cod name:', polygonCodName);
     var variableForGraph = getVariableData(theme,xVariableForGraph);
     var xlabel = variableForGraph.title;
 
@@ -24,9 +23,6 @@ function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataC
     } else {
         if (graphType == 1) {
             $.getScript( "js/graphics-eixos_xy.js", function( data, textStatus, jqxhr ) {
-                //console.log( data ); // Data returned
-                //console.log( textStatus ); // Success
-                //console.log( jqxhr.status ); // 200
                 console.log( "Eixos was performed." );
             });
         } else if (graphType == 2) {
@@ -42,19 +38,22 @@ function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataC
                 console.log( "Bubbles was performed." );
             });
         } else if (graphType == 5) {
-            loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName);
+            loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend,
+                tableNameForGraphs, cartoUserForGraphs,polygonCodName);
         }
     }
 }
 
-function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend, tableName, polygonCodName) {
+function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayDataClassBreaks, colTableToLegend,
+                             tableNameForGraphs, cartoUserForGraphs, polygonCodName) {
 
-    //tableName = 'data/' + tableName + '.csv';
-    //var apData = d3.csv (tableName, function (data) {
+    //tableNameForGraphs = 'data/' + tableNameForGraphs + '.csv';
+    //var apData = d3.csv (tableNameForGraphs, function (data) {
 
-    var sql = new cartodb.SQL({ user: 'cemdevops' });
-
-    sql.execute("SELECT cartodb_id,codsc_cem," + variable + "," + xVariableForGraph  + " FROM " + tableName)
+    var sql = new cartodb.SQL({ user: cartoUserForGraphs });
+    var strQuery = "SELECT cartodb_id," + polygonCodName + "," + variable + "," + xVariableForGraph  + " FROM " + tableNameForGraphs + " where " + variable + "<> -999.99";
+    //console.log('strQuery: ',strQuery);
+    sql.execute(strQuery)
         .done(function(dataQuery) {
             var data = dataQuery.rows;
             var margin = {top: 50, right: 50, bottom: 50, left: 100},
@@ -163,7 +162,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 //.style("fill", function (d) { return color(d.data); })
                 .style("fill", "#595959" )
                 .on('mouseover', function (d) {
-                    //console.log ("D: ", d, "D.data: ", d.data,"D.cartodb_id: ", d.cartodb_id,"D.p1_001: ", d.p1_001)
                     //fade(d.data, d.cartodb_id, .1);
                     fade(d.data, polygonCodName, d[polygonCodName], .1);
                     document.getElementById("bairro").innerHTML = d [colTableToLegend];
@@ -207,7 +205,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 var pol = polygonsHighlighted;
                 if (pol.length > 0) {
                     for (var i = 0; i < pol.length; i++) {
-                        //console.log ("OFF highLightNodeOff (ADD): ", pol[i])
                         map.removeLayer(pol[i].geo);
                         highLightNodeOff (polygonCodName, pol[i].polId);
                     }
@@ -217,7 +214,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 pol = polygons[polId];
                 if (pol) {
                     for (var i = 0; i < pol.length; i++) {
-                        //console.log ("ON highLightNodeOn: ", pol[i])
                         map.addLayer(pol[i].geo);
                         highLightNodeOn (polygonCodName, pol[i].polId);
                         polygonsHighlighted.push(pol[i]);
@@ -238,7 +234,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 var pol = polygonsHighlighted;
                 if (pol.length > 0) {
                     for(var i = 0; i < pol.length; i++) {
-                        // console.log ("OFF highLightNodeOff: ", pol[i])
                         map.removeLayer(pol[i].geo);
                         highLightNodeOff (polygonCodName, pol[i].polId);
                     }
@@ -277,7 +272,7 @@ function wrap(text, width) {
 function highLightNodeOn (polygonCodName, selectedPolygonCod) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            // console.log(d.cartodb_id);
+            //return d.cartodb_id == cartodb_id;
             return d[polygonCodName] == selectedPolygonCod;
         })
         .moveToFront()
