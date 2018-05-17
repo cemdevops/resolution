@@ -115,6 +115,7 @@ $.getJSON(
  */
 function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  /*var sqlString = "SELECT cartodb_id,the_geom,codsc_cem,nom_ba" + "," + op + " FROM " + tableName;*/
   var sqlString = "SELECT * FROM " + tableName;
   /*if (tableName == "logradouros_ap") {
       sqlString = "SELECT * FROM " + tableName;
@@ -126,8 +127,7 @@ function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, witho
           "SELECT * FROM logradouros_sc80000_";
 
   }*/
-  console.log("testando...");
-  console.log(sqlString);
+  console.log('query:',sqlString);
 
 
   var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;}";
@@ -145,8 +145,6 @@ function getQueryAndCssToCreateLayer(op, tableName, dataClassBreaksValues, witho
   cartocssString += "#" + tableName + "[ " + op + " < 0" + " ] { polygon-fill:" + withoutValueClassColor + " ; } ";
 
   var objectTemp = {sql: sqlString, cartocss:cartocssString};
-  //console.log(objectTemp.sql);
-  //console.log(objectTemp.cartocss);
   return objectTemp;
 }
 
@@ -177,14 +175,15 @@ function getCurrentLayerData (idTheme, variable){
         	jsonFiltered = result.Themes.filter(function(n){
         		return n.idTheme==idTheme;
         	});
-			objRet.idTheme = jsonFiltered[0].idTheme;
+            console.log(jsonFiltered[0].dataBaseForGraph.cartoAccount);
+        	objRet.idTheme = jsonFiltered[0].idTheme;
             objRet.codTheme = jsonFiltered[0].codTheme;
             objRet.cartoAccountWithBaseMap = jsonFiltered[0].withBaseMap.cartoAccount;
             objRet.tableNameWithBaseMap = jsonFiltered[0].withBaseMap.tableName;
             objRet.cartoAccountWithoutBaseMap = jsonFiltered[0].withoutBaseMap.cartoAccount;
             objRet.tableNameWithoutBaseMap = jsonFiltered[0].withoutBaseMap.tableName;
-            objRet.cartoAccountRawDataBase = jsonFiltered[0].rawDataBase.cartoAccount;
-            objRet.tableNameRawDataBase = jsonFiltered[0].rawDataBase.tableName;
+            objRet.cartoAccountRawDataBase = jsonFiltered[0].dataBaseForGraph.cartoAccount;
+            objRet.tableNameRawDataBase = jsonFiltered[0].dataBaseForGraph.tableName;
             objRet.codcemWithoutBaseMap = jsonFiltered[0].withoutBaseMap.codcem;
             objRet.codcemWithBaseMap = jsonFiltered[0].withBaseMap.codcem;
             strAux = "theme-" + globalCurrentLanguage;
@@ -228,7 +227,7 @@ function getCurrentLayerData (idTheme, variable){
         	jsonFiltered = result.Variables.filter(function(n){
         		return n.idTheme==idTheme && n.codVariable==variable;
         	});
-        	console.log(jsonFiltered[0]);
+
         	objRet.codVariable = jsonFiltered[0].codVariable;
             objRet.graphVariable = jsonFiltered[0].graphVariables[0];
 
@@ -291,7 +290,6 @@ function getVariableData(idTheme, variable){
             jsonFiltered = result.Variables.filter(function(n){
                 return n.idTheme==idTheme && n.codVariable==variable;
             });
-            console.log(jsonFiltered[0]);
 
             strAux = "variable-" + globalCurrentLanguage;
             if (jsonFiltered[0][strAux]) {
@@ -310,7 +308,6 @@ function getVariableData(idTheme, variable){
             }
         }
     );
-
 
 
     // enagle async again (default mode)

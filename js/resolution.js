@@ -295,7 +295,7 @@ $("#option_variables").change(function () {
     VARIABLE_DESC_GLOBAL = variableDescr;
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
     {
-        console.log('checked:',$("#graphCheck")[0].checked);
+        //console.log('checked:',$("#graphCheck")[0].checked);
         $("#graphCheck")[0].checked = false;
         $("#graphCheck").attr("disabled", true);
     }else {
@@ -320,6 +320,7 @@ $("#option_basemap_thematic").click(function () {
     createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
 });
 
+var POLYGON_CODNAME = "";
 function createLayerChoropletic(theme, variable, variableDescr){
 
     if (!(variable === globalLangTokens.variableOptionSelectString)) {
@@ -344,8 +345,7 @@ function createLayerChoropletic(theme, variable, variableDescr){
             codcem = currentLayerData.codcemWithBaseMap;
         }
 
-        console.log("carto account: ", cartoAccount);
-        console.log("table Name: ", tableName);
+        POLYGON_CODNAME = codcem;
 
         cartodb.createLayer(map, {
             user_name: cartoAccount,
@@ -486,7 +486,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                 var objGeo = {
                     "geo": geo,
-                    "cartoId": key
+                    "polId": key
                 }
 
                 // add to polygons
@@ -512,6 +512,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
                 document.getElementById("celula8").innerHTML = "";
                 document.getElementById("celula9").innerHTML = "";
+                document.getElementById("nonUbanArea").innerHTML = "";
                 
                 // Fill district value in legend
                 if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
@@ -530,16 +531,15 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                 var pol = polygonsHighlighted;
 
-                if (!pol || (pol.length == 1 && data[codcem] == pol[0].cartoId) || pol.length > 20) {
+                if (!pol || (pol.length == 1 && data[codcem] == pol[0].polId) || pol.length > 20) {
                     if (pol.length > 20) {
                         console.log ("Too many layers: ", pol.length)
                     }
                 } else {
                     for (i = 0; i < pol.length; i++) {
-                        //console.log ("Vai remover layer (ADD): ", pol[i])
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
-                            highLightNodeOff (pol[i].cartoId);
+                            highLightNodeOff (codcem, pol[i].polId);/*polId*/
                         }
                     }
                     polygonsHighlighted = [];
@@ -548,10 +548,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
                     if (pol) { // Verify if polygon exists
                         for(var i = 0; i < pol.length; ++i) {
-                            //console.log ("Vai adicionar layer: ", pol[i], "-codcem: ",codcem, "-data: ", data);
                             map.addLayer(pol[i].geo);
                             if (isGraphVisible ()) {
-                                highLightNodeOn (data [codcem]);
+                                highLightNodeOn (codcem, data [codcem]);
                             }
                             polygonsHighlighted.push(pol[i]);
                         }
@@ -577,20 +576,20 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 // Clear "No Data" cell. Doing separately for the purpose of source code "readability".
                 document.getElementById("celula8").innerHTML = "";
                 if (bol_RMSP_in) {
-                    document.getElementById("celula9").innerHTML = "X";
+                    //document.getElementById("celula9").innerHTML = "X";
+                    document.getElementById("nonUbanArea").innerHTML=globalLangTokens.nonUrbanAreaString;
                 } else {
-                    document.getElementById("celula9").innerHTML = "";
+                    //document.getElementById("celula9").innerHTML = "";
+                    document.getElementById("nonUbanArea").innerHTML="";
                 }
                 
                 var pol = polygonsHighlighted;
                 
                 if (pol.length > 0) {
-                    //console.log ("POL:", pol,"DATA:", valor, "e:", e)
                     for (var i = 0; i < pol.length; ++i) {
-                        //console.log ("Vai remover layer: ==> ", pol[i]);
                         map.removeLayer(pol[i].geo);
                         if (isGraphVisible ()) {
-                            highLightNodeOff (pol[i].cartoId);
+                            highLightNodeOff (codcem, pol[i].polId);
                         }
                     }
                     polygonsHighlighted = [];
@@ -665,11 +664,10 @@ $('#graphCheck').change(function() {
 });
 
 function showGraph (flag) {
-    console.log('flag:', flag);
     graphErase();
     if(flag) {
         execScriptGraph(COD_VARIABLE_FORGRAPH, THEME_GLOBAL, VARIABLE_GLOBAL,
-            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo);
+            VARIABLE_DESC_GLOBAL, arrayDataClassBreaks, colTableToLegend, strTableGeo, userStrTableGeo, POLYGON_CODNAME);
     }
 }
 
@@ -734,7 +732,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         strPercent = "%";
         strTypeOfValuesDescription = "Dados em percentuais";
     }
-    var nonurbandataDescDiv = "<div class='cell-cem-no-value' id='celula9' style='background:#b9b2ac;opacity:" + opacity + "'></div>";
+    var nonurbandataDescDiv = "<div class='cell-empty-no-value' id='celula9' style='opacity:" + opacity + "'></div>";
     if (!withBaseMap) {
         nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ></div>";
         // nonurbandataDescDiv = "<div class='cell-empty' id='celula9' ><div style='width: 18px;background: #b9b2ac;display: inline-block;'></div><div style='width:18px;background: #f0f0f0;display: inline-block'></div></div>";
@@ -744,7 +742,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='leaflet-control-container legend'>" +
         "<div class='leaflet-bottom leaflet-right' id='legendPanel'  style='bottom: 10px;left:15px' >" +
         "<div class='leaflet-control' style='cursor:default'>" +
-        "<div id='legend' style='width: 328px;'>" +
+        "<div id='legend' style='width: 360px;'>" +
         "<div class='card' style='word-wrap:normal;'>" +
         "<div class='card-header' id='headingLegend'>" +
         "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
@@ -756,7 +754,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "</div>"+
 
         "<div id='collapseLegend' class='collapse show' aria-labelledby='headingLegend' data-parent='#legend'>"+
-        "<div class='card-body bg-transparent' style='padding: .8rem;font-size:small;'>"+
+        "<div class='card-body bg-transparent' style='padding: .6rem;font-size:small;'>"+
 
         "    <div id='legend_window' class='cartodb-legend choropleth cartodb-legend-container'>" +
 
@@ -794,7 +792,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width:18%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:48px'>" +
+        "                <li class='graph count_441' style='width:50px;font-size:10px'>" +
         "                  <div class='colors'>" +
         "                    <div class='quartile-cem' id='celula1' style='background:rgba(255, 255, 178," + opacity + ");color:black;'></div>" +
         "                  </div>" +
@@ -821,7 +819,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width:16%;min-width:14%;display:inline-block;vertical-align:middle;text-align:center'>" +
         "              <ul>" +
-        "                <li class='graph count_441' style='width:51px;border:white'>" +
+        "                <li class='graph count_441' style='width:55px;border:white'>" +
         "                  <div>" +
         "                    <div class='quartile-cem' id='leg-r-1' style='text-align:left'>" + strMinValue + "</div>" +
         "                  </div>" +
@@ -851,11 +849,11 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "            </div>" +
         "            <div style='max-width: 100%;min-width: 41%;display:inline-block;padding-left:15px;vertical-align:middle;text-transform:none'>" +
         "              <div style='padding: 7px 0px 0px 0px;'>" +
+        nonurbandataDescDiv +
+        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:blue;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + "</div>" +
+        "                <br>" +
         "                <div class='cell-cem-no-value' id='celula8' style='background:" + noValueClassColor + ";opacity:" + opacity + "'></div>" +
         "                <div class='cell-cem-no-value-text' id='noValidData' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left'>" + globalLangTokens.noDataMessage + "</div>" +
-        "                <br>" +
-                         nonurbandataDescDiv +
-        "                <div class='cell-cem-no-value-text' id='nonUbanArea' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.nonUrbanAreaString + "</div>" +
         "                <br>" +
         "                <div class='cell-line-no-value' id='celula10'></div>" +
         "                <div class='cell-cem-no-value-text' id='boundaryRMSP' style='padding: 0px 0px 0px 5px;color:gray;font-size: 10px;text-align:left;white-space:pre-wrap;'>" + globalLangTokens.boundaryRMSPString + "</div>" +
@@ -1088,9 +1086,11 @@ function showRMSP(zindex, polygonOpacity){
                     if ($("div.cartodb-legend.choropleth").length) {
                         // Legend is active. Change.
                         if (!bol_Choropleth_in) {
-                            document.getElementById("celula9").innerHTML = "X";
+                            //document.getElementById("celula9").innerHTML = "X";
+                            document.getElementById("nonUbanArea").innerHTML = globalLangTokens.nonUrbanAreaString;
                         } else {
-                            document.getElementById("celula9").innerHTML = "";
+                            //document.getElementById("celula9").innerHTML = "";
+                            document.getElementById("nonUbanArea").innerHTML = "";
                         }
                     }
                 }
@@ -1102,7 +1102,8 @@ function showRMSP(zindex, polygonOpacity){
                     bol_RMSP_in = false;
                     if ($("div.cartodb-legend.choropleth").length) {
                         // Legend is active. Change.
-                        document.getElementById("celula9").innerHTML = "";
+                        //document.getElementById("celula9").innerHTML = "";
+                        document.getElementById("nonUbanArea").innerHTML = "";
                     }
                 }
             });
