@@ -221,13 +221,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
             }
 
             function fadeOut(polygonCodName, selectedPolygonCod) {
-                /*
-                apSvg.selectAll("circle")
-                    .transition()
-                    .style("opacity", function (d) { opacity(d.data); })
-                    .style("stroke", "")
-                    .style("stroke-width", "0x")
-                */
                 var polId = selectedPolygonCod;
                 var pol = polygonsHighlighted;
                 if (pol.length > 0) {

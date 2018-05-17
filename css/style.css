@@ -437,13 +437,6 @@ hr.separator-icons {
 
 .window-close {
     position:absolute;
-    /*
-    background:black;
-    color:white;
-    right:-15px;
-    top:-15px;
-    border-radius:50%;
-    */
     background:white;
     color:black;
     right:5px;
@@ -472,6 +465,5 @@ hr.separator-icons {
     font-size: 10px;
 }
 .x path {
-    /*display: none;*/
     stroke-width: 2px;
 }

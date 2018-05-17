@@ -401,10 +401,6 @@ function createLayerChoropletic(theme, variable, variableDescr){
  */
 function takeOutLegend(){
   // Check if layer's legend. Remove if exists
-  /*if ($("div.cartodb-legend.choropleth").length) {
-    $('div.cartodb-legend.choropleth').remove();
-  }*/
-
   if ($("div.leaflet-control-container.legend").length) {
       $("div.leaflet-control-container.legend").remove();
   }
@@ -443,16 +439,18 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         // var currentLayerData = getCurrentLayerData (theme, variable);
         // get data class method values for current method (quantile or jenks).
         arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
+        userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
+        strTableGeo = currentLayerData.tableNameRawDataBase;
+        colTableToLegend = currentLayerData.colTableToLegend;
 
         // Create sublayer - thematic
-        layer.createSubLayer(getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
+        layer.createSubLayer(getQueryAndCssToCreateLayer(variable, tableName, codcem, colTableToLegend,
+            arrayDataClassBreaks, noValueClassColor, quantiles_colors_hex, opacity,currentLayerData.showEdge));
 
         // Get data of current layer on screen
         var sublayer = layer.getSubLayer(0);
 
-        userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
-        strTableGeo = currentLayerData.tableNameRawDataBase;
-        colTableToLegend = currentLayerData.colTableToLegend;
+
         // Set table column (on carto dataset) to be retrieved and showed in legend
         var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
@@ -618,7 +616,8 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
             // get array of data classification method breaks
             arrayDataClassBreaks =  currentLayerData[currentDataClassificationMethod];
             // get carto query and CSS
-            var layerConf = getQueryAndCssToCreateLayer(variable, tableName, arrayDataClassBreaks, noValueClassColor,
+            var layerConf = getQueryAndCssToCreateLayer(variable, tableName, codcem, colTableToLegend,
+                arrayDataClassBreaks, noValueClassColor,
                 quantiles_colors_hex, opacity, currentLayerData.showEdge);
             // set carto CSS of current layer
             sublayer.setCartoCSS(layerConf.cartocss);
