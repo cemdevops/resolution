@@ -1,70 +1,4 @@
 //---------------------------------- Exportation to Image and to PDF---------------
-/*
-function downloadURI(uri, name) {
-    var link = document.createElement("a");
-
-    link.download = name;
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-}
-
-function convertToImage() {
-    var node = document.getElementById('map');
-    domtoimage.toSvg(node)
-        .then(function (dataUrl) {
-            //var img = new Image();
-            //img.src = dataUrl;
-            //document.body.appendChild(img);
-
-            var link = document.createElement('a');
-            link.download = 'meu-mapa.png';
-            link.href = dataUrl;
-            link.click();
-            cover.className = '';
-        })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
-}
-
-function convertToPdf() {
-    var node = document.getElementById('map');
-    domtoimage.toSvg(node)
-        .then(function (dataUrl) {
-            var pdf = new jsPDF('l', 'pt', 'a4');
-            var img = new Image();
-            img.src = dataUrl;
-            img.onload = function() {
-                //pdf.addImage(img, 'PNG', 10, 15);
-                var dimensions = map.getSize();
-                pdf.addImage(img, 'PNG', 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
-                pdf.save('meu-mapa.pdf');
-            };
-            cover.className = '';
-
-        })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
-
-}
-
-
-function exportMapOK() {
-    takeOutCartodbLogo();
-    var optImagem = document.getElementById('optImagem');
-    cover.className = 'active';
-    if (optImagem.checked) {
-        // exportar como imagem
-        convertToImage();
-    } else {
-        // exportar como pdf
-        convertToPdf();
-    }
-}
-*/
-
 /* Take out the carto logo */
 function takeOutCartodbLogo() {
     // Check if Layers's legend. Remove if exists
@@ -128,9 +62,6 @@ downloadIMG = function (strData, strFileName, strMimeType) {
         }, 66);
         return true;
     } /* end if('download' in a) */
-    ; //end if a[download]?
-
-
 
     //do iframe dataURL download:
     var f = D.createElement("iframe");

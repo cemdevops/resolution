@@ -3,9 +3,7 @@
 function loadControlsAndTokens(){
 	populateThemes(0);
 	populateVariables(1, "");
-	// $('#about-resolution').trigger('click')
 	// Update language tokens for the first time
-	
 	getLanguageTokens ();
 	updateLanguageTokens ();
 };
@@ -53,8 +51,6 @@ function populateThemes(intTheme){
 				baseYearString = globalLangTokens.themeBaseYearString;
 			}
             document.getElementById("theme_baseyear").innerHTML = baseYearString + " " +BASE_YEAR_OF_THEMES[$("#option_theme")[0].selectedIndex] ;
-
-			// document.getElementById("theme_description").innerHTML = $("#option_theme").find('option:selected').attr('title');
             document.getElementById("theme_description").innerHTML = globalLangTokens.themeDescString;
         }
     );	
