@@ -385,8 +385,6 @@ function createLayerChoropletic(theme, variable, variableDescr){
                     // Check if layer's legend. Remove if exists
                     takeOutLegend();
                 });
-                console.log('variableeeee:', variable);
-
 
                 // colocando ordem de sobreposição dos layers
 
@@ -454,7 +452,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
 
         userStrTableGeo = currentLayerData.cartoAccountRawDataBase;
         strTableGeo = currentLayerData.tableNameRawDataBase;
-        // colTableToLegend = currentLayerData.colTableToLegend;
+        colTableToLegend = currentLayerData.colTableToLegend;
         // Set table column (on carto dataset) to be retrieved and showed in legend
         var strInteractivity = codcem + ',' + (codcem === "codsc_cem" ? 'nom_mu,': '') + currentLayerData.colTableToLegend + ',' + variable;
         sublayer.setInteractivity(strInteractivity);
@@ -518,8 +516,10 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
                     document.getElementById("bairro").innerHTML = data["nom_mu"] + " - " +
                                                                 data[currentLayerData.colTableToLegend];
+                    document.getElementById("bairro").title = 'Municipio - Distrito';
                 } else {
                     document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
+                    document.getElementById("bairro").title = 'Municipio';
                 }
                     
                 // Fill legend cell with data set value
@@ -760,7 +760,7 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
 
         "    <div class='legend-title' id='legendVariableStr' title='Variável escolhida' style='margin-bottom:2px;'>" + strTitle + "</div>" +
         "    <div id='legendVariableUnit'> (" + strUnit + ") </div>" +
-        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title=''> </div>" +
+        "    <div id ='bairro' class='legend-title' style='height:20px;margin-top:5px;margin-bottom:2px;' title='Municipio'> </div>" +
         "    <ul>" +
         "        <li>" +
         "            <div style='max-width:6%;min-width:6%;display:inline-block;font-size:10px;vertical-align:middle;'>" +

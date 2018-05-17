@@ -1,16 +1,6 @@
 // load the data
 var apSvg;
 var graphType = 5;
-// var graphLabelX = 'Eixo X';
-var graphLabelY = 'Eixo --- - - - -Y';
-
-// var xVariable = "cartodb_id";
-// graphLabelX = "CartoDB_ID";
-
-// xVariable = "ren002"; // renda domiciliar total media
-// varXMin = 1071.52;
-// varXMax = 19292.2;
-//graphLabelX = "Average total household income";
 
 function execScriptGraph (xVariableForGraph, theme, variable, ylabel, arrayDataClassBreaks, colTableToLegend,
                           tableNameForGraphs, cartoUserForGraphs, polygonCodName) {
@@ -48,11 +38,12 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                              tableNameForGraphs, cartoUserForGraphs, polygonCodName) {
 
     //tableNameForGraphs = 'data/' + tableNameForGraphs + '.csv';
-    //var apData = d3.csv (tableNameForGraphs, function (data) {
+    //var apData = d3.csv (tableNameForGraphs, function (data) {});
 
     var sql = new cartodb.SQL({ user: cartoUserForGraphs });
-    var strQuery = "SELECT cartodb_id," + polygonCodName + "," + variable + "," + xVariableForGraph  + " FROM " + tableNameForGraphs + " where " + variable + "<> -999.99";
-    //console.log('strQuery: ',strQuery);
+    var strQuery = "SELECT cartodb_id," + polygonCodName + "," + variable + "," + xVariableForGraph  + "," +
+        (polygonCodName == 'codsc_cem' ? "nom_mu," + colTableToLegend: colTableToLegend) +
+        " FROM " + tableNameForGraphs + " where " + variable + "<> -999.99";
     sql.execute(strQuery)
         .done(function(dataQuery) {
             var data = dataQuery.rows;
@@ -151,7 +142,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 .enter()
                 .insert("circle")
                 .filter(function (d) {
-                    //console.log ("FILTER: ", d,"d.data", d.data)
                     return d [variable] >= 0;
                 })
                 .attr("cx", width)
@@ -164,7 +154,15 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 .on('mouseover', function (d) {
                     //fade(d.data, d.cartodb_id, .1);
                     fade(d.data, polygonCodName, d[polygonCodName], .1);
-                    document.getElementById("bairro").innerHTML = d [colTableToLegend];
+                    //console.log('d:',d);
+                    // Fill district value in legend
+                    if (polygonCodName == "codsc_cem" && d["nom_mu"] != d[colTableToLegend]) {
+                        document.getElementById("bairro").innerHTML = d["nom_mu"] + " - " + d[colTableToLegend];
+                        document.getElementById("bairro").title = 'Municipio - Distrito';
+                    } else {
+                        document.getElementById("bairro").innerHTML = d[colTableToLegend];
+                        document.getElementById("bairro").title = 'Municipio';
+                    }
                     for (var i=1; i < 8; i++) {
                         document.getElementById("celula"+i).innerHTML = "";
                     }
@@ -241,7 +239,6 @@ function loadGraphicCircles (xVariableForGraph, variable, xlabel, ylabel, arrayD
                 }
 
             }
-            /*});*/
         });
 }
 
@@ -272,7 +269,6 @@ function wrap(text, width) {
 function highLightNodeOn (polygonCodName, selectedPolygonCod) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            //return d.cartodb_id == cartodb_id;
             return d[polygonCodName] == selectedPolygonCod;
         })
         .moveToFront()
@@ -290,7 +286,6 @@ d3.selection.prototype.moveToFront = function() {
 function highLightNodeOff (polygonCodName, selectedPolygonCod) {
     apSvg.selectAll("circle")
         .filter(function (d) {
-            //return d.cartodb_id == cartodb_id;
             return d[polygonCodName] == selectedPolygonCod;
         })
         .style("stroke", "")
@@ -316,125 +311,8 @@ function graphErase () {
 
 $("#graphic-close").click(function () {
     graphErase ();
-    //$("#d3-elements").empty ();
-    //$("#graphic-close").hide ();
 });
 
 $("#option_theme").change(function(){
     graphErase ();
 });
-
-/*
-var sql = new cartodb.SQL({ user: 'cemdevops' });
-
-sql.execute("SELECT the_geom, nome, dens_demo, pop_2000, area_km2 FROM munrm07")
-    .done(function(dataQuery) {
-
-        var height = 400;
-        var width = 600;
-        var margin = 40;
-        var data =[];
-        for(var i = 0; i < 42; i++) {
-            data.push({
-                x: Math.random() * 400,
-                y: Math.random() * 100,
-                c: Math.round(Math.random() * 5),
-                size: Math.random() * 200,
-            });
-        }
-
-        console.log(data);
-        var labelX = 'X';
-        var labelY = 'Y';
-        var svg = d3.select('.chart')
-            .append('svg')
-            .attr('class', 'chart')
-            .attr("width", width + margin + margin)
-            .attr("height", height + margin + margin)
-            .append("g")
-            .attr("transform", "translate(" + margin + "," + margin + ")");
-
-        var x = d3.scale.linear()
-            .domain([d3.min(data, function (d) { return d.x; }), d3.max(data, function (d) { return d.x; })])
-            .range([0, width]);
-
-        var y = d3.scale.linear()
-            .domain([d3.min(data, function (d) { return d.y; }), d3.max(data, function (d) { return d.y; })])
-            .range([height, 0]);
-
-        var scale = d3.scale.sqrt()
-            .domain([d3.min(data, function (d) { return d.size; }), d3.max(data, function (d) { return d.size; })])
-            .range([1, 20]);
-
-        var opacity = d3.scale.sqrt()
-            .domain([d3.min(data, function (d) { return d.size; }), d3.max(data, function (d) { return d.size; })])
-            .range([1, .5]);
-
-        var color = d3.scale.category10();
-
-        var xAxis = d3.svg.axis().scale(x);
-        var yAxis = d3.svg.axis().scale(y).orient("left");
-
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("x", 20)
-            .attr("y", -margin)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(labelY);
-        // x axis and label
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("x", width + 20)
-            .attr("y", margin - 10)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(labelX);
-
-            
-        svg.selectAll("circle")
-            .data(data)
-            .enter()
-            .insert("circle")
-            .attr("cx", width / 2)
-            .attr("cy", height / 2)
-            .attr("opacity", function (d) { return opacity(d.size); })
-            .attr("r", function (d) { return scale(d.size); })
-            .style("fill", function (d) { return color(d.c); })
-            .on('mouseover', function (d, i) {
-                console.log ("D: ", d)
-                fade(d.c, .1);
-            })
-            .on('mouseout', function (d, i) {
-                fadeOut();
-            })
-            .transition()
-            .delay(function (d, i) { return x(d.x) - y(d.y); })
-            .duration(500)
-            .attr("cx", function (d) { return x(d.x); })
-            .attr("cy", function (d) { return y(d.y); })
-            .ease("bounce");
-
-
-        function fade(c, opacity) {
-            svg.selectAll("circle")
-                .filter(function (d) {
-                    return d.c != c;
-                })
-                .transition()
-                .style("opacity", opacity);
-        }
-
-        function fadeOut() {
-            svg.selectAll("circle")
-                .transition()
-                .style("opacity", function (d) { opacity(d.size); });
-        }
-    });
-    */
