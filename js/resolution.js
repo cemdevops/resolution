@@ -39,10 +39,10 @@ $("#option_basemap_thematic").click(function () {
 // Change language tokens in page
 function changeLanguage (strNewLanguage) {
     if (strNewLanguage != globalCurrentLanguage) {
-        
+
         // Store prior language
         auxglobalCurrentLanguage = globalCurrentLanguage;
-        
+
         // change language
         // Get new language tokens
         globalCurrentLanguage = strNewLanguage;
@@ -84,12 +84,12 @@ function changeLanguage (strNewLanguage) {
             $("#legendVariableStr").text(currentLayerData.title);
             $("#legendVariableUnit").text("(" + currentLayerData.polygonArea + ")");
         }
-            
+
         // Change language in element HTML
-        $("#option_language").text(globalLangVal[globalLangKey.indexOf(auxglobalCurrentLanguage)]);	
+        $("#option_language").text(globalLangVal[globalLangKey.indexOf(auxglobalCurrentLanguage)]);
         $("#option_language").attr("href", "javascript:changeLanguage ('" + auxglobalCurrentLanguage + "');");
-    
-    
+
+
     }
 }
 
@@ -295,7 +295,6 @@ $("#option_variables").change(function () {
     VARIABLE_DESC_GLOBAL = variableDescr;
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
     {
-        //console.log('checked:',$("#graphCheck")[0].checked);
         $("#graphCheck")[0].checked = false;
         $("#graphCheck").attr("disabled", true);
     }else {
@@ -387,11 +386,8 @@ function createLayerChoropletic(theme, variable, variableDescr){
                 });
 
                 // colocando ordem de sobreposição dos layers
-
                 layer.setZIndex(1);
                 showThematicLayer(layer, tableName, theme, variable, variableDescr, codcem, currentLayerData);
-
-
             });
     }
 }
@@ -400,10 +396,10 @@ function createLayerChoropletic(theme, variable, variableDescr){
  * Function to take out the legend of screen
  */
 function takeOutLegend(){
-  // Check if layer's legend. Remove if exists
-  if ($("div.leaflet-control-container.legend").length) {
-      $("div.leaflet-control-container.legend").remove();
-  }
+    // Check if layer's legend. Remove if exists
+    if ($("div.leaflet-control-container.legend").length) {
+        $("div.leaflet-control-container.legend").remove();
+    }
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -475,7 +471,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
             for(var i = 0; i < features.length; ++i) {
                 var f = geojson.features[i];
                 var key = f.properties[codcem];
-                
+
                 // generate geometry
                 var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
                 geo.setStyle(style);
@@ -509,17 +505,17 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                 document.getElementById("celula8").innerHTML = "";
                 document.getElementById("celula9").innerHTML = "";
                 document.getElementById("nonUbanArea").innerHTML = "";
-                
+
                 // Fill district value in legend
                 if (codcem == "codsc_cem" && data["nom_mu"] != data[currentLayerData.colTableToLegend]) {
                     document.getElementById("bairro").innerHTML = data["nom_mu"] + " - " +
-                                                                data[currentLayerData.colTableToLegend];
+                        data[currentLayerData.colTableToLegend];
                     document.getElementById("bairro").title = 'Municipio - Distrito';
                 } else {
                     document.getElementById("bairro").innerHTML = data[currentLayerData.colTableToLegend];
                     document.getElementById("bairro").title = 'Municipio';
                 }
-                    
+
                 // Fill legend cell with data set value
                 if (valor >= 0 && valor <= arrayDataClassBreaks[6]) {
                     document.getElementById("celula" + getClassBreaksCel (valor, arrayDataClassBreaks)).innerHTML = valor;
@@ -557,7 +553,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                     }
                 }
             }
-                
+
 
         }); // sublayer.on
         // ... Clóvis/André 20170331
@@ -580,9 +576,9 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
                     //document.getElementById("celula9").innerHTML = "";
                     document.getElementById("nonUbanArea").innerHTML="";
                 }
-                
+
                 var pol = polygonsHighlighted;
-                
+
                 if (pol.length > 0) {
                     for (var i = 0; i < pol.length; ++i) {
                         map.removeLayer(pol[i].geo);
@@ -1074,7 +1070,7 @@ function showRMSP(zindex, polygonOpacity){
                 cartocss: "#sc2010_rmsp_cem_r_merge{line-width: 3; polygon-fill:#b9b2ac; line-color:#7d7268; polygon-opacity: " + polygonOpacity + ";}"
             });
 
-            var sublayer = layer.getSubLayer(0); 
+            var sublayer = layer.getSubLayer(0);
             sublayer.setInteraction(true);
             sublayer.setInteractivity("cartodb_id");
 

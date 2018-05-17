@@ -108,16 +108,14 @@ $.getJSON(
     }
 );
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 /*
  * Function to get a query and CSS to create a layer in Carto
  */
 function getQueryAndCssToCreateLayer(op, tableName, polygonCodName, colTableToLegend,dataClassBreaksValues, withoutValueClassColor, dataClassColors, opacity, showEdge){
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     var sqlString = "SELECT cartodb_id,the_geom_webmercator,the_geom," +polygonCodName+","+ op + ","+
-    (polygonCodName == 'codsc_cem' ? "nom_mu," + colTableToLegend: colTableToLegend) +
-    " FROM " + tableName;
+        (polygonCodName == 'codsc_cem' ? "nom_mu," + colTableToLegend: colTableToLegend) +
+        " FROM " + tableName;
     /*if (tableName == "logradouros_ap") {
         sqlString = "SELECT * FROM " + tableName;
     } else {
@@ -128,8 +126,6 @@ function getQueryAndCssToCreateLayer(op, tableName, polygonCodName, colTableToLe
             "SELECT * FROM logradouros_sc80000_";
 
     }*/
-    console.log('query:',sqlString);
-
 
     var cartocssString = "#" + tableName + "{polygon-fill: #FC4E2A;polygon-opacity: " + opacity + ";line-color: #476b6b;line-opacity: 1;}";
 
@@ -176,7 +172,7 @@ function getCurrentLayerData (idTheme, variable){
             jsonFiltered = result.Themes.filter(function(n){
                 return n.idTheme==idTheme;
             });
-            console.log(jsonFiltered[0].dataBaseForGraph.cartoAccount);
+
             objRet.idTheme = jsonFiltered[0].idTheme;
             objRet.codTheme = jsonFiltered[0].codTheme;
             objRet.cartoAccountWithBaseMap = jsonFiltered[0].withBaseMap.cartoAccount;
@@ -259,8 +255,6 @@ function getCurrentLayerData (idTheme, variable){
         }
     );
 
-
-
     // enagle async again (default mode)
     $.ajaxSetup({
         async: true
@@ -309,7 +303,6 @@ function getVariableData(idTheme, variable){
             }
         }
     );
-
 
     // enagle async again (default mode)
     $.ajaxSetup({
