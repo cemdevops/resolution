@@ -33,10 +33,10 @@ html, body, #map {
 /* End */
 
 #container_menu {
-    position: absolute;    
+    position: absolute;
     font: 400 13px Helvetica,Arial;
     color: #000;
-    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
     background: rgba(230, 243, 255,0.7);/*#e6f3ff*/
     top: 100px;
     right: 20px;
@@ -51,7 +51,7 @@ html, body, #map {
     /*text-transform: uppercase;*/
     color: #333;
     padding: 10px 15px 5px 15px;
-    border-bottom: 2px solid rgba(35,87,146,0.4);    
+    border-bottom: 2px solid rgba(35,87,146,0.4);
 }
 
 /*#title_legend {
@@ -82,8 +82,8 @@ html, body, #map {
 
 #container_extras {
     color: #000;
-    padding: 10px 15px 10px 15px;        
-    border-radius: 6px;    
+    padding: 10px 15px 10px 15px;
+    border-radius: 6px;
     background: rgba(255,255,255,0.8);
 }
 
@@ -95,7 +95,7 @@ html, body, #map {
 
 .separator{
     height: 8px;
-    background: rgba(255,255,255,0.8);    
+    background: rgba(255,255,255,0.8);
 }
 
 #option_theme{
@@ -233,7 +233,7 @@ a {
 
 }
 
- a:hover {
+a:hover {
 
     color: #0056b3!important;
 
@@ -243,7 +243,7 @@ a {
 /* button thematic/base map option */
 .input-map-option{
     width: 75px;
-    height: 75px; 
+    height: 75px;
     font-size: 9px;
     text-align: center;
     white-space: normal;
@@ -260,10 +260,10 @@ a {
 
 /*CSS about*/
 #main-container-about {
-    position: absolute;    
+    position: absolute;
     font: 400 13px Helvetica,Arial;
     color: #ffffff;
-    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
     background: rgba(51, 51, 51,0.7);/*#e6f3ff*/
     top: 20px;
     left: 65px;
@@ -274,30 +274,30 @@ a {
 }
 
 #title-about {
-    font: bold 20px Arial, Tahoma, Helvetica, sans-serif;    
+    font: bold 20px Arial, Tahoma, Helvetica, sans-serif;
     color: #ffffff;
     padding: 15px 15px 3px 15px;
     text-align: center
 }
 
 #subtitle-about {
-    font: 15px Arial, Tahoma, Helvetica, sans-serif;    
+    font: 15px Arial, Tahoma, Helvetica, sans-serif;
     color: #ffffff;
-    padding: 0px 15px 10px 15px;    
+    padding: 0px 15px 10px 15px;
     text-align: center
 }
 
 .container-text-about {
     /*background: rgba(51, 51, 51,0.7);*/
     /*color: #000;*/
-    border-bottom: 1px solid rgba(35,87,146,0.4);    
-    padding: 10px 15px 10px 15px;    
+    border-bottom: 1px solid rgba(35,87,146,0.4);
+    padding: 10px 15px 10px 15px;
 }
 
 .footerWrap-about {
     padding: 5px;
     background: rgba(255, 255, 255,0.5);/*#e6f3ff*/
-    border-radius: 4px; /*mozilla*/ 
+    border-radius: 4px; /*mozilla*/
     border: 4px;
     font: 400 13px Helvetica,Arial;
     font-size:10pt;
@@ -316,10 +316,10 @@ a {
 }
 
 .cem {
-    padding: 15px 10px 10px 0;  
+    padding: 15px 10px 10px 0;
 }
 
-.fapesp {   
+.fapesp {
     padding: 15px 0px 10px 0;
 }
 
@@ -333,10 +333,10 @@ a {
     padding: 15px 110px 15px 10px;
 }
 
-.cem-icon {    
-    background-position: -188px -42px;            
+.cem-icon {
+    background-position: -188px -42px;
     display: inline;
-    padding: 15px 110px 15px 0;  
+    padding: 15px 110px 15px 0;
 }
 
 .cem-logo{
@@ -370,9 +370,9 @@ a {
 
 /* Vertical icon bar*/
 #container-icons {
-    position: absolute; 
+    position: absolute;
     color: #000;
-    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;   
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
     background: rgba(51, 51, 51,0.7);/*#e6f3ff*/
     top: 100px;
     left: 10px;
@@ -405,12 +405,12 @@ a {
 }
 
 hr.separator-icons {
-    border: 0; 
-    height: 1px; 
+    border: 0;
+    height: 1px;
     background-image: -webkit-linear-gradient(left, #8c8b8b,#f0f0f0, #8c8b8b);
     background-image: -moz-linear-gradient(left, #8c8b8b, #f0f0f0, #8c8b8b);
     background-image: -ms-linear-gradient(left, #8c8b8b, #f0f0f0, #8c8b8b);
-    background-image: -o-linear-gradient(left, #8c8b8b, #f0f0f0, #8c8b8b); 
+    background-image: -o-linear-gradient(left, #8c8b8b, #f0f0f0, #8c8b8b);
 }
 
 /* map positions */

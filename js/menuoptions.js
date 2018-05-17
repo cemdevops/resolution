@@ -1,6 +1,6 @@
-var Scripts = {   
+var Scripts = {
     /* Responsavel pela inicializacão das funcoes */
-    _init: function() {       
+    _init: function() {
         this._click();                  // Functions click
     },
 
@@ -10,20 +10,20 @@ var Scripts = {
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
-               
+
             Scripts._share(encodeURIComponent(title),texto,url,'facebook');
             return false;
         });
-        
+
         //twitter
         $('#twitter').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
-               
+
             Scripts._share(encodeURIComponent(title),texto,url,'twitter');
             return false;
-            
+
         });
 
         //email
@@ -31,26 +31,26 @@ var Scripts = {
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
-               
+
             Scripts._share(encodeURIComponent(title),texto,url,'email');
             return false;
-            
+
         });
 
-         //linkedIn
+        //linkedIn
         $('#linkedin').click(function(){
             var title         = $('meta[property="og:title"]').attr('content'),
                 texto         = $('meta[property="og:description"]').attr('content'),
                 url           = $('meta[property="og:url"]').attr('content');
-               
+
             Scripts._share(encodeURIComponent(title),texto,url,'linkedin');
             return false;
-            
+
         });
-    },    
+    },
 
     _share: function(titulo,texto,cUrl,tipo) {
-    /* Utilizado para todas as redes sociais, para abrir em um popup */
+        /* Utilizado para todas as redes sociais, para abrir em um popup */
         var basePage;
         if (tipo === 'twitter') {
             basePage = 'http://twitter.com/share?url=' + cUrl + '&text=' + titulo;
@@ -65,10 +65,10 @@ var Scripts = {
             basePage = "http://www.linkedin.com/shareArticle?mini=true&url="+ encodeURIComponent(cUrl) + "&title="+ titulo + "&summary="+ texto;
             window.open(basePage,'_blank', 'top=200, width=600,height=400');
         }
-        
+
         return false;
     }
-}    
+}
 $(function () {
     Scripts._init();
 });
