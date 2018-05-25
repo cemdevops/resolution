@@ -226,7 +226,7 @@ function getCurrentLayerData (idTheme, variable){
             });
 
             objRet.codVariable = jsonFiltered[0].codVariable;
-            objRet.graphVariable = jsonFiltered[0].graphVariables[0];
+            objRet.graphVariable = (jsonFiltered[0].graphVariables.length > 0 ? jsonFiltered[0].graphVariables[0] : '');
 
             /*for (var i=0; i<jsonFiltered[0].graphVariables.length; i++) {
                 objRet.graphVariables.push(jsonFiltered[0].graphVariables[0]);

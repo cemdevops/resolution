@@ -300,12 +300,18 @@ $("#option_variables").change(function () {
     console.log("variable global:", VARIABLE_GLOBAL);
     if (VARIABLE_GLOBAL !== globalLangTokens.variableOptionSelectString && VARIABLE_GLOBAL !== 'undefined')
     {
+        // get all data configuration of current layer, based on theme and variable (op)
+        var currentLayerData = getCurrentLayerData(theme, variable);
+
+        //When the graph creation is by variable and not by theme
+        /*if (currentLayerData.graphVariable === '') {
+            document.getElementById("graphCheckSection").style.display = 'none';
+        } else {
+            document.getElementById("graphCheckSection").style.display = 'block';
+        }*/
         // Show graph if the control was checked
         $("#graphCheck").attr("disabled", false);
         showGraph($("#graphCheck")[0].checked);
-
-        // get all data configuration of current layer, based on theme and variable (op)
-        var currentLayerData = getCurrentLayerData(theme, variable);
 
         createLayerChoropletic(currentLayerData, THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
         //createPlacesLayer();
@@ -339,13 +345,21 @@ $("#option_variables").change(function () {
         document.getElementById("variableDescriptiveNote").style.display = 'none';
         // Get the variable link
         document.getElementById("linkSection").style.display = 'none';
+        // Doesn't show the check control to show graph
+        document.getElementById("graphCheckSection").style.display = 'none';
 
     }
 });
 
 $("#option_theme").change(function () {
+
     $("#graphCheck")[0].checked = false;
     $("#graphCheck").attr("disabled", true);
+
+    THEME_GLOBAL = $("#option_theme").val();
+
+    // show the check control to show graph only for the Education theme
+    document.getElementById("graphCheckSection").style.display = (THEME_GLOBAL === '4' ? 'block': 'none');
 
     // Update the content of the variable description modal
     if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString || VARIABLE_GLOBAL === 'undefined')
@@ -356,6 +370,7 @@ $("#option_theme").change(function () {
         document.getElementById("variableDescriptiveNote").style.display = 'none';
         // Get the variable link
         document.getElementById("linkSection").style.display = 'none';
+
     }
 });
 
