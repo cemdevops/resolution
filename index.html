@@ -45,9 +45,9 @@
             var file_path = './downloads/';
             var alink = document.createElement('a');
             if (itemSelecionado == "Áreas de Ponderação 2010")
-                file_path += 'ap2010_rmsp_cem_erase.zip';
+                file_path += 'resolution_ap_com_codap_cem.zip';
             else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
-                file_path +='resolution_sc2010_cem_rmsp_erase.zip';
+                file_path +='resolution_sc_com_codsc_cem.zip';
             else if (itemSelecionado == "Linhas de Metrô")
                 file_path += 'resolution_metro_linhas.zip';
             else if (itemSelecionado == "Linhas de Trem")
@@ -55,9 +55,9 @@
             else if (itemSelecionado == 'Águas')
                 file_path += 'resolution_cem_aguas_2.zip';
             else if (itemSelecionado == 'Integração entre Logradouros e Setores Censitários')
-                file_path += 'logradouros_sc_codsc_cem.zip';
+                file_path += 'logradouros_sc-com_codsc_cem.zip';
             else if (itemSelecionado == 'Integração entre Logradouros e Áreas de Ponderação')
-                file_path += 'logradouros_ap_codap_cem.zip';
+                file_path += 'logradouros_ap-com_codap_cem.zip';
             alink.href = file_path;
             alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
             document.body.appendChild(alink);
@@ -351,6 +351,47 @@
 		</div>
 	</div>
 	<!-- ... End - Screen to About the themes -->
+
+	<!-- Modal to show an explanation about the variables --->
+	<div class="modal fade" id="aboutVariable" tabindex="-1" role="dialog" aria-labelledby="variableName" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div>
+						<h5 class="modal-title" id="variableName"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 12px;">
+					<p>Descrição da variável .... </p>
+
+					<hr>
+					<h6><i class="fa fa-link"></i> Link</h6>
+					<p>
+						Link a un site
+					</p>
+					<ul>
+						<li>
+							Acessibilidade Cumulativa: acessibilidade medida a partir do número de oportunidades que podem
+							ser acessadas dentro de um determinado intervalo de tempo a partir de uma localidade (Páez, Scott, & Morency, 2012);
+						</li>
+						<li>
+							Acessibilidade Gravitacional: a acessibilidade de uma localidade é inversamente proporcional
+							ao custo generalizado do deslocamento (tempo, distância, preço, lotação, etc.) para acessar
+							atividades (El-Geneidy and Levinson, 2006).
+						</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ... End - Screen to About the variables -->
 
 	<!-- MODAL to download the Map Image -->
 	<!-- Modal -->
