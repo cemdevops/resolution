@@ -80,6 +80,9 @@ function populateVariables(idTheme, op){
         	option.value = globalLangTokens.variableOptionSelectString;
         	option.innerHTML = globalLangTokens.variableOptionSelectString;
         	option.title = "";
+        	var variableName = "";
+        	var variableDescription = "";
+        	var variableDescriptiveNote = "";
         	selectControl.appendChild(option);
         	// Change the variable description to "Select" option (default)
         	document.getElementById("variable_description").innerHTML = globalLangTokens.variableOptionSelectDescription;
@@ -90,18 +93,21 @@ function populateVariables(idTheme, op){
 				option.value = jsonFiltered[i].codVariable;
 				// Read variable
 				if (jsonFiltered[i]["variable-" + globalCurrentLanguage]) {
-					option.innerHTML = jsonFiltered[i]["variable-" + globalCurrentLanguage];
-				} else {
+					variableName = jsonFiltered[i]["variable-" + globalCurrentLanguage];
+                } else {
 					// default pt-br
-					option.innerHTML = jsonFiltered[i]["variable-pt-br"];
+					variableName = jsonFiltered[i]["variable-pt-br"];
 				}
+                option.innerHTML = variableName;
+
 				// Read variable description
 				if (jsonFiltered[i]["description-" + globalCurrentLanguage]) {
-					option.title = jsonFiltered[i]["description-" + globalCurrentLanguage];
+					variableDescription = jsonFiltered[i]["description-" + globalCurrentLanguage];
 				} else {
 					// default pt-br
-					option.title = jsonFiltered[i]["description-pt-br"];
+					variableDescription = jsonFiltered[i]["description-pt-br"];
 				}
+                option.title = variableDescription;
         		
         		selectControl.appendChild(option);
 			}

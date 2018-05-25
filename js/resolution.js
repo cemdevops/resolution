@@ -142,6 +142,10 @@ function updateLanguageTokens () {
 
     $("#labelQuantileString").text(globalLangTokens.labelQuantileString);
     $("#labelJenksString").text(globalLangTokens.labelJenksString);
+    $("#variableName").text(globalLangTokens.variableNameString);
+    $("#variableModalTitle").text(globalLangTokens.variableModalTitleString);
+    $("#variableLabel").text(globalLangTokens.variableLabelString);
+    $("#linkLabel").text(globalLangTokens.linkLabelString);
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -293,22 +297,66 @@ $("#option_variables").change(function () {
     THEME_GLOBAL = theme;
     VARIABLE_GLOBAL = variable;
     VARIABLE_DESC_GLOBAL = variableDescr;
-    if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)
+    console.log("variable global:", VARIABLE_GLOBAL);
+    if (VARIABLE_GLOBAL !== globalLangTokens.variableOptionSelectString && VARIABLE_GLOBAL !== 'undefined')
     {
+        // Show graph if the control was checked
+        $("#graphCheck").attr("disabled", false);
+        showGraph($("#graphCheck")[0].checked);
+
+        // get all data configuration of current layer, based on theme and variable (op)
+        var currentLayerData = getCurrentLayerData(theme, variable);
+
+        createLayerChoropletic(currentLayerData, THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
+        //createPlacesLayer();
+
+        // get the variable Name
+        document.getElementById("variableName").innerHTML = currentLayerData.title;
+        // get the descriptive note
+        document.getElementById("variableDescriptiveNote").innerHTML = currentLayerData.descriptiveNote;
+
+        if (currentLayerData.linkText === ""){
+            document.getElementById("linkSection").style.display = 'none';
+        } else {
+            document.getElementById("linkSection").style.display = 'block';
+            // Get the variable link
+            document.getElementById("variableLink").innerHTML = currentLayerData.linkText;
+            document.getElementById("variableLink").href = currentLayerData.linkHRef;
+        }
+
+        if (currentLayerData.linkText !== "" && currentLayerData.descriptiveNote !== ""){
+            document.getElementById("sectionSeparator").style.display = 'block';
+        } else {
+            document.getElementById("sectionSeparator").style.display = 'none';
+        }
+    }else {
         $("#graphCheck")[0].checked = false;
         $("#graphCheck").attr("disabled", true);
-    }else {
-        $("#graphCheck").attr("disabled", false);
-    }
-    showGraph($("#graphCheck")[0].checked);
 
-    createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
-    //createPlacesLayer();
+        // get the variable Name
+        document.getElementById("variableName").innerHTML = globalLangTokens.variableNameString;
+        // get the descriptive note
+        document.getElementById("variableDescriptiveNote").style.display = 'none';
+        // Get the variable link
+        document.getElementById("linkSection").style.display = 'none';
+
+    }
 });
 
 $("#option_theme").change(function () {
     $("#graphCheck")[0].checked = false;
     $("#graphCheck").attr("disabled", true);
+
+    // Update the content of the variable description modal
+    if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString || VARIABLE_GLOBAL === 'undefined')
+    {
+        // get the variable Name
+        document.getElementById("variableName").innerHTML = globalLangTokens.variableNameString;
+        // get the descriptive note
+        document.getElementById("variableDescriptiveNote").style.display = 'none';
+        // Get the variable link
+        document.getElementById("linkSection").style.display = 'none';
+    }
 });
 
 $("#option_basemap_thematic").click(function () {
@@ -316,15 +364,20 @@ $("#option_basemap_thematic").click(function () {
     VARIABLE_DESC_GLOBAL = $("#option_variables option:selected").text();
     THEME_GLOBAL = $("#option_theme").val();
 
-    createLayerChoropletic(THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
+    if (!(VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)) {
+        // get all data configuration of current layer, based on theme and variable (op)
+        var currentLayerData = getCurrentLayerData(theme, variable);
+        createLayerChoropletic(currentLayerData, THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
+    }
 });
 
 var POLYGON_CODNAME = "";
-function createLayerChoropletic(theme, variable, variableDescr){
+function createLayerChoropletic(currentLayerData, theme, variable, variableDescr){
 
     if (!(variable === globalLangTokens.variableOptionSelectString)) {
         // get all data configuration of current layer, based on theme and variable (op)
-        var currentLayerData = getCurrentLayerData (theme, variable);
+        // var currentLayerData = getCurrentLayerData (theme, variable);
+
         // get data class method values for current method (quantile or jenks).
         var cartoAccount =  "";
         var tableName =  "";

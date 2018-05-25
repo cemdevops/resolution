@@ -182,9 +182,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Apoio:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -235,9 +235,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Support:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -289,7 +289,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div>
-						 <h4 class="modal-title" id="aboutThemeTitle"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h4>
+						<h4 class="modal-title" id="aboutThemeTitle"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h4>
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -300,8 +300,8 @@
 						do Censo 2010 do IBGE <i>(Instituto Brasileiro de Geografia e Estatística)</i>.
 						Mais informações estão disponíveis no site <a href="https://censo2010.ibge.gov.br/">https://censo2010.ibge.gov.br/</a>.
 					</p>
-					<p>As variáveis dos temas Acessibilidade e Segregação fazem parte do projeto ReSolution
-						(<a href="http://200.144.244.238/pt-br/resolution">//200.144.244.238/pt-br/resolution</a>)
+					<p>As variáveis dos temas Acessibilidade e Segregação fazem parte do projeto
+						<a href="http://innovaretech.com.br/pt-br/resolution" title="Site do projeto ReSolution">ReSolution</a>
 						e foram calculadas com base nos dados da Pesquisa Origem e Destino 2007 do Metrô de São Paulo,
 						disponível no site <a href="http://www.metro.sp.gov.br/pesquisa-od/arquivos/_OD_2007_Sumario_de_Dados.pdf">http://www.metro.sp.gov.br/pesquisa-od/arquivos/_OD_2007_Sumario_de_Dados.pdf</a>.
 						A seguir são apresentados breves resumos da definição das variáveis de Acessibilidade e Segregação,
@@ -358,31 +358,20 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div>
-						<h5 class="modal-title" id="variableName"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h5>
+						<h5 class="modal-title"><i class="fa fa-info-circle"></i> <b><span id="variableModalTitle"> Descrição da Variável</span></b></h5>
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body" style="font-size: 12px;">
-					<p>Descrição da variável .... </p>
-
-					<hr>
-					<h6><i class="fa fa-link"></i> Link</h6>
-					<p>
-						Link a un site
-					</p>
-					<ul>
-						<li>
-							Acessibilidade Cumulativa: acessibilidade medida a partir do número de oportunidades que podem
-							ser acessadas dentro de um determinado intervalo de tempo a partir de uma localidade (Páez, Scott, & Morency, 2012);
-						</li>
-						<li>
-							Acessibilidade Gravitacional: a acessibilidade de uma localidade é inversamente proporcional
-							ao custo generalizado do deslocamento (tempo, distância, preço, lotação, etc.) para acessar
-							atividades (El-Geneidy and Levinson, 2006).
-						</li>
-					</ul>
+					<h6><i class="fa fa-bookmark"></i><span id="variableLabel"> VARIÁVEL: </span><span id="variableName">Nenhuma variável selecionada</span></h6>
+					<div id="variableDescriptiveNote"> </div>
+					<hr id="sectionSeparator" style="display: none;">
+					<div id="linkSection" style="display: none;">
+						<h6><i class="fa fa-link"></i><span id="linkLabel"> Mais informações:</span></h6>
+						<a id="variableLink" href="#"></a>
+					</div>
 
 				</div>
 				<div class="modal-footer">
@@ -456,7 +445,7 @@
 			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 				<div class="card-body bg-transparent" style="padding: .6rem;font-size:small;">
 					<div class="row">
-						<select id="option_theme" class="col">	</select>
+						<select id="option_theme" class="col ml-3">	</select>
 						<a id="about-themes"  style="font-size: 1.7em;line-height: 1; width: 25px; margin: 0 8px;" title="Ver descrição dos temas"
 						   data-toggle="modal" data-target="#aboutTheme">
 							<i class="fa fa-info-circle"></i>
@@ -466,8 +455,14 @@
 					<div id="theme_description" class="description-item">  </div>
 					<div class="separator"></div>
 
-					<select id="option_variables"  class="col">
-					</select>
+					<div class="row">
+						<select id="option_variables"  class="col ml-3">
+						</select>
+						<a id="about-variable"  style="font-size: 1.7em;line-height: 1; width: 25px; margin: 0 8px;" title="Ver descrição da variável"
+						   data-toggle="modal" data-target="#aboutVariable">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</div>
 					<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
 				</div>
 				<hr class="mb-0 mt-0">
