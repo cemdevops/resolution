@@ -297,7 +297,6 @@ $("#option_variables").change(function () {
     THEME_GLOBAL = theme;
     VARIABLE_GLOBAL = variable;
     VARIABLE_DESC_GLOBAL = variableDescr;
-    console.log("variable global:", VARIABLE_GLOBAL);
     if (VARIABLE_GLOBAL !== globalLangTokens.variableOptionSelectString && VARIABLE_GLOBAL !== 'undefined')
     {
         // get all data configuration of current layer, based on theme and variable (op)
@@ -356,22 +355,21 @@ $("#option_theme").change(function () {
     $("#graphCheck")[0].checked = false;
     $("#graphCheck").attr("disabled", true);
 
-    THEME_GLOBAL = $("#option_theme").val();
+    // THEME_GLOBAL = $("#option_theme").val();
 
     // show the check control to show graph only for the Education theme
-    document.getElementById("graphCheckSection").style.display = (THEME_GLOBAL === '4' ? 'block': 'none');
+    document.getElementById("graphCheckSection").style.display = ($("#option_theme").val() === '4' ? 'block': 'none');
 
     // Update the content of the variable description modal
-    if (VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString || VARIABLE_GLOBAL === 'undefined')
-    {
-        // get the variable Name
-        document.getElementById("variableName").innerHTML = globalLangTokens.variableNameString;
-        // get the descriptive note
-        document.getElementById("variableDescriptiveNote").style.display = 'none';
-        // Get the variable link
-        document.getElementById("linkSection").style.display = 'none';
+    // get the variable Name
+    document.getElementById("variableName").innerHTML = globalLangTokens.variableNameString;
+    console.log('STRING TOKEN:', globalLangTokens.variableNameString);
+    // get the descriptive note
+    document.getElementById("variableDescriptiveNote").style.display = 'none';
+    // Get the variable link
+    document.getElementById("linkSection").style.display = 'none';
 
-    }
+
 });
 
 $("#option_basemap_thematic").click(function () {
