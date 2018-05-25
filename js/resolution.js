@@ -379,7 +379,7 @@ $("#option_basemap_thematic").click(function () {
 
     if (!(VARIABLE_GLOBAL === globalLangTokens.variableOptionSelectString)) {
         // get all data configuration of current layer, based on theme and variable (op)
-        var currentLayerData = getCurrentLayerData(theme, variable);
+        var currentLayerData = getCurrentLayerData(THEME_GLOBAL, VARIABLE_GLOBAL);
         createLayerChoropletic(currentLayerData, THEME_GLOBAL, VARIABLE_GLOBAL, VARIABLE_DESC_GLOBAL);
     }
 });
