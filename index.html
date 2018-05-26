@@ -45,9 +45,9 @@
             var file_path = './downloads/';
             var alink = document.createElement('a');
             if (itemSelecionado == "Áreas de Ponderação 2010")
-                file_path += 'ap2010_rmsp_cem_erase.zip';
+                file_path += 'resolution_ap_com_codap_cem.zip';
             else if (itemSelecionado == "Setores Censitários da Região Metropolitana 2010")
-                file_path +='resolution_sc2010_cem_rmsp_erase.zip';
+                file_path +='resolution_sc_com_codsc_cem.zip';
             else if (itemSelecionado == "Linhas de Metrô")
                 file_path += 'resolution_metro_linhas.zip';
             else if (itemSelecionado == "Linhas de Trem")
@@ -55,9 +55,9 @@
             else if (itemSelecionado == 'Águas')
                 file_path += 'resolution_cem_aguas_2.zip';
             else if (itemSelecionado == 'Integração entre Logradouros e Setores Censitários')
-                file_path += 'logradouros_sc_codsc_cem.zip';
+                file_path += 'logradouros_sc-com_codsc_cem.zip';
             else if (itemSelecionado == 'Integração entre Logradouros e Áreas de Ponderação')
-                file_path += 'logradouros_ap_codap_cem.zip';
+                file_path += 'logradouros_ap-com_codap_cem.zip';
             alink.href = file_path;
             alink.download = file_path.substr(file_path.lastIndexOf('/') + 1);
             document.body.appendChild(alink);
@@ -182,9 +182,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Apoio:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Fundação de Amparo à Pesquisa do Estado de São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -235,9 +235,9 @@
 					</div>
 					<hr>
 					<div style="font-size:15pt;float:left"><b>Support:&nbsp&nbsp</b></div>
-						<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
-							<i class="fapesp-icon sprite"></i>
-						</a>
+					<a target="_blank" href="http://www.fapesp.br/" title="Foundation for Research Support of the State of São Paulo">
+						<i class="fapesp-icon sprite"></i>
+					</a>
 
 				</div>
 				<div class="modal-footer">
@@ -260,7 +260,7 @@
 				</div>
 				<div class="modal-body">
 					<div  class="form-group row">
-						<div class="col">Layer:</div>
+						<div class="ml-3" >Layer:</div>
 						<div class="col">
 							<select id="layers-list" style="width:auto;">
 								<option>Áreas de Ponderação 2010</option>
@@ -289,7 +289,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div>
-						 <h4 class="modal-title" id="aboutThemeTitle"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h4>
+						<h4 class="modal-title" id="aboutThemeTitle"><i class="fa fa-info-circle"></i> <b>Temas de Resolution</b></h4>
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -300,8 +300,8 @@
 						do Censo 2010 do IBGE <i>(Instituto Brasileiro de Geografia e Estatística)</i>.
 						Mais informações estão disponíveis no site <a href="https://censo2010.ibge.gov.br/">https://censo2010.ibge.gov.br/</a>.
 					</p>
-					<p>As variáveis dos temas Acessibilidade e Segregação fazem parte do projeto ReSolution
-						(<a href="http://200.144.244.238/pt-br/resolution">//200.144.244.238/pt-br/resolution</a>)
+					<p>As variáveis dos temas Acessibilidade e Segregação fazem parte do projeto
+						<a href="http://innovaretech.com.br/pt-br/resolution" title="Site do projeto ReSolution">ReSolution</a>
 						e foram calculadas com base nos dados da Pesquisa Origem e Destino 2007 do Metrô de São Paulo,
 						disponível no site <a href="http://www.metro.sp.gov.br/pesquisa-od/arquivos/_OD_2007_Sumario_de_Dados.pdf">http://www.metro.sp.gov.br/pesquisa-od/arquivos/_OD_2007_Sumario_de_Dados.pdf</a>.
 						A seguir são apresentados breves resumos da definição das variáveis de Acessibilidade e Segregação,
@@ -351,6 +351,36 @@
 		</div>
 	</div>
 	<!-- ... End - Screen to About the themes -->
+
+	<!-- Modal to show an explanation about the variables --->
+	<div class="modal fade" id="aboutVariable" tabindex="-1" role="dialog" aria-labelledby="variableName" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div>
+						<h5 class="modal-title"><i class="fa fa-info-circle"></i> <b><span id="variableModalTitle"> Descrição da Variável</span></b></h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 12px;">
+					<h6><i class="fa fa-bookmark"></i><span id="variableLabel"> VARIÁVEL: </span><span id="variableName">Nenhuma variável selecionada</span></h6>
+					<div id="variableDescriptiveNote"> </div>
+					<hr id="sectionSeparator" style="display: none;">
+					<div id="linkSection" style="display: none;">
+						<h6><i class="fa fa-link"></i><span id="linkLabel"> Mais informações:</span></h6>
+						<a id="variableLink" href="#"></a>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ... End - Screen to About the variables -->
 
 	<!-- MODAL to download the Map Image -->
 	<!-- Modal -->
@@ -415,7 +445,7 @@
 			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 				<div class="card-body bg-transparent" style="padding: .6rem;font-size:small;">
 					<div class="row">
-						<select id="option_theme" class="col">	</select>
+						<select id="option_theme" class="col ml-3">	</select>
 						<a id="about-themes"  style="font-size: 1.7em;line-height: 1; width: 25px; margin: 0 8px;" title="Ver descrição dos temas"
 						   data-toggle="modal" data-target="#aboutTheme">
 							<i class="fa fa-info-circle"></i>
@@ -425,17 +455,27 @@
 					<div id="theme_description" class="description-item">  </div>
 					<div class="separator"></div>
 
-					<select id="option_variables"  class="col">
-					</select>
+					<div class="row">
+						<select id="option_variables"  class="col ml-3">
+						</select>
+						<a id="about-variable"  style="font-size: 1.7em;line-height: 1; width: 25px; margin: 0 8px;" title="Ver descrição da variável"
+						   data-toggle="modal" data-target="#aboutVariable">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</div>
 					<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
 				</div>
 				<hr class="mb-0 mt-0">
-				<div class="card-body" style="padding: .8rem .8rem 0rem;font-size:small;">
+				<div class="ml-3" style="padding: .8rem .8rem 0rem;font-size:small;">
 					<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
-						<label><input type="checkbox" name="transporte" id="metro_linha" style="float:left;padding-right:5px"><div id="metro_linha_label" style="padding-right:10px; float:left">Metrô</div></label>
-						<label ><input type="checkbox" name="transporte" id="trem_linha" style="float:left"><div id="trem_linha_label" style="padding-right:10px; float:left">Trem</div></label>
-						<label ><div style="padding-right:10px; float:left;">|</div></label>
-						<label><input type="checkbox" id="graphCheck" disabled style="float:left;padding-right:5px"><div id="graficos_label" style="padding-right:10px; float:left">Mostrar gráfico</div></label>
+						<div class="row">
+							<label><input type="checkbox" name="transporte" id="metro_linha" style="float:left;padding-right:5px"><div id="metro_linha_label" style="padding-right:10px; float:left">Metrô</div></label>
+							<label ><input type="checkbox" name="transporte" id="trem_linha" style="float:left"><div id="trem_linha_label" style="padding-right:10px; float:left">Trem</div></label>
+							<div id="graphCheckSection" style="display: none;">
+								<label ><div style="padding-right:10px; float:left;">|</div></label>
+								<label><input type="checkbox" id="graphCheck" disabled style="float:left;padding-right:5px"><div id="graficos_label" style="padding-right:10px; float:left">Mostrar gráfico</div></label>
+							</div>
+						</div>
 
 					</form>
 

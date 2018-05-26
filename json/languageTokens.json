@@ -120,5 +120,17 @@
     "labelQuantileString-en": "Quantile",
 
     "labelJenksString-pt-br": "Quebras naturais (Jenks)",
-    "labelJenksString-en": "Natural breaks (Jenks)"
+    "labelJenksString-en": "Natural breaks (Jenks)",
+
+    "variableNameString-pt-br": "Nenhuma variável selecionada",
+    "variableNameString-en": "No variables selected",
+
+    "variableModalTitleString-pt-br": "Descrição da Variável",
+    "variableModalTitleString-en": "Variable Description",
+
+    "variableLabelString-pt-br": " VARIÁVEL: ",
+    "variableLabelString-en": " VARIABLE: ",
+
+    "linkLabelString-pt-br": " Mais informações:",
+    "linkLabelString-en": " More information:"
 }

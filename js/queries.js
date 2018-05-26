@@ -226,7 +226,7 @@ function getCurrentLayerData (idTheme, variable){
             });
 
             objRet.codVariable = jsonFiltered[0].codVariable;
-            objRet.graphVariable = jsonFiltered[0].graphVariables[0];
+            objRet.graphVariable = (jsonFiltered[0].graphVariables.length > 0 ? jsonFiltered[0].graphVariables[0] : '');
 
             /*for (var i=0; i<jsonFiltered[0].graphVariables.length; i++) {
                 objRet.graphVariables.push(jsonFiltered[0].graphVariables[0]);
@@ -241,13 +241,30 @@ function getCurrentLayerData (idTheme, variable){
             }
 
             strAux = "description-" + globalCurrentLanguage;
-            if (objRet.varDescription = jsonFiltered[0][strAux]) {
+            if (jsonFiltered[0][strAux]) {
                 objRet.varDescription = jsonFiltered[0][strAux];
             } else {
                 // default pt-br
                 objRet.varDescription = jsonFiltered[0]["description-pt-br"];
             }
 
+            strAux = "descriptiveNote-" + globalCurrentLanguage;
+            if (jsonFiltered[0][strAux]) {
+                objRet.descriptiveNote = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.descriptiveNote = jsonFiltered[0]["descriptiveNote-pt-br"];
+            }
+
+            strAux = "linkTitle-" + globalCurrentLanguage;
+            if (jsonFiltered[0][strAux]) {
+                objRet.linkText = jsonFiltered[0][strAux];
+            } else {
+                // default pt-br
+                objRet.linkText = jsonFiltered[0]["linkText-pt-br"];
+            }
+
+            objRet.linkHRef = jsonFiltered[0].linkHRef;
             objRet.quantiles = jsonFiltered[0].quantiles;
             objRet.jenks = jsonFiltered[0].jenks;
             objRet.minLegendValue = jsonFiltered[0].minLegendValue;
@@ -569,6 +586,26 @@ function getLanguageTokens () {
                 globalLangTokens.labelJenksString = result ["labelJenksString-" + globalCurrentLanguage];
             } else {
                 globalLangTokens.labelJenksString = result ["labelJenksString-pt-br"];
+            }
+            if (result ["variableNameString-" + globalCurrentLanguage]) {
+                globalLangTokens.variableNameString = result ["variableNameString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.variableNameString = result ["variableNameString-pt-br"];
+            }
+            if (result ["variableModalTitleString-" + globalCurrentLanguage]) {
+                globalLangTokens.variableModalTitleString = result ["variableModalTitleString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.variableModalTitleString = result ["variableModalTitleString-pt-br"];
+            }
+            if (result ["variableLabelString-" + globalCurrentLanguage]) {
+                globalLangTokens.variableLabelString = result ["variableLabelString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.variableLabelString = result ["variableLabelString-pt-br"];
+            }
+            if (result ["linkLabelString-" + globalCurrentLanguage]) {
+                globalLangTokens.linkLabelString = result ["linkLabelString-" + globalCurrentLanguage];
+            } else {
+                globalLangTokens.linkLabelString = result ["linkLabelString-pt-br"];
             }
         }
     );
