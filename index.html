@@ -11,10 +11,8 @@
 	<meta property="og:image:type" content="image/png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />-->
 	<link rel="stylesheet" type="text/css" href="css/printing.css">
 	<!-- include cartodb css  -->
-	<!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />-->
 	<link rel="stylesheet" type="text/css" href="css/cartodb/css/cartodb.css"/>
 	<!-- configuração de estilos (css) -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -70,15 +68,7 @@
 <body>
 <!-- load the necessary scripts -->
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<!-- <script src="http://d3js.org/d3.v4.min.js"></script> -->
-<!--
-<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
--->
 <script src="js/lib/leaflet.label.js" type="text/javascript"></script>
-<!--
-<script src="js/lib/crossfilter.js"></script>
-<script src="js/lib/dc.min.js"></script>
--->
 
 <!-- header -->
 <header class="navbar navbar-toggleable-md navbar-expand flex-column flex-md-row bd-navbar navbar-light" style="background-color: #e3f2fd;
@@ -433,7 +423,7 @@
 	<!--Theme and variables selection panel -->
 	<div id="accordion" style="position: absolute;z-index: 1;top: 86px; right: 10px; width: 360px;">
 		<div class="card">
-			<div class="card-header" id="headingOne">
+			<div class="card-header" id="headingOne" style="padding: .4rem 1.0rem;">
 				<h6 class="mb-0 panel-title">
 					<a id="title_menu" style="font-size: 12px;white-space:pre-wrap;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
 					   aria-expanded="true" aria-controls="collapseOne">
@@ -466,7 +456,7 @@
 					<div id="variable_description" class="description-item"> Descrição da variável escolhida...</div>
 				</div>
 				<hr class="mb-0 mt-0">
-				<div class="ml-3" style="padding: .8rem .8rem 0rem;font-size:small;">
+				<div class="ml-3" style="padding: .4rem .8rem 0rem;font-size:small;line-height: .5;">
 					<form action="select_extras" title="Mostrar as linhas de Metrô e/ou Trem">
 						<div class="row">
 							<label><input type="checkbox" name="transporte" id="metro_linha" style="float:left;padding-right:5px"><div id="metro_linha_label" style="padding-right:10px; float:left">Metrô</div></label>
@@ -487,52 +477,12 @@
 	</div>
 	<!--End variables selection panel -->
 
-	<!-- Legenda -->
-	<!--<div class="leaflet-control-container">
-		<div class="leaflet-bottom leaflet-left" id="legendPanel"  style="bottom: 10px;left:15px" >
-			<div class="leaflet-control" style="cursor:default">
-				<div id="legend">
-					<div class="card">
-						<div class="card-header" id="headingLegend">
-							<h6 class="mb-0 panel-title">
-								<a id="title_menu2" style="font-size: 12px;" data-toggle="collapse" data-parent="#legend" href="#collapseLegend"
-								   aria-expanded="true" aria-controls="collapseLegend">
-									LEGENDA
-								</a>
-							</h6>
-						</div>
-
-						<div id="collapseLegend" class="collapse show" aria-labelledby="headingLegend" data-parent="#legend">
-							<div class="card-body bg-transparent" style="padding: .8rem;font-size:small;">
-								.............---------------------...............
-
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>-->
-	<!-- -->
-
 	<!-- Panel for Graphics -->
 	<!-- div onde vai ficar o control para mudar do mapa base ao temático -->
 	<div class="leaflet-control-container">
 		<div class="leaflet-bottom leaflet-left" id="graphicPanel">
 			<div class="leaflet-control" style="cursor:default">
-				<!--<div style="width: 650px; height: 330px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
-
-				</div>-->
-				<!--<div id="d3-elements2" style="background: rgba(255,255,255, 0.8)">
-				</div>-->
-				<div id="d3-elements" style="background: rgba(255,255,255, 0.65); border: 1px solid rgba(0,0,0,.195); border-radius: .25rem;">
-				</div>
-				<!--<div class='window-close' id="graphic-close">X</div>-->
-				<!--<div style="width: 200px; height: 510px; background: rgba(255,255,255, 0.8) ! important; box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;">
-
-				</div>-->
-				<!--<div class="chart" style="background: rgba(255,255,255, 0.8)"></div>-->
+				<div id="d3-elements" style="background: rgba(255,255,255, 0.65); border: 1px solid rgba(0,0,0,.195); border-radius: .25rem;"></div>
 			</div>
 		</div>
 	</div>

@@ -358,7 +358,12 @@ $("#option_theme").change(function () {
     // THEME_GLOBAL = $("#option_theme").val();
 
     // show the check control to show graph only for the Education theme
-    document.getElementById("graphCheckSection").style.display = ($("#option_theme").val() === '4' ? 'block': 'none');
+    var op = $("#option_theme").val();
+    if (op === '4' || op === '6' || op === '7'){
+        document.getElementById("graphCheckSection").style.display = 'block';
+    } else {
+        document.getElementById("graphCheckSection").style.display = 'none';
+    }
 
     // Update the content of the variable description modal
     // get the variable Name
@@ -805,10 +810,10 @@ function getStrLegend (curLayerData, strTitle, strUnit, strMinValue, strMaxValue
         "<div class='leaflet-control' style='cursor:default'>" +
         "<div id='legend' style='width: 360px;'>" +
         "<div class='card' style='word-wrap:normal;'>" +
-        "<div class='card-header' id='headingLegend'>" +
-        "<h6 class='mb-0 panel-title' style='font-size: 12px;font-weight:600'>"+
+        "<div class='card-header' id='headingLegend' style= 'padding: .4rem 1.0rem;'>" +
+        "<h6 class='mb-0 panel-title'>"+
         "<a id='title_legend'  data-toggle='collapse' data-parent='#legend' href='#collapseLegend' +\n" +
-        "        aria-expanded='true' aria-controls='collapseLegend'>"+
+        "        aria-expanded='true' aria-controls='collapseLegend' style='font-size:12px;font-weight:600'>"+
         globalLangTokens.legendTitle +
         "</a>"+
         "</h6>"+
