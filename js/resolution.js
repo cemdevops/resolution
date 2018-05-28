@@ -358,11 +358,11 @@ $("#option_theme").change(function () {
     // THEME_GLOBAL = $("#option_theme").val();
 
     // show the check control to show graph only for the Education theme
-    var op = $("#option_theme").val(); 
+    var op = $("#option_theme").val();
     if (op === '4' || op === '6' || op === '7'){
-       document.getElementById("graphCheckSection").style.display = 'block';
+        document.getElementById("graphCheckSection").style.display = 'block';
     } else {
-       document.getElementById("graphCheckSection").style.display = 'none';
+        document.getElementById("graphCheckSection").style.display = 'none';
     }
 
     // Update the content of the variable description modal
