@@ -1241,7 +1241,7 @@
         "jenks":[0.00024121964158,0.000245646083114,0.000511371787202,0.000805757606894,0.0010338447372,0.00222375576748,0.00504917698563],
         "minLegendValue": "0",
         "maxLegendValue": "0.00504917698563",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "res_indexh",
@@ -1259,7 +1259,7 @@
         "jenks":[0.000004558895633,0.000004692288733,0.000101610222441,0.000259803582677,0.000465533188689,0.00165036197923,0.00526698860136],
         "minLegendValue": "0",
         "maxLegendValue": "0.00526698860136",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "res_iso_00",
@@ -1277,7 +1277,7 @@
         "jenks":[0.00005871893627,0.000060545533545,0.000312335008295,0.000634379192425,0.00105299271197,0.0027064898422,0.00508216230323],
         "minLegendValue": "0",
         "maxLegendValue": "0.00508216230323",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "res_exp_06",
@@ -1295,7 +1295,7 @@
         "jenks":[0.00025750011894,0.000264032673225,0.000627741210215,0.00117472822053,0.00196743288142,0.00300503939404,0.00512529798846],
         "minLegendValue": "0",
         "maxLegendValue": "0.00512529798846",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "res_iso_66",
@@ -1313,7 +1313,7 @@
         "jenks":[0.000125299490311,0.000129795574827,0.000711173672537,0.00174137264339,0.00240679305423,0.00549788658292,0.0114098957042],
         "minLegendValue": "0",
         "maxLegendValue": "0.0114098957042",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "res_exp_60",
@@ -1331,7 +1331,7 @@
         "jenks":[0.000057311411666,0.000058765352384,0.000139715410876,0.000261457481726,0.000437888558094,0.000668827068867,0.00114072981456],
         "minLegendValue": "0",
         "maxLegendValue": "0.00114072981456",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_dissim",
@@ -1349,7 +1349,7 @@
         "jenks":[0.000309081469057,0.000315534295916,0.000515622624386,0.000749745005281,0.000975179389488,0.00208397031986,0.00360145490377],
         "minLegendValue": "0",
         "maxLegendValue": "0.00360145490377",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_indexh",
@@ -1367,7 +1367,7 @@
         "jenks":[-0.00002298759648,0.000073269555201,0.00020343844226,0.000347930867664,0.000422774988251,0.000939796566524,0.00175172478178],
         "minLegendValue": "0",
         "maxLegendValue": "0.00175172478178",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_iso_00",
@@ -1385,7 +1385,7 @@
         "jenks":[0.000023474634279,0.000024389591002,0.000159876251647,0.000464856193971,0.000683445452676,0.00203816846322,0.00436642674428],
         "minLegendValue": "0",
         "maxLegendValue": "0.00436642674428",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_exp_06",
@@ -1403,7 +1403,7 @@
         "jenks":[0.000206914114424,0.00021033390387,0.000716787120494,0.00140837124627,0.00206632440392,0.00378272047083,0.00608648420682],
         "minLegendValue": "0",
         "maxLegendValue": "0.00608648420682",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_iso_66",
@@ -1421,7 +1421,7 @@
         "jenks":[0.000433803985437,0.000445572557375,0.000904270146416,0.00151010959776,0.00179202189921,0.00418990302228,0.00898614699985],
         "minLegendValue": "0",
         "maxLegendValue": "0.0114098957042",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "tra_exp_60",
@@ -1439,7 +1439,7 @@
         "jenks":[0.000046052527595,0.0000468136644,0.00015953410785,0.000313458827414,0.000459898358778,0.000841913754178,0.00135465858707],
         "minLegendValue": "0",
         "maxLegendValue": "0.00135465858707",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt30cum",
@@ -1457,7 +1457,7 @@
         "jenks":[26237.83,26696.58,88586.99,256525.81,558840.77,984261.82,1661949.83],
         "minLegendValue": "0",
         "maxLegendValue": "1661949.83",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt45cum",
@@ -1475,7 +1475,7 @@
         "jenks":[125598.97,126886.37,554979.12,1215697.79,1671417.55,2431736.77,3499996.82],
         "minLegendValue": "0",
         "maxLegendValue": "3499996.82",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt60cum",
@@ -1493,7 +1493,7 @@
         "jenks":[358205.66,537941.82,1557331.43,2696697.46,3161991.50,3926856.80,5090816.81],
         "minLegendValue": "0",
         "maxLegendValue": "5090816.81",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt90cum",
@@ -1511,7 +1511,7 @@
         "jenks":[454097.23,1649568.45,2907112.54,4144124.82,4973007.17,5988445.30,7618364.13],
         "minLegendValue": "0",
         "maxLegendValue": "7618364.13",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt120cu",
@@ -1529,7 +1529,7 @@
         "jenks":[1959428.83,4328642.87,5984278.36,6831886.71,7387378.31,7869914.25,8584990.65],
         "minLegendValue": "0",
         "maxLegendValue": "8584990.65",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr30cum",
@@ -1547,7 +1547,7 @@
         "jenks":[210990.21,442512.35,690464.57,1167885.28,2405957.57,3736946.42,4696437.12],
         "minLegendValue": "0",
         "maxLegendValue": "4696437.12",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr45cum",
@@ -1565,7 +1565,7 @@
         "jenks":[637814.35,1120066.91,1817333.84,3404098.58,5161891.15,6363635.39,7394725.98],
         "minLegendValue": "0",
         "maxLegendValue": "7394725.98",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr60cum",
@@ -1583,7 +1583,7 @@
         "jenks":[1205635.32,2067926.91,3025062.91,4929698.35,6676423.40,7983247.86,8395792.74],
         "minLegendValue": "0",
         "maxLegendValue": "8395792.74",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr90cum",
@@ -1601,7 +1601,7 @@
         "jenks":[2025488.69,2194692.21,3251143.06,5078848.60,7186743.09,7767384.92,8848274.87],
         "minLegendValue": "0",
         "maxLegendValue": "8848274.87",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr120cu",
@@ -1619,7 +1619,7 @@
         "jenks":[2348384.83,3871996.28,6143895.37,7601508.89,8750933.19,8811028.74,9038094.21],
         "minLegendValue": "0",
         "maxLegendValue": "9038094.21",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt30_g1",
@@ -1637,7 +1637,7 @@
         "jenks":[1268.83,1298.77,6732.62,28456.01,71840.11,126694.13,203895.37],
         "minLegendValue": "0",
         "maxLegendValue": "203895.37",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt45_g1",
@@ -1655,7 +1655,7 @@
         "jenks":[6416.90,6496.27,59356.12,146125.83,201846.38,297368.34,386366.69],
         "minLegendValue": "0",
         "maxLegendValue": "386366.69",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt60_g1",
@@ -1673,7 +1673,7 @@
         "jenks":[3212.14,12358.95,35968.06,114155.98,214542.07,334890.95,497685.75],
         "minLegendValue": "0",
         "maxLegendValue": "497685.75",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt90_g1",
@@ -1691,7 +1691,7 @@
         "jenks":[23984.66,149956.09,294436.80,413523.99,482404.67,544123.89,640684.35],
         "minLegendValue": "0",
         "maxLegendValue": "640684.35",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt120_1",
@@ -1709,7 +1709,7 @@
         "jenks":[168511.21,371726.51,517762.43,594663.79,627790.79,653545.21,686207.56],
         "minLegendValue": "0",
         "maxLegendValue": "686207.56",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr30_g1",
@@ -1727,7 +1727,7 @@
         "jenks":[8806.60,20520.67,35359.37,122342.52,256622.25,397715.99,479119.83],
         "minLegendValue": "0",
         "maxLegendValue": "479119.83",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr45_g1",
@@ -1745,7 +1745,7 @@
         "jenks":[24170.61,54800.64,149119.58,309896.94,481063.36,574467.76,628520.36],
         "minLegendValue": "0",
         "maxLegendValue": "628520.36",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr60_g1",
@@ -1763,7 +1763,7 @@
         "jenks":[49592.93,106041.50,226881.89,419439.22,591515.24,656467.28,671386.86],
         "minLegendValue": "0",
         "maxLegendValue": "671386.86",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr90_g1",
@@ -1781,7 +1781,7 @@
         "jenks":[90297.47,100397.52,186327.25,390004.84,610768.45,622190.73,694346.72],
         "minLegendValue": "0",
         "maxLegendValue": "694346.72",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr120_1",
@@ -1799,7 +1799,7 @@
         "jenks":[170561.04,224939.46,437518.06,604726.75,688096.03,688521.83,699188.53],
         "minLegendValue": "0",
         "maxLegendValue": "699188.52",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt30_g7",
@@ -1817,7 +1817,7 @@
         "jenks":[8926.72,9074.95,30614.64,78626.82,145615.25,262256.76,462188.45],
         "minLegendValue": "0",
         "maxLegendValue": "462188.45",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt45_g7",
@@ -1835,7 +1835,7 @@
         "jenks":[43223.97,43508.40,169212.47,360633.79,483043.36,716611.83,1077964.55],
         "minLegendValue": "0",
         "maxLegendValue": "1077964.55",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt60_g7",
@@ -1853,7 +1853,7 @@
         "jenks":[123395.39,175019.51,471303.03,812747.01,962397.13,1224693.55,1628768.18],
         "minLegendValue": "0",
         "maxLegendValue": "1628768.18",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt90_g7",
@@ -1871,7 +1871,7 @@
         "jenks":[152258.01,490087.86,911482.96,1316222.73,1604377.46,1984111.88,2565510.90],
         "minLegendValue": "0",
         "maxLegendValue": "2565510.90",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpt120_7",
@@ -1889,7 +1889,7 @@
         "jenks":[569401.10,1262207.57,1817506.36,2253358.98,2460458.30,2633858.27,2881773.11],
         "minLegendValue": "0",
         "maxLegendValue": "2881773.11",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr30_g7",
@@ -1907,7 +1907,7 @@
         "jenks":[68540.79,152901.89,248744.90,381278.70,759979.20,1172041.56,1514018.28],
         "minLegendValue": "0",
         "maxLegendValue": "1514018.28",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr45_g7",
@@ -1925,7 +1925,7 @@
         "jenks":[220578.36,393218.29,615195.91,1113019.22,1681310.83,2097116.87,2475476.95],
         "minLegendValue": "0",
         "maxLegendValue": "2475476.94",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr60_g7",
@@ -1943,7 +1943,7 @@
         "jenks":[433552.33,733809.10,1034825.64,1657230.93,2238556.81,2666539.03,2811700.45],
         "minLegendValue": "0",
         "maxLegendValue": "2811700.44",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr90_g7",
@@ -1961,7 +1961,7 @@
         "jenks":[716422.90,784183.32,1183624.03,1709381.46,2390468.53,2597029.48,2966327.53],
         "minLegendValue": "0",
         "maxLegendValue": "2966327.53",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "cumpr120_7",
@@ -1979,7 +1979,7 @@
         "jenks":[839793.72,1414492.58,2147400.49,2545729.21,2938944.17,2949360.26,3031304.83],
         "minLegendValue": "0",
         "maxLegendValue": "3031304.83",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grptcumacc",
@@ -1997,7 +1997,7 @@
         "jenks":[380294.47,610627.25,825296.76,1080764.57,1317179.41,1765274.61,2632346.20],
         "minLegendValue": "0",
         "maxLegendValue": "2632346.20",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grprcumacc",
@@ -2015,7 +2015,7 @@
         "jenks":[534184.18,860494.07,1142636.07,1619704.74,2260282.49,2901161.63,3645169.31],
         "minLegendValue": "0",
         "maxLegendValue": "3645169.31",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grpt_g1cum",
@@ -2033,7 +2033,7 @@
         "jenks":[24747.88,43819.39,61851.22,85949.35,109020.70,154346.62,235251.02],
         "minLegendValue": "0",
         "maxLegendValue": "235251.02",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grpr_g1cum",
@@ -2051,7 +2051,7 @@
         "jenks":[25601.35,47465.75,76788.30,118915.48,180930.71,254189.65,330825.62],
         "minLegendValue": "0",
         "maxLegendValue": "330825.62",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grpt_g7cum",
@@ -2069,7 +2069,7 @@
         "jenks":[225884.71,360977.29,453724.41,560148.88,647898.87,803377.37,1095346.69],
         "minLegendValue": "0",
         "maxLegendValue": "1095346.69",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     },
     {
         "codVariable": "grpr_g7cum",
@@ -2087,6 +2087,6 @@
         "jenks":[167037.04,268555.55,356387.25,504993.49,703326.08,898377.34,1123001.17],
         "minLegendValue": "0",
         "maxLegendValue": "1123001.17",
-        "graphVariables": []
+        "graphVariables": ["ren003"]
     }
 ]}
