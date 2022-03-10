@@ -534,7 +534,7 @@ function showThematicLayer(layer, tableName, theme, variable, variableDescr, cod
         style = HIGHLIGHT_STYLE;
         var sql = new cartodb.SQL({user: userStrTableGeo, format: 'geojson'});
         strQuery = "select cartodb_id, " + codcem + ", the_geom from " + strTableGeo;
-        console.log(strQuery)
+
         sql.execute(strQuery).done(function(geojson) {
             var features = geojson.features;
             polygons = {};
