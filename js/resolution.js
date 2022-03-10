@@ -414,14 +414,13 @@ function createLayerChoropletic(currentLayerData, theme, variable, variableDescr
             tableName = currentLayerData.tableNameWithoutBaseMap;
             codcem = currentLayerData.codcemWithBaseMap;
         }
-
         POLYGON_CODNAME = codcem;
 
         cartodb.createLayer(map, {
             user_name: cartoAccount,
             type: "cartodb",
             sublayers: []
-        })
+        }, { https: true })
             .addTo(map)
             .done(function (layer) {
                 // Clear all transport active layers
@@ -1009,7 +1008,7 @@ cartodb.createLayer(map,{
     user_name: "cemdevops",
     type: "cartodb",
     sublayers: []
-})
+}, { https: true })
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
@@ -1045,7 +1044,7 @@ function createPlacesLayer() {
         user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
-    })
+    }, { https: true })
         .addTo(map) // add the layer to our map which already contains 0 sublayers
         .done(function (placesLayer) {
             var placesSublayer = null;
@@ -1108,7 +1107,7 @@ cartodb.createLayer(map,{
     user_name: "cemdevops",
     type: "cartodb",
     sublayers: []
-})
+}, { https: true })
     .addTo(map)
     .done(function(layer){
         // set layer in order of overlap
@@ -1131,7 +1130,7 @@ function showRMSP(zindex, polygonOpacity){
         user_name: "cemdevops",
         type: "cartodb",
         sublayers: []
-    })
+    }, { https: true })
         .addTo(map)
         .done(function(layer){
             // set layer in order of overlap
