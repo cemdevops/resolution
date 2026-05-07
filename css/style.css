@@ -456,3 +456,30 @@ hr.separator-icons {
 .x path {
     stroke-width: 2px;
 }
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.error-page-inner {
+    background-image: none !important;
+}
+
+.error-logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+.error-code {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.error-message {
+    font-size: 1.2rem;
+}
